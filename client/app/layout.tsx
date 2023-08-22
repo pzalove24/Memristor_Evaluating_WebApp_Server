@@ -1,8 +1,7 @@
+import SideBar from "@/components/SideBar";
+import Box from "@mui/material/Box";
 import ThemeRegistry from "@/theme/ThemeRegistry";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "opensource Memristor",
@@ -18,7 +17,19 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ThemeRegistry>{children}</ThemeRegistry>
+        <ThemeRegistry>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+            }}
+          >
+            <SideBar />
+            <Box sx={{ display: "inline", p: 3, marginTop: 10, width: "100%" }}>
+              {children}
+            </Box>
+          </Box>
+        </ThemeRegistry>
       </body>
     </html>
   );

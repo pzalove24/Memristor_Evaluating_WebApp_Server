@@ -8,13 +8,43 @@ const roboto = Roboto({
   display: "swap",
 });
 
+const colorGradient = {
+  primary: {
+    // blue // manually adjusted
+    100: "#bbdefb",
+    200: "#90caf9",
+    300: "#64b5f6",
+    400: "#42a5f5",
+    500: "#2196f3",
+    600: "#1e88e5", 
+    700: "#1976d2",
+    800: "#1565c0",
+    900: "#0d47a1",
+  },
+  secondary: {
+    // yellow // manually adjusted
+    50: "#fffde7", 
+    100: "#fff9c4",
+    200: "#fff59d",
+    300: "#fff176",
+    400: "#ffee58",
+    500: "#ffeb3b",
+    600: "#fdd835",
+    700: "#fbc02d",
+    800: "#f9a825",
+    900: "#f57f17",
+  },
+};
+
 const themeOptions: ThemeOptions = {
   palette: {
     primary: {
-      main: purple[500],
+      ...colorGradient.primary,
+      main: "#fffde7",
     },
     secondary: {
-      main: green[500],
+      ...colorGradient.secondary,
+      main: "#66bb6a",
     },
     error: {
       main: red[400],
@@ -23,10 +53,12 @@ const themeOptions: ThemeOptions = {
       main: teal["A400"],
     },
     background: {
-      default: "#f8bbd0",
+      default: "#fff9c4",
+      paper: "#fffde7",
     },
     text: {
-      primary: "#300000",
+      primary: "#000000",
+      secondary: "#323848"
     },
   },
   breakpoints: {
@@ -40,6 +72,31 @@ const themeOptions: ThemeOptions = {
   },
   typography: {
     fontFamily: roboto.style.fontFamily,
+    fontSize: 12,
+    h1: {
+      fontFamily: roboto.style.fontFamily,
+      fontSize: 40,
+    },
+    h2: {
+      fontFamily: roboto.style.fontFamily,
+      fontSize: 32,
+    },
+    h3: {
+      fontFamily: roboto.style.fontFamily,
+      fontSize: 24,
+    },
+    h4: {
+      fontFamily: roboto.style.fontFamily,
+      fontSize: 20,
+    },
+    h5: {
+      fontFamily: roboto.style.fontFamily,
+      fontSize: 16,
+    },
+    h6: {
+      fontFamily: roboto.style.fontFamily,
+      fontSize: 14,
+    },
   },
 };
 
