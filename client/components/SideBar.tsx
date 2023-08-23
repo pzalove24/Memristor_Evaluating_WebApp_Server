@@ -21,10 +21,8 @@ import DockIcon from "@mui/icons-material/Dock";
 import AssessmentIcon from "@mui/icons-material/Assessment";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ScienceIcon from "@mui/icons-material/Science";
-import Link from "next/link";
 import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
-import { useMemo } from "react";
 import { AlgorithmPageItemProps, ResearchPageItemProps } from "@/types";
 
 const drawerWidth = 240;
@@ -140,7 +138,7 @@ export default function SideBar() {
   
   return (
     <Box sx={{ display: "flex" }}>
-      <AppBar position="fixed" open={open}>
+      <AppBar color="background" position="fixed" open={open}>
         <Toolbar>
           <IconButton
             color="inherit"

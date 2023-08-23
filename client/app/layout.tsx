@@ -1,7 +1,7 @@
-import SideBar from "@/components/SideBar";
 import Box from "@mui/material/Box";
 import ThemeRegistry from "@/theme/ThemeRegistry";
 import type { Metadata } from "next";
+import { SideBar } from "@/components";
 
 export const metadata: Metadata = {
   title: "opensource Memristor",

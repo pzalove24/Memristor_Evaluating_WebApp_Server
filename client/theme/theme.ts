@@ -40,7 +40,7 @@ const themeOptions: ThemeOptions = {
   palette: {
     primary: {
       ...colorGradient.primary,
-      main: "#fffde7",
+      main: "#fbc02d",
     },
     secondary: {
       ...colorGradient.secondary,
