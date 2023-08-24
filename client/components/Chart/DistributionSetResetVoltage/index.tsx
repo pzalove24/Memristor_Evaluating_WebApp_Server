@@ -21,14 +21,13 @@ export const options = {
     y: {
       beginAtZero: true,
     },
-  },
-  plugins: {
+  },plugins: {
     legend: {
       position: "top" as const,
     },
     title: {
       display: true,
-      text: "IV curve",
+      text: "Distribution of set/reset voltage",
     },
   },
 };
@@ -46,6 +45,6 @@ export const data = {
   ],
 };
 
-export function IVchart() {
+export function DistributionSetResetVoltage() {
   return <Scatter options={options} data={data} />;
 }

@@ -28,7 +28,7 @@ export const options = {
     },
     title: {
       display: true,
-      text: "IV curve",
+      text: "Cumulative probability of resistance",
     },
   },
 };
@@ -46,6 +46,6 @@ export const data = {
   ],
 };
 
-export function IVchart() {
+export function CumulativeProbabilityResistance() {
   return <Scatter options={options} data={data} />;
 }

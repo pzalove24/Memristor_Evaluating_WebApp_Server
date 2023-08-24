@@ -1,4 +1,4 @@
-import ParameterInput from "./parameterInput"
+import ParameterInput from "./ParameterInput"
 
 
 export {ParameterInput}

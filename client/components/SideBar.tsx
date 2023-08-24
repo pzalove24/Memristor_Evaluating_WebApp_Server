@@ -115,16 +115,19 @@ export default function SideBar() {
       text: "dashboard",
       icon: <DashboardIcon />,
       link: "/dashboard",
+      index: 0,
     },
     {
       text: "hardware",
       icon: <DockIcon />,
       link: "/hardware",
+      index: 1,
     },
     {
       text: "benchmark",
       icon: <AssessmentIcon />,
       link: "/benchmark",
+      index: 2,
     },
   ];
 
@@ -133,12 +136,13 @@ export default function SideBar() {
       text: "research",
       icon: <ScienceIcon />,
       link: "/research",
+      index: 3,
     },
   ];
-  
+
   return (
     <Box sx={{ display: "flex" }}>
-      <AppBar color="background" position="fixed" open={open}>
+      <AppBar color="primary" position="fixed" open={open}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -181,8 +185,8 @@ export default function SideBar() {
         </DrawerHeader>
         <Divider />
         <List>
-          {researchPageItem.map(({ text, icon }) => (
-            <ListItem key={text} disablePadding sx={{ display: "block" }}>
+          {researchPageItem.map(({ text, icon, index }) => (
+            <ListItem key={index} disablePadding sx={{ display: "block" }}>
               <ListItemButton
                 onClick={() => {
                   router.push(`/${text}`);
@@ -216,8 +220,8 @@ export default function SideBar() {
         </List>
         <Divider />
         <List>
-          {algorithmPageItem.map(({ text, icon }) => (
-            <ListItem key={text} disablePadding sx={{ display: "block" }}>
+          {algorithmPageItem.map(({ text, icon, index }) => (
+            <ListItem key={index} disablePadding sx={{ display: "block" }}>
               <ListItemButton
                 onClick={() => {
                   router.push(`/${text}`);

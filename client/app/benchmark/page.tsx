@@ -13,6 +13,21 @@ import {
 import Typography from "@mui/material/Typography";
 import { Header, BenchmarkStepper } from "@/components";
 import { ParameterInput } from "@/components/Input/BenchmarkInput";
+import { VersionOne } from "@/components/Hardware/VersionOne";
+import { VoltagePulseChart } from "@/components/Chart/VoltagePulseChart";
+import { IVchart } from "@/components/Chart/IVchart";
+import { ResistanceTimeChart } from "@/components/Chart/ResistanceTimeChart";
+import { RetentionTime } from "@/components/Chart/RetentionTime";
+import { EnduranceCycle } from "@/components/Chart/EnduranceCycle";
+import { CumulativeProbabilityResistance } from "@/components/Chart/CumulativeProbabilityResistance";
+import { DistributionSetResetVoltage } from "@/components/Chart/DistributionSetResetVoltage";
+import { OnOffRatio } from "@/components/Chart/OnOffRatio";
+import { LogLogIVCurve } from "@/components/Chart/LogLogIVCurve";
+import { CurrentUnderDifferentPulseNumberWidth } from "@/components/Chart/CurrentUnderDifferentPulseNumberWidth";
+import { ReconfigurableLogic } from "@/components/Chart/ReconfigurableLogic";
+import { BioNeuralProps } from "@/components/Chart/BioNeuralProps";
+import { MultiBit } from "@/components/Chart/MultiBit";
+import { NeuroSim } from "@/components/Chart/NeuroSim";
 
 const benchmark = () => {
   const card = (
@@ -52,7 +67,7 @@ const benchmark = () => {
           display: "flex",
           flexWrap: "wrap",
           "& > :not(style)": {
-            mt: 1,
+            mt: 2,
             width: "100%",
             height: "auto",
           },
@@ -64,9 +79,9 @@ const benchmark = () => {
             rowSpacing={1}
             columnSpacing={{ xs: 1, sm: 2, md: 3 }}
           >
-            {/* <Grid item xs={12}>
+            <Grid item xs={12}>
               <BenchmarkStepper />
-            </Grid> */}
+            </Grid>
 
             <Grid item xs={12}>
               <Typography
@@ -79,21 +94,29 @@ const benchmark = () => {
                 Benchmark Input
               </Typography>
             </Grid>
-            <Grid item xs={12}></Grid>
             <Grid item xs={12}>
               <Grid container>
                 <Grid item xs={4}>
-                  <Box sx={{ m: 1 }}>
-                    <Card variant="outlined">{card}</Card>
-                    <Card variant="outlined">{card}</Card>
-                  </Box>
+                  <VersionOne />
                 </Grid>
                 <Grid item xs={8}>
                   <Box sx={{ m: 1 }}>
                     <Card variant="outlined">
                       <ParameterInput />
                     </Card>
-                    <Card variant="outlined">{card}</Card>
+                    <Card variant="outlined">
+                      <Box
+                        sx={{
+                          "& > :not(style)": { m: 1 },
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          height: 360,
+                        }}
+                      >
+                        <VoltagePulseChart />
+                      </Box>
+                    </Card>
                   </Box>
                 </Grid>
               </Grid>
@@ -101,7 +124,7 @@ const benchmark = () => {
             <Grid item xs={12}>
               <Divider />
               <Typography
-                sx={{ mt: 0.5, ml: 2 }}
+                sx={{ mt: 2, ml: 2 }}
                 color="secondary"
                 display="block"
                 variant="h3"
@@ -113,48 +136,192 @@ const benchmark = () => {
             <Grid item xs={12}>
               <Grid container>
                 <Grid item xs>
-                  <Paper sx={{ m: 1, height: 300, width: 325 }}>
-                    <Card variant="outlined">{card}</Card>
-                  </Paper>
+                  <Box
+                    sx={{
+                      "& > :not(style)": { m: 1 },
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: 300,
+                      width: 325,
+                      m: 1,
+                    }}
+                  >
+                    <IVchart />
+                  </Box>
                 </Grid>
                 <Grid item xs>
-                  <Paper sx={{ m: 1, height: 300, width: 325 }}>
-                    <Card variant="outlined">{card}</Card>
-                  </Paper>
+                  <Box
+                    sx={{
+                      "& > :not(style)": { m: 1 },
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: 300,
+                      width: 325,
+                      m: 1,
+                    }}
+                  >
+                    <ResistanceTimeChart />
+                  </Box>
                 </Grid>
                 <Grid item xs>
-                  <Paper sx={{ m: 1, height: 300, width: 325 }}>
-                    <Card variant="outlined">{card}</Card>
-                  </Paper>
+                  <Box
+                    sx={{
+                      "& > :not(style)": { m: 1 },
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: 300,
+                      width: 325,
+                      m: 1,
+                    }}
+                  >
+                    <RetentionTime />
+                  </Box>
                 </Grid>
                 <Grid item xs>
-                  <Paper sx={{ m: 1, height: 300, width: 325 }}>
-                    <Card variant="outlined">{card}</Card>
-                  </Paper>
+                  <Box
+                    sx={{
+                      "& > :not(style)": { m: 1 },
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: 300,
+                      width: 325,
+                      m: 1,
+                    }}
+                  >
+                    <EnduranceCycle />
+                  </Box>
                 </Grid>
               </Grid>
             </Grid>
             <Grid item xs={12}>
               <Grid container>
                 <Grid item xs>
-                  <Paper sx={{ m: 1, height: 300, width: 325 }}>
-                    <Card variant="outlined">{card}</Card>
-                  </Paper>
+                  <Box
+                    sx={{
+                      "& > :not(style)": { m: 1 },
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: 300,
+                      width: 325,
+                      m: 1,
+                    }}
+                  >
+                    <CumulativeProbabilityResistance />
+                  </Box>
                 </Grid>
                 <Grid item xs>
-                  <Paper sx={{ m: 1, height: 300, width: 325 }}>
-                    <Card variant="outlined">{card}</Card>
-                  </Paper>
+                  <Box
+                    sx={{
+                      "& > :not(style)": { m: 1 },
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: 300,
+                      width: 325,
+                      m: 1,
+                    }}
+                  >
+                    <DistributionSetResetVoltage />
+                  </Box>
                 </Grid>
                 <Grid item xs>
-                  <Paper sx={{ m: 1, height: 300, width: 325 }}>
-                    <Card variant="outlined">{card}</Card>
-                  </Paper>
+                  <Box
+                    sx={{
+                      "& > :not(style)": { m: 1 },
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: 300,
+                      width: 325,
+                      m: 1,
+                    }}
+                  >
+                    <OnOffRatio />
+                  </Box>
                 </Grid>
                 <Grid item xs>
-                  <Paper sx={{ m: 1, height: 300, width: 325 }}>
-                    <Card variant="outlined">{card}</Card>
-                  </Paper>
+                  <Box
+                    sx={{
+                      "& > :not(style)": { m: 1 },
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: 300,
+                      width: 325,
+                      m: 1,
+                    }}
+                  >
+                    <LogLogIVCurve />
+                  </Box>
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid item xs={12} sx={{ mb: 3 }}>
+              <Grid container>
+                <Grid item xs>
+                  <Box
+                    sx={{
+                      "& > :not(style)": { m: 1 },
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: 300,
+                      width: 325,
+                      m: 1,
+                    }}
+                  >
+                    <CurrentUnderDifferentPulseNumberWidth />
+                  </Box>
+                </Grid>
+                <Grid item xs>
+                  <Box
+                    sx={{
+                      "& > :not(style)": { m: 1 },
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: 300,
+                      width: 325,
+                      m: 1,
+                    }}
+                  >
+                    <ReconfigurableLogic />
+                  </Box>
+                </Grid>
+                <Grid item xs>
+                  <Box
+                    sx={{
+                      "& > :not(style)": { m: 1 },
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: 300,
+                      width: 325,
+                      m: 1,
+                    }}
+                  >
+                    <MultiBit />
+                  </Box>
+                </Grid>
+                <Grid item xs>
+                  <Box
+                    sx={{
+                      "& > :not(style)": { m: 1 },
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: 300,
+                      width: 325,
+                      m: 1,
+                    }}
+                  >
+                    <NeuroSim />
+                  </Box>
                 </Grid>
               </Grid>
             </Grid>

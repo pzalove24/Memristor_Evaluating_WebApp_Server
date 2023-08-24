@@ -28,7 +28,7 @@ export const options = {
     },
     title: {
       display: true,
-      text: "IV curve",
+      text: "IPSC & EPSC changed current under different pulse number and width",
     },
   },
 };
@@ -46,6 +46,6 @@ export const data = {
   ],
 };
 
-export function IVchart() {
+export function CurrentUnderDifferentPulseNumberWidth() {
   return <Scatter options={options} data={data} />;
 }

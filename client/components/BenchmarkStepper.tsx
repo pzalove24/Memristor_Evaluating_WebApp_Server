@@ -13,7 +13,7 @@ import Typography from "@mui/material/Typography";
 
 const steps = [
   {
-    label: "Select and Testing Hardware Circuit",
+    label: "Select and Test Hardware Circuit",
     description: `Choose the hardware circuit version and test before the benchmark process.`,
   },
   {
@@ -58,7 +58,7 @@ export default function BenchmarkStepper() {
             >
               {step.label}
             </StepLabel>
-            {/* <StepContent> */}
+            <StepContent>
               <Typography>{step.description}</Typography>
               <Box sx={{ mb: 2 }}>
                 <div>
@@ -80,7 +80,7 @@ export default function BenchmarkStepper() {
                   </Button>
                 </div>
               </Box>
-            {/* </StepContent> */}
+            </StepContent>
           </Step>
         ))}
       </Stepper>

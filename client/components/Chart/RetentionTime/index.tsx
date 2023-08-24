@@ -28,7 +28,7 @@ export const options = {
     },
     title: {
       display: true,
-      text: "IV curve",
+      text: "Retention Time (!!! Damage Device !!!)",
     },
   },
 };
@@ -46,6 +46,6 @@ export const data = {
   ],
 };
 
-export function IVchart() {
+export function RetentionTime() {
   return <Scatter options={options} data={data} />;
 }

@@ -28,7 +28,7 @@ export const options = {
     },
     title: {
       display: true,
-      text: "IV curve",
+      text: "NeuroSim for on-chip memristor benchmark",
     },
   },
 };
@@ -46,6 +46,6 @@ export const data = {
   ],
 };
 
-export function IVchart() {
+export function NeuroSim() {
   return <Scatter options={options} data={data} />;
 }
