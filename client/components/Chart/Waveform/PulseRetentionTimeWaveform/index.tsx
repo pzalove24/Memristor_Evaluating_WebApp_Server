@@ -27,6 +27,12 @@ ChartJS.register(
 const options = {
   responsive: true,
   maintainAspectRatio: false,
+  elements: {
+    point: {
+      radius: 1,
+      hoverRadius: 1,
+    },
+  },
   plugins: {
     legend: {
       position: "top" as const,
@@ -52,7 +58,7 @@ const options = {
   },
 };
 
-const timeValues = Array.from({ length: 500 }, (_, index) => index); // Time values from 0 to 99
+const timeValues = Array.from({ length: 2000 }, (_, index) => index); // Time values from 0 to 99
 
 interface PulseSegment {
   value: number;
@@ -79,12 +85,12 @@ function generateMultiPulseVoltageArray(
 }
 
 const positivePulseValue: number = 3;
-const intermediatePulseValue: number = 2;
+const intermediatePulseValue: number = 1;
 const negativePulseValue: number = -3;
-const positivePulseDuration: number = 10; // Duration of each pulse
+const positivePulseDuration: number = 40; // Duration of each pulse
 const intermediatePulseDuration: number = 40; // Duration of each pulse
-const negativePulseDuration: number = 20; // Duration of each pulse
-const distanceBetweenPulse: number = 20; // Distance between pulses
+const negativePulseDuration: number = 40; // Duration of each pulse
+const distanceBetweenPulse: number = 40; // Distance between pulses
 const cycleIntermediatePulse: number = 5; // cycle of intermediate pulse
 const cycles: number = 1; // Number of times to repeat the waveform
 const pulseLength: number =

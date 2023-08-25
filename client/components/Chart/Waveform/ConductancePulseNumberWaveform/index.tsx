@@ -26,6 +26,12 @@ ChartJS.register(
 const options = {
   responsive: true,
   maintainAspectRatio: false,
+  elements: {
+    point: {
+      radius: 1,
+      hoverRadius: 1,
+    },
+  },
   plugins: {
     legend: {
       position: "top" as const,
@@ -51,7 +57,7 @@ const options = {
   },
 };
 
-const timeValues = Array.from({ length: 500 }, (_, index) => index); // Time values from 0 to 99
+const timeValues = Array.from({ length: 2000 }, (_, index) => index); // Time values from 0 to 99
 
 interface PulseSegment {
   value: number;
@@ -77,43 +83,155 @@ function generateMultiPulseVoltageArray(
   return voltageArray;
 }
 
-const pulseLength: number = 100;
-const positivePulseValue: number = 10;
-const intermediatePulseValue: number = 0;
-const negativePulseValue: number = -10;
+const positivePulseValue: number = 3;
+const intermediatePulseValue: number = 1;
+const negativePulseValue: number = -3;
 const positivePulseDuration: number = 20; // Duration of each pulse
-const intermediatePulseDuration: number = 30; // Duration of each pulse
+const intermediatePulseDuration: number = 20; // Duration of each pulse
 const negativePulseDuration: number = 20; // Duration of each pulse
-const cycles: number = 5; // Number of times to repeat the waveform
+const distanceBetweenPulse: number = 20; // Distance between pulses
+const cycleReadingPulse: number = 4; // cycle of intermediate pulse
+const cycles: number = 2; // Number of times to repeat the waveform
+const pulseLength: number =
+  cycleReadingPulse *
+    (positivePulseDuration +
+      distanceBetweenPulse +
+      intermediatePulseDuration +
+      distanceBetweenPulse) +
+  cycleReadingPulse *
+    (negativePulseDuration +
+      distanceBetweenPulse +
+      intermediatePulseDuration +
+      distanceBetweenPulse);
 
 // Generate the positive and negative pulse segments
-const positivePulseSegment: PulseSegment = {
-  value: positivePulseValue,
-  start: 0,
-  end: positivePulseDuration - 1,
-};
 
-const intermediatePulseSegment: PulseSegment = {
-  value: intermediatePulseValue,
-  start: positivePulseDuration,
-  end: positivePulseDuration + intermediatePulseDuration - 1,
-};
+function generatePositivePulseSegmentConsecutive(cycleNumber: number) {
+  const positiveReadingPulseSegments = [];
 
-const negativePulseSegment: PulseSegment = {
-  value: negativePulseValue,
-  start: positivePulseDuration + intermediatePulseDuration,
-  end:
-    positivePulseDuration +
-    intermediatePulseDuration +
-    negativePulseDuration -
-    1,
-};
+  for (let i = 0; i < cycleNumber; i++) {
+    const positivePulseSegment: PulseSegment = {
+      value: positivePulseValue,
+      start:
+        i *
+        (positivePulseDuration +
+          distanceBetweenPulse +
+          intermediatePulseDuration +
+          distanceBetweenPulse),
+      end:
+        i *
+          (positivePulseDuration +
+            distanceBetweenPulse +
+            intermediatePulseDuration +
+            distanceBetweenPulse) +
+        positivePulseDuration -
+        1,
+    };
+    const intermediatePulseSegment = {
+      value: intermediatePulseValue,
+      start:
+        positivePulseDuration +
+        distanceBetweenPulse +
+        i *
+          (positivePulseDuration +
+            distanceBetweenPulse +
+            intermediatePulseDuration +
+            distanceBetweenPulse),
+      end:
+        positivePulseDuration +
+        distanceBetweenPulse +
+        i *
+          (positivePulseDuration +
+            distanceBetweenPulse +
+            intermediatePulseDuration +
+            distanceBetweenPulse) +
+        intermediatePulseDuration -
+        1,
+    };
+    positiveReadingPulseSegments.push(positivePulseSegment);
+    positiveReadingPulseSegments.push(intermediatePulseSegment);
+  }
+
+  return positiveReadingPulseSegments;
+}
+const positivePulseSegmentConsecutive =
+  generatePositivePulseSegmentConsecutive(cycleReadingPulse);
+
+function generateNegativePulseSegmentConsecutive(cycleNumber: number) {
+  const negativeReadingPulseSegments = [];
+
+  for (let i = 0; i < cycleNumber; i++) {
+    const negativePulseSegment: PulseSegment = {
+      value: negativePulseValue,
+      start:
+        cycleReadingPulse *
+          (positivePulseDuration +
+            distanceBetweenPulse +
+            intermediatePulseDuration +
+            distanceBetweenPulse) +
+        i *
+          (negativePulseDuration +
+            distanceBetweenPulse +
+            intermediatePulseDuration +
+            distanceBetweenPulse),
+      end:
+        cycleReadingPulse *
+          (positivePulseDuration +
+            distanceBetweenPulse +
+            intermediatePulseDuration +
+            distanceBetweenPulse) +
+        i *
+          (negativePulseDuration +
+            distanceBetweenPulse +
+            intermediatePulseDuration +
+            distanceBetweenPulse) +
+        negativePulseDuration -
+        1,
+    };
+    const intermediatePulseSegment = {
+      value: intermediatePulseValue,
+      start:
+        cycleReadingPulse *
+          (positivePulseDuration +
+            distanceBetweenPulse +
+            intermediatePulseDuration +
+            distanceBetweenPulse) +
+        negativePulseDuration +
+        distanceBetweenPulse +
+        i *
+          (negativePulseDuration +
+            distanceBetweenPulse +
+            intermediatePulseDuration +
+            distanceBetweenPulse),
+      end:
+        cycleReadingPulse *
+          (positivePulseDuration +
+            distanceBetweenPulse +
+            intermediatePulseDuration +
+            distanceBetweenPulse) +
+        negativePulseDuration +
+        distanceBetweenPulse +
+        i *
+          (negativePulseDuration +
+            distanceBetweenPulse +
+            intermediatePulseDuration +
+            distanceBetweenPulse) +
+        intermediatePulseDuration -
+        1,
+    };
+    negativeReadingPulseSegments.push(negativePulseSegment);
+    negativeReadingPulseSegments.push(intermediatePulseSegment);
+  }
+
+  return negativeReadingPulseSegments;
+}
+const negativePulseSegmentConsecutive =
+  generateNegativePulseSegmentConsecutive(cycleReadingPulse);
 
 // Create an array with the positive and negative pulse segments
 const pulseSegments: PulseSegment[] = [
-  positivePulseSegment,
-  intermediatePulseSegment,
-  negativePulseSegment,
+  ...positivePulseSegmentConsecutive,
+  ...negativePulseSegmentConsecutive,
 ];
 
 // Generate the multi-pulse voltage array with the alternating pulses
