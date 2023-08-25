@@ -33,7 +33,7 @@ const options = {
     },
     title: {
       display: true,
-      text: "Applied Voltage Pulse",
+      text: "PulseIVwaveform",
     },
   },
   scales: {
@@ -148,6 +148,6 @@ const data = {
   ],
 };
 
-export function VoltagePulseChart() {
+export function PulseIVwaveform() {
   return <Line options={options} data={data} />;
 }

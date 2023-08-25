@@ -28,7 +28,7 @@ export default function ParameterInput() {
       component="form"
       sx={{
         "& > :not(style)": { m: 1 },
-        height: 352
+        height: 352,
       }}
       noValidate
       autoComplete="off"
@@ -62,7 +62,6 @@ export default function ParameterInput() {
             variant="standard"
             helperText="negative voltage (-3.00 - 0.00)"
             placeholder="provide number"
-            defaultValue={0}
             value={voltageMin}
             onChange={(e) => {
               var value = parseFloat(e.target.value);
@@ -91,7 +90,6 @@ export default function ParameterInput() {
             variant="standard"
             helperText="positive voltage (0.00 - 3.00)"
             placeholder="provide number"
-            defaultValue={0}
             value={voltageMax}
             onChange={(e) => {
               var value = parseFloat(e.target.value);
@@ -120,7 +118,6 @@ export default function ParameterInput() {
             variant="standard"
             helperText="the width of voltage pulse"
             placeholder="provide number"
-            defaultValue={0}
             value={voltageWidth}
             onChange={(e) => {
               var value = parseInt(e.target.value);
@@ -149,7 +146,6 @@ export default function ParameterInput() {
             variant="standard"
             helperText="the distance between each pulse"
             placeholder="provide number"
-            defaultValue={0}
             value={interpulseTime}
             onChange={(e) => {
               var value = parseInt(e.target.value);
@@ -178,7 +174,6 @@ export default function ParameterInput() {
             variant="standard"
             helperText="the number of applied voltage pulse"
             placeholder="provide number"
-            defaultValue={0}
             value={programmingPulse}
             onChange={(e) => {
               var value = parseFloat(e.target.value);
@@ -208,7 +203,6 @@ export default function ParameterInput() {
             variant="standard"
             helperText="Device Channel"
             placeholder="provide number"
-            defaultValue={1}
             value={deviceChannel}
             onChange={(event) => setDeviceChannel(parseInt(event.target.value))}
           />

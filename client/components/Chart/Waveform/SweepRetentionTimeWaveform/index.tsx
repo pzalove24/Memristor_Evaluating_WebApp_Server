@@ -33,7 +33,7 @@ const options = {
     },
     title: {
       display: true,
-      text: "Applied Voltage Pulse",
+      text: "SweepRetentionTimeWaveform",
     },
   },
   scales: {
@@ -78,14 +78,23 @@ function generateMultiPulseVoltageArray(
   return voltageArray;
 }
 
-const pulseLength: number = 100;
-const positivePulseValue: number = 10;
-const intermediatePulseValue: number = 0;
-const negativePulseValue: number = -10;
-const positivePulseDuration: number = 20; // Duration of each pulse
-const intermediatePulseDuration: number = 30; // Duration of each pulse
-const negativePulseDuration: number = 20; // Duration of each pulse
-const cycles: number = 5; // Number of times to repeat the waveform
+const positivePulseValue: number = 3;
+const intermediatePulseValue: number = 2;
+const negativePulseValue: number = -3;
+const positivePulseDuration: number = 10; // Duration of each pulse
+const intermediatePulseDuration: number = 300; // Duration of each pulse
+const negativePulseDuration: number = 10; // Duration of each pulse
+const distanceBetweenPulse: number = 10; // Distance between pulses
+const cycles: number = 1; // Number of times to repeat the waveform
+const pulseLength: number =
+  positivePulseDuration +
+  distanceBetweenPulse +
+  intermediatePulseDuration +
+  distanceBetweenPulse +
+  negativePulseDuration +
+  distanceBetweenPulse +
+  intermediatePulseDuration +
+  distanceBetweenPulse;
 
 // Generate the positive and negative pulse segments
 const positivePulseSegment: PulseSegment = {
@@ -94,27 +103,82 @@ const positivePulseSegment: PulseSegment = {
   end: positivePulseDuration - 1,
 };
 
-const intermediatePulseSegment: PulseSegment = {
+const intermediatePulseSegment1: PulseSegment = {
   value: intermediatePulseValue,
-  start: positivePulseDuration,
-  end: positivePulseDuration + intermediatePulseDuration - 1,
+  start: positivePulseDuration + distanceBetweenPulse,
+  end:
+    positivePulseDuration +
+    distanceBetweenPulse +
+    intermediatePulseDuration -
+    1,
 };
 
 const negativePulseSegment: PulseSegment = {
   value: negativePulseValue,
-  start: positivePulseDuration + intermediatePulseDuration,
+  start:
+    positivePulseDuration +
+    distanceBetweenPulse +
+    intermediatePulseDuration +
+    distanceBetweenPulse,
   end:
     positivePulseDuration +
+    distanceBetweenPulse +
     intermediatePulseDuration +
+    distanceBetweenPulse +
     negativePulseDuration -
+    1,
+};
+
+const intermediatePulseSegment2: PulseSegment = {
+  value: intermediatePulseValue,
+  start:
+    positivePulseDuration +
+    distanceBetweenPulse +
+    intermediatePulseDuration +
+    distanceBetweenPulse +
+    negativePulseDuration +
+    distanceBetweenPulse,
+  end:
+    positivePulseDuration +
+    distanceBetweenPulse +
+    intermediatePulseDuration +
+    distanceBetweenPulse +
+    negativePulseDuration +
+    distanceBetweenPulse +
+    intermediatePulseDuration -
+    1,
+};
+
+const betweenCyclePulseSegment: PulseSegment = {
+  value: intermediatePulseValue,
+  start:
+    positivePulseDuration +
+    distanceBetweenPulse +
+    intermediatePulseDuration +
+    distanceBetweenPulse +
+    negativePulseDuration +
+    distanceBetweenPulse +
+    intermediatePulseDuration +
+    distanceBetweenPulse,
+  end:
+    positivePulseDuration +
+    distanceBetweenPulse +
+    intermediatePulseDuration +
+    distanceBetweenPulse +
+    negativePulseDuration +
+    distanceBetweenPulse +
+    intermediatePulseDuration +
+    distanceBetweenPulse -
     1,
 };
 
 // Create an array with the positive and negative pulse segments
 const pulseSegments: PulseSegment[] = [
   positivePulseSegment,
-  intermediatePulseSegment,
+  intermediatePulseSegment1,
   negativePulseSegment,
+  intermediatePulseSegment2,
+  betweenCyclePulseSegment,
 ];
 
 // Generate the multi-pulse voltage array with the alternating pulses
@@ -148,6 +212,6 @@ const data = {
   ],
 };
 
-export function VoltagePulseChart() {
+export function SweepRetentionTimeWaveform() {
   return <Line options={options} data={data} />;
 }

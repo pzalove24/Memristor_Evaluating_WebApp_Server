@@ -12,7 +12,6 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { faker } from "@faker-js/faker";
 
 ChartJS.register(
   CategoryScale,
@@ -33,7 +32,7 @@ const options = {
     },
     title: {
       display: true,
-      text: "Applied Voltage Pulse",
+      text: "ConductancePulseNumberWaveform",
     },
   },
   scales: {
@@ -148,6 +147,6 @@ const data = {
   ],
 };
 
-export function VoltagePulseChart() {
+export function ConductancePulseNumberWaveform() {
   return <Line options={options} data={data} />;
 }

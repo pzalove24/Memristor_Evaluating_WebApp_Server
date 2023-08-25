@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import React from 'react'
 import Box from "@mui/material/Box";
 import { Card, Container, Typography, Paper, Stack } from "@mui/material";
 import Image from "next/image";
@@ -40,7 +40,7 @@ export default function VersionOne() {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            height: 190,
+            height: 360,
           }}
         >
           <HardwareVersionSelection />
