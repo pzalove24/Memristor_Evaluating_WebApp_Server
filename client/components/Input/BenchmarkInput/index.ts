@@ -1,4 +1,4 @@
-import ParameterInput from "./ParameterInput"
+import ParameterInputTabs from "./ParameterInputTabs"
 
 
-export {ParameterInput}
+export {ParameterInputTabs}

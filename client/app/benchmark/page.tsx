@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { Header, BenchmarkStepper } from "@/components";
-import { ParameterInput } from "@/components/Input/BenchmarkInput";
+import { ParameterInputTabs } from "@/components/Input/BenchmarkInput";
 import { VersionOne } from "@/components/Hardware/VersionOne";
 import { VoltagePulseChart } from "@/components/Chart/VoltagePulseChart";
 import { IVchart } from "@/components/Chart/IVchart";
@@ -110,7 +110,7 @@ const benchmark = () => {
                 <Grid item xs={8}>
                   <Box sx={{ m: 1 }}>
                     <Card variant="outlined">
-                      <ParameterInput />
+                      <ParameterInputTabs />
                     </Card>
                     <Card variant="outlined">
                       <Box

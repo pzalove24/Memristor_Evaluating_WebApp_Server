@@ -57,8 +57,6 @@ const options = {
   },
 };
 
-const timeValues = Array.from({ length: 2000 }, (_, index) => index); // Time values from 0 to 99
-
 interface PulseSegment {
   value: number;
   start: number;
@@ -85,9 +83,9 @@ function generateMultiPulseVoltageArray(
 
 const positivePulseValue: number = 3;
 const negativePulseValue: number = -3;
-const pulseDuration: number = 50; // Duration of each pulse
-const distanceBetweenPulse: number = 50; // Distance between pulses
-const stepsPerSegment: number = 10; // cycle of intermediate pulse
+const pulseDuration: number = 10; // Duration of each pulse
+const distanceBetweenPulse: number = 10; // Distance between pulses
+const stepsPerSegment: number = 5; // cycle of intermediate pulse
 const cycles: number = 1; // Number of times to repeat the waveform
 const pulseLength: number =
   4 * stepsPerSegment * (pulseDuration + distanceBetweenPulse);
@@ -163,6 +161,8 @@ const continuousWaveform: number[] = Array.from(
     return voltageArray[voltageArrayIndex];
   }
 );
+
+const timeValues = Array.from({ length: pulseLength }, (_, index) => index);
 
 const data = {
   labels: timeValues,

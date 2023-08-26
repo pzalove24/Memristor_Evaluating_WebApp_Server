@@ -2,26 +2,21 @@
 
 import * as React from "react";
 import Box from "@mui/material/Box";
-import FormControl from "@mui/material/FormControl";
-import FormHelperText from "@mui/material/FormHelperText";
-import Input from "@mui/material/Input";
-import InputLabel from "@mui/material/InputLabel";
 import { Grid, TextField, Typography } from "@mui/material";
 
-export default function ParameterInput() {
-  const [voltageMin, setVoltageMin] = React.useState<number>(0);
-  const [voltageMax, setVoltageMax] = React.useState<number>(0);
-  const [voltageWidth, setVoltageWidth] = React.useState<number>(0);
-  const [interpulseTime, setInterpulseTime] = React.useState<number>(0);
-  const [programmingPulse, setProgrammingPulse] = React.useState<number>(0);
+export default function EnduranceCycleInput() {
+  const [negativeVoltage, setNegativeVoltage] = React.useState<number>(0);
+  const [readVoltage, setReadVoltage] = React.useState<number>(0);
+  const [positiveVoltage, setPositiveVoltage] = React.useState<number>(0);
+  const [negativeVoltageWidth, setNegativeVoltageWidth] =
+    React.useState<number>(0);
+  const [readVoltageWidth, setReadVoltageWidth] = React.useState<number>(0);
+  const [positiveVoltageWidth, setPositiveVoltageWidth] =
+    React.useState<number>(0);
+  const [interval, setInterval] = React.useState<number>(0);
+  const [enduranceCycleTesting, setEnduranceCycleTesting] =
+    React.useState<number>(0);
   const [deviceChannel, setDeviceChannel] = React.useState<number>(1);
-
-  console.log(voltageMin);
-  console.log(voltageMax);
-  console.log(voltageWidth);
-  console.log(interpulseTime);
-  console.log(programmingPulse);
-  console.log(deviceChannel);
 
   return (
     <Box
@@ -43,11 +38,11 @@ export default function ParameterInput() {
       >
         <Grid item xs={12}>
           <Typography variant="h4" fontWeight="bold">
-            Parameter Input
+            Endurance Cycle Input
           </Typography>
         </Grid>
         <Grid item xs={4}>
-          <Typography>Voltage Min (V)</Typography>
+          <Typography>Negative Voltage (V)</Typography>
         </Grid>
         <Grid item xs={1}>
           <></>
@@ -62,20 +57,48 @@ export default function ParameterInput() {
             variant="standard"
             helperText="negative voltage (-3.00 - 0.00)"
             placeholder="provide number"
-            value={voltageMin}
+            value={negativeVoltage}
             onChange={(e) => {
               var value = parseFloat(e.target.value);
 
               if (value > 0) value = 0; //max
               if (value < -3) value = -3; //min
 
-              setVoltageMin(value);
+              setNegativeVoltage(value);
             }}
             inputProps={{ min: -3, max: 0 }}
           />
         </Grid>
         <Grid item xs={4}>
-          <Typography>Voltage Max (V)</Typography>
+          <Typography>Reading Voltage (V)</Typography>
+        </Grid>
+        <Grid item xs={1}>
+          <></>
+        </Grid>
+        <Grid item xs={7}>
+          <TextField
+            id="standard-number"
+            type="number"
+            InputLabelProps={{
+              shrink: true,
+            }}
+            variant="standard"
+            helperText="read voltage (0.00 - 3.00)"
+            placeholder="provide number"
+            value={readVoltage}
+            onChange={(e) => {
+              var value = parseFloat(e.target.value);
+
+              if (value > 3) value = 3; //max
+              if (value < 0) value = 0; //min
+
+              setReadVoltage(value);
+            }}
+            inputProps={{ min: 0, max: 3 }}
+          />
+        </Grid>
+        <Grid item xs={4}>
+          <Typography>Positive Voltage (V)</Typography>
         </Grid>
         <Grid item xs={1}>
           <></>
@@ -90,20 +113,20 @@ export default function ParameterInput() {
             variant="standard"
             helperText="positive voltage (0.00 - 3.00)"
             placeholder="provide number"
-            value={voltageMax}
+            value={positiveVoltage}
             onChange={(e) => {
               var value = parseFloat(e.target.value);
 
               if (value > 3) value = 3; //max
               if (value < 0) value = 0; //min
 
-              setVoltageMax(value);
+              setPositiveVoltage(value);
             }}
             inputProps={{ min: 0, max: 3 }}
           />
         </Grid>
         <Grid item xs={4}>
-          <Typography>Voltage Width/Duration (us)</Typography>
+          <Typography>Negative Voltage Width/Duration (ms)</Typography>
         </Grid>
         <Grid item xs={1}>
           <></>
@@ -116,22 +139,22 @@ export default function ParameterInput() {
               shrink: true,
             }}
             variant="standard"
-            helperText="the width of voltage pulse"
+            helperText="the width of postive voltage pulse"
             placeholder="provide number"
-            value={voltageWidth}
+            value={negativeVoltageWidth}
             onChange={(e) => {
               var value = parseInt(e.target.value);
 
               if (value > 1000) value = 1000; //max
               if (value < 0) value = 0; //min
 
-              setVoltageWidth(value);
+              setNegativeVoltageWidth(value);
             }}
             inputProps={{ min: 0, max: 1000 }}
           />
         </Grid>
         <Grid item xs={4}>
-          <Typography>Interpulse Time (us)</Typography>
+          <Typography>Read Voltage Width/Duration (ms)</Typography>
         </Grid>
         <Grid item xs={1}>
           <></>
@@ -144,22 +167,22 @@ export default function ParameterInput() {
               shrink: true,
             }}
             variant="standard"
-            helperText="the distance between each pulse"
+            helperText="the width of read voltage pulse"
             placeholder="provide number"
-            value={interpulseTime}
+            value={readVoltageWidth}
             onChange={(e) => {
               var value = parseInt(e.target.value);
 
-              if (value > 100000) value = 100000; //max
+              if (value > 1000) value = 1000; //max
               if (value < 0) value = 0; //min
 
-              setInterpulseTime(value);
+              setReadVoltageWidth(value);
             }}
-            inputProps={{ min: 0, max: 100000 }}
+            inputProps={{ min: 0, max: 1000 }}
           />
         </Grid>
         <Grid item xs={4}>
-          <Typography>Programming Pulse (pulse number)</Typography>
+          <Typography>Positive Voltage Width/Duration (ms)</Typography>
         </Grid>
         <Grid item xs={1}>
           <></>
@@ -172,16 +195,73 @@ export default function ParameterInput() {
               shrink: true,
             }}
             variant="standard"
-            helperText="the number of applied voltage pulse"
+            helperText="the width of negative voltage pulse"
             placeholder="provide number"
-            value={programmingPulse}
+            value={positiveVoltageWidth}
+            onChange={(e) => {
+              var value = parseInt(e.target.value);
+
+              if (value > 1000) value = 1000; //max
+              if (value < 0) value = 0; //min
+
+              setPositiveVoltageWidth(value);
+            }}
+            inputProps={{ min: 0, max: 1000 }}
+          />
+        </Grid>
+
+        <Grid item xs={4}>
+          <Typography>Interpulse Interval (ms)</Typography>
+        </Grid>
+        <Grid item xs={1}>
+          <></>
+        </Grid>
+        <Grid item xs={7}>
+          <TextField
+            id="standard-number"
+            type="number"
+            InputLabelProps={{
+              shrink: true,
+            }}
+            variant="standard"
+            helperText="Interpulse interval between each voltage"
+            placeholder="provide number"
+            value={interval}
             onChange={(e) => {
               var value = parseFloat(e.target.value);
 
               if (value > 100000) value = 100000; //max
               if (value < 0) value = 0; //min
 
-              setProgrammingPulse(value);
+              setInterval(value);
+            }}
+            inputProps={{ min: 0, max: 100000 }}
+          />
+        </Grid>
+        <Grid item xs={4}>
+          <Typography>Endurance Cycle Testing (number)</Typography>
+        </Grid>
+        <Grid item xs={1}>
+          <></>
+        </Grid>
+        <Grid item xs={7}>
+          <TextField
+            id="standard-number"
+            type="number"
+            InputLabelProps={{
+              shrink: true,
+            }}
+            variant="standard"
+            helperText="How many endurance cycle testing"
+            placeholder="provide number"
+            value={enduranceCycleTesting}
+            onChange={(e) => {
+              var value = parseFloat(e.target.value);
+
+              if (value > 100000) value = 100000; //max
+              if (value < 0) value = 0; //min
+
+              setEnduranceCycleTesting(value);
             }}
             inputProps={{ min: 0, max: 100000 }}
           />

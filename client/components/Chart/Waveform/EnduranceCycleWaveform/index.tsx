@@ -58,7 +58,6 @@ const options = {
   },
 };
 
-const timeValues = Array.from({ length: 2000 }, (_, index) => index); // Time values from 0 to 99
 
 interface PulseSegment {
   value: number;
@@ -205,6 +204,9 @@ const continuousWaveform: number[] = Array.from(
     return voltageArray[voltageArrayIndex];
   }
 );
+
+const timeValues = Array.from({ length: pulseLength }, (_, index) => index);
+
 
 const data = {
   labels: timeValues,
