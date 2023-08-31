@@ -8,3 +8,4 @@ Setup Client
 5. https://www.youtube.com/watch?v=ooy92nDRHzU
 6. https://github.com/dieudonneAwa/blog-dashboard/tree/main
 7. next js dashboard sidebar
+8. prisma https://www.youtube.com/watch?v=NgayZAuTgwM
