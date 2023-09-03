@@ -2,19 +2,50 @@
 
 import * as React from "react";
 import Box from "@mui/material/Box";
-import FormControl from "@mui/material/FormControl";
-import FormHelperText from "@mui/material/FormHelperText";
-import Input from "@mui/material/Input";
-import InputLabel from "@mui/material/InputLabel";
 import { Grid, TextField, Typography } from "@mui/material";
+import Button from "@mui/material/Button/Button";
 
-export default function PulseIVInput() {
-  const [negativeVoltage, setNegativeVoltage] = React.useState<number>(0);
-  const [positiveVoltage, setPositiveVoltage] = React.useState<number>(0);
-  const [voltageWidth, setVoltageWidth] = React.useState<number>(0);
-  const [voltageStep, setVoltageStep] = React.useState<number>(0);
-  const [interval, setInterval] = React.useState<number>(0);
-  const [sweepCycle, setSweepCycle] = React.useState<number>(0);
+type PulseIVInputProps = {
+  handleChangePulseIVwaveformValue: (
+    positivePulseValue: number,
+    negativePulseValue: number,
+    pulseDuration: number,
+    distanceBetweenPulse: number,
+    stepsPerSegment: number,
+    cycles: number
+  ) => void;
+  pulseIVwaveformValue: {
+    positivePulseValue: number;
+    negativePulseValue: number;
+    pulseDuration: number;
+    distanceBetweenPulse: number;
+    stepsPerSegment: number;
+    cycles: number;
+  };
+};
+
+export default function PulseIVInput({
+  handleChangePulseIVwaveformValue,
+  pulseIVwaveformValue,
+}: PulseIVInputProps) {
+  const [negativeVoltage, setNegativeVoltage] = React.useState<number>(
+    pulseIVwaveformValue.negativePulseValue
+  );
+  const [positiveVoltage, setPositiveVoltage] = React.useState<number>(
+    pulseIVwaveformValue.positivePulseValue
+  );
+  const [voltageWidth, setVoltageWidth] = React.useState<number>(
+    pulseIVwaveformValue.pulseDuration
+  );
+  const [voltageStep, setVoltageStep] = React.useState<number>(
+    pulseIVwaveformValue.stepsPerSegment
+  );
+  const [interval, setInterval] = React.useState<number>(
+    pulseIVwaveformValue.distanceBetweenPulse
+  );
+  const [sweepCycle, setSweepCycle] = React.useState<number>(
+    pulseIVwaveformValue.cycles
+  );
   const [deviceChannel, setDeviceChannel] = React.useState<number>(1);
 
   return (
@@ -228,6 +259,23 @@ export default function PulseIVInput() {
             value={deviceChannel}
             onChange={(event) => setDeviceChannel(parseInt(event.target.value))}
           />
+        </Grid>
+        <Grid item xs={12}>
+          <Button
+            variant="contained"
+            onClick={() =>
+              handleChangePulseIVwaveformValue(
+                positiveVoltage,
+                negativeVoltage,
+                voltageWidth,
+                interval,
+                voltageStep,
+                sweepCycle
+              )
+            }
+          >
+            View Waveform
+          </Button>
         </Grid>
       </Grid>
     </Box>

@@ -1,4 +1,4 @@
-interface WaveFunctionConductancePulseTimeProps {
+type WaveFunctionConductancePulseTimeProps = {
   positivePulseValue: number;
   intermediatePulseValue: number;
   negativePulseValue: number;
@@ -8,7 +8,6 @@ interface WaveFunctionConductancePulseTimeProps {
   distanceBetweenPulse: number; // Distance between pulses
   cycleReadingPulse: number; // cycle of intermediate pulse
   cycles: number; // Number of times to repeat the waveform
-  pulseLength: number;
 }
 
 export const WaveFunctionConductancePulseTime = ({
@@ -21,7 +20,6 @@ export const WaveFunctionConductancePulseTime = ({
   distanceBetweenPulse,
   cycleReadingPulse,
   cycles,
-  pulseLength,
 }: WaveFunctionConductancePulseTimeProps) => {
   interface PulseSegment {
     value: number;
@@ -47,22 +45,21 @@ export const WaveFunctionConductancePulseTime = ({
     return voltageArray;
   }
 
-  //   const positivePulseValue: number = 3;
-  //   const intermediatePulseValue: number = 1;
-  //   const negativePulseValue: number = -3;
-  //   const positivePulseDuration: number = 20; // Duration of each pulse
-  //   const intermediatePulseDuration: number = 20; // Duration of each pulse
-  //   const negativePulseDuration: number = 20; // Duration of each pulse
-  //   const distanceBetweenPulse: number = 20; // Distance between pulses
-  //   const cycleReadingPulse: number = 4; // cycle of intermediate pulse
-  //   const cycles: number = 1; // Number of times to repeat the waveform
-  //   const pulseLength: number =
-
-  cycleReadingPulse *
-    (positivePulseDuration +
-      distanceBetweenPulse +
-      intermediatePulseDuration +
-      distanceBetweenPulse) +
+  // const positivePulseValue: number = 3;
+  // const intermediatePulseValue: number = 1;
+  // const negativePulseValue: number = -3;
+  // const positivePulseDuration: number = 20; // Duration of each pulse
+  // const intermediatePulseDuration: number = 20; // Duration of each pulse
+  // const negativePulseDuration: number = 20; // Duration of each pulse
+  // const distanceBetweenPulse: number = 20; // Distance between pulses
+  // const cycleReadingPulse: number = 4; // cycle of intermediate pulse
+  // const cycles: number = 1; // Number of times to repeat the waveform
+  const pulseLength: number =
+    cycleReadingPulse *
+      (positivePulseDuration +
+        distanceBetweenPulse +
+        intermediatePulseDuration +
+        distanceBetweenPulse) +
     cycleReadingPulse *
       (negativePulseDuration +
         distanceBetweenPulse +

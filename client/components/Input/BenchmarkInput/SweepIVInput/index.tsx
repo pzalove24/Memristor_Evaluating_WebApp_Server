@@ -2,18 +2,35 @@
 
 import * as React from "react";
 import Box from "@mui/material/Box";
-import FormControl from "@mui/material/FormControl";
-import FormHelperText from "@mui/material/FormHelperText";
-import Input from "@mui/material/Input";
-import InputLabel from "@mui/material/InputLabel";
 import { Grid, TextField, Typography } from "@mui/material";
+import Button from "@mui/material/Button/Button";
 
-export default function SweepIVInput() {
-  const [negativeVoltage, setNegativeVoltage] = React.useState<number>(0);
-  const [positiveVoltage, setPositiveVoltage] = React.useState<number>(0);
-  const [voltageWidth, setVoltageWidth] = React.useState<number>(0);
-  const [voltageStep, setVoltageStep] = React.useState<number>(0);
-  const [sweepCycle, setSweepCycle] = React.useState<number>(0);
+type SweepIVInputProps = {
+  handleChangeSweepIVwaveformValue: (
+    positivePulseValue: number,
+    negativePulseValue: number,
+    pulseDuration: number,
+    stepsPerSegment: number,
+    cycles: number
+  ) => void;
+  sweepIVwaveformValue: {
+    positivePulseValue: number;
+    negativePulseValue: number;
+    pulseDuration: number;
+    stepsPerSegment: number;
+    cycles: number;
+  };
+};
+
+export default function SweepIVInput({
+  handleChangeSweepIVwaveformValue,
+  sweepIVwaveformValue,
+}: SweepIVInputProps) {
+  const [negativeVoltage, setNegativeVoltage] = React.useState<number>(sweepIVwaveformValue.negativePulseValue);
+  const [positiveVoltage, setPositiveVoltage] = React.useState<number>(sweepIVwaveformValue.positivePulseValue);
+  const [voltageWidth, setVoltageWidth] = React.useState<number>(sweepIVwaveformValue.pulseDuration);
+  const [voltageStep, setVoltageStep] = React.useState<number>(sweepIVwaveformValue.stepsPerSegment);
+  const [sweepCycle, setSweepCycle] = React.useState<number>(sweepIVwaveformValue.cycles);
   const [deviceChannel, setDeviceChannel] = React.useState<number>(1);
 
   return (
@@ -199,6 +216,22 @@ export default function SweepIVInput() {
             value={deviceChannel}
             onChange={(event) => setDeviceChannel(parseInt(event.target.value))}
           />
+        </Grid>
+        <Grid item xs={12}>
+          <Button
+            variant="contained"
+            onClick={() =>
+              handleChangeSweepIVwaveformValue(
+                positiveVoltage,
+                negativeVoltage,
+                voltageWidth,
+                voltageStep,
+                sweepCycle
+              )
+            }
+          >
+            View Waveform
+          </Button>
         </Grid>
       </Grid>
     </Box>

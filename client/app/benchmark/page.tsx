@@ -21,6 +21,7 @@ import { StandardBenchmarkPartOne } from "@/components/Benchmark/StandardBenchma
 import { StabilityBenchmarkPartOne } from "@/components/Benchmark/StabilityBenchmark/StabilityBenchmarkPartOne";
 import { BiorealisticBenchmarkPartOne } from "@/components/Benchmark/BiorealisticBenchmark/BiorealisticBenchmarkPartOne";
 import { AdvancedBenchmarkPartOne } from "@/components/Benchmark/AdvancedBenchmark/AdvancedBenchmarkPartOne";
+import { BenchmarkInputPartOne } from "@/components/Benchmark/BenchmarkInput/BenchmarkInputPartOne";
 import { CumulativeProbabilityResistance } from "@/components/Chart/CumulativeProbabilityResistance";
 import { DistributionSetResetVoltage } from "@/components/Chart/DistributionSetResetVoltage";
 import { OnOffRatio } from "@/components/Chart/OnOffRatio";
@@ -38,15 +39,7 @@ import { PulseRetentionTimeWaveform } from "@/components/Chart/Waveform/PulseRet
 import { EnduranceCycleWaveform } from "@/components/Chart/Waveform/EnduranceCycleWaveform";
 
 const benchmark = () => {
-  const gridStyle = {
-    "& > :not(style)": { m: 1 },
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    height: 300,
-    width: "auto",
-    m: 1,
-  };
+
   return (
     <Stack direction={"column"}>
       <Header
@@ -87,70 +80,7 @@ const benchmark = () => {
                 Benchmark Input
               </Typography>
             </Grid>
-            <Grid item xs={12}>
-              <Grid container>
-                <Grid item xs={4}>
-                  <VersionOne />
-                </Grid>
-                <Grid item xs={8}>
-                  <Box sx={{ m: 1 }}>
-                    <Card variant="outlined">
-                      <ParameterInputTabs />
-                    </Card>
-                    <Card variant="outlined">
-                      <Box
-                        sx={{
-                          "& > :not(style)": { m: 1 },
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          height: 360,
-                        }}
-                      >
-                        <SweepIVwaveform />
-                      </Box>
-                    </Card>
-                  </Box>
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid item xs={12}>
-              <Grid container>
-                <Grid item sm={6} md={6} lg={6} xl={6} xs>
-                  <Box sx={gridStyle}>
-                    <PulseIVwaveform />
-                  </Box>
-                </Grid>
-                <Grid item sm={6} md={6} lg={6} xl={6} xs>
-                  <Box sx={gridStyle}>
-                    <EnduranceCycleWaveform />
-                  </Box>
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid item xs={12}>
-              <Grid container>
-                <Grid item sm md lg xl xs>
-                  <Box sx={gridStyle}>
-                    <ConductancePulseNumberWaveform />
-                  </Box>
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid item xs={12}>
-              <Grid container>
-                <Grid item sm={6} md={6} lg={6} xl={6} xs>
-                  <Box sx={gridStyle}>
-                    <SweepRetentionTimeWaveform />
-                  </Box>
-                </Grid>
-                <Grid item sm={6} md={6} lg={6} xl={6} xs>
-                  <Box sx={gridStyle}>
-                    <PulseRetentionTimeWaveform />
-                  </Box>
-                </Grid>
-              </Grid>
-            </Grid>
+            <BenchmarkInputPartOne />
             <Grid item xs={12}>
               <Divider />
               <Typography

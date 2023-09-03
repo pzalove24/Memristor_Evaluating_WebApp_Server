@@ -3,19 +3,56 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import { Grid, TextField, Typography } from "@mui/material";
+import Button from "@mui/material/Button/Button";
 
-export default function EnduranceCycleInput() {
-  const [negativeVoltage, setNegativeVoltage] = React.useState<number>(0);
-  const [readVoltage, setReadVoltage] = React.useState<number>(0);
-  const [positiveVoltage, setPositiveVoltage] = React.useState<number>(0);
+type EnduranceCycleInputProps = {
+  handleChangeEnduranceCycleWaveformValue: (
+    positivePulseValue: number,
+    intermediatePulseValue: number,
+    negativePulseValue: number,
+    positivePulseDuration: number,
+    intermediatePulseDuration: number,
+    negativePulseDuration: number,
+    distanceBetweenPulse: number,
+    cycles: number
+  ) => void;
+  enduranceCycleWaveformValue: {
+    positivePulseValue: number;
+    intermediatePulseValue: number;
+    negativePulseValue: number;
+    positivePulseDuration: number;
+    intermediatePulseDuration: number;
+    negativePulseDuration: number;
+    distanceBetweenPulse: number;
+    cycles: number;
+  };
+};
+
+export default function EnduranceCycleInput({
+  handleChangeEnduranceCycleWaveformValue,
+  enduranceCycleWaveformValue,
+}: EnduranceCycleInputProps) {
+  const [negativeVoltage, setNegativeVoltage] = React.useState<number>(
+    enduranceCycleWaveformValue.negativePulseValue
+  );
+  const [readVoltage, setReadVoltage] = React.useState<number>(
+    enduranceCycleWaveformValue.intermediatePulseValue
+  );
+  const [positiveVoltage, setPositiveVoltage] = React.useState<number>(
+    enduranceCycleWaveformValue.positivePulseValue
+  );
   const [negativeVoltageWidth, setNegativeVoltageWidth] =
-    React.useState<number>(0);
-  const [readVoltageWidth, setReadVoltageWidth] = React.useState<number>(0);
+    React.useState<number>(enduranceCycleWaveformValue.negativePulseDuration);
+  const [readVoltageWidth, setReadVoltageWidth] = React.useState<number>(
+    enduranceCycleWaveformValue.intermediatePulseDuration
+  );
   const [positiveVoltageWidth, setPositiveVoltageWidth] =
-    React.useState<number>(0);
-  const [interval, setInterval] = React.useState<number>(0);
+    React.useState<number>(enduranceCycleWaveformValue.positivePulseDuration);
+  const [interval, setInterval] = React.useState<number>(
+    enduranceCycleWaveformValue.distanceBetweenPulse
+  );
   const [enduranceCycleTesting, setEnduranceCycleTesting] =
-    React.useState<number>(0);
+    React.useState<number>(enduranceCycleWaveformValue.cycles);
   const [deviceChannel, setDeviceChannel] = React.useState<number>(1);
 
   return (
@@ -286,6 +323,25 @@ export default function EnduranceCycleInput() {
             value={deviceChannel}
             onChange={(event) => setDeviceChannel(parseInt(event.target.value))}
           />
+        </Grid>
+        <Grid item xs={12}>
+          <Button
+            variant="contained"
+            onClick={() =>
+              handleChangeEnduranceCycleWaveformValue(
+                positiveVoltage,
+                readVoltage,
+                negativeVoltage,
+                positiveVoltageWidth,
+                readVoltageWidth,
+                negativeVoltageWidth,
+                interval,
+                enduranceCycleTesting
+              )
+            }
+          >
+            View Waveform
+          </Button>
         </Grid>
       </Grid>
     </Box>

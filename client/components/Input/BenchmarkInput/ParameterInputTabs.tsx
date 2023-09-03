@@ -3,7 +3,6 @@
 import * as React from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import SweepIVInput from "./SweepIVInput";
 import PulseIVInput from "./PulseIVInput";
@@ -29,7 +28,13 @@ function CustomTabPanel(props: TabPanelProps) {
       aria-labelledby={`parameterInput-tab-${index}`}
       {...other}
     >
-      {value === index && <Box sx={{ p: 3, height: 440,overflow: "hidden",overflowY: "scroll", }}>{children}</Box>}
+      {value === index && (
+        <Box
+          sx={{ p: 3, height: 440, overflow: "hidden", overflowY: "scroll" }}
+        >
+          {children}
+        </Box>
+      )}
     </div>
   );
 }
@@ -41,44 +46,67 @@ function ParameterInputTabProps(index: number) {
   };
 }
 
-function SweepIVInputProps(index: number) {
-  return {
-    id: `parameterInput-tab-${index}`,
-    "aria-controls": `parameterInput-tabpanel-${index}`,
+type ParameterInputTabsProps = {
+  handleChangeSweepIVwaveformValue: (
+    positivePulseValue: number,
+    negativePulseValue: number,
+    pulseDuration: number,
+    stepsPerSegment: number,
+    cycles: number
+  ) => void;
+  sweepIVwaveformValue: {
+    positivePulseValue: number;
+    negativePulseValue: number;
+    pulseDuration: number;
+    stepsPerSegment: number;
+    cycles: number;
   };
-}
-function PulseIVInputProps(index: number) {
-  return {
-    id: `parameterInput-tab-${index}`,
-    "aria-controls": `parameterInput-tabpanel-${index}`,
+  handleChangePulseIVwaveformValue: (
+    positivePulseValue: number,
+    negativePulseValue: number,
+    pulseDuration: number,
+    distanceBetweenPulse: number,
+    stepsPerSegment: number,
+    cycles: number
+  ) => void;
+  pulseIVwaveformValue: {
+    positivePulseValue: number;
+    negativePulseValue: number;
+    pulseDuration: number;
+    distanceBetweenPulse: number;
+    stepsPerSegment: number;
+    cycles: number;
   };
-}
-function EnduranceCycleInputProps(index: number) {
-  return {
-    id: `parameterInput-tab-${index}`,
-    "aria-controls": `parameterInput-tabpanel-${index}`,
+  handleChangeEnduranceCycleWaveformValue: (
+    positivePulseValue: number,
+    intermediatePulseValue: number,
+    negativePulseValue: number,
+    positivePulseDuration: number,
+    intermediatePulseDuration: number,
+    negativePulseDuration: number,
+    distanceBetweenPulse: number,
+    cycles: number
+  ) => void;
+  enduranceCycleWaveformValue: {
+    positivePulseValue: number;
+    intermediatePulseValue: number;
+    negativePulseValue: number;
+    positivePulseDuration: number;
+    intermediatePulseDuration: number;
+    negativePulseDuration: number;
+    distanceBetweenPulse: number;
+    cycles: number;
   };
-}
-function ConductancePulseNumberInputProps(index: number) {
-  return {
-    id: `parameterInput-tab-${index}`,
-    "aria-controls": `parameterInput-tabpanel-${index}`,
-  };
-}
-function SweepRetentionTimeInputProps(index: number) {
-  return {
-    id: `parameterInput-tab-${index}`,
-    "aria-controls": `parameterInput-tabpanel-${index}`,
-  };
-}
-function PulseRetentionTimeInputProps(index: number) {
-  return {
-    id: `parameterInput-tab-${index}`,
-    "aria-controls": `parameterInput-tabpanel-${index}`,
-  };
-}
+};
 
-export default function ParameterInputTabs() {
+export default function ParameterInputTabs({
+  handleChangeSweepIVwaveformValue,
+  sweepIVwaveformValue,
+  handleChangePulseIVwaveformValue,
+  pulseIVwaveformValue,
+  handleChangeEnduranceCycleWaveformValue,
+  enduranceCycleWaveformValue,
+}: ParameterInputTabsProps) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -105,16 +133,27 @@ export default function ParameterInputTabs() {
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <SweepIVInput />
+        <SweepIVInput
+          handleChangeSweepIVwaveformValue={handleChangeSweepIVwaveformValue}
+          sweepIVwaveformValue={sweepIVwaveformValue}
+        />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <PulseIVInput />
+        <PulseIVInput
+          handleChangePulseIVwaveformValue={handleChangePulseIVwaveformValue}
+          pulseIVwaveformValue={pulseIVwaveformValue}
+        />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
         <ConductancePulseNumberInput />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3}>
-        <EnduranceCycleInput />
+        <EnduranceCycleInput
+          handleChangeEnduranceCycleWaveformValue={
+            handleChangeEnduranceCycleWaveformValue
+          }
+          enduranceCycleWaveformValue={enduranceCycleWaveformValue}
+        />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={4}>
         <SweepRetentionTimeInput />
