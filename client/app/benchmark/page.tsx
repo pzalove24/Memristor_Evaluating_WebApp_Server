@@ -9,16 +9,18 @@ import {
   CardContent,
   Button,
   Divider,
+  Chip,
 } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { Header, BenchmarkStepper } from "@/components";
 import { ParameterInputTabs } from "@/components/Input/BenchmarkInput";
 import { VersionOne } from "@/components/Hardware/VersionOne";
 import { VoltagePulseChart } from "@/components/Chart/VoltagePulseChart";
-import { IVchart } from "@/components/Chart/IVchart";
-import { ResistanceTimeChart } from "@/components/Chart/ResistanceTimeChart";
-import { RetentionTime } from "@/components/Chart/RetentionTime";
-import { EnduranceCycle } from "@/components/Chart/EnduranceCycle";
+import ErrorIcon from "@mui/icons-material/Error";
+import { StandardBenchmarkPartOne } from "@/components/Benchmark/StandardBenchmark/StandardBenchmarkPartOne";
+import { StabilityBenchmarkPartOne } from "@/components/Benchmark/StabilityBenchmark/StabilityBenchmarkPartOne";
+import { BiorealisticBenchmarkPartOne } from "@/components/Benchmark/BiorealisticBenchmark/BiorealisticBenchmarkPartOne";
+import { AdvancedBenchmarkPartOne } from "@/components/Benchmark/AdvancedBenchmark/AdvancedBenchmarkPartOne";
 import { CumulativeProbabilityResistance } from "@/components/Chart/CumulativeProbabilityResistance";
 import { DistributionSetResetVoltage } from "@/components/Chart/DistributionSetResetVoltage";
 import { OnOffRatio } from "@/components/Chart/OnOffRatio";
@@ -36,32 +38,15 @@ import { PulseRetentionTimeWaveform } from "@/components/Chart/Waveform/PulseRet
 import { EnduranceCycleWaveform } from "@/components/Chart/Waveform/EnduranceCycleWaveform";
 
 const benchmark = () => {
-  const card = (
-    <React.Fragment>
-      <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Word of the Day
-        </Typography>
-        <Typography variant="h5" component="div">
-          Benchmark
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          adjective
-        </Typography>
-        <Typography variant="body2">
-          well meaning and kindly.
-          <br />
-          {'"a benevolent smile"'}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button color="secondary" size="small">
-          Learn More
-        </Button>
-      </CardActions>
-    </React.Fragment>
-  );
-
+  const gridStyle = {
+    "& > :not(style)": { m: 1 },
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: 300,
+    width: "auto",
+    m: 1,
+  };
   return (
     <Stack direction={"column"}>
       <Header
@@ -132,32 +117,12 @@ const benchmark = () => {
             <Grid item xs={12}>
               <Grid container>
                 <Grid item sm={6} md={6} lg={6} xl={6} xs>
-                  <Box
-                    sx={{
-                      "& > :not(style)": { m: 1 },
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      height: 300,
-                      width: "auto",
-                      m: 1,
-                    }}
-                  >
+                  <Box sx={gridStyle}>
                     <PulseIVwaveform />
                   </Box>
                 </Grid>
                 <Grid item sm={6} md={6} lg={6} xl={6} xs>
-                  <Box
-                    sx={{
-                      "& > :not(style)": { m: 1 },
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      height: 300,
-                      width: "auto",
-                      m: 1,
-                    }}
-                  >
+                  <Box sx={gridStyle}>
                     <EnduranceCycleWaveform />
                   </Box>
                 </Grid>
@@ -166,17 +131,7 @@ const benchmark = () => {
             <Grid item xs={12}>
               <Grid container>
                 <Grid item sm md lg xl xs>
-                  <Box
-                    sx={{
-                      "& > :not(style)": { m: 1 },
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      height: 300,
-                      width: "auto",
-                      m: 1,
-                    }}
-                  >
+                  <Box sx={gridStyle}>
                     <ConductancePulseNumberWaveform />
                   </Box>
                 </Grid>
@@ -185,32 +140,12 @@ const benchmark = () => {
             <Grid item xs={12}>
               <Grid container>
                 <Grid item sm={6} md={6} lg={6} xl={6} xs>
-                  <Box
-                    sx={{
-                      "& > :not(style)": { m: 1 },
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      height: 300,
-                      width: "auto",
-                      m: 1,
-                    }}
-                  >
+                  <Box sx={gridStyle}>
                     <SweepRetentionTimeWaveform />
                   </Box>
                 </Grid>
                 <Grid item sm={6} md={6} lg={6} xl={6} xs>
-                  <Box
-                    sx={{
-                      "& > :not(style)": { m: 1 },
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      height: 300,
-                      width: "auto",
-                      m: 1,
-                    }}
-                  >
+                  <Box sx={gridStyle}>
                     <PulseRetentionTimeWaveform />
                   </Box>
                 </Grid>
@@ -228,198 +163,10 @@ const benchmark = () => {
                 Benchmark Result
               </Typography>
             </Grid>
-            <Grid item xs={12}>
-              <Grid container>
-                <Grid item sm={6} md={3} lg={3} xl={3} xs>
-                  <Box
-                    sx={{
-                      "& > :not(style)": { m: 1 },
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      height: 300,
-                      width: "auto",
-                      m: 1,
-                    }}
-                  >
-                    <IVchart />
-                  </Box>
-                </Grid>
-                <Grid item sm={6} md={3} lg={3} xl={3} xs>
-                  <Box
-                    sx={{
-                      "& > :not(style)": { m: 1 },
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      height: 300,
-                      width: "auto",
-                      m: 1,
-                    }}
-                  >
-                    <ResistanceTimeChart />
-                  </Box>
-                </Grid>
-                <Grid item sm={6} md={3} lg={3} xl={3} xs>
-                  <Box
-                    sx={{
-                      "& > :not(style)": { m: 1 },
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      height: 300,
-                      width: "auto",
-                      m: 1,
-                    }}
-                  >
-                    <RetentionTime />
-                  </Box>
-                </Grid>
-                <Grid item sm={6} md={3} lg={3} xl={3} xs>
-                  <Box
-                    sx={{
-                      "& > :not(style)": { m: 1 },
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      height: 300,
-                      width: "auto",
-                      m: 1,
-                    }}
-                  >
-                    <EnduranceCycle />
-                  </Box>
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid item xs={12}>
-              <Grid container>
-                <Grid item sm={6} md={3} lg={3} xl={3} xs>
-                  <Box
-                    sx={{
-                      "& > :not(style)": { m: 1 },
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      height: 300,
-                      width: "auto",
-                      m: 1,
-                    }}
-                  >
-                    <CumulativeProbabilityResistance />
-                  </Box>
-                </Grid>
-                <Grid item sm={6} md={3} lg={3} xl={3} xs>
-                  <Box
-                    sx={{
-                      "& > :not(style)": { m: 1 },
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      height: 300,
-                      width: "auto",
-                      m: 1,
-                    }}
-                  >
-                    <DistributionSetResetVoltage />
-                  </Box>
-                </Grid>
-                <Grid item sm={6} md={3} lg={3} xl={3} xs>
-                  <Box
-                    sx={{
-                      "& > :not(style)": { m: 1 },
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      height: 300,
-                      width: "auto",
-                      m: 1,
-                    }}
-                  >
-                    <OnOffRatio />
-                  </Box>
-                </Grid>
-                <Grid item sm={6} md={3} lg={3} xl={3} xs>
-                  <Box
-                    sx={{
-                      "& > :not(style)": { m: 1 },
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      height: 300,
-                      width: "auto",
-                      m: 1,
-                    }}
-                  >
-                    <LogLogIVCurve />
-                  </Box>
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid item xs={12} sx={{ mb: 3 }}>
-              <Grid container>
-                <Grid item sm={6} md={3} lg={3} xl={3} xs>
-                  <Box
-                    sx={{
-                      "& > :not(style)": { m: 1 },
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      height: 300,
-                      width: "auto",
-                      m: 1,
-                    }}
-                  >
-                    <CurrentUnderDifferentPulseNumberWidth />
-                  </Box>
-                </Grid>
-                <Grid item sm={6} md={3} lg={3} xl={3} xs>
-                  <Box
-                    sx={{
-                      "& > :not(style)": { m: 1 },
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      height: 300,
-                      width: "auto",
-                      m: 1,
-                    }}
-                  >
-                    <ReconfigurableLogic />
-                  </Box>
-                </Grid>
-                <Grid item sm={6} md={3} lg={3} xl={3} xs>
-                  <Box
-                    sx={{
-                      "& > :not(style)": { m: 1 },
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      height: 300,
-                      width: "auto",
-                      m: 1,
-                    }}
-                  >
-                    <MultiBit />
-                  </Box>
-                </Grid>
-                <Grid item sm={6} md={3} lg={3} xl={3} xs>
-                  <Box
-                    sx={{
-                      "& > :not(style)": { m: 1 },
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      height: 300,
-                      width: "auto",
-                      m: 1,
-                    }}
-                  >
-                    <NeuroSim />
-                  </Box>
-                </Grid>
-              </Grid>
-            </Grid>
+            <StandardBenchmarkPartOne />
+            <StabilityBenchmarkPartOne />
+            <BiorealisticBenchmarkPartOne />
+            <AdvancedBenchmarkPartOne />
           </Grid>
         </Paper>
       </Box>

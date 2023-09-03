@@ -12,7 +12,7 @@ import {
 import { Scatter } from "react-chartjs-2";
 import { faker } from "@faker-js/faker";
 
-export function IVchart() {
+export const SweepIVchart = () => {
   ChartJS.register(LinearScale, PointElement, LineElement, Tooltip, Legend);
 
   const options = {
@@ -48,4 +48,4 @@ export function IVchart() {
   };
 
   return <Scatter options={options} data={data} />;
-}
+};
