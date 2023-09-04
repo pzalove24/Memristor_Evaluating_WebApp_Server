@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Box from "@mui/material/Box";
-import { Grid, TextField, Typography } from "@mui/material";
+import { Grid, Stack, TextField, Typography } from "@mui/material";
 import Button from "@mui/material/Button/Button";
 import { WaveFunctionSweepIVwaveformProps } from "@/components/Chart/Waveform/SweepIVwaveform/WaveFunctionSweepIVwaveform";
 
@@ -37,6 +37,20 @@ export default function SweepIVInput({
     sweepIVwaveformValue.cycles
   );
   const [deviceChannel, setDeviceChannel] = React.useState<number>(1);
+
+  const handleReset = () => {
+    setNegativeVoltage(0);
+    setPositiveVoltage(0);
+    setVoltageWidth(0);
+    setVoltageStep(0);
+    handleChangeSweepIVwaveformValue(
+      positiveVoltage,
+      negativeVoltage,
+      voltageWidth,
+      voltageStep,
+      sweepCycle
+    );
+  };
 
   return (
     <Box
@@ -223,20 +237,25 @@ export default function SweepIVInput({
           />
         </Grid>
         <Grid item xs={12}>
-          <Button
-            variant="contained"
-            onClick={() =>
-              handleChangeSweepIVwaveformValue(
-                positiveVoltage,
-                negativeVoltage,
-                voltageWidth,
-                voltageStep,
-                sweepCycle
-              )
-            }
-          >
-            View Waveform
-          </Button>
+          <Stack spacing={5} direction={"row"}>
+            <Button
+              variant="contained"
+              onClick={() =>
+                handleChangeSweepIVwaveformValue(
+                  positiveVoltage,
+                  negativeVoltage,
+                  voltageWidth,
+                  voltageStep,
+                  sweepCycle
+                )
+              }
+            >
+              View Waveform
+            </Button>
+            <Button variant="contained" onClick={handleReset}>
+              RESET
+            </Button>
+          </Stack>
         </Grid>
       </Grid>
     </Box>

@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Box from "@mui/material/Box";
-import { Button, Grid, TextField, Typography } from "@mui/material";
+import { Button, Grid, TextField, Typography, Stack } from "@mui/material";
 import { WaveFunctionSweepRetentionTimeWaveformProps } from "@/components/Chart/Waveform/SweepRetentionTimeWaveform/WaveFunctionSweepRetentionTimeWaveform";
 
 type SweepRetentionTimeInputProps = {
@@ -49,6 +49,26 @@ export default function SweepRetentionTimeInput({
   const [retentionCycleTesting, setRetentionCycleTesting] =
     React.useState<number>(sweepRetentionTimeWaveformValue.cycles);
   const [deviceChannel, setDeviceChannel] = React.useState<number>(1);
+
+  const handleReset = () => {
+    setNegativeVoltage(0);
+    setReadVoltage(0);
+    setPositiveVoltage(0);
+    setNegativeVoltageWidth(0);
+    setPositiveVoltageWidth(0);
+    setMeasureTime(0);
+    setInterval(0);
+    handleChangeSweepRetentionTimeWaveformValue(
+      positiveVoltage,
+      readVoltage,
+      negativeVoltage,
+      positiveVoltageWidth,
+      measureTime,
+      negativeVoltageWidth,
+      interval,
+      retentionCycleTesting
+    );
+  };
 
   return (
     <Box
@@ -322,23 +342,28 @@ export default function SweepRetentionTimeInput({
           />
         </Grid>
         <Grid item xs={12}>
-          <Button
-            variant="contained"
-            onClick={() =>
-              handleChangeSweepRetentionTimeWaveformValue(
-                positiveVoltage,
-                readVoltage,
-                negativeVoltage,
-                positiveVoltageWidth,
-                measureTime,
-                negativeVoltageWidth,
-                interval,
-                retentionCycleTesting
-              )
-            }
-          >
-            View Waveform
-          </Button>
+          <Stack spacing={5} direction={"row"}>
+            <Button
+              variant="contained"
+              onClick={() =>
+                handleChangeSweepRetentionTimeWaveformValue(
+                  positiveVoltage,
+                  readVoltage,
+                  negativeVoltage,
+                  positiveVoltageWidth,
+                  measureTime,
+                  negativeVoltageWidth,
+                  interval,
+                  retentionCycleTesting
+                )
+              }
+            >
+              View Waveform
+            </Button>
+            <Button variant="contained" onClick={handleReset}>
+              RESET
+            </Button>
+          </Stack>
         </Grid>
       </Grid>
     </Box>

@@ -2,11 +2,7 @@
 
 import * as React from "react";
 import Box from "@mui/material/Box";
-import FormControl from "@mui/material/FormControl";
-import FormHelperText from "@mui/material/FormHelperText";
-import Input from "@mui/material/Input";
-import InputLabel from "@mui/material/InputLabel";
-import { Button, Grid, TextField, Typography } from "@mui/material";
+import { Button, Grid, TextField, Typography, Stack } from "@mui/material";
 import { WaveFunctionPulseRetentionTimeWaveformProps } from "@/components/Chart/Waveform/PulseRetentionTimeWaveform/WaveFunctionPulseRetentionTimeWaveform";
 
 type PulseRetentionTimeInputProps = {
@@ -62,6 +58,28 @@ export default function PulseRetentionTimeInput({
   const [deviceChannel, setDeviceChannel] = React.useState<number>(1);
 
   const totalMeasureTime = cycleMeasure * (measureTime + waitTime);
+
+  const handleReset = () => {
+    setNegativeVoltage(0);
+    setReadVoltage(0);
+    setPositiveVoltage(0);
+    setNegativeVoltageWidth(0);
+    setPositiveVoltageWidth(0);
+    setMeasureTime(0);
+    setWaitTime(0);
+    setCycleMeasure(0);
+    handleChangePulseRetentionTimeWaveformValue(
+      positiveVoltage,
+      readVoltage,
+      negativeVoltage,
+      positiveVoltageWidth,
+      measureTime,
+      negativeVoltageWidth,
+      waitTime,
+      cycleMeasure,
+      retentionCycleTesting
+    );
+  };
 
   return (
     <Box
@@ -361,24 +379,29 @@ export default function PulseRetentionTimeInput({
           />
         </Grid>
         <Grid item xs={12}>
-          <Button
-            variant="contained"
-            onClick={() =>
-              handleChangePulseRetentionTimeWaveformValue(
-                positiveVoltage,
-                readVoltage,
-                negativeVoltage,
-                positiveVoltageWidth,
-                measureTime,
-                negativeVoltageWidth,
-                waitTime,
-                cycleMeasure,
-                retentionCycleTesting
-              )
-            }
-          >
-            View Waveform
-          </Button>
+          <Stack spacing={5} direction={"row"}>
+            <Button
+              variant="contained"
+              onClick={() =>
+                handleChangePulseRetentionTimeWaveformValue(
+                  positiveVoltage,
+                  readVoltage,
+                  negativeVoltage,
+                  positiveVoltageWidth,
+                  measureTime,
+                  negativeVoltageWidth,
+                  waitTime,
+                  cycleMeasure,
+                  retentionCycleTesting
+                )
+              }
+            >
+              View Waveform
+            </Button>
+            <Button variant="contained" onClick={handleReset}>
+              RESET
+            </Button>
+          </Stack>
         </Grid>
       </Grid>
     </Box>

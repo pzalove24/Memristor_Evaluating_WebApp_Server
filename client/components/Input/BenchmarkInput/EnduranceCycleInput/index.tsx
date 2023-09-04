@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Box from "@mui/material/Box";
-import { Grid, TextField, Typography } from "@mui/material";
+import { Grid, TextField, Typography, Stack } from "@mui/material";
 import Button from "@mui/material/Button/Button";
 import { WaveFunctionEnduranceCycleWaveformProps } from "@/components/Chart/Waveform/EnduranceCycleWaveform/WaveFunctionEnduranceCycleWaveform";
 
@@ -46,6 +46,26 @@ export default function EnduranceCycleInput({
   const [enduranceCycleTesting, setEnduranceCycleTesting] =
     React.useState<number>(enduranceCycleWaveformValue.cycles);
   const [deviceChannel, setDeviceChannel] = React.useState<number>(1);
+
+  const handleReset = () => {
+    setNegativeVoltage(0);
+    setReadVoltage(0);
+    setPositiveVoltage(0);
+    setNegativeVoltageWidth(0);
+    setReadVoltageWidth(0);
+    setPositiveVoltageWidth(0);
+    setInterval(0);
+    handleChangeEnduranceCycleWaveformValue(
+      positiveVoltage,
+      readVoltage,
+      negativeVoltage,
+      positiveVoltageWidth,
+      readVoltageWidth,
+      negativeVoltageWidth,
+      interval,
+      enduranceCycleTesting
+    );
+  };
 
   return (
     <Box
@@ -317,23 +337,28 @@ export default function EnduranceCycleInput({
           />
         </Grid>
         <Grid item xs={12}>
-          <Button
-            variant="contained"
-            onClick={() =>
-              handleChangeEnduranceCycleWaveformValue(
-                positiveVoltage,
-                readVoltage,
-                negativeVoltage,
-                positiveVoltageWidth,
-                readVoltageWidth,
-                negativeVoltageWidth,
-                interval,
-                enduranceCycleTesting
-              )
-            }
-          >
-            View Waveform
-          </Button>
+          <Stack spacing={5} direction={"row"}>
+            <Button
+              variant="contained"
+              onClick={() =>
+                handleChangeEnduranceCycleWaveformValue(
+                  positiveVoltage,
+                  readVoltage,
+                  negativeVoltage,
+                  positiveVoltageWidth,
+                  readVoltageWidth,
+                  negativeVoltageWidth,
+                  interval,
+                  enduranceCycleTesting
+                )
+              }
+            >
+              View Waveform
+            </Button>
+            <Button variant="contained" onClick={handleReset}>
+              RESET
+            </Button>
+          </Stack>
         </Grid>
       </Grid>
     </Box>

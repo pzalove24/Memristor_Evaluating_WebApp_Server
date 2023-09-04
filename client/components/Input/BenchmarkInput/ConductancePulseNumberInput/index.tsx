@@ -6,7 +6,7 @@ import FormControl from "@mui/material/FormControl";
 import FormHelperText from "@mui/material/FormHelperText";
 import Input from "@mui/material/Input";
 import InputLabel from "@mui/material/InputLabel";
-import { Button, Grid, TextField, Typography } from "@mui/material";
+import { Button, Grid, TextField, Typography, Stack } from "@mui/material";
 import { WaveFunctionConductancePulseTimeProps } from "@/components/Chart/Waveform/ConductancePulseNumberWaveform/WaveFunctionConductancePulseTime";
 
 type ConductancePulseNumberInputProps = {
@@ -68,6 +68,28 @@ export default function ConductancePulseNumberInput({
   const totalMeasureTime =
     programmingPulse *
     (positiveVoltageWidth + waitTime + measureTime + waitTime);
+
+  const handleReset = () => {
+    setNegativeVoltage(0);
+    setReadVoltage(0);
+    setPositiveVoltage(0);
+    setNegativeVoltageWidth(0);
+    setPositiveVoltageWidth(0);
+    setMeasureTime(0);
+    setWaitTime(0);
+    setProgrammingPulse(0);
+    handleChangesetConductancePulseNumberWaveformValue(
+      positiveVoltage,
+      readVoltage,
+      negativeVoltage,
+      positiveVoltageWidth,
+      measureTime,
+      negativeVoltageWidth,
+      waitTime,
+      programmingPulse,
+      programmingCyclesRepeat
+    );
+  };
 
   return (
     <Box
@@ -367,24 +389,29 @@ export default function ConductancePulseNumberInput({
           />
         </Grid>
         <Grid item xs={12}>
-          <Button
-            variant="contained"
-            onClick={() =>
-              handleChangesetConductancePulseNumberWaveformValue(
-                positiveVoltage,
-                readVoltage,
-                negativeVoltage,
-                positiveVoltageWidth,
-                measureTime,
-                negativeVoltageWidth,
-                waitTime,
-                programmingPulse,
-                programmingCyclesRepeat
-              )
-            }
-          >
-            View Waveform
-          </Button>
+          <Stack spacing={5} direction={"row"}>
+            <Button
+              variant="contained"
+              onClick={() =>
+                handleChangesetConductancePulseNumberWaveformValue(
+                  positiveVoltage,
+                  readVoltage,
+                  negativeVoltage,
+                  positiveVoltageWidth,
+                  measureTime,
+                  negativeVoltageWidth,
+                  waitTime,
+                  programmingPulse,
+                  programmingCyclesRepeat
+                )
+              }
+            >
+              View Waveform
+            </Button>
+            <Button variant="contained" onClick={handleReset}>
+              RESET
+            </Button>
+          </Stack>
         </Grid>
       </Grid>
     </Box>

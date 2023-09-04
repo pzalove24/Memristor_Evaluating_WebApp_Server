@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Box from "@mui/material/Box";
-import { Grid, TextField, Typography } from "@mui/material";
+import { Grid, TextField, Typography, Stack } from "@mui/material";
 import Button from "@mui/material/Button/Button";
 import { WaveFunctionPulseIVwaveformProps } from "@/components/Chart/Waveform/PulseIVwaveform/WaveFunctionPulseIVwaveform";
 
@@ -41,6 +41,22 @@ export default function PulseIVInput({
     pulseIVwaveformValue.cycles
   );
   const [deviceChannel, setDeviceChannel] = React.useState<number>(1);
+
+  const handleReset = () => {
+    setNegativeVoltage(0);
+    setPositiveVoltage(0);
+    setVoltageWidth(0);
+    setVoltageStep(0);
+    setInterval(0);
+    handleChangePulseIVwaveformValue(
+      positiveVoltage,
+      negativeVoltage,
+      voltageWidth,
+      interval,
+      voltageStep,
+      sweepCycle
+    );
+  };
 
   return (
     <Box
@@ -255,21 +271,26 @@ export default function PulseIVInput({
           />
         </Grid>
         <Grid item xs={12}>
-          <Button
-            variant="contained"
-            onClick={() =>
-              handleChangePulseIVwaveformValue(
-                positiveVoltage,
-                negativeVoltage,
-                voltageWidth,
-                interval,
-                voltageStep,
-                sweepCycle
-              )
-            }
-          >
-            View Waveform
-          </Button>
+          <Stack spacing={5} direction={"row"}>
+            <Button
+              variant="contained"
+              onClick={() =>
+                handleChangePulseIVwaveformValue(
+                  positiveVoltage,
+                  negativeVoltage,
+                  voltageWidth,
+                  interval,
+                  voltageStep,
+                  sweepCycle
+                )
+              }
+            >
+              View Waveform
+            </Button>
+            <Button variant="contained" onClick={handleReset}>
+              RESET
+            </Button>
+          </Stack>
         </Grid>
       </Grid>
     </Box>
