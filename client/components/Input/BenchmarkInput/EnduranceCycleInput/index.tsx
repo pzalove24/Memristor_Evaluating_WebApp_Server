@@ -4,28 +4,20 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import { Grid, TextField, Typography } from "@mui/material";
 import Button from "@mui/material/Button/Button";
+import { WaveFunctionEnduranceCycleWaveformProps } from "@/components/Chart/Waveform/EnduranceCycleWaveform/WaveFunctionEnduranceCycleWaveform";
 
 type EnduranceCycleInputProps = {
   handleChangeEnduranceCycleWaveformValue: (
-    positivePulseValue: number,
-    intermediatePulseValue: number,
-    negativePulseValue: number,
-    positivePulseDuration: number,
-    intermediatePulseDuration: number,
-    negativePulseDuration: number,
-    distanceBetweenPulse: number,
-    cycles: number
+    positivePulseValue: number, //positiveVoltage
+    intermediatePulseValue: number, //readVoltage
+    negativePulseValue: number, //negativeVoltage
+    positivePulseDuration: number, //positiveVoltageWidth
+    intermediatePulseDuration: number, //readVoltageWidth
+    negativePulseDuration: number, //negativeVoltageWidth
+    distanceBetweenPulse: number, //interval
+    cycles: number //enduranceCycleTesting
   ) => void;
-  enduranceCycleWaveformValue: {
-    positivePulseValue: number;
-    intermediatePulseValue: number;
-    negativePulseValue: number;
-    positivePulseDuration: number;
-    intermediatePulseDuration: number;
-    negativePulseDuration: number;
-    distanceBetweenPulse: number;
-    cycles: number;
-  };
+  enduranceCycleWaveformValue: WaveFunctionEnduranceCycleWaveformProps;
 };
 
 export default function EnduranceCycleInput({

@@ -100,6 +100,122 @@ export const BenchmarkInputPartOne = () => {
     });
   };
 
+  //SweepRetentionTimeWaveform handleState
+
+  const [sweepRetentionTimeWaveformValue, setSweepRetentionTimeWaveformValue] =
+    React.useState({
+      positivePulseValue: 0,
+      intermediatePulseValue: 0,
+      negativePulseValue: 0,
+      positivePulseDuration: 0,
+      intermediatePulseDuration: 0,
+      negativePulseDuration: 0,
+      distanceBetweenPulse: 0,
+      cycles: 1,
+    });
+
+  const handleChangeSweepRetentionTimeWaveformValue = (
+    positivePulseValue: number,
+    intermediatePulseValue: number,
+    negativePulseValue: number,
+    positivePulseDuration: number,
+    intermediatePulseDuration: number,
+    negativePulseDuration: number,
+    distanceBetweenPulse: number,
+    cycles: number
+  ) => {
+    setSweepRetentionTimeWaveformValue({
+      positivePulseValue: positivePulseValue,
+      intermediatePulseValue: intermediatePulseValue,
+      negativePulseValue: negativePulseValue,
+      positivePulseDuration: positivePulseDuration,
+      intermediatePulseDuration: intermediatePulseDuration,
+      negativePulseDuration: negativePulseDuration,
+      distanceBetweenPulse: distanceBetweenPulse,
+      cycles: cycles,
+    });
+  };
+
+  //PulseRetentionTimeWaveform handleState
+
+  const [pulseRetentionTimeWaveformValue, setPulseRetentionTimeWaveformValue] =
+    React.useState({
+      positivePulseValue: 0,
+      intermediatePulseValue: 0,
+      negativePulseValue: 0,
+      positivePulseDuration: 0,
+      intermediatePulseDuration: 0,
+      negativePulseDuration: 0,
+      distanceBetweenPulse: 0,
+      cycleIntermediatePulse: 0,
+      cycles: 1,
+    });
+
+  const handleChangePulseRetentionTimeWaveformValue = (
+    positivePulseValue: number,
+    intermediatePulseValue: number,
+    negativePulseValue: number,
+    positivePulseDuration: number,
+    intermediatePulseDuration: number,
+    negativePulseDuration: number,
+    distanceBetweenPulse: number,
+    cycleIntermediatePulse: number,
+    cycles: number
+  ) => {
+    setPulseRetentionTimeWaveformValue({
+      positivePulseValue: positivePulseValue,
+      intermediatePulseValue: intermediatePulseValue,
+      negativePulseValue: negativePulseValue,
+      positivePulseDuration: positivePulseDuration,
+      intermediatePulseDuration: intermediatePulseDuration,
+      negativePulseDuration: negativePulseDuration,
+      distanceBetweenPulse: distanceBetweenPulse,
+      cycleIntermediatePulse: cycleIntermediatePulse,
+      cycles: cycles,
+    });
+  };
+
+  //ConductancePulseNumberWaveform handleState
+
+  const [
+    conductancePulseNumberWaveformValue,
+    setConductancePulseNumberWaveformValue,
+  ] = React.useState({
+    positivePulseValue: 0,
+    intermediatePulseValue: 0,
+    negativePulseValue: 0,
+    positivePulseDuration: 0,
+    intermediatePulseDuration: 0,
+    negativePulseDuration: 0,
+    distanceBetweenPulse: 0,
+    cycleReadingPulse: 0,
+    cycles: 1,
+  });
+
+  const handleChangesetConductancePulseNumberWaveformValue = (
+    positivePulseValue: number,
+    intermediatePulseValue: number,
+    negativePulseValue: number,
+    positivePulseDuration: number,
+    intermediatePulseDuration: number,
+    negativePulseDuration: number,
+    distanceBetweenPulse: number,
+    cycleReadingPulse: number,
+    cycles: number
+  ) => {
+    setConductancePulseNumberWaveformValue({
+      positivePulseValue: positivePulseValue,
+      intermediatePulseValue: intermediatePulseValue,
+      negativePulseValue: negativePulseValue,
+      positivePulseDuration: positivePulseDuration,
+      intermediatePulseDuration: intermediatePulseDuration,
+      negativePulseDuration: negativePulseDuration,
+      distanceBetweenPulse: distanceBetweenPulse,
+      cycleReadingPulse: cycleReadingPulse,
+      cycles: cycles,
+    });
+  };
+
   const gridStyle = {
     "& > :not(style)": { m: 1 },
     display: "flex",
@@ -132,6 +248,24 @@ export const BenchmarkInputPartOne = () => {
                     handleChangeEnduranceCycleWaveformValue
                   }
                   enduranceCycleWaveformValue={enduranceCycleWaveformValue}
+                  handleChangeSweepRetentionTimeWaveformValue={
+                    handleChangeSweepRetentionTimeWaveformValue
+                  }
+                  sweepRetentionTimeWaveformValue={
+                    sweepRetentionTimeWaveformValue
+                  }
+                  handleChangePulseRetentionTimeWaveformValue={
+                    handleChangePulseRetentionTimeWaveformValue
+                  }
+                  pulseRetentionTimeWaveformValue={
+                    pulseRetentionTimeWaveformValue
+                  }
+                  handleChangesetConductancePulseNumberWaveformValue={
+                    handleChangesetConductancePulseNumberWaveformValue
+                  }
+                  conductancePulseNumberWaveformValue={
+                    conductancePulseNumberWaveformValue
+                  }
                 />
               </Card>
               <Card variant="outlined">
@@ -173,7 +307,11 @@ export const BenchmarkInputPartOne = () => {
         <Grid container>
           <Grid item sm md lg xl xs>
             <Box sx={gridStyle}>
-              <ConductancePulseNumberWaveform />
+              <ConductancePulseNumberWaveform
+                conductancePulseNumberWaveformValue={
+                  conductancePulseNumberWaveformValue
+                }
+              />
             </Box>
           </Grid>
         </Grid>
@@ -182,12 +320,20 @@ export const BenchmarkInputPartOne = () => {
         <Grid container>
           <Grid item sm={6} md={6} lg={6} xl={6} xs>
             <Box sx={gridStyle}>
-              <SweepRetentionTimeWaveform />
+              <SweepRetentionTimeWaveform
+                sweepRetentionTimeWaveformValue={
+                  sweepRetentionTimeWaveformValue
+                }
+              />
             </Box>
           </Grid>
           <Grid item sm={6} md={6} lg={6} xl={6} xs>
             <Box sx={gridStyle}>
-              <PulseRetentionTimeWaveform />
+              <PulseRetentionTimeWaveform
+                pulseRetentionTimeWaveformValue={
+                  pulseRetentionTimeWaveformValue
+                }
+              />
             </Box>
           </Grid>
         </Grid>

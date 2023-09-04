@@ -1,4 +1,4 @@
-type WaveFunctionSweepIVwaveformProps = {
+export type WaveFunctionSweepIVwaveformProps = {
   positivePulseValue: number;
   negativePulseValue: number;
   pulseDuration: number; // Duration of each pulse

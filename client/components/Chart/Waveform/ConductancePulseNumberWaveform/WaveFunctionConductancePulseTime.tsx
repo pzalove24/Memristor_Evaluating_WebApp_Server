@@ -1,4 +1,4 @@
-type WaveFunctionConductancePulseTimeProps = {
+export type WaveFunctionConductancePulseTimeProps = {
   positivePulseValue: number;
   intermediatePulseValue: number;
   negativePulseValue: number;

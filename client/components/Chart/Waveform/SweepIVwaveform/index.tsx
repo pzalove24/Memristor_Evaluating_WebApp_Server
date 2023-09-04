@@ -13,15 +13,10 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { WaveFunctionSweepIVwaveform } from "./WaveFunctionSweepIVwaveform";
+import { WaveFunctionSweepIVwaveformProps } from "./WaveFunctionSweepIVwaveform";
 
 type SweepIVwaveformProps = {
-  sweepIVwaveformValue: {
-    positivePulseValue: number;
-    negativePulseValue: number;
-    pulseDuration: number;
-    stepsPerSegment: number;
-    cycles: number;
-  };
+  sweepIVwaveformValue: WaveFunctionSweepIVwaveformProps;
 };
 
 export function SweepIVwaveform({

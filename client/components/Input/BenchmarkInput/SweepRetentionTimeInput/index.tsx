@@ -2,24 +2,52 @@
 
 import * as React from "react";
 import Box from "@mui/material/Box";
-import FormControl from "@mui/material/FormControl";
-import FormHelperText from "@mui/material/FormHelperText";
-import Input from "@mui/material/Input";
-import InputLabel from "@mui/material/InputLabel";
-import { Grid, TextField, Typography } from "@mui/material";
+import { Button, Grid, TextField, Typography } from "@mui/material";
+import { WaveFunctionSweepRetentionTimeWaveformProps } from "@/components/Chart/Waveform/SweepRetentionTimeWaveform/WaveFunctionSweepRetentionTimeWaveform";
 
-export default function SweepRetentionTimeInput() {
-  const [negativeVoltage, setNegativeVoltage] = React.useState<number>(0);
-  const [readVoltage, setReadVoltage] = React.useState<number>(0);
-  const [positiveVoltage, setPositiveVoltage] = React.useState<number>(0);
+type SweepRetentionTimeInputProps = {
+  handleChangeSweepRetentionTimeWaveformValue: (
+    positivePulseValue: number, //positiveVoltage
+    intermediatePulseValue: number, //readVoltage
+    negativePulseValue: number, //negativeVoltage
+    positivePulseDuration: number, //positiveVoltageWidth
+    intermediatePulseDuration: number, //measureTime
+    negativePulseDuration: number, //negativeVoltageWidth
+    distanceBetweenPulse: number, //interval
+    cycles: number //retentionCycleTesting
+  ) => void;
+  sweepRetentionTimeWaveformValue: WaveFunctionSweepRetentionTimeWaveformProps;
+};
+
+export default function SweepRetentionTimeInput({
+  handleChangeSweepRetentionTimeWaveformValue,
+  sweepRetentionTimeWaveformValue,
+}: SweepRetentionTimeInputProps) {
+  const [negativeVoltage, setNegativeVoltage] = React.useState<number>(
+    sweepRetentionTimeWaveformValue.negativePulseValue
+  );
+  const [readVoltage, setReadVoltage] = React.useState<number>(
+    sweepRetentionTimeWaveformValue.intermediatePulseValue
+  );
+  const [positiveVoltage, setPositiveVoltage] = React.useState<number>(
+    sweepRetentionTimeWaveformValue.positivePulseValue
+  );
   const [negativeVoltageWidth, setNegativeVoltageWidth] =
-    React.useState<number>(0);
-  const [measureTime, setMeasureTime] = React.useState<number>(0);
+    React.useState<number>(
+      sweepRetentionTimeWaveformValue.negativePulseDuration
+    );
+  const [measureTime, setMeasureTime] = React.useState<number>(
+    sweepRetentionTimeWaveformValue.intermediatePulseDuration
+  );
   const [positiveVoltageWidth, setPositiveVoltageWidth] =
-    React.useState<number>(0);
-  const [interval, setInterval] = React.useState<number>(0);
+    React.useState<number>(
+      sweepRetentionTimeWaveformValue.positivePulseDuration
+    );
+  const [interval, setInterval] = React.useState<number>(
+    sweepRetentionTimeWaveformValue.distanceBetweenPulse
+  );
   const [retentionCycleTesting, setRetentionCycleTesting] =
-    React.useState<number>(0);
+    React.useState<number>(sweepRetentionTimeWaveformValue.cycles);
   const [deviceChannel, setDeviceChannel] = React.useState<number>(1);
 
   return (
@@ -262,7 +290,7 @@ export default function SweepRetentionTimeInput() {
             placeholder="provide number"
             value={retentionCycleTesting}
             onChange={(e) => {
-              var value = parseFloat(e.target.value);
+              var value = parseInt(e.target.value);
 
               if (value > 100000) value = 100000; //max
               if (value < 0) value = 0; //min
@@ -292,6 +320,25 @@ export default function SweepRetentionTimeInput() {
             value={deviceChannel}
             onChange={(event) => setDeviceChannel(parseInt(event.target.value))}
           />
+        </Grid>
+        <Grid item xs={12}>
+          <Button
+            variant="contained"
+            onClick={() =>
+              handleChangeSweepRetentionTimeWaveformValue(
+                positiveVoltage,
+                readVoltage,
+                negativeVoltage,
+                positiveVoltageWidth,
+                measureTime,
+                negativeVoltageWidth,
+                interval,
+                retentionCycleTesting
+              )
+            }
+          >
+            View Waveform
+          </Button>
         </Grid>
       </Grid>
     </Box>

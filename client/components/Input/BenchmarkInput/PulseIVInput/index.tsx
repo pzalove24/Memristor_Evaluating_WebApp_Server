@@ -4,24 +4,18 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import { Grid, TextField, Typography } from "@mui/material";
 import Button from "@mui/material/Button/Button";
+import { WaveFunctionPulseIVwaveformProps } from "@/components/Chart/Waveform/PulseIVwaveform/WaveFunctionPulseIVwaveform";
 
 type PulseIVInputProps = {
   handleChangePulseIVwaveformValue: (
-    positivePulseValue: number,
-    negativePulseValue: number,
-    pulseDuration: number,
-    distanceBetweenPulse: number,
-    stepsPerSegment: number,
-    cycles: number
+    positivePulseValue: number, //positiveVoltage
+    negativePulseValue: number, //negativeVoltage
+    pulseDuration: number, //voltageWidth
+    distanceBetweenPulse: number, //interval
+    stepsPerSegment: number, //voltageStep
+    cycles: number //sweepCycle
   ) => void;
-  pulseIVwaveformValue: {
-    positivePulseValue: number;
-    negativePulseValue: number;
-    pulseDuration: number;
-    distanceBetweenPulse: number;
-    stepsPerSegment: number;
-    cycles: number;
-  };
+  pulseIVwaveformValue: WaveFunctionPulseIVwaveformProps;
 };
 
 export default function PulseIVInput({

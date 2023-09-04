@@ -4,33 +4,38 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import { Grid, TextField, Typography } from "@mui/material";
 import Button from "@mui/material/Button/Button";
+import { WaveFunctionSweepIVwaveformProps } from "@/components/Chart/Waveform/SweepIVwaveform/WaveFunctionSweepIVwaveform";
 
 type SweepIVInputProps = {
   handleChangeSweepIVwaveformValue: (
-    positivePulseValue: number,
-    negativePulseValue: number,
-    pulseDuration: number,
-    stepsPerSegment: number,
-    cycles: number
+    positivePulseValue: number, //positiveVoltage
+    negativePulseValue: number, //negativeVoltage
+    pulseDuration: number, //voltageWidth
+    stepsPerSegment: number, //voltageStep
+    cycles: number //sweepCycle
   ) => void;
-  sweepIVwaveformValue: {
-    positivePulseValue: number;
-    negativePulseValue: number;
-    pulseDuration: number;
-    stepsPerSegment: number;
-    cycles: number;
-  };
+  sweepIVwaveformValue: WaveFunctionSweepIVwaveformProps;
 };
 
 export default function SweepIVInput({
   handleChangeSweepIVwaveformValue,
   sweepIVwaveformValue,
 }: SweepIVInputProps) {
-  const [negativeVoltage, setNegativeVoltage] = React.useState<number>(sweepIVwaveformValue.negativePulseValue);
-  const [positiveVoltage, setPositiveVoltage] = React.useState<number>(sweepIVwaveformValue.positivePulseValue);
-  const [voltageWidth, setVoltageWidth] = React.useState<number>(sweepIVwaveformValue.pulseDuration);
-  const [voltageStep, setVoltageStep] = React.useState<number>(sweepIVwaveformValue.stepsPerSegment);
-  const [sweepCycle, setSweepCycle] = React.useState<number>(sweepIVwaveformValue.cycles);
+  const [negativeVoltage, setNegativeVoltage] = React.useState<number>(
+    sweepIVwaveformValue.negativePulseValue
+  );
+  const [positiveVoltage, setPositiveVoltage] = React.useState<number>(
+    sweepIVwaveformValue.positivePulseValue
+  );
+  const [voltageWidth, setVoltageWidth] = React.useState<number>(
+    sweepIVwaveformValue.pulseDuration
+  );
+  const [voltageStep, setVoltageStep] = React.useState<number>(
+    sweepIVwaveformValue.stepsPerSegment
+  );
+  const [sweepCycle, setSweepCycle] = React.useState<number>(
+    sweepIVwaveformValue.cycles
+  );
   const [deviceChannel, setDeviceChannel] = React.useState<number>(1);
 
   return (

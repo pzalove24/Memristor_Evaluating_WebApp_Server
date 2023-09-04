@@ -10,6 +10,12 @@ import EnduranceCycleInput from "./EnduranceCycleInput";
 import ConductancePulseNumberInput from "./ConductancePulseNumberInput";
 import SweepRetentionTimeInput from "./SweepRetentionTimeInput";
 import PulseRetentionTimeInput from "./PulseRetentionTimeInput";
+import { WaveFunctionSweepIVwaveformProps } from "@/components/Chart/Waveform/SweepIVwaveform/WaveFunctionSweepIVwaveform";
+import { WaveFunctionPulseIVwaveformProps } from "@/components/Chart/Waveform/PulseIVwaveform/WaveFunctionPulseIVwaveform";
+import { WaveFunctionEnduranceCycleWaveformProps } from "@/components/Chart/Waveform/EnduranceCycleWaveform/WaveFunctionEnduranceCycleWaveform";
+import { WaveFunctionSweepRetentionTimeWaveformProps } from "@/components/Chart/Waveform/SweepRetentionTimeWaveform/WaveFunctionSweepRetentionTimeWaveform";
+import { WaveFunctionPulseRetentionTimeWaveformProps } from "@/components/Chart/Waveform/PulseRetentionTimeWaveform/WaveFunctionPulseRetentionTimeWaveform";
+import { WaveFunctionConductancePulseTimeProps } from "@/components/Chart/Waveform/ConductancePulseNumberWaveform/WaveFunctionConductancePulseTime";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -54,13 +60,7 @@ type ParameterInputTabsProps = {
     stepsPerSegment: number,
     cycles: number
   ) => void;
-  sweepIVwaveformValue: {
-    positivePulseValue: number;
-    negativePulseValue: number;
-    pulseDuration: number;
-    stepsPerSegment: number;
-    cycles: number;
-  };
+  sweepIVwaveformValue: WaveFunctionSweepIVwaveformProps;
   handleChangePulseIVwaveformValue: (
     positivePulseValue: number,
     negativePulseValue: number,
@@ -69,14 +69,7 @@ type ParameterInputTabsProps = {
     stepsPerSegment: number,
     cycles: number
   ) => void;
-  pulseIVwaveformValue: {
-    positivePulseValue: number;
-    negativePulseValue: number;
-    pulseDuration: number;
-    distanceBetweenPulse: number;
-    stepsPerSegment: number;
-    cycles: number;
-  };
+  pulseIVwaveformValue: WaveFunctionPulseIVwaveformProps;
   handleChangeEnduranceCycleWaveformValue: (
     positivePulseValue: number,
     intermediatePulseValue: number,
@@ -87,16 +80,42 @@ type ParameterInputTabsProps = {
     distanceBetweenPulse: number,
     cycles: number
   ) => void;
-  enduranceCycleWaveformValue: {
-    positivePulseValue: number;
-    intermediatePulseValue: number;
-    negativePulseValue: number;
-    positivePulseDuration: number;
-    intermediatePulseDuration: number;
-    negativePulseDuration: number;
-    distanceBetweenPulse: number;
-    cycles: number;
-  };
+  enduranceCycleWaveformValue: WaveFunctionEnduranceCycleWaveformProps;
+  handleChangeSweepRetentionTimeWaveformValue: (
+    positivePulseValue: number,
+    intermediatePulseValue: number,
+    negativePulseValue: number,
+    positivePulseDuration: number,
+    intermediatePulseDuration: number,
+    negativePulseDuration: number,
+    distanceBetweenPulse: number,
+    cycles: number
+  ) => void;
+  sweepRetentionTimeWaveformValue: WaveFunctionSweepRetentionTimeWaveformProps;
+  handleChangePulseRetentionTimeWaveformValue: (
+    positivePulseValue: number,
+    intermediatePulseValue: number,
+    negativePulseValue: number,
+    positivePulseDuration: number,
+    intermediatePulseDuration: number,
+    negativePulseDuration: number,
+    distanceBetweenPulse: number,
+    cycleIntermediatePulse: number,
+    cycles: number
+  ) => void;
+  pulseRetentionTimeWaveformValue: WaveFunctionPulseRetentionTimeWaveformProps;
+  handleChangesetConductancePulseNumberWaveformValue: (
+    positivePulseValue: number,
+    intermediatePulseValue: number,
+    negativePulseValue: number,
+    positivePulseDuration: number,
+    intermediatePulseDuration: number,
+    negativePulseDuration: number,
+    distanceBetweenPulse: number,
+    cycleReadingPulse: number,
+    cycles: number
+  ) => void;
+  conductancePulseNumberWaveformValue: WaveFunctionConductancePulseTimeProps;
 };
 
 export default function ParameterInputTabs({
@@ -106,6 +125,12 @@ export default function ParameterInputTabs({
   pulseIVwaveformValue,
   handleChangeEnduranceCycleWaveformValue,
   enduranceCycleWaveformValue,
+  handleChangeSweepRetentionTimeWaveformValue,
+  sweepRetentionTimeWaveformValue,
+  handleChangePulseRetentionTimeWaveformValue,
+  pulseRetentionTimeWaveformValue,
+  handleChangesetConductancePulseNumberWaveformValue,
+  conductancePulseNumberWaveformValue,
 }: ParameterInputTabsProps) {
   const [value, setValue] = React.useState(0);
 
@@ -145,7 +170,14 @@ export default function ParameterInputTabs({
         />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        <ConductancePulseNumberInput />
+        <ConductancePulseNumberInput
+          handleChangesetConductancePulseNumberWaveformValue={
+            handleChangesetConductancePulseNumberWaveformValue
+          }
+          conductancePulseNumberWaveformValue={
+            conductancePulseNumberWaveformValue
+          }
+        />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3}>
         <EnduranceCycleInput
@@ -156,10 +188,20 @@ export default function ParameterInputTabs({
         />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={4}>
-        <SweepRetentionTimeInput />
+        <SweepRetentionTimeInput
+          handleChangeSweepRetentionTimeWaveformValue={
+            handleChangeSweepRetentionTimeWaveformValue
+          }
+          sweepRetentionTimeWaveformValue={sweepRetentionTimeWaveformValue}
+        />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={5}>
-        <PulseRetentionTimeInput />
+        <PulseRetentionTimeInput
+          handleChangePulseRetentionTimeWaveformValue={
+            handleChangePulseRetentionTimeWaveformValue
+          }
+          pulseRetentionTimeWaveformValue={pulseRetentionTimeWaveformValue}
+        />
       </CustomTabPanel>
     </Box>
   );

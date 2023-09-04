@@ -1,4 +1,4 @@
-export type WaveFunctionEnduranceCycleWaveformProps = {
+export type WaveFunctionSweepRetentionTimeWaveformProps = {
   positivePulseValue: number;
   intermediatePulseValue: number;
   negativePulseValue: number;
@@ -9,7 +9,7 @@ export type WaveFunctionEnduranceCycleWaveformProps = {
   cycles: number; // Number of times to repeat the waveform
 };
 
-export const WaveFunctionEnduranceCycleWaveform = ({
+export const WaveFunctionSweepRetentionTimeWaveform = ({
   positivePulseValue,
   intermediatePulseValue,
   negativePulseValue,
@@ -18,7 +18,7 @@ export const WaveFunctionEnduranceCycleWaveform = ({
   negativePulseDuration,
   distanceBetweenPulse,
   cycles,
-}: WaveFunctionEnduranceCycleWaveformProps) => {
+}: WaveFunctionSweepRetentionTimeWaveformProps) => {
   interface PulseSegment {
     value: number;
     start: number;
@@ -44,13 +44,13 @@ export const WaveFunctionEnduranceCycleWaveform = ({
   }
 
   //   const positivePulseValue: number = 3;
-  //   const intermediatePulseValue: number = 1;
+  //   const intermediatePulseValue: number = 2;
   //   const negativePulseValue: number = -3;
-  //   const positivePulseDuration: number = 40; // Duration of each pulse
-  //   const intermediatePulseDuration: number = 40; // Duration of each pulse
-  //   const negativePulseDuration: number = 40; // Duration of each pulse
-  //   const distanceBetweenPulse: number = 40; // Distance between pulses
-  //   const cycles: number = 5; // Number of times to repeat the waveform
+  //   const positivePulseDuration: number = 10; // Duration of each pulse
+  //   const intermediatePulseDuration: number = 300; // Duration of each pulse
+  //   const negativePulseDuration: number = 10; // Duration of each pulse
+  //   const distanceBetweenPulse: number = 20; // Distance between pulses
+  //   const cycles: number = 1; // Number of times to repeat the waveform
   const pulseLength: number =
     positivePulseDuration +
     distanceBetweenPulse +

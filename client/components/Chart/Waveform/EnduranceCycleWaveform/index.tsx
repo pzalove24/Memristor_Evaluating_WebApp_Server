@@ -14,18 +14,10 @@ import {
 import { Line } from "react-chartjs-2";
 import { faker } from "@faker-js/faker";
 import { WaveFunctionEnduranceCycleWaveform } from "./WaveFunctionEnduranceCycleWaveform";
+import { WaveFunctionEnduranceCycleWaveformProps } from "./WaveFunctionEnduranceCycleWaveform";
 
 type EnduranceCycleWaveformProps = {
-  enduranceCycleWaveformValue: {
-    positivePulseValue: number;
-    intermediatePulseValue: number;
-    negativePulseValue: number;
-    positivePulseDuration: number;
-    intermediatePulseDuration: number;
-    negativePulseDuration: number;
-    distanceBetweenPulse: number;
-    cycles: number;
-  };
+  enduranceCycleWaveformValue: WaveFunctionEnduranceCycleWaveformProps;
 };
 
 export function EnduranceCycleWaveform({

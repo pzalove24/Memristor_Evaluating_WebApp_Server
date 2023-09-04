@@ -12,13 +12,18 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
+import {
+  WaveFunctionConductancePulseTime,
+  WaveFunctionConductancePulseTimeProps,
+} from "./WaveFunctionConductancePulseTime";
 
-interface ConductancePulseNumberWaveformProps {
-  timeValues: number[];
-  continuousWaveform: number[];
-}
+type ConductancePulseNumberWaveformValue = {
+  conductancePulseNumberWaveformValue: WaveFunctionConductancePulseTimeProps;
+};
 
-export function ConductancePulseNumberWaveform() {
+export function ConductancePulseNumberWaveform({
+  conductancePulseNumberWaveformValue,
+}: ConductancePulseNumberWaveformValue) {
   ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -28,6 +33,13 @@ export function ConductancePulseNumberWaveform() {
     Tooltip,
     Legend
   );
+
+  const waveformData = WaveFunctionConductancePulseTime(
+    conductancePulseNumberWaveformValue
+  );
+
+  let timeValues = waveformData.timeValues;
+  let continuousWaveform = waveformData.continuousWaveform;
 
   const options = {
     responsive: true,
@@ -64,11 +76,11 @@ export function ConductancePulseNumberWaveform() {
   };
 
   const data = {
-    labels: [0],
+    labels: timeValues || [0],
     datasets: [
       {
         label: "Voltage",
-        data: [0],
+        data: continuousWaveform || [0],
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132, 0.5)",
       },

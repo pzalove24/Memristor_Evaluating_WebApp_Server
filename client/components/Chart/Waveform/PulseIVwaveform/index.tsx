@@ -13,18 +13,10 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { WaveFunctionPulseIVwaveform } from "./WaveFunctionPulseIVwaveform";
-
-WaveFunctionPulseIVwaveform;
+import { WaveFunctionPulseIVwaveformProps } from "./WaveFunctionPulseIVwaveform";
 
 type PulseIVwaveformProps = {
-  pulseIVwaveformValue: {
-    positivePulseValue: number;
-    negativePulseValue: number;
-    pulseDuration: number;
-    distanceBetweenPulse: number;
-    stepsPerSegment: number;
-    cycles: number;
-  };
+  pulseIVwaveformValue: WaveFunctionPulseIVwaveformProps;
 };
 
 export function PulseIVwaveform({

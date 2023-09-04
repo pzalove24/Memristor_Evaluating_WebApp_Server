@@ -6,21 +6,62 @@ import FormControl from "@mui/material/FormControl";
 import FormHelperText from "@mui/material/FormHelperText";
 import Input from "@mui/material/Input";
 import InputLabel from "@mui/material/InputLabel";
-import { Grid, TextField, Typography } from "@mui/material";
+import { Button, Grid, TextField, Typography } from "@mui/material";
+import { WaveFunctionPulseRetentionTimeWaveformProps } from "@/components/Chart/Waveform/PulseRetentionTimeWaveform/WaveFunctionPulseRetentionTimeWaveform";
 
-export default function PulseRetentionTimeInput() {
-  const [negativeVoltage, setNegativeVoltage] = React.useState<number>(0);
-  const [readVoltage, setReadVoltage] = React.useState<number>(0);
-  const [positiveVoltage, setPositiveVoltage] = React.useState<number>(0);
+type PulseRetentionTimeInputProps = {
+  handleChangePulseRetentionTimeWaveformValue: (
+    positivePulseValue: number, //positiveVoltage
+    intermediatePulseValue: number, //readVoltage
+    negativePulseValue: number, //negativeVoltage
+    positivePulseDuration: number, //positiveVoltageWidth
+    intermediatePulseDuration: number, //measureTime
+    negativePulseDuration: number, //negativeVoltageWidth
+    distanceBetweenPulse: number, //waitTime
+    cycleIntermediatePulse: number, //cycleMeasure
+    cycles: number //retentionCycleTesting
+  ) => void;
+  pulseRetentionTimeWaveformValue: WaveFunctionPulseRetentionTimeWaveformProps;
+};
+
+export default function PulseRetentionTimeInput({
+  handleChangePulseRetentionTimeWaveformValue,
+  pulseRetentionTimeWaveformValue,
+}: PulseRetentionTimeInputProps) {
+  const [negativeVoltage, setNegativeVoltage] = React.useState<number>(
+    pulseRetentionTimeWaveformValue.negativePulseValue
+  );
+  const [readVoltage, setReadVoltage] = React.useState<number>(
+    pulseRetentionTimeWaveformValue.intermediatePulseValue
+  );
+  const [positiveVoltage, setPositiveVoltage] = React.useState<number>(
+    pulseRetentionTimeWaveformValue.positivePulseValue
+  );
   const [negativeVoltageWidth, setNegativeVoltageWidth] =
-    React.useState<number>(0);
-  const [measureTime, setMeasureTime] = React.useState<number>(0);
-  const [waitTime, setWaitTime] = React.useState<number>(0);
+    React.useState<number>(
+      pulseRetentionTimeWaveformValue.negativePulseDuration
+    );
+
+  const [measureTime, setMeasureTime] = React.useState<number>(
+    pulseRetentionTimeWaveformValue.intermediatePulseDuration
+  );
+
+  const [waitTime, setWaitTime] = React.useState<number>(
+    pulseRetentionTimeWaveformValue.distanceBetweenPulse
+  );
+
+  const [cycleMeasure, setCycleMeasure] = React.useState<number>(
+    pulseRetentionTimeWaveformValue.cycleIntermediatePulse
+  );
   const [positiveVoltageWidth, setPositiveVoltageWidth] =
-    React.useState<number>(0);
+    React.useState<number>(
+      pulseRetentionTimeWaveformValue.positivePulseDuration
+    );
   const [retentionCycleTesting, setRetentionCycleTesting] =
-    React.useState<number>(0);
+    React.useState<number>(pulseRetentionTimeWaveformValue.cycles);
   const [deviceChannel, setDeviceChannel] = React.useState<number>(1);
+
+  const totalMeasureTime = cycleMeasure * (measureTime + waitTime);
 
   return (
     <Box
@@ -186,7 +227,7 @@ export default function PulseRetentionTimeInput() {
           />
         </Grid>
         <Grid item xs={4}>
-          <Typography>How long to measure (minutes)</Typography>
+          <Typography>How long to measure in single pulse (second)</Typography>
         </Grid>
         <Grid item xs={1}>
           <></>
@@ -199,7 +240,7 @@ export default function PulseRetentionTimeInput() {
               shrink: true,
             }}
             variant="standard"
-            helperText="How long to measure retention time"
+            helperText="How long to measure in a single pulse"
             placeholder="provide number"
             value={measureTime}
             onChange={(e) => {
@@ -242,6 +283,35 @@ export default function PulseRetentionTimeInput() {
           />
         </Grid>
         <Grid item xs={4}>
+          <Typography>pulse cycle (number)</Typography>
+        </Grid>
+        <Grid item xs={1}>
+          <></>
+        </Grid>
+        <Grid item xs={7}>
+          <TextField
+            id="standard-number"
+            type="number"
+            InputLabelProps={{
+              shrink: true,
+            }}
+            variant="standard"
+            helperText="Number of pulse cycle in retention time"
+            placeholder="provide number"
+            value={cycleMeasure}
+            onChange={(e) => {
+              var value = parseInt(e.target.value);
+
+              if (value > 100000) value = 100000; //max
+              if (value < 0) value = 0; //min
+
+              setCycleMeasure(value);
+            }}
+            inputProps={{ min: 0, max: 100000 }}
+          />
+          <Typography variant="h6">{`Total Measure Time = ${totalMeasureTime}`}</Typography>
+        </Grid>
+        <Grid item xs={4}>
           <Typography>Retention Time Cycle Testing (number)</Typography>
         </Grid>
         <Grid item xs={1}>
@@ -259,7 +329,7 @@ export default function PulseRetentionTimeInput() {
             placeholder="provide number"
             value={retentionCycleTesting}
             onChange={(e) => {
-              var value = parseFloat(e.target.value);
+              var value = parseInt(e.target.value);
 
               if (value > 100000) value = 100000; //max
               if (value < 0) value = 0; //min
@@ -289,6 +359,26 @@ export default function PulseRetentionTimeInput() {
             value={deviceChannel}
             onChange={(event) => setDeviceChannel(parseInt(event.target.value))}
           />
+        </Grid>
+        <Grid item xs={12}>
+          <Button
+            variant="contained"
+            onClick={() =>
+              handleChangePulseRetentionTimeWaveformValue(
+                positiveVoltage,
+                readVoltage,
+                negativeVoltage,
+                positiveVoltageWidth,
+                measureTime,
+                negativeVoltageWidth,
+                waitTime,
+                cycleMeasure,
+                retentionCycleTesting
+              )
+            }
+          >
+            View Waveform
+          </Button>
         </Grid>
       </Grid>
     </Box>

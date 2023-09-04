@@ -1,4 +1,4 @@
-export type WaveFunctionEnduranceCycleWaveformProps = {
+export type WaveFunctionPulseRetentionTimeWaveformProps = {
   positivePulseValue: number;
   intermediatePulseValue: number;
   negativePulseValue: number;
@@ -6,10 +6,11 @@ export type WaveFunctionEnduranceCycleWaveformProps = {
   intermediatePulseDuration: number; // Duration of each pulse
   negativePulseDuration: number; // Duration of each pulse
   distanceBetweenPulse: number; // Distance between pulses
+  cycleIntermediatePulse: number; // cycle of intermediate pulse
   cycles: number; // Number of times to repeat the waveform
 };
 
-export const WaveFunctionEnduranceCycleWaveform = ({
+export const WaveFunctionPulseRetentionTimeWaveform = ({
   positivePulseValue,
   intermediatePulseValue,
   negativePulseValue,
@@ -17,8 +18,9 @@ export const WaveFunctionEnduranceCycleWaveform = ({
   intermediatePulseDuration,
   negativePulseDuration,
   distanceBetweenPulse,
+  cycleIntermediatePulse,
   cycles,
-}: WaveFunctionEnduranceCycleWaveformProps) => {
+}: WaveFunctionPulseRetentionTimeWaveformProps) => {
   interface PulseSegment {
     value: number;
     start: number;
@@ -50,16 +52,16 @@ export const WaveFunctionEnduranceCycleWaveform = ({
   //   const intermediatePulseDuration: number = 40; // Duration of each pulse
   //   const negativePulseDuration: number = 40; // Duration of each pulse
   //   const distanceBetweenPulse: number = 40; // Distance between pulses
-  //   const cycles: number = 5; // Number of times to repeat the waveform
+  //   const cycleIntermediatePulse: number = 6; // cycle of intermediate pulse
+  //   const cycles: number = 1; // Number of times to repeat the waveform
   const pulseLength: number =
     positivePulseDuration +
     distanceBetweenPulse +
-    intermediatePulseDuration +
-    distanceBetweenPulse +
+    cycleIntermediatePulse *
+      (intermediatePulseDuration + distanceBetweenPulse) +
     negativePulseDuration +
     distanceBetweenPulse +
-    intermediatePulseDuration +
-    distanceBetweenPulse;
+    cycleIntermediatePulse * (intermediatePulseDuration + distanceBetweenPulse);
 
   // Generate the positive and negative pulse segments
   const positivePulseSegment: PulseSegment = {
@@ -68,83 +70,116 @@ export const WaveFunctionEnduranceCycleWaveform = ({
     end: positivePulseDuration - 1,
   };
 
-  const intermediatePulseSegment1: PulseSegment = {
-    value: intermediatePulseValue,
-    start: positivePulseDuration + distanceBetweenPulse,
-    end:
-      positivePulseDuration +
-      distanceBetweenPulse +
-      intermediatePulseDuration -
-      1,
-  };
+  function generateIntermediatePositivePulseSegmentConsecutive(
+    cycleNumber: number
+  ) {
+    const intermediatePulseSegments = [];
+
+    for (let i = 0; i < cycleNumber; i++) {
+      const segment = {
+        value: intermediatePulseValue,
+        start:
+          positivePulseDuration +
+          distanceBetweenPulse +
+          i * (intermediatePulseDuration + distanceBetweenPulse),
+        end:
+          positivePulseDuration +
+          distanceBetweenPulse +
+          i * (intermediatePulseDuration + distanceBetweenPulse) +
+          intermediatePulseDuration -
+          1,
+      };
+      intermediatePulseSegments.push(segment);
+    }
+
+    return intermediatePulseSegments;
+  }
+  const intermediatePositivePulseSegmentConsecutive =
+    generateIntermediatePositivePulseSegmentConsecutive(cycleIntermediatePulse);
 
   const negativePulseSegment: PulseSegment = {
     value: negativePulseValue,
     start:
       positivePulseDuration +
       distanceBetweenPulse +
-      intermediatePulseDuration +
-      distanceBetweenPulse,
+      cycleIntermediatePulse *
+        (intermediatePulseDuration + distanceBetweenPulse),
     end:
       positivePulseDuration +
       distanceBetweenPulse +
-      intermediatePulseDuration +
-      distanceBetweenPulse +
+      cycleIntermediatePulse *
+        (intermediatePulseDuration + distanceBetweenPulse) +
       negativePulseDuration -
       1,
   };
 
-  const intermediatePulseSegment2: PulseSegment = {
-    value: intermediatePulseValue,
-    start:
-      positivePulseDuration +
-      distanceBetweenPulse +
-      intermediatePulseDuration +
-      distanceBetweenPulse +
-      negativePulseDuration +
-      distanceBetweenPulse,
-    end:
-      positivePulseDuration +
-      distanceBetweenPulse +
-      intermediatePulseDuration +
-      distanceBetweenPulse +
-      negativePulseDuration +
-      distanceBetweenPulse +
-      intermediatePulseDuration -
-      1,
-  };
+  function generateIntermediateNegativePulseSegmentConsecutive(
+    cycleNumber: number
+  ) {
+    const intermediatePulseSegments = [];
+
+    for (let i = 0; i < cycleNumber; i++) {
+      const segment = {
+        value: intermediatePulseValue,
+        start:
+          positivePulseDuration +
+          distanceBetweenPulse +
+          cycleIntermediatePulse *
+            (intermediatePulseDuration + distanceBetweenPulse) +
+          negativePulseDuration +
+          distanceBetweenPulse +
+          i * (intermediatePulseDuration + distanceBetweenPulse),
+        end:
+          positivePulseDuration +
+          distanceBetweenPulse +
+          cycleIntermediatePulse *
+            (intermediatePulseDuration + distanceBetweenPulse) +
+          negativePulseDuration +
+          distanceBetweenPulse +
+          i * (intermediatePulseDuration + distanceBetweenPulse) +
+          intermediatePulseDuration -
+          1,
+      };
+      intermediatePulseSegments.push(segment);
+    }
+
+    return intermediatePulseSegments;
+  }
+  const intermediateNegativePulseSegmentConsecutive =
+    generateIntermediateNegativePulseSegmentConsecutive(cycleIntermediatePulse);
 
   const betweenCyclePulseSegment: PulseSegment = {
     value: intermediatePulseValue,
     start:
       positivePulseDuration +
       distanceBetweenPulse +
-      intermediatePulseDuration +
-      distanceBetweenPulse +
+      cycleIntermediatePulse *
+        (intermediatePulseDuration + distanceBetweenPulse) +
       negativePulseDuration +
       distanceBetweenPulse +
-      intermediatePulseDuration +
-      distanceBetweenPulse,
+      cycleIntermediatePulse *
+        (intermediatePulseDuration + distanceBetweenPulse),
     end:
       positivePulseDuration +
       distanceBetweenPulse +
-      intermediatePulseDuration +
-      distanceBetweenPulse +
+      cycleIntermediatePulse *
+        (intermediatePulseDuration + distanceBetweenPulse) +
       negativePulseDuration +
       distanceBetweenPulse +
-      intermediatePulseDuration +
-      distanceBetweenPulse -
+      cycleIntermediatePulse *
+        (intermediatePulseDuration + distanceBetweenPulse) -
       1,
   };
 
   // Create an array with the positive and negative pulse segments
   const pulseSegments: PulseSegment[] = [
     positivePulseSegment,
-    intermediatePulseSegment1,
     negativePulseSegment,
-    intermediatePulseSegment2,
     betweenCyclePulseSegment,
   ];
+
+  pulseSegments.splice(1, 0, ...intermediatePositivePulseSegmentConsecutive);
+  pulseSegments.splice(3, 0, ...intermediateNegativePulseSegmentConsecutive);
 
   // Generate the multi-pulse voltage array with the alternating pulses
   const voltageArray: number[] = generateMultiPulseVoltageArray(
