@@ -26,6 +26,7 @@ export default function VersionOne() {
         >
           <Image
             src={HardwareVersionOneImage}
+            priority
             alt="Hardware"
             width="172"
             height="100"

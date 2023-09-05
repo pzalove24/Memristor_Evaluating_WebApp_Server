@@ -2,10 +2,10 @@ import React from "react";
 import { Box, Grid, Divider, Chip } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import ErrorIcon from "@mui/icons-material/Error";
-import { CumulativeProbabilityResistance } from "@/components/Chart/CumulativeProbabilityResistance";
-import { DistributionSetResetVoltage } from "@/components/Chart/DistributionSetResetVoltage";
-import { OnOffRatio } from "@/components/Chart/OnOffRatio";
-import { LogLogIVCurve } from "@/components/Chart/LogLogIVCurve";
+import { SweepRetention,PulseRentention } from "@/components/Chart/Benchmark/StabilityBenchmarkChart/RetentionTime";
+import { SweepEndurance, PulseEndurance } from "@/components/Chart/Benchmark/StabilityBenchmarkChart/EnduranceCycle";
+
+import { BenchmarkChart } from "@/types";
 
 export const StabilityBenchmarkPartOne = () => {
   const gridStyle = {
@@ -17,6 +17,16 @@ export const StabilityBenchmarkPartOne = () => {
     width: "auto",
     m: 1,
   };
+
+  const StabilityBenchmarkChart: BenchmarkChart[] = [
+    {
+      chart1: <SweepRetention />,
+      chart2: <SweepEndurance />,
+      chart3: <PulseRentention />,
+      chart4: <PulseEndurance />,
+      index: 0,
+    },
+  ];
   return (
     <>
       <Grid item xs={12}>
@@ -31,30 +41,26 @@ export const StabilityBenchmarkPartOne = () => {
           />
         </Divider>
       </Grid>
-      <Grid item xs={12}>
-        <Grid container>
-          <Grid item sm={6} md={3} lg={3} xl={3} xs>
-            <Box sx={gridStyle}>
-              <CumulativeProbabilityResistance />
-            </Box>
+      {StabilityBenchmarkChart.map(
+        ({ chart1, chart2, chart3, chart4, index }) => (
+          <Grid key={index} item xs={12}>
+            <Grid container>
+              <Grid item sm={6} md={3} lg={3} xl={3} xs>
+                <Box sx={gridStyle}>{chart1}</Box>
+              </Grid>
+              <Grid item sm={6} md={3} lg={3} xl={3} xs>
+                <Box sx={gridStyle}>{chart2}</Box>
+              </Grid>
+              <Grid item sm={6} md={3} lg={3} xl={3} xs>
+                <Box sx={gridStyle}>{chart3}</Box>
+              </Grid>
+              <Grid item sm={6} md={3} lg={3} xl={3} xs>
+                <Box sx={gridStyle}>{chart4}</Box>
+              </Grid>
+            </Grid>
           </Grid>
-          <Grid item sm={6} md={3} lg={3} xl={3} xs>
-            <Box sx={gridStyle}>
-              <DistributionSetResetVoltage />
-            </Box>
-          </Grid>
-          <Grid item sm={6} md={3} lg={3} xl={3} xs>
-            <Box sx={gridStyle}>
-              <OnOffRatio />
-            </Box>
-          </Grid>
-          <Grid item sm={6} md={3} lg={3} xl={3} xs>
-            <Box sx={gridStyle}>
-              <LogLogIVCurve />
-            </Box>
-          </Grid>
-        </Grid>
-      </Grid>
+        )
+      )}
     </>
   );
 };

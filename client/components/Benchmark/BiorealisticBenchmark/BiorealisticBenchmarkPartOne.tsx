@@ -1,12 +1,35 @@
 import React from "react";
 import { Box, Grid, Divider } from "@mui/material";
 import Typography from "@mui/material/Typography";
-import { CurrentUnderDifferentPulseNumberWidth } from "@/components/Chart/CurrentUnderDifferentPulseNumberWidth";
-import { ReconfigurableLogic } from "@/components/Chart/ReconfigurableLogic";
-import { MultiBit } from "@/components/Chart/MultiBit";
-import { NeuroSim } from "@/components/Chart/NeuroSim";
+import {
+  ChartIPSC_EPSC,
+  PairPulse,
+  ChartSTDP,
+} from "@/components/Chart/Benchmark/BiorealisticBenchmarkChart/BiorealisticProps";
+import { CurrentUnderDifferentPulseNumberWidth } from "@/components/Chart/Benchmark/BiorealisticBenchmarkChart/CurrentUnderDifferentPulseNumberWidth";
+import { BenchmarkChart } from "@/types";
 
 export const BiorealisticBenchmarkPartOne = () => {
+  const gridStyle = {
+    "& > :not(style)": { m: 1 },
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: 300,
+    width: "auto",
+    m: 1,
+  };
+
+  const BiorealisticBenchmarkChart: BenchmarkChart[] = [
+    {
+      chart1: <ChartSTDP />,
+      chart2: <PairPulse />,
+      chart3: <ChartIPSC_EPSC />,
+      chart4: <CurrentUnderDifferentPulseNumberWidth />,
+      index: 0,
+    },
+  ];
+
   return (
     <>
       <Grid item xs={12}>
@@ -16,70 +39,26 @@ export const BiorealisticBenchmarkPartOne = () => {
           </Typography>
         </Divider>
       </Grid>
-      <Grid item xs={12} sx={{ mb: 3 }}>
-        <Grid container>
-          <Grid item sm={6} md={3} lg={3} xl={3} xs>
-            <Box
-              sx={{
-                "& > :not(style)": { m: 1 },
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: 300,
-                width: "auto",
-                m: 1,
-              }}
-            >
-              <CurrentUnderDifferentPulseNumberWidth />
-            </Box>
+      {BiorealisticBenchmarkChart.map(
+        ({ chart1, chart2, chart3, chart4, index }) => (
+          <Grid key={index} item xs={12}>
+            <Grid container>
+              <Grid item sm={6} md={3} lg={3} xl={3} xs>
+                <Box sx={gridStyle}>{chart1}</Box>
+              </Grid>
+              <Grid item sm={6} md={3} lg={3} xl={3} xs>
+                <Box sx={gridStyle}>{chart2}</Box>
+              </Grid>
+              <Grid item sm={6} md={3} lg={3} xl={3} xs>
+                <Box sx={gridStyle}>{chart3}</Box>
+              </Grid>
+              <Grid item sm={6} md={3} lg={3} xl={3} xs>
+                <Box sx={gridStyle}>{chart4}</Box>
+              </Grid>
+            </Grid>
           </Grid>
-          <Grid item sm={6} md={3} lg={3} xl={3} xs>
-            <Box
-              sx={{
-                "& > :not(style)": { m: 1 },
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: 300,
-                width: "auto",
-                m: 1,
-              }}
-            >
-              <ReconfigurableLogic />
-            </Box>
-          </Grid>
-          <Grid item sm={6} md={3} lg={3} xl={3} xs>
-            <Box
-              sx={{
-                "& > :not(style)": { m: 1 },
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: 300,
-                width: "auto",
-                m: 1,
-              }}
-            >
-              <MultiBit />
-            </Box>
-          </Grid>
-          <Grid item sm={6} md={3} lg={3} xl={3} xs>
-            <Box
-              sx={{
-                "& > :not(style)": { m: 1 },
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: 300,
-                width: "auto",
-                m: 1,
-              }}
-            >
-              <NeuroSim />
-            </Box>
-          </Grid>
-        </Grid>
-      </Grid>
+        )
+      )}
     </>
   );
 };

@@ -1,44 +1,14 @@
 import React from "react";
-import {
-  Stack,
-  Paper,
-  Box,
-  Grid,
-  Card,
-  CardActions,
-  CardContent,
-  Button,
-  Divider,
-  Chip,
-} from "@mui/material";
+import { Stack, Paper, Box, Grid, Divider } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { Header, BenchmarkStepper } from "@/components";
-import { ParameterInputTabs } from "@/components/Input/BenchmarkInput";
-import { VersionOne } from "@/components/Hardware/VersionOne";
-import ErrorIcon from "@mui/icons-material/Error";
 import { StandardBenchmarkPartOne } from "@/components/Benchmark/StandardBenchmark/StandardBenchmarkPartOne";
 import { StabilityBenchmarkPartOne } from "@/components/Benchmark/StabilityBenchmark/StabilityBenchmarkPartOne";
 import { BiorealisticBenchmarkPartOne } from "@/components/Benchmark/BiorealisticBenchmark/BiorealisticBenchmarkPartOne";
 import { AdvancedBenchmarkPartOne } from "@/components/Benchmark/AdvancedBenchmark/AdvancedBenchmarkPartOne";
 import { BenchmarkInputPartOne } from "@/components/Benchmark/BenchmarkInput/BenchmarkInputPartOne";
-import { CumulativeProbabilityResistance } from "@/components/Chart/CumulativeProbabilityResistance";
-import { DistributionSetResetVoltage } from "@/components/Chart/DistributionSetResetVoltage";
-import { OnOffRatio } from "@/components/Chart/OnOffRatio";
-import { LogLogIVCurve } from "@/components/Chart/LogLogIVCurve";
-import { CurrentUnderDifferentPulseNumberWidth } from "@/components/Chart/CurrentUnderDifferentPulseNumberWidth";
-import { ReconfigurableLogic } from "@/components/Chart/ReconfigurableLogic";
-import { BioNeuralProps } from "@/components/Chart/BiorealisticProps";
-import { MultiBit } from "@/components/Chart/MultiBit";
-import { NeuroSim } from "@/components/Chart/NeuroSim";
-import { SweepIVwaveform } from "@/components/Chart/Waveform/SweepIVwaveform";
-import { PulseIVwaveform } from "@/components/Chart/Waveform/PulseIVwaveform";
-import { ConductancePulseNumberWaveform } from "@/components/Chart/Waveform/ConductancePulseNumberWaveform";
-import { SweepRetentionTimeWaveform } from "@/components/Chart/Waveform/SweepRetentionTimeWaveform";
-import { PulseRetentionTimeWaveform } from "@/components/Chart/Waveform/PulseRetentionTimeWaveform";
-import { EnduranceCycleWaveform } from "@/components/Chart/Waveform/EnduranceCycleWaveform";
 
 const benchmark = () => {
-
   return (
     <Stack direction={"column"}>
       <Header
