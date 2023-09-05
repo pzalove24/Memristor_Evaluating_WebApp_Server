@@ -15,7 +15,6 @@ import Typography from "@mui/material/Typography";
 import { Header, BenchmarkStepper } from "@/components";
 import { ParameterInputTabs } from "@/components/Input/BenchmarkInput";
 import { VersionOne } from "@/components/Hardware/VersionOne";
-import { VoltagePulseChart } from "@/components/Chart/VoltagePulseChart";
 import ErrorIcon from "@mui/icons-material/Error";
 import { StandardBenchmarkPartOne } from "@/components/Benchmark/StandardBenchmark/StandardBenchmarkPartOne";
 import { StabilityBenchmarkPartOne } from "@/components/Benchmark/StabilityBenchmark/StabilityBenchmarkPartOne";

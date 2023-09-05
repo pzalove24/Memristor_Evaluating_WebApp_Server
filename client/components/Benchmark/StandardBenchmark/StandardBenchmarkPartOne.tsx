@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Grid, Divider } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { IVchart } from "@/components/Chart/IVchart";
-import { ResistanceTimeChart } from "@/components/Chart/ResistanceTimeChart";
+import { ResistanceTimeChart } from "@/components/Chart/ConductancePulseTimeChart";
 import { RetentionTime } from "@/components/Chart/RetentionTime";
 import { EnduranceCycle } from "@/components/Chart/EnduranceCycle";
 
