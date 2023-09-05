@@ -1,6 +1,13 @@
 import React from "react";
-import { Box, Grid, Divider } from "@mui/material";
+import {
+  Box,
+  Grid,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+} from "@mui/material";
 import Typography from "@mui/material/Typography";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
   ChartIPSC_EPSC,
   PairPulse,
@@ -33,32 +40,40 @@ export const BiorealisticBenchmarkPartOne = () => {
   return (
     <>
       <Grid item xs={12}>
-        <Divider textAlign="left" variant="middle">
-          <Typography color="secondary" display="block" variant="h5">
-            Biorealistic Benchmark
-          </Typography>
-        </Divider>
+        <Accordion defaultExpanded={true}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="Biorealistic Benchmark-content"
+            id="Biorealistic Benchmark-header"
+          >
+            <Typography color="secondary" display="block" variant="h5">
+              Biorealistic Benchmark
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            {BiorealisticBenchmarkChart.map(
+              ({ chart1, chart2, chart3, chart4, index }) => (
+                <Grid key={index} item xs={12}>
+                  <Grid container>
+                    <Grid item sm={6} md={3} lg={3} xl={3} xs>
+                      <Box sx={gridStyle}>{chart1}</Box>
+                    </Grid>
+                    <Grid item sm={6} md={3} lg={3} xl={3} xs>
+                      <Box sx={gridStyle}>{chart2}</Box>
+                    </Grid>
+                    <Grid item sm={6} md={3} lg={3} xl={3} xs>
+                      <Box sx={gridStyle}>{chart3}</Box>
+                    </Grid>
+                    <Grid item sm={6} md={3} lg={3} xl={3} xs>
+                      <Box sx={gridStyle}>{chart4}</Box>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              )
+            )}
+          </AccordionDetails>
+        </Accordion>
       </Grid>
-      {BiorealisticBenchmarkChart.map(
-        ({ chart1, chart2, chart3, chart4, index }) => (
-          <Grid key={index} item xs={12}>
-            <Grid container>
-              <Grid item sm={6} md={3} lg={3} xl={3} xs>
-                <Box sx={gridStyle}>{chart1}</Box>
-              </Grid>
-              <Grid item sm={6} md={3} lg={3} xl={3} xs>
-                <Box sx={gridStyle}>{chart2}</Box>
-              </Grid>
-              <Grid item sm={6} md={3} lg={3} xl={3} xs>
-                <Box sx={gridStyle}>{chart3}</Box>
-              </Grid>
-              <Grid item sm={6} md={3} lg={3} xl={3} xs>
-                <Box sx={gridStyle}>{chart4}</Box>
-              </Grid>
-            </Grid>
-          </Grid>
-        )
-      )}
     </>
   );
 };

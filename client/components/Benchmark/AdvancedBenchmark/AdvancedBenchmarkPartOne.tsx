@@ -1,6 +1,14 @@
 import React from "react";
-import { Grid, Divider, Box } from "@mui/material";
+import {
+  Grid,
+  Divider,
+  Box,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+} from "@mui/material";
 import Typography from "@mui/material/Typography";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
   MultiCurrentLevelPulseLogLog,
   MultiCurrentLevelSweepLogLog,
@@ -113,32 +121,40 @@ export const AdvancedBenchmarkPartOne = () => {
   return (
     <>
       <Grid item xs={12}>
-        <Divider textAlign="left" variant="middle">
-          <Typography color="secondary" display="block" variant="h5">
-            Advanced Benchmark
-          </Typography>
-        </Divider>
+        <Accordion defaultExpanded={true}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Typography color="secondary" display="block" variant="h5">
+              Advanced Benchmark
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            {AdvancedBenchmarkChart.map(
+              ({ chart1, chart2, chart3, chart4, index }) => (
+                <Grid key={index} item xs={12}>
+                  <Grid container>
+                    <Grid item sm={6} md={3} lg={3} xl={3} xs>
+                      <Box sx={gridStyle}>{chart1}</Box>
+                    </Grid>
+                    <Grid item sm={6} md={3} lg={3} xl={3} xs>
+                      <Box sx={gridStyle}>{chart2}</Box>
+                    </Grid>
+                    <Grid item sm={6} md={3} lg={3} xl={3} xs>
+                      <Box sx={gridStyle}>{chart3}</Box>
+                    </Grid>
+                    <Grid item sm={6} md={3} lg={3} xl={3} xs>
+                      <Box sx={gridStyle}>{chart4}</Box>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              )
+            )}
+          </AccordionDetails>
+        </Accordion>
       </Grid>
-      {AdvancedBenchmarkChart.map(
-        ({ chart1, chart2, chart3, chart4, index }) => (
-          <Grid key={index} item xs={12}>
-            <Grid container>
-              <Grid item sm={6} md={3} lg={3} xl={3} xs>
-                <Box sx={gridStyle}>{chart1}</Box>
-              </Grid>
-              <Grid item sm={6} md={3} lg={3} xl={3} xs>
-                <Box sx={gridStyle}>{chart2}</Box>
-              </Grid>
-              <Grid item sm={6} md={3} lg={3} xl={3} xs>
-                <Box sx={gridStyle}>{chart3}</Box>
-              </Grid>
-              <Grid item sm={6} md={3} lg={3} xl={3} xs>
-                <Box sx={gridStyle}>{chart4}</Box>
-              </Grid>
-            </Grid>
-          </Grid>
-        )
-      )}
     </>
   );
 };
