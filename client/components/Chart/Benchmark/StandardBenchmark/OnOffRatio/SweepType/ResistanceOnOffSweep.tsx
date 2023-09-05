@@ -38,9 +38,9 @@ export const ResistanceOnOffSweep = () => {
     datasets: [
       {
         label: "A dataset",
-        data: Array.from({ length: 100 }, () => ({
-          x: faker.number.float({ min: -100, max: 100 }),
-          y: faker.number.float({ min: -100, max: 100 }),
+        data: Array.from({ length: 10 }, () => ({
+          x: faker.number.float({ min: -10, max: 10 }),
+          y: faker.number.float({ min: -10, max: 10 }),
         })),
         backgroundColor: "rgba(255, 99, 132, 1)",
       },
