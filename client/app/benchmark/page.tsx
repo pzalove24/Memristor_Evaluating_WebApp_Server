@@ -28,7 +28,7 @@ import { OnOffRatio } from "@/components/Chart/OnOffRatio";
 import { LogLogIVCurve } from "@/components/Chart/LogLogIVCurve";
 import { CurrentUnderDifferentPulseNumberWidth } from "@/components/Chart/CurrentUnderDifferentPulseNumberWidth";
 import { ReconfigurableLogic } from "@/components/Chart/ReconfigurableLogic";
-import { BioNeuralProps } from "@/components/Chart/BioNeuralProps";
+import { BioNeuralProps } from "@/components/Chart/BiorealisticProps";
 import { MultiBit } from "@/components/Chart/MultiBit";
 import { NeuroSim } from "@/components/Chart/NeuroSim";
 import { SweepIVwaveform } from "@/components/Chart/Waveform/SweepIVwaveform";

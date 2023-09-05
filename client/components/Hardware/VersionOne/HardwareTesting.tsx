@@ -7,7 +7,7 @@ export default function HardwareTesting( ) {
   return (
     <Stack direction="row" spacing={2}>
       <Button variant="contained" endIcon={<SendIcon />}>
-        Test
+        Test Connection
       </Button>
     </Stack>
   );

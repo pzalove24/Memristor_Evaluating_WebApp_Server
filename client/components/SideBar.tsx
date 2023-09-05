@@ -21,6 +21,7 @@ import DockIcon from "@mui/icons-material/Dock";
 import AssessmentIcon from "@mui/icons-material/Assessment";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ScienceIcon from "@mui/icons-material/Science";
+import ArticleIcon from "@mui/icons-material/Article";
 import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
 import { AlgorithmPageItemProps, ResearchPageItemProps } from "@/types";
@@ -129,6 +130,12 @@ export default function SideBar() {
       link: "/benchmark",
       index: 2,
     },
+    {
+      text: "benchmark review",
+      icon: <ArticleIcon />,
+      link: "/benchmark-review",
+      index: 3,
+    },
   ];
 
   const algorithmPageItem: AlgorithmPageItemProps[] = [
@@ -136,7 +143,7 @@ export default function SideBar() {
       text: "research",
       icon: <ScienceIcon />,
       link: "/research",
-      index: 3,
+      index: 0,
     },
   ];
 
@@ -185,11 +192,11 @@ export default function SideBar() {
         </DrawerHeader>
         <Divider />
         <List>
-          {researchPageItem.map(({ text, icon, index }) => (
+          {researchPageItem.map(({ text, icon, link, index }) => (
             <ListItem key={index} disablePadding sx={{ display: "block" }}>
               <ListItemButton
                 onClick={() => {
-                  router.push(`/${text}`);
+                  router.push(`${link}`);
                 }}
                 sx={{
                   minHeight: 48,
@@ -220,11 +227,11 @@ export default function SideBar() {
         </List>
         <Divider />
         <List>
-          {algorithmPageItem.map(({ text, icon, index }) => (
+          {algorithmPageItem.map(({ text, icon, link, index }) => (
             <ListItem key={index} disablePadding sx={{ display: "block" }}>
               <ListItemButton
                 onClick={() => {
-                  router.push(`/${text}`);
+                  router.push(`${link}`);
                 }}
                 sx={{
                   minHeight: 48,

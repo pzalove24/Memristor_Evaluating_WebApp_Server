@@ -12,7 +12,7 @@ import {
 import { Scatter } from "react-chartjs-2";
 import { faker } from "@faker-js/faker";
 
-export const PulseIVchart = () => {
+export function CumuVoltageSweepType() {
   ChartJS.register(LinearScale, PointElement, LineElement, Tooltip, Legend);
 
   const options = {
@@ -29,7 +29,7 @@ export const PulseIVchart = () => {
       },
       title: {
         display: true,
-        text: "IV curve",
+        text: "Cumulative probability of resistance",
       },
     },
   };
@@ -46,6 +46,5 @@ export const PulseIVchart = () => {
       },
     ],
   };
-
   return <Scatter options={options} data={data} />;
-};
+}

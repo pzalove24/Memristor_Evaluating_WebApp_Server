@@ -12,7 +12,7 @@ import {
 import { Scatter } from "react-chartjs-2";
 import { faker } from "@faker-js/faker";
 
-export function SweepEndurance() {
+export function DistributeResistanceSweepType() {
   ChartJS.register(LinearScale, PointElement, LineElement, Tooltip, Legend);
 
   const options = {
@@ -48,3 +48,4 @@ export function SweepEndurance() {
   };
   return <Scatter options={options} data={data} />;
 }
+

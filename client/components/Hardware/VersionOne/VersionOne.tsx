@@ -1,10 +1,15 @@
 "use client";
 
-import React from 'react'
+import React from "react";
 import Box from "@mui/material/Box";
-import { Card, Container, Typography, Paper, Stack } from "@mui/material";
+import { Card, Typography, Stack } from "@mui/material";
 import Image from "next/image";
-import { HardwareConnection, HardwareTesting, HardwareVersionSelection } from ".";
+import HardwareVersionOneImage from "../../../assets/Hardware/VersionOne/HardwareVersionOne.png";
+import {
+  HardwareConnection,
+  HardwareTesting,
+  HardwareVersionSelection,
+} from ".";
 
 export default function VersionOne() {
   return (
@@ -20,7 +25,7 @@ export default function VersionOne() {
           }}
         >
           <Image
-            src="/HardwareVersionOne.png"
+            src={HardwareVersionOneImage}
             alt="Hardware"
             width="172"
             height="100"

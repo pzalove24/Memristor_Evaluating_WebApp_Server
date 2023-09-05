@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Box, Grid, Card } from "@mui/material";
+import { Box, Grid, Card, Typography, TextField, Stack } from "@mui/material";
 import { ParameterInputTabs } from "@/components/Input/BenchmarkInput";
 import { VersionOne } from "@/components/Hardware/VersionOne";
 import { SweepIVwaveform } from "@/components/Chart/Waveform/SweepIVwaveform";
@@ -234,6 +234,27 @@ export const BenchmarkInputPartOne = () => {
           </Grid>
           <Grid item xs={8}>
             <Box sx={{ m: 1 }}>
+              <Stack
+                direction={"row"}
+                spacing={3}
+                justifyContent={"flex-start"}
+                alignItems={"center"}
+                sx={{ m: 3 }}
+              >
+                <Typography variant="h5">Benchmark Test Name :</Typography>
+                <TextField
+                  id="standard-number"
+                  type="text"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  variant="standard"
+                  helperText="Specify test name"
+                  placeholder="provide name"
+                  required
+                  onChange={(e) => {}}
+                />
+              </Stack>
               <Card variant="outlined">
                 <ParameterInputTabs
                   handleChangeSweepIVwaveformValue={

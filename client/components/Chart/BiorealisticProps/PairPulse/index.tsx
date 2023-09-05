@@ -12,7 +12,7 @@ import {
 import { Scatter } from "react-chartjs-2";
 import { faker } from "@faker-js/faker";
 
-export function SweepEndurance() {
+export function PairPulse() {
   ChartJS.register(LinearScale, PointElement, LineElement, Tooltip, Legend);
 
   const options = {
@@ -29,7 +29,7 @@ export function SweepEndurance() {
       },
       title: {
         display: true,
-        text: "Cumulative probability of resistance",
+        text: "Biological Neural Properties: STDP",
       },
     },
   };
