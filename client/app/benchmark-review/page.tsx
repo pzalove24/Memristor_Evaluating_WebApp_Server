@@ -1,4 +1,5 @@
 import { Header } from "@/components";
+import TableBenchmarkReview from "@/components/BenchmarkReview/TableBenchmarkReview";
 import { Box, Paper, Stack, Typography } from "@mui/material";
 import React from "react";
 
@@ -18,7 +19,7 @@ const benchmarkReview = () => {
         }}
       >
         <Paper elevation={4}>
-          <Typography>SA</Typography>
+          <TableBenchmarkReview />
         </Paper>
       </Box>
     </Stack>

@@ -24,7 +24,11 @@ import ScienceIcon from "@mui/icons-material/Science";
 import ArticleIcon from "@mui/icons-material/Article";
 import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
-import { AlgorithmPageItemProps, ResearchPageItemProps } from "@/types";
+import {
+  AlgorithmPageItemProps,
+  ResearchPageItemProps,
+  SideBarProps,
+} from "@/types";
 
 const drawerWidth = 240;
 
@@ -97,11 +101,10 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-export default function SideBar() {
+export default function SideBar({ children }: SideBarProps) {
   const theme = useTheme();
   const [open, setOpen]: any = React.useState(false);
   const router = useRouter();
-  const pathname = usePathname();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -261,6 +264,9 @@ export default function SideBar() {
           ))}
         </List>
       </Drawer>
+      <Box sx={{ display: "block", p: 3, marginTop: 10, width: "100%", overflow: 'auto' }}>
+        {children}
+      </Box>
     </Box>
   );
 }

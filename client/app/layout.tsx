@@ -18,17 +18,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <ThemeRegistry>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-            }}
-          >
-            <SideBar />
-            <Box sx={{ display: "inline", p: 3, marginTop: 10, width: "100%" }}>
-              {children}
-            </Box>
-          </Box>
+          <SideBar>{children}</SideBar>
         </ThemeRegistry>
       </body>
     </html>

@@ -55,6 +55,37 @@ export default function VersionOne() {
           <Typography>SELECT CONNECT TEST</Typography>
         </Stack>
       </Card>
+      <Card variant="outlined">
+        <Stack
+          spacing={2}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: 215,
+          }}
+        >
+          <Typography>SERIALPORT</Typography>
+          <Box
+            component="span"
+            sx={{
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              width: "100%",
+              backgroundColor: "primary.main",
+              "&:hover": {
+                backgroundColor: "primary.main",
+                opacity: [0.9, 0.8, 0.7],
+              },
+              border: "1px dashed grey",
+            }}
+          >
+            <Typography noWrap sx={{ p: 3 }}>
+              SERIALPORTssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
+            </Typography>
+          </Box>
+        </Stack>
+      </Card>
     </Stack>
   );
 }
