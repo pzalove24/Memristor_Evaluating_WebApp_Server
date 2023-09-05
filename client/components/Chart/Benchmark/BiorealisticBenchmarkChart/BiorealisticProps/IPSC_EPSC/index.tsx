@@ -18,9 +18,10 @@ export function ChartIPSC_EPSC() {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    scales: {
-      y: {
-        beginAtZero: true,
+    elements: {
+      point: {
+        radius: 1,
+        hoverRadius: 2,
       },
     },
     plugins: {
@@ -29,7 +30,22 @@ export function ChartIPSC_EPSC() {
       },
       title: {
         display: true,
-        text: "Biological Neural Properties: STDP",
+        text: "IPSC EPSC",
+      },
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: "Pulse number (number)",
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: "Conductance (siemen)",
+        },
+        beginAtZero: true,
       },
     },
   };
@@ -37,7 +53,7 @@ export function ChartIPSC_EPSC() {
   const data = {
     datasets: [
       {
-        label: "A dataset",
+        label: "(number, siemen)",
         data: Array.from({ length: 10 }, () => ({
           x: faker.number.float({ min: -10, max: 10 }),
           y: faker.number.float({ min: -10, max: 10 }),

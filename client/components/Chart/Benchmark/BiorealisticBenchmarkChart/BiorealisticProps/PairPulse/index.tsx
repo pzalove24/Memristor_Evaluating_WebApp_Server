@@ -18,9 +18,10 @@ export function PairPulse() {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    scales: {
-      y: {
-        beginAtZero: true,
+    elements: {
+      point: {
+        radius: 1,
+        hoverRadius: 2,
       },
     },
     plugins: {
@@ -29,7 +30,22 @@ export function PairPulse() {
       },
       title: {
         display: true,
-        text: "Biological Neural Properties: STDP",
+        text: "Pair Pulse Facilitation",
+      },
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: "interval (ms)",
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: "PPF (%)",
+        },
+        beginAtZero: true,
       },
     },
   };
@@ -37,7 +53,7 @@ export function PairPulse() {
   const data = {
     datasets: [
       {
-        label: "A dataset",
+        label: "(ms, %)",
         data: Array.from({ length: 10 }, () => ({
           x: faker.number.float({ min: -10, max: 10 }),
           y: faker.number.float({ min: -10, max: 10 }),

@@ -18,9 +18,10 @@ export function DistributeResistancePulseType() {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    scales: {
-      y: {
-        beginAtZero: true,
+    elements: {
+      point: {
+        radius: 1,
+        hoverRadius: 2,
       },
     },
     plugins: {
@@ -29,7 +30,22 @@ export function DistributeResistancePulseType() {
       },
       title: {
         display: true,
-        text: "Cumulative probability of resistance",
+        text: "Pulse Statistical Distribution of LRS HRS",
+      },
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: "Resistance (Ohm)",
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: "Counts (number)",
+        },
+        beginAtZero: true,
       },
     },
   };
@@ -37,7 +53,7 @@ export function DistributeResistancePulseType() {
   const data = {
     datasets: [
       {
-        label: "A dataset",
+        label: "(Ohm, Counts)",
         data: Array.from({ length: 10 }, () => ({
           x: faker.number.float({ min: -10, max: 10 }),
           y: faker.number.float({ min: -10, max: 10 }),

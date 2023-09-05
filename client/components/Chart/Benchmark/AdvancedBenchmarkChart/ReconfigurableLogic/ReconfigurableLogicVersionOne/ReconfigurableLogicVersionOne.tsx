@@ -18,9 +18,10 @@ export const ReconfigurableLogicVersionOne = () => {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    scales: {
-      y: {
-        beginAtZero: true,
+    elements: {
+      point: {
+        radius: 1,
+        hoverRadius: 2,
       },
     },
     plugins: {
@@ -29,7 +30,22 @@ export const ReconfigurableLogicVersionOne = () => {
       },
       title: {
         display: true,
-        text: "IV curve",
+        text: "Reconfigurable Logic Analysis",
+      },
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: "Position of memristor (number)",
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: "Current (mA)",
+        },
+        beginAtZero: true,
       },
     },
   };
@@ -37,7 +53,7 @@ export const ReconfigurableLogicVersionOne = () => {
   const data = {
     datasets: [
       {
-        label: "A dataset",
+        label: "(number, I)",
         data: Array.from({ length: 10 }, () => ({
           x: faker.number.float({ min: -10, max: 10 }),
           y: faker.number.float({ min: -10, max: 10 }),

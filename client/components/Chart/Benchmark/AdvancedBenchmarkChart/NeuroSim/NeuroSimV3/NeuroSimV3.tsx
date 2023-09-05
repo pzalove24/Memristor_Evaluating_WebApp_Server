@@ -18,9 +18,10 @@ export const NeuroSimV3 = () => {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    scales: {
-      y: {
-        beginAtZero: true,
+    elements: {
+      point: {
+        radius: 1,
+        hoverRadius: 2,
       },
     },
     plugins: {
@@ -29,7 +30,22 @@ export const NeuroSimV3 = () => {
       },
       title: {
         display: true,
-        text: "IV curve",
+        text: "NeuroSim",
+      },
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: "Pulse Number (number)",
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: "Conductance (Siemen)",
+        },
+        beginAtZero: true,
       },
     },
   };
@@ -37,7 +53,7 @@ export const NeuroSimV3 = () => {
   const data = {
     datasets: [
       {
-        label: "A dataset",
+        label: "(number, siemen)",
         data: Array.from({ length: 10 }, () => ({
           x: faker.number.float({ min: -10, max: 10 }),
           y: faker.number.float({ min: -10, max: 10 }),

@@ -10,6 +10,7 @@ import {
   Legend,
 } from "chart.js";
 import { Scatter } from "react-chartjs-2";
+import { faker } from "@faker-js/faker";
 
 export const MultiCurrentLevelPulseIVchart = () => {
   ChartJS.register(LinearScale, PointElement, LineElement, Tooltip, Legend);
@@ -20,22 +21,7 @@ export const MultiCurrentLevelPulseIVchart = () => {
     elements: {
       point: {
         radius: 1,
-        hoverRadius: 1,
-      },
-    },
-    scales: {
-      x: {
-        title: {
-          display: true,
-          text: "Time (us)",
-        },
-      },
-      y: {
-        beginAtZero: true,
-        title: {
-          display: true,
-          text: "Voltage (V)",
-        },
+        hoverRadius: 2,
       },
     },
     plugins: {
@@ -47,15 +33,30 @@ export const MultiCurrentLevelPulseIVchart = () => {
         text: "Multi-Level Compliance Current Pulse IV chart",
       },
     },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: "Voltage (V)",
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: "Current (mA)",
+        },
+        beginAtZero: true,
+      },
+    },
   };
 
   const data = {
     datasets: [
       {
-        label: "IV",
-        data: Array.from({ length: 100 }, () => ({
-          x: [0],
-          y: [0],
+        label: "(V, I)",
+        data: Array.from({ length: 10 }, () => ({
+          x: faker.number.float({ min: -10, max: 10 }),
+          y: faker.number.float({ min: -10, max: 10 }),
         })),
         backgroundColor: "rgba(255, 99, 132, 1)",
       },

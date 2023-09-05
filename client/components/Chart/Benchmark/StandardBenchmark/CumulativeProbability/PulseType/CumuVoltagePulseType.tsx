@@ -18,9 +18,10 @@ export function CumuVoltagePulseType() {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    scales: {
-      y: {
-        beginAtZero: true,
+    elements: {
+      point: {
+        radius: 1,
+        hoverRadius: 2,
       },
     },
     plugins: {
@@ -29,7 +30,22 @@ export function CumuVoltagePulseType() {
       },
       title: {
         display: true,
-        text: "Cumulative probability of resistance",
+        text: "Pulse Cumulative probability of Set/Reset Voltage",
+      },
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: "Voltage (V)",
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: "Cumulative probability of Set/Reset Voltage (%)",
+        },
+        beginAtZero: true,
       },
     },
   };
@@ -37,7 +53,7 @@ export function CumuVoltagePulseType() {
   const data = {
     datasets: [
       {
-        label: "A dataset",
+        label: "(V, %)",
         data: Array.from({ length: 10 }, () => ({
           x: faker.number.float({ min: -10, max: 10 }),
           y: faker.number.float({ min: -10, max: 10 }),

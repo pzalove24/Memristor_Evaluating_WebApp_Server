@@ -18,9 +18,10 @@ export function SweepEndurance() {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    scales: {
-      y: {
-        beginAtZero: true,
+    elements: {
+      point: {
+        radius: 1,
+        hoverRadius: 2,
       },
     },
     plugins: {
@@ -29,7 +30,22 @@ export function SweepEndurance() {
       },
       title: {
         display: true,
-        text: "Cumulative probability of resistance",
+        text: "Sweep Endurance",
+      },
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: "Cycle (Number)",
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: "Resistance (Ohm)",
+        },
+        beginAtZero: true,
       },
     },
   };
@@ -37,7 +53,7 @@ export function SweepEndurance() {
   const data = {
     datasets: [
       {
-        label: "A dataset",
+        label: "(Number, Ohm)",
         data: Array.from({ length: 10 }, () => ({
           x: faker.number.float({ min: -10, max: 10 }),
           y: faker.number.float({ min: -10, max: 10 }),

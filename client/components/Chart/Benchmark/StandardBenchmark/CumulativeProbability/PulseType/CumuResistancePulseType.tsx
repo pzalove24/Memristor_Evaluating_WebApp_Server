@@ -18,9 +18,10 @@ export function CumuResistancePulseType() {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    scales: {
-      y: {
-        beginAtZero: true,
+    elements: {
+      point: {
+        radius: 1,
+        hoverRadius: 2,
       },
     },
     plugins: {
@@ -29,7 +30,22 @@ export function CumuResistancePulseType() {
       },
       title: {
         display: true,
-        text: "Cumulative probability of resistance",
+        text: "Pulse Cumulative probability of LRS HRS",
+      },
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: "Resistance (Ohm)",
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: "Cumulative probability of resistance (%)",
+        },
+        beginAtZero: true,
       },
     },
   };
@@ -37,7 +53,7 @@ export function CumuResistancePulseType() {
   const data = {
     datasets: [
       {
-        label: "A dataset",
+        label: "(Ohm, %)",
         data: Array.from({ length: 10 }, () => ({
           x: faker.number.float({ min: -10, max: 10 }),
           y: faker.number.float({ min: -10, max: 10 }),

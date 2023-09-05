@@ -18,9 +18,10 @@ export function ChartSTDP() {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    scales: {
-      y: {
-        beginAtZero: true,
+    elements: {
+      point: {
+        radius: 1,
+        hoverRadius: 2,
       },
     },
     plugins: {
@@ -29,7 +30,22 @@ export function ChartSTDP() {
       },
       title: {
         display: true,
-        text: "Biological Neural Properties: STDP",
+        text: "STDP",
+      },
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: "Spiking interval timing (ms)",
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: "Synaptic Weight Change (%)",
+        },
+        beginAtZero: true,
       },
     },
   };
@@ -37,7 +53,7 @@ export function ChartSTDP() {
   const data = {
     datasets: [
       {
-        label: "A dataset",
+        label: "(ms, %)",
         data: Array.from({ length: 10 }, () => ({
           x: faker.number.float({ min: -10, max: 10 }),
           y: faker.number.float({ min: -10, max: 10 }),

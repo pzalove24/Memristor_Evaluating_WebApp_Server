@@ -18,9 +18,10 @@ export const MultiVoltageLevelSweepIVchart = () => {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    scales: {
-      y: {
-        beginAtZero: true,
+    elements: {
+      point: {
+        radius: 1,
+        hoverRadius: 2,
       },
     },
     plugins: {
@@ -29,7 +30,22 @@ export const MultiVoltageLevelSweepIVchart = () => {
       },
       title: {
         display: true,
-        text: "IV curve",
+        text: "Multi-Level Voltage Sweep IV chart",
+      },
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: "Voltage (V)",
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: "Current (mA)",
+        },
+        beginAtZero: true,
       },
     },
   };
@@ -37,7 +53,7 @@ export const MultiVoltageLevelSweepIVchart = () => {
   const data = {
     datasets: [
       {
-        label: "A dataset",
+        label: "(V, I)",
         data: Array.from({ length: 10 }, () => ({
           x: faker.number.float({ min: -10, max: 10 }),
           y: faker.number.float({ min: -10, max: 10 }),

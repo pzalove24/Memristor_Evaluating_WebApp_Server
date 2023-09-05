@@ -18,9 +18,10 @@ export function SweepRetention() {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    scales: {
-      y: {
-        beginAtZero: true,
+    elements: {
+      point: {
+        radius: 1,
+        hoverRadius: 2,
       },
     },
     plugins: {
@@ -29,7 +30,22 @@ export function SweepRetention() {
       },
       title: {
         display: true,
-        text: "Cumulative probability of resistance",
+        text: "Sweep Retention Time",
+      },
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: "Retention Time (minute)",
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: "Resistance (Ohm)",
+        },
+        beginAtZero: true,
       },
     },
   };
@@ -37,7 +53,7 @@ export function SweepRetention() {
   const data = {
     datasets: [
       {
-        label: "A dataset",
+        label: "(minute, Ohm)",
         data: Array.from({ length: 10 }, () => ({
           x: faker.number.float({ min: -10, max: 10 }),
           y: faker.number.float({ min: -10, max: 10 }),
