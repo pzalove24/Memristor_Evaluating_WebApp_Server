@@ -16,14 +16,14 @@ const colorGradient = {
     300: "#64b5f6",
     400: "#42a5f5",
     500: "#2196f3",
-    600: "#1e88e5", 
+    600: "#1e88e5",
     700: "#1976d2",
     800: "#1565c0",
     900: "#0d47a1",
   },
   secondary: {
     // yellow // manually adjusted
-    50: "#fffde7", 
+    50: "#fffde7",
     100: "#fff9c4",
     200: "#fff59d",
     300: "#fff176",
@@ -39,8 +39,10 @@ const colorGradient = {
 const themeOptions: ThemeOptions = {
   palette: {
     primary: {
-      ...colorGradient.primary,
+      ...colorGradient.secondary,
       main: "#fbc02d",
+      dark: "#f57f17",
+      light: "#ffeb3b",
     },
     secondary: {
       ...colorGradient.secondary,
@@ -58,7 +60,7 @@ const themeOptions: ThemeOptions = {
     },
     text: {
       primary: "#000000",
-      secondary: "#323848"
+      secondary: "#323848",
     },
   },
   breakpoints: {

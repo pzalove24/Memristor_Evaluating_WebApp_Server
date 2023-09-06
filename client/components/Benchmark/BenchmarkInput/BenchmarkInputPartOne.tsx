@@ -3,7 +3,10 @@
 import * as React from "react";
 import { Box, Grid, Card, Typography, TextField, Stack } from "@mui/material";
 import { ParameterInputTabs } from "@/components/Input/BenchmarkInput";
-import { VersionOne } from "@/components/Hardware/VersionOne";
+import {
+  HardwareSerialPort,
+  VersionOne,
+} from "@/components/Hardware/VersionOne";
 import { SweepIVwaveform } from "@/components/Chart/Waveform/SweepIVwaveform";
 import { PulseIVwaveform } from "@/components/Chart/Waveform/PulseIVwaveform";
 import { ConductancePulseNumberWaveform } from "@/components/Chart/Waveform/ConductancePulseNumberWaveform";
@@ -299,11 +302,18 @@ export const BenchmarkInputPartOne = () => {
                     height: 360,
                   }}
                 >
-                  <SweepIVwaveform
-                    sweepIVwaveformValue={sweepIVwaveformValue}
-                  />
+                  <HardwareSerialPort />
                 </Box>
               </Card>
+            </Box>
+          </Grid>
+        </Grid>
+      </Grid>
+      <Grid item xs={12}>
+        <Grid container>
+          <Grid item sm md lg xl xs>
+            <Box sx={gridStyle}>
+              <SweepIVwaveform sweepIVwaveformValue={sweepIVwaveformValue} />
             </Box>
           </Grid>
         </Grid>
