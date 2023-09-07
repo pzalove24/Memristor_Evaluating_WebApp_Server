@@ -4,16 +4,12 @@ import Backdrop from "@mui/material/Backdrop";
 import SpeedDial from "@mui/material/SpeedDial";
 import SpeedDialIcon from "@mui/material/SpeedDialIcon";
 import SpeedDialAction from "@mui/material/SpeedDialAction";
-import FileCopyIcon from "@mui/icons-material/FileCopyOutlined";
-import SaveIcon from "@mui/icons-material/Save";
 import PrintIcon from "@mui/icons-material/Print";
-import ShareIcon from "@mui/icons-material/Share";
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
 
 const actions = [
-  { icon: <FileCopyIcon />, name: "Copy" },
-  { icon: <SaveIcon />, name: "Save" },
+  { icon: <FileDownloadIcon />, name: "Export" },
   { icon: <PrintIcon />, name: "Print" },
-  { icon: <ShareIcon />, name: "Share" },
 ];
 
 const ExportBenchmarkReview = () => {
@@ -31,13 +27,14 @@ const ExportBenchmarkReview = () => {
           bottom: 5,
           right: 10,
         }}
-        icon={<SpeedDialIcon  />}
+        icon={<SpeedDialIcon />}
         onClose={handleClose}
         onOpen={handleOpen}
         open={open}
       >
         {actions.map((action) => (
-          <SpeedDialAction FabProps={{size:'small'}}
+          <SpeedDialAction
+            FabProps={{ size: "small" }}
             key={action.name}
             icon={action.icon}
             tooltipTitle={action.name}

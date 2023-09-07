@@ -30,7 +30,7 @@ export function DistributeVoltagePulseType() {
       },
       title: {
         display: true,
-        text: "Sweep Statistical Distribution of Set/Reset Voltage",
+        text: "Pulse Statistical Distribution of Set/Reset Voltage",
       },
     },
     scales: {

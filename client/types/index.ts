@@ -6,10 +6,14 @@ export interface ResearchPageItemProps {
 }
 
 export interface BenchmarkChart {
-  chart1: React.JSX.Element;
-  chart2: React.JSX.Element;
-  chart3: React.JSX.Element;
-  chart4: React.JSX.Element;
+  chart1?: React.JSX.Element;
+  chart2?: React.JSX.Element;
+  chart3?: React.JSX.Element;
+  chart4?: React.JSX.Element;
+  checkedChart1?: boolean;
+  checkedChart2?: boolean;
+  checkedChart3?: boolean;
+  checkedChart4?: boolean;
   index?: number;
 }
 
@@ -40,4 +44,10 @@ export interface DialogStandardBenchmarkProps {
   open?: boolean;
   handleClose: () => void;
   selectedBenchmarkView: BenchmarkTableViewProps | null;
+}
+
+export interface CheckedBenchmarkProps {
+  BenchmarkSelections: any;
+  handleChangeChildren: any;
+  handleChangeAllChildren: any;
 }

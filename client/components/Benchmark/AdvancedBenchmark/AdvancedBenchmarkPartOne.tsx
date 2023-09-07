@@ -1,3 +1,5 @@
+"use client"
+
 import React from "react";
 import {
   Grid,
@@ -41,8 +43,85 @@ import {
 } from "@/components/Chart/Benchmark/StandardBenchmark/OnOffRatio";
 
 import { BenchmarkChart } from "@/types";
+import CheckeAdvancedBenchmark from "./CheckeAdvancedBenchmark";
 
 export const AdvancedBenchmarkPartOne = () => {
+  //Benchmark Selection handlestate
+
+  const [
+    checkedAdvancedBenchmarkSelections,
+    setCheckedAdvancedBenchmarkSelections,
+  ] = React.useState({
+    MultiVoltageLevelSweep: [
+      { MultiVoltageLevelSweepIVchart: false },
+      { MultiVoltageLevelSweepLogLog: false },
+      { SweepEndurance: false },
+      { SweepRetention: false },
+      { ResistanceOnOffSweep: false },
+      { VoltageOnOffSweep: false },
+    ],
+    MultiVoltageLevelPulse: [
+      { MultiVoltageLevelPulseIVchart: false },
+      { MultiVoltageLevelPulseLogLog: false },
+      { PulseEndurance: false },
+      { PulseRentention: false },
+      { ResistanceOnOffPulse: false },
+      { VoltageOnOffPulse: false },
+    ],
+    MultiCurrentLevelSweep: [
+      { MultiCurrentLevelSweepIVchart: false },
+      { MultiCurrentLevelSweepLogLog: false },
+      { SweepEndurance: false },
+      { SweepRetention: false },
+      { ResistanceOnOffSweep: false },
+      { VoltageOnOffSweep: false },
+    ],
+    MultiCurrentLevelPulse: [
+      { MultiCurrentLevelPulseIVchart: false },
+      { MultiCurrentLevelPulseLogLog: false },
+      { PulseEndurance: false },
+      { PulseRentention: false },
+      { ResistanceOnOffPulse: false },
+      { VoltageOnOffPulse: false },
+    ],
+    AdditionalAdvancedBenchmark: [
+      { MultiBitVersionOne: false },
+      { NeuroSimV3: false },
+      { ReconfigurableLogicVersionOne: false },
+    ],
+  });
+
+  const handleChangeChildren = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    groupChart: string,
+    index: number
+  ) => {
+    const checkedChartName = event.target.name;
+    const checkedChart = event.target.checked;
+
+    setCheckedAdvancedBenchmarkSelections((prevChecked: any) => ({
+      ...prevChecked,
+      [groupChart]: prevChecked[groupChart].map((item: any, i: any) =>
+        i === index ? { ...item, [checkedChartName]: checkedChart } : item
+      ),
+    }));
+  };
+
+  const handleChangeAllChildren = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    groupChart: string
+  ) => {
+    const checkedChart = event.target.checked;
+
+    setCheckedAdvancedBenchmarkSelections((prevChecked: any) => ({
+      ...prevChecked,
+      [groupChart]: prevChecked[groupChart].map((item: any) => ({
+        ...item,
+        [Object.keys(item)[0]]: checkedChart,
+      })),
+    }));
+  };
+
   const gridStyle = {
     "& > :not(style)": { m: 1 },
     display: "flex",
@@ -59,13 +138,29 @@ export const AdvancedBenchmarkPartOne = () => {
       chart2: <MultiVoltageLevelSweepLogLog />,
       chart3: <SweepEndurance />,
       chart4: <SweepRetention />,
+      checkedChart1:
+        checkedAdvancedBenchmarkSelections.MultiVoltageLevelSweep[0]
+          .MultiVoltageLevelSweepIVchart,
+      checkedChart2:
+        checkedAdvancedBenchmarkSelections.MultiVoltageLevelSweep[1]
+          .MultiVoltageLevelSweepLogLog,
+      checkedChart3:
+        checkedAdvancedBenchmarkSelections.MultiVoltageLevelSweep[2]
+          .SweepEndurance,
+      checkedChart4:
+        checkedAdvancedBenchmarkSelections.MultiVoltageLevelSweep[3]
+          .SweepRetention,
       index: 0,
     },
     {
       chart1: <ResistanceOnOffSweep />,
       chart2: <VoltageOnOffSweep />,
-      chart3: <></>,
-      chart4: <></>,
+      checkedChart1:
+        checkedAdvancedBenchmarkSelections.MultiVoltageLevelSweep[4]
+          .ResistanceOnOffSweep,
+      checkedChart2:
+        checkedAdvancedBenchmarkSelections.MultiVoltageLevelSweep[5]
+          .VoltageOnOffSweep,
       index: 1,
     },
     {
@@ -73,13 +168,29 @@ export const AdvancedBenchmarkPartOne = () => {
       chart2: <MultiVoltageLevelPulseLogLog />,
       chart3: <PulseEndurance />,
       chart4: <PulseRentention />,
+      checkedChart1:
+        checkedAdvancedBenchmarkSelections.MultiVoltageLevelPulse[0]
+          .MultiVoltageLevelPulseIVchart,
+      checkedChart2:
+        checkedAdvancedBenchmarkSelections.MultiVoltageLevelPulse[1]
+          .MultiVoltageLevelPulseLogLog,
+      checkedChart3:
+        checkedAdvancedBenchmarkSelections.MultiVoltageLevelPulse[2]
+          .PulseEndurance,
+      checkedChart4:
+        checkedAdvancedBenchmarkSelections.MultiVoltageLevelPulse[3]
+          .PulseRentention,
       index: 2,
     },
     {
       chart1: <ResistanceOnOffPulse />,
       chart2: <VoltageOnOffPulse />,
-      chart3: <></>,
-      chart4: <></>,
+      checkedChart1:
+        checkedAdvancedBenchmarkSelections.MultiVoltageLevelPulse[4]
+          .ResistanceOnOffPulse,
+      checkedChart2:
+        checkedAdvancedBenchmarkSelections.MultiVoltageLevelPulse[5]
+          .VoltageOnOffPulse,
       index: 3,
     },
     {
@@ -87,13 +198,29 @@ export const AdvancedBenchmarkPartOne = () => {
       chart2: <MultiCurrentLevelSweepLogLog />,
       chart3: <SweepEndurance />,
       chart4: <SweepRetention />,
+      checkedChart1:
+        checkedAdvancedBenchmarkSelections.MultiCurrentLevelSweep[0]
+          .MultiCurrentLevelSweepIVchart,
+      checkedChart2:
+        checkedAdvancedBenchmarkSelections.MultiCurrentLevelSweep[1]
+          .MultiCurrentLevelSweepLogLog,
+      checkedChart3:
+        checkedAdvancedBenchmarkSelections.MultiCurrentLevelSweep[2]
+          .SweepEndurance,
+      checkedChart4:
+        checkedAdvancedBenchmarkSelections.MultiCurrentLevelSweep[3]
+          .SweepRetention,
       index: 4,
     },
     {
       chart1: <ResistanceOnOffSweep />,
       chart2: <VoltageOnOffSweep />,
-      chart3: <></>,
-      chart4: <></>,
+      checkedChart1:
+        checkedAdvancedBenchmarkSelections.MultiCurrentLevelSweep[4]
+          .ResistanceOnOffSweep,
+      checkedChart2:
+        checkedAdvancedBenchmarkSelections.MultiCurrentLevelSweep[5]
+          .VoltageOnOffSweep,
       index: 5,
     },
     {
@@ -101,20 +228,45 @@ export const AdvancedBenchmarkPartOne = () => {
       chart2: <MultiCurrentLevelPulseLogLog />,
       chart3: <PulseEndurance />,
       chart4: <PulseRentention />,
+      checkedChart1:
+        checkedAdvancedBenchmarkSelections.MultiCurrentLevelPulse[0]
+          .MultiCurrentLevelPulseIVchart,
+      checkedChart2:
+        checkedAdvancedBenchmarkSelections.MultiCurrentLevelPulse[1]
+          .MultiCurrentLevelPulseLogLog,
+      checkedChart3:
+        checkedAdvancedBenchmarkSelections.MultiCurrentLevelPulse[2]
+          .PulseEndurance,
+      checkedChart4:
+        checkedAdvancedBenchmarkSelections.MultiCurrentLevelPulse[3]
+          .PulseRentention,
       index: 6,
     },
     {
       chart1: <ResistanceOnOffPulse />,
       chart2: <VoltageOnOffPulse />,
-      chart3: <></>,
-      chart4: <></>,
+      checkedChart1:
+        checkedAdvancedBenchmarkSelections.MultiCurrentLevelPulse[4]
+          .ResistanceOnOffPulse,
+      checkedChart2:
+        checkedAdvancedBenchmarkSelections.MultiCurrentLevelPulse[5]
+          .VoltageOnOffPulse,
+
       index: 7,
     },
     {
       chart1: <MultiBitVersionOne />,
       chart2: <NeuroSimV3 />,
       chart3: <ReconfigurableLogicVersionOne />,
-      chart4: <></>,
+      checkedChart1:
+        checkedAdvancedBenchmarkSelections.AdditionalAdvancedBenchmark[0]
+          .MultiBitVersionOne,
+      checkedChart2:
+        checkedAdvancedBenchmarkSelections.AdditionalAdvancedBenchmark[1]
+          .NeuroSimV3,
+      checkedChart3:
+        checkedAdvancedBenchmarkSelections.AdditionalAdvancedBenchmark[2]
+          .ReconfigurableLogicVersionOne,
       index: 8,
     },
   ];
@@ -132,23 +284,44 @@ export const AdvancedBenchmarkPartOne = () => {
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
+            <CheckeAdvancedBenchmark
+              BenchmarkSelections={checkedAdvancedBenchmarkSelections}
+              handleChangeChildren={handleChangeChildren}
+              handleChangeAllChildren={handleChangeAllChildren}
+            />
             {AdvancedBenchmarkChart.map(
-              ({ chart1, chart2, chart3, chart4, index }) => (
-                <Grid key={index} item xs={12}>
-                  <Grid container>
+              ({
+                chart1,
+                chart2,
+                chart3,
+                chart4,
+                checkedChart1,
+                checkedChart2,
+                checkedChart3,
+                checkedChart4,
+                index,
+              }) => (
+                <Grid key={index} container>
+                  {checkedChart1 && (
                     <Grid item sm={6} md={3} lg={3} xl={3} xs>
                       <Box sx={gridStyle}>{chart1}</Box>
                     </Grid>
+                  )}
+                  {checkedChart2 && (
                     <Grid item sm={6} md={3} lg={3} xl={3} xs>
                       <Box sx={gridStyle}>{chart2}</Box>
                     </Grid>
+                  )}
+                  {checkedChart3 && (
                     <Grid item sm={6} md={3} lg={3} xl={3} xs>
                       <Box sx={gridStyle}>{chart3}</Box>
                     </Grid>
+                  )}
+                  {checkedChart4 && (
                     <Grid item sm={6} md={3} lg={3} xl={3} xs>
                       <Box sx={gridStyle}>{chart4}</Box>
                     </Grid>
-                  </Grid>
+                  )}
                 </Grid>
               )
             )}

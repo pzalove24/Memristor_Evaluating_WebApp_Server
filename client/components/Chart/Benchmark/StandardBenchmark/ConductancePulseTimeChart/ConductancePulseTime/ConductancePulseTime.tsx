@@ -18,9 +18,10 @@ export function ConductancePulseTime() {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    scales: {
-      y: {
-        beginAtZero: true,
+    elements: {
+      point: {
+        radius: 1,
+        hoverRadius: 2,
       },
     },
     plugins: {
@@ -29,7 +30,22 @@ export function ConductancePulseTime() {
       },
       title: {
         display: true,
-        text: "Cumulative probability of resistance",
+        text: "Conductance VS PulseNumber",
+      },
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: "PulseNumber (number)",
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: "Conductance (Siemen)",
+        },
+        beginAtZero: true,
       },
     },
   };
@@ -37,7 +53,7 @@ export function ConductancePulseTime() {
   const data = {
     datasets: [
       {
-        label: "A dataset",
+        label: "(number, Siemen)",
         data: Array.from({ length: 10 }, () => ({
           x: faker.number.float({ min: -10, max: 10 }),
           y: faker.number.float({ min: -10, max: 10 }),

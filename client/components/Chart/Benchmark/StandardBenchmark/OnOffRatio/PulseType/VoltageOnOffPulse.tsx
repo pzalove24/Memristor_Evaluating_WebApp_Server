@@ -30,7 +30,7 @@ export const VoltageOnOffPulse = () => {
       },
       title: {
         display: true,
-        text: "Sweep On-Off Ratio of Set/Reset Voltage",
+        text: "Pulse On-Off Ratio of Set/Reset Voltage",
       },
     },
     scales: {
