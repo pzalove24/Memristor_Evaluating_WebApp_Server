@@ -8,21 +8,21 @@ const nextConfig = {
       transform: "@mui/icons-material/{{member}}",
     },
   },
-  webpack: (config) => {
-    config.module.rules.push({
-      test: /\.worker\.ts$/,
-      loader: "worker-loader",
-      options: {
-        name: "static/[hash].worker.ts",
-        publicPath: "/_next/",
-      },
-    });
+  // webpack: (config) => {
+  //   config.module.rules.push({
+  //     test: /\.worker\.ts$/,
+  //     loader: "worker-loader",
+  //     options: {
+  //       name: "static/[hash].worker.ts",
+  //       publicPath: "/_next/",
+  //     },
+  //   });
 
-    // Overcome Webpack referencing `window` in chunks
-    config.output.globalObject = `(typeof self !== 'undefined' ? self : this)`;
+  //   // Overcome Webpack referencing `window` in chunks
+  //   config.output.globalObject = `(typeof self !== 'undefined' ? self : this)`;
 
-    return config;
-  },
+  //   return config;
+  // },
 };
 
 module.exports = nextConfig;

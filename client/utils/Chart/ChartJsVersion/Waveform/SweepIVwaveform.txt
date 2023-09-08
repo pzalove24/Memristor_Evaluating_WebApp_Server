@@ -12,18 +12,16 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import {
-  WaveFunctionConductancePulseTime,
-  WaveFunctionConductancePulseTimeProps,
-} from "./WaveFunctionConductancePulseTime";
+import { WaveFunctionSweepIVwaveform } from "./WaveFunctionSweepIVwaveform";
+import { WaveFunctionSweepIVwaveformProps } from "./WaveFunctionSweepIVwaveform";
 
-type ConductancePulseNumberWaveformValue = {
-  conductancePulseNumberWaveformValue: WaveFunctionConductancePulseTimeProps;
+type SweepIVwaveformProps = {
+  sweepIVwaveformValue: WaveFunctionSweepIVwaveformProps;
 };
 
-export function ConductancePulseNumberWaveform({
-  conductancePulseNumberWaveformValue,
-}: ConductancePulseNumberWaveformValue) {
+export function SweepIVwaveform({
+  sweepIVwaveformValue,
+}: SweepIVwaveformProps) {
   ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -34,9 +32,7 @@ export function ConductancePulseNumberWaveform({
     Legend
   );
 
-  const waveformData = WaveFunctionConductancePulseTime(
-    conductancePulseNumberWaveformValue
-  );
+  const waveformData = WaveFunctionSweepIVwaveform(sweepIVwaveformValue);
 
   let timeValues = waveformData.timeValues;
   let continuousWaveform = waveformData.continuousWaveform;
@@ -56,14 +52,14 @@ export function ConductancePulseNumberWaveform({
       },
       title: {
         display: true,
-        text: "ConductancePulseNumberWaveform",
+        text: "SweepIVwaveform",
       },
     },
     scales: {
       x: {
         title: {
           display: true,
-          text: "Time (us)",
+          text: "Time (ms)",
         },
       },
       y: {

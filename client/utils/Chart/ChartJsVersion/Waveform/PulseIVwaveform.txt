@@ -12,18 +12,16 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import {
-  WaveFunctionConductancePulseTime,
-  WaveFunctionConductancePulseTimeProps,
-} from "./WaveFunctionConductancePulseTime";
+import { WaveFunctionPulseIVwaveform } from "./WaveFunctionPulseIVwaveform";
+import { WaveFunctionPulseIVwaveformProps } from "./WaveFunctionPulseIVwaveform";
 
-type ConductancePulseNumberWaveformValue = {
-  conductancePulseNumberWaveformValue: WaveFunctionConductancePulseTimeProps;
+type PulseIVwaveformProps = {
+  pulseIVwaveformValue: WaveFunctionPulseIVwaveformProps;
 };
 
-export function ConductancePulseNumberWaveform({
-  conductancePulseNumberWaveformValue,
-}: ConductancePulseNumberWaveformValue) {
+export function PulseIVwaveform({
+  pulseIVwaveformValue,
+}: PulseIVwaveformProps) {
   ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -34,9 +32,7 @@ export function ConductancePulseNumberWaveform({
     Legend
   );
 
-  const waveformData = WaveFunctionConductancePulseTime(
-    conductancePulseNumberWaveformValue
-  );
+  const waveformData = WaveFunctionPulseIVwaveform(pulseIVwaveformValue);
 
   let timeValues = waveformData.timeValues;
   let continuousWaveform = waveformData.continuousWaveform;
@@ -56,7 +52,7 @@ export function ConductancePulseNumberWaveform({
       },
       title: {
         display: true,
-        text: "ConductancePulseNumberWaveform",
+        text: "PulseIVwaveform",
       },
     },
     scales: {

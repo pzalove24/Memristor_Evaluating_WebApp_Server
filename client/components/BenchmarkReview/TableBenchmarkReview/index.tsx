@@ -17,6 +17,7 @@ import DialogBiorealisticBenchmark from "./DialogBenchmarkReview/DialogBiorealis
 import DialogWaveform from "./DialogBenchmarkReview/DialogWaveform";
 import DialogAdvancedBenchmark from "./DialogBenchmarkReview/DialogAdvancedBenchmark";
 import DialogAllBenchmarks from "./DialogBenchmarkReview/DialogAllBenchmarks";
+import DialogHardwareComponents from "./DialogBenchmarkReview/DialogHardwareComponents";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -176,6 +177,7 @@ const rows = [
 ];
 
 const TableBenchmarkReview = () => {
+  const [openDialogHardware, setOpenDialogHardware] = React.useState(false);
   const [openDialogWaveform, setOpenDialogWaveform] = React.useState(false);
   const [openDialogStandardBenchmark, setOpenDialogStandardBenchmark] =
     React.useState(false);
@@ -199,6 +201,9 @@ const TableBenchmarkReview = () => {
     //   event.stopPropagation();
     // }
     switch (event.currentTarget.id) {
+      case "HardwareButton": //HardwareButton
+        setOpenDialogHardware(true);
+        break;
       case "WaveformButton": //WaveformButton
         setOpenDialogWaveform(true);
         break;
@@ -223,6 +228,12 @@ const TableBenchmarkReview = () => {
 
   return (
     <>
+      {openDialogHardware && (
+        <DialogHardwareComponents
+          selectedBenchmarkView={selectedBenchmarkView}
+          handleClose={() => setOpenDialogHardware(false)}
+        />
+      )}
       {openDialogWaveform && (
         <DialogWaveform
           selectedBenchmarkView={selectedBenchmarkView}
@@ -296,7 +307,18 @@ const TableBenchmarkReview = () => {
                 <StyledTableCell component="th" scope="row">
                   {row.BenchmarkTestName}
                 </StyledTableCell>
-                <StyledTableCell align="right">{row.Hardware}</StyledTableCell>
+                <StyledTableCell align="right">
+                  <Button
+                    id="HardwareButton"
+                    variant="contained"
+                    fullWidth
+                    onClick={(e) => {
+                      handleClickOpenDialog(e, row);
+                    }}
+                  >
+                    HARDWARE
+                  </Button>
+                </StyledTableCell>
 
                 <StyledTableCell>
                   <Button

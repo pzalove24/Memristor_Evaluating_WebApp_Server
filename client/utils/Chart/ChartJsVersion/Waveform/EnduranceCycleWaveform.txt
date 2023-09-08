@@ -12,18 +12,17 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import {
-  WaveFunctionConductancePulseTime,
-  WaveFunctionConductancePulseTimeProps,
-} from "./WaveFunctionConductancePulseTime";
+import { faker } from "@faker-js/faker";
+import { WaveFunctionEnduranceCycleWaveform } from "./WaveFunctionEnduranceCycleWaveform";
+import { WaveFunctionEnduranceCycleWaveformProps } from "./WaveFunctionEnduranceCycleWaveform";
 
-type ConductancePulseNumberWaveformValue = {
-  conductancePulseNumberWaveformValue: WaveFunctionConductancePulseTimeProps;
+type EnduranceCycleWaveformProps = {
+  enduranceCycleWaveformValue: WaveFunctionEnduranceCycleWaveformProps;
 };
 
-export function ConductancePulseNumberWaveform({
-  conductancePulseNumberWaveformValue,
-}: ConductancePulseNumberWaveformValue) {
+export function EnduranceCycleWaveform({
+  enduranceCycleWaveformValue,
+}: EnduranceCycleWaveformProps) {
   ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -34,8 +33,8 @@ export function ConductancePulseNumberWaveform({
     Legend
   );
 
-  const waveformData = WaveFunctionConductancePulseTime(
-    conductancePulseNumberWaveformValue
+  const waveformData = WaveFunctionEnduranceCycleWaveform(
+    enduranceCycleWaveformValue
   );
 
   let timeValues = waveformData.timeValues;
@@ -56,7 +55,7 @@ export function ConductancePulseNumberWaveform({
       },
       title: {
         display: true,
-        text: "ConductancePulseNumberWaveform",
+        text: "EnduranceCycleWaveform",
       },
     },
     scales: {
@@ -86,5 +85,6 @@ export function ConductancePulseNumberWaveform({
       },
     ],
   };
+
   return <Line options={options} data={data} />;
 }
