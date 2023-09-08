@@ -34,6 +34,21 @@ export function ConductancePulseNumberWaveform({
     Legend
   );
 
+  // const [result, setResult] = React.useState<any>({});
+
+  // const worker = new Worker(
+  //   new URL("../ConductancePulseNumberWaveform/worker", import.meta.url)
+  // );
+  // worker.postMessage({ conductancePulseNumberWaveformValue });
+  // worker.onmessage = (e) => {
+  //   setResult(e.data);
+  //   // Terminate the worker when the computation is done
+  //   worker.terminate();
+  // };
+
+  // let timeValues = result.timeValues;
+  // let continuousWaveform = result.continuousWaveform;
+
   const waveformData = WaveFunctionConductancePulseTime(
     conductancePulseNumberWaveformValue
   );

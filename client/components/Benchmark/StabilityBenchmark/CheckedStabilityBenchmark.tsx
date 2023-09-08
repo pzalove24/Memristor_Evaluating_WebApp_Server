@@ -21,7 +21,7 @@ const CheckedStabilityBenchmark = ({
           control={
             <Checkbox
               name={Object.keys(element)[0]}
-              checked={Object.values(element)[0]}
+              checked={Object.values(element)[0] as boolean}
               onChange={(e) => handleChangeChildren(e, "SweepVoltage", index)}
             />
           }
@@ -45,7 +45,7 @@ const CheckedStabilityBenchmark = ({
           control={
             <Checkbox
               name={Object.keys(element)[0]}
-              checked={Object.values(element)[0]}
+              checked={Object.values(element)[0] as boolean}
               onChange={(e) => handleChangeChildren(e, "PulseVoltage", index)}
             />
           }

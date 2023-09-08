@@ -4,7 +4,7 @@ import React from "react";
 import Box from "@mui/material/Box";
 import { Card, Typography, Stack } from "@mui/material";
 import Image from "next/image";
-import HardwareVersionOneImage from "../../../assets/Hardware/VersionOne/HardwareVersionOne.png";
+import HardwareVersionOneImage from "../../../assets/Hardware/VersionOne/HardwareVersionOne.webp";
 import {
   HardwareConnection,
   HardwareTesting,
@@ -30,7 +30,7 @@ export default function VersionOne() {
             alt="Hardware"
             width="172"
             height="100"
-            sizes="100vw"
+            sizes="20vw"
             style={{
               width: "100%",
               height: "auto",

@@ -21,7 +21,7 @@ const CheckedBiorealisticBenchmark = ({
           control={
             <Checkbox
               name={Object.keys(element)[0]}
-              checked={Object.values(element)[0]}
+              checked={Object.values(element)[0] as boolean}
               onChange={(e) =>
                 handleChangeChildren(e, "BiologicalNeuron", index)
               }
@@ -47,7 +47,7 @@ const CheckedBiorealisticBenchmark = ({
           control={
             <Checkbox
               name={Object.keys(element)[0]}
-              checked={Object.values(element)[0]}
+              checked={Object.values(element)[0] as boolean}
               onChange={(e) =>
                 handleChangeChildren(e, "BiologicalSynapse", index)
               }

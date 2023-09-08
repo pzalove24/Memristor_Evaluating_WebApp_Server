@@ -22,7 +22,7 @@ const CheckeAdvancedBenchmark = ({
             control={
               <Checkbox
                 name={Object.keys(element)[0]}
-                checked={Object.values(element)[0]}
+                checked={Object.values(element)[0] as boolean}
                 onChange={(e) =>
                   handleChangeChildren(e, "MultiVoltageLevelSweep", index)
                 }
@@ -50,7 +50,7 @@ const CheckeAdvancedBenchmark = ({
             control={
               <Checkbox
                 name={Object.keys(element)[0]}
-                checked={Object.values(element)[0]}
+                checked={Object.values(element)[0] as boolean}
                 onChange={(e) =>
                   handleChangeChildren(e, "MultiVoltageLevelPulse", index)
                 }
@@ -72,7 +72,7 @@ const CheckeAdvancedBenchmark = ({
             control={
               <Checkbox
                 name={Object.keys(element)[0]}
-                checked={Object.values(element)[0]}
+                checked={Object.values(element)[0] as boolean}
                 onChange={(e) =>
                   handleChangeChildren(e, "MultiCurrentLevelSweep", index)
                 }
@@ -94,7 +94,7 @@ const CheckeAdvancedBenchmark = ({
             control={
               <Checkbox
                 name={Object.keys(element)[0]}
-                checked={Object.values(element)[0]}
+                checked={Object.values(element)[0] as boolean}
                 onChange={(e) =>
                   handleChangeChildren(e, "MultiCurrentLevelPulse", index)
                 }
@@ -116,7 +116,7 @@ const CheckeAdvancedBenchmark = ({
             control={
               <Checkbox
                 name={Object.keys(element)[0]}
-                checked={Object.values(element)[0]}
+                checked={Object.values(element)[0] as boolean}
                 onChange={(e) =>
                   handleChangeChildren(e, "AdditionalAdvancedBenchmark", index)
                 }

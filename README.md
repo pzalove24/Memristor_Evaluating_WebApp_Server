@@ -9,6 +9,7 @@ Setup Client
 6. https://github.com/dieudonneAwa/blog-dashboard/tree/main
 7. next js dashboard sidebar
 8. prisma https://www.youtube.com/watch?v=NgayZAuTgwM
+9. Web Worker https://loclv.hashnode.dev/a-simple-web-worker-demo-with-typescript-and-nextjs
 
 Database Design
 1. https://astera1.medium.com/all-you-need-to-know-about-database-design-1586d2a1c403

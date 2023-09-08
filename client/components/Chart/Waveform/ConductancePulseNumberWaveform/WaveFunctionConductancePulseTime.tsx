@@ -8,7 +8,7 @@ export type WaveFunctionConductancePulseTimeProps = {
   distanceBetweenPulse: number; // Distance between pulses
   cycleReadingPulse: number; // cycle of intermediate pulse
   cycles: number; // Number of times to repeat the waveform
-}
+};
 
 export const WaveFunctionConductancePulseTime = ({
   positivePulseValue,
