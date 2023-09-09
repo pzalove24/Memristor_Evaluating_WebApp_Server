@@ -11,6 +11,8 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import CancelIcon from "@mui/icons-material/Cancel";
 import ExportBenchmarkReview from "../SpeedDialExportBenchmark/ExportBenchmarkReview";
+import HardwareImage from "@/components/Hardware/VersionOne/HardwareImage";
+import { Box } from "@mui/material";
 
 const DialogHardwareComponents = ({
   open,
@@ -41,14 +43,17 @@ const DialogHardwareComponents = ({
       </DialogTitle>
       <DialogContent dividers>
         <DialogContentText id="scroll-dialog-description">
-          {[...new Array(50)]
-            .map(
-              () => `Cras mattis consectetur purus sit amet fermentum.
-Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
-            )
-            .join("\n")}
+          {selectedBenchmarkView?.Hardware === "Hardware1" && (
+            <Box
+              sx={{
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100%",
+              }}
+            >
+              <HardwareImage />
+            </Box>
+          )}
         </DialogContentText>
       </DialogContent>
       <DialogActions>

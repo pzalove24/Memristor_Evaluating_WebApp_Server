@@ -3,13 +3,12 @@
 import React from "react";
 import Box from "@mui/material/Box";
 import { Card, Typography, Stack } from "@mui/material";
-import Image from "next/image";
-import HardwareVersionOneImage from "../../../assets/Hardware/VersionOne/HardwareVersionOne.webp";
 import {
   HardwareConnection,
   HardwareTesting,
   HardwareVersionSelection,
 } from ".";
+import HardwareImage from "./HardwareImage";
 
 export default function VersionOne() {
   return (
@@ -24,19 +23,7 @@ export default function VersionOne() {
             height: 360,
           }}
         >
-          <Image
-            src={HardwareVersionOneImage}
-            priority
-            alt="Hardware"
-            width="172"
-            height="100"
-            sizes="20vw"
-            style={{
-              width: "100%",
-              height: "auto",
-              objectFit: "contain",
-            }}
-          />
+          <HardwareImage />
         </Box>
       </Card>
       <Card variant="outlined">

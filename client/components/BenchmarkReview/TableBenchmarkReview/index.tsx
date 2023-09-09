@@ -171,7 +171,7 @@ const rows = [
     "standard10",
     "stability10",
     "biorealistic10",
-    "advanced1",
+    "advanced10",
     12345610
   ),
 ];

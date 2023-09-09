@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React from "react";
 import {
@@ -42,10 +42,15 @@ import {
   VoltageOnOffSweep,
 } from "@/components/Chart/Benchmark/StandardBenchmark/OnOffRatio";
 
-import { BenchmarkChart } from "@/types";
+import {
+  BenchmarkChart,
+  DialogSelectedAdvancedBenchmarkReviewProps,
+} from "@/types";
 import CheckeAdvancedBenchmark from "./CheckeAdvancedBenchmark";
 
-export const AdvancedBenchmarkPartOne = () => {
+export const AdvancedBenchmarkPartOne = ({
+  BenchmarkReviewData,
+}: DialogSelectedAdvancedBenchmarkReviewProps) => {
   //Benchmark Selection handlestate
 
   const [
@@ -280,7 +285,9 @@ export const AdvancedBenchmarkPartOne = () => {
             id="panel1a-header"
           >
             <Typography color="secondary" display="block" variant="h5">
-              Advanced Benchmark
+              Advanced Benchmark{" "}
+              {BenchmarkReviewData?.selectedAdvancedBenchmarkViewName &&
+                ` for ${BenchmarkReviewData?.selectedAdvancedBenchmarkViewName}`}
             </Typography>
           </AccordionSummary>
           <AccordionDetails>

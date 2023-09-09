@@ -22,10 +22,15 @@ import {
   PulseEndurance,
 } from "@/components/Chart/Benchmark/StabilityBenchmarkChart/EnduranceCycle";
 
-import { BenchmarkChart } from "@/types";
+import {
+  BenchmarkChart,
+  DialogSelectedStabilityBenchmarkReviewProps,
+} from "@/types";
 import CheckedStabilityBenchmark from "./CheckedStabilityBenchmark";
 
-export const StabilityBenchmarkPartOne = () => {
+export const StabilityBenchmarkPartOne = ({
+  BenchmarkReviewData,
+}: DialogSelectedStabilityBenchmarkReviewProps) => {
   //Benchmark Selection handlestate
   const [
     checkedStabilityBenchmarkSelections,
@@ -104,7 +109,9 @@ export const StabilityBenchmarkPartOne = () => {
           >
             <Stack direction={"row"} spacing={5} alignItems={"center"}>
               <Typography color="secondary" display="block" variant="h5">
-                Stability Benchmark
+                Stability Benchmark{" "}
+                {BenchmarkReviewData?.selectedStabilityBenchmarkViewName &&
+                  ` for ${BenchmarkReviewData?.selectedStabilityBenchmarkViewName}`}
               </Typography>
               <Chip
                 color="error"

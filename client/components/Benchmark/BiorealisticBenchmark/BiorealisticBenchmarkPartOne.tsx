@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React from "react";
 import {
@@ -16,10 +16,15 @@ import {
   ChartSTDP,
 } from "@/components/Chart/Benchmark/BiorealisticBenchmarkChart/BiorealisticProps";
 import { CurrentUnderDifferentPulseNumberWidth } from "@/components/Chart/Benchmark/BiorealisticBenchmarkChart/CurrentUnderDifferentPulseNumberWidth";
-import { BenchmarkChart } from "@/types";
+import {
+  BenchmarkChart,
+  DialogSelectedBiorealisticBenchmarkReviewProps,
+} from "@/types";
 import CheckedBiorealisticBenchmark from "./CheckedBiorealisticBenchmark";
 
-export const BiorealisticBenchmarkPartOne = () => {
+export const BiorealisticBenchmarkPartOne = ({
+  BenchmarkReviewData,
+}: DialogSelectedBiorealisticBenchmarkReviewProps) => {
   //Benchmark Selection handlestate
 
   const [
@@ -104,7 +109,9 @@ export const BiorealisticBenchmarkPartOne = () => {
             id="Biorealistic Benchmark-header"
           >
             <Typography color="secondary" display="block" variant="h5">
-              Biorealistic Benchmark
+              Biorealistic Benchmark{" "}
+              {BenchmarkReviewData?.selectedBiorealisticBenchmarkViewName &&
+                ` for ${BenchmarkReviewData?.selectedBiorealisticBenchmarkViewName}`}
             </Typography>
           </AccordionSummary>
           <AccordionDetails>

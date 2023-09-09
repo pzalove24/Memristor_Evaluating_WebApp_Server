@@ -11,12 +11,24 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import CancelIcon from "@mui/icons-material/Cancel";
 import ExportBenchmarkReview from "../SpeedDialExportBenchmark/ExportBenchmarkReview";
+import { StandardBenchmarkPartOne } from "@/components/Benchmark/StandardBenchmark/StandardBenchmarkPartOne";
+import { StabilityBenchmarkPartOne } from "@/components/Benchmark/StabilityBenchmark/StabilityBenchmarkPartOne";
+import { BiorealisticBenchmarkPartOne } from "@/components/Benchmark/BiorealisticBenchmark/BiorealisticBenchmarkPartOne";
+import { AdvancedBenchmarkPartOne } from "@/components/Benchmark/AdvancedBenchmark/AdvancedBenchmarkPartOne";
 
 const DialogAllBenchmarks = ({
   open,
   handleClose,
   selectedBenchmarkView,
 }: DialogStandardBenchmarkProps) => {
+
+  const BenchmarkReviewData = {
+    selectedStandardBenchmarkViewName: selectedBenchmarkView?.Standard,
+    selectedStabilityBenchmarkViewName: selectedBenchmarkView?.Stability,
+    selectedBiorealisticBenchmarkViewName: selectedBenchmarkView?.Biorealistic,
+    selectedAdvancedBenchmarkViewName: selectedBenchmarkView?.Advanced,
+  };
+
   return (
     <Dialog
       open={open ? open : true}
@@ -43,11 +55,11 @@ const DialogAllBenchmarks = ({
         <DialogContentText id="scroll-dialog-description">
           {selectedBenchmarkView?.Hardware}
           {selectedBenchmarkView?.Waveform}
-          {selectedBenchmarkView?.Standard}
-          {selectedBenchmarkView?.Stability}
-          {selectedBenchmarkView?.Biorealistic}
-          {selectedBenchmarkView?.Advanced}
           {selectedBenchmarkView?.CreatedAt}
+          <StandardBenchmarkPartOne BenchmarkReviewData={BenchmarkReviewData} />
+          <StabilityBenchmarkPartOne BenchmarkReviewData={BenchmarkReviewData} />
+          <BiorealisticBenchmarkPartOne BenchmarkReviewData={BenchmarkReviewData} />
+          <AdvancedBenchmarkPartOne BenchmarkReviewData={BenchmarkReviewData} />
         </DialogContentText>
       </DialogContent>
       <DialogActions>

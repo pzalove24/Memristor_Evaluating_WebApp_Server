@@ -51,3 +51,19 @@ export interface CheckedBenchmarkProps {
   handleChangeChildren: any;
   handleChangeAllChildren: any;
 }
+
+export interface DialogSelectedStandardBenchmarkReviewProps {
+  BenchmarkReviewData?: any;
+}
+
+export interface DialogSelectedStabilityBenchmarkReviewProps {
+  BenchmarkReviewData?: any;
+}
+
+export interface DialogSelectedBiorealisticBenchmarkReviewProps {
+  BenchmarkReviewData?: any;
+}
+
+export interface DialogSelectedAdvancedBenchmarkReviewProps {
+  BenchmarkReviewData?: any;
+}

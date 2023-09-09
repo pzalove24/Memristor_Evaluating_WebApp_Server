@@ -37,10 +37,15 @@ import {
   VoltageOnOffSweep,
 } from "@/components/Chart/Benchmark/StandardBenchmark/OnOffRatio";
 import { ConductancePulseTime } from "@/components/Chart/Benchmark/StandardBenchmark/ConductancePulseTimeChart";
-import { BenchmarkChart } from "@/types";
+import {
+  BenchmarkChart,
+  DialogSelectedStandardBenchmarkReviewProps,
+} from "@/types";
 import CheckedStandardBenchmark from "./CheckedStandardBenchmark";
 
-export const StandardBenchmarkPartOne = () => {
+export const StandardBenchmarkPartOne = ({
+  BenchmarkReviewData,
+}: DialogSelectedStandardBenchmarkReviewProps) => {
   //Benchmark Selection handlestate
   const [
     checkedStandardBenchmarkSelections,
@@ -197,6 +202,8 @@ export const StandardBenchmarkPartOne = () => {
           >
             <Typography color="secondary" display="block" variant="h5">
               Standard Benchmark
+              {BenchmarkReviewData?.selectedStandardBenchmarkViewName &&
+                ` for ${BenchmarkReviewData?.selectedStandardBenchmarkViewName}`}
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
