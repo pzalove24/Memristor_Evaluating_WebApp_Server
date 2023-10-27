@@ -11,7 +11,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import CancelIcon from "@mui/icons-material/Cancel";
 import ExportBenchmarkReview from "../SpeedDialExportBenchmark/ExportBenchmarkReview";
-import { StabilityBenchmarkPartOne } from "@/components/Benchmark/StabilityBenchmark/StabilityBenchmarkPartOne";
+import { StabilityBenchmarkPartOne } from "@/modules/Benchmark/StabilityBenchmark/StabilityBenchmarkPartOne";
 
 const DialogStabilityBenchmark = ({
   open,

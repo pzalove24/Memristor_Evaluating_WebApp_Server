@@ -11,24 +11,14 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import CancelIcon from "@mui/icons-material/Cancel";
 import ExportBenchmarkReview from "../SpeedDialExportBenchmark/ExportBenchmarkReview";
-import { StandardBenchmarkPartOne } from "@/components/Benchmark/StandardBenchmark/StandardBenchmarkPartOne";
-import { StabilityBenchmarkPartOne } from "@/components/Benchmark/StabilityBenchmark/StabilityBenchmarkPartOne";
-import { BiorealisticBenchmarkPartOne } from "@/components/Benchmark/BiorealisticBenchmark/BiorealisticBenchmarkPartOne";
-import { AdvancedBenchmarkPartOne } from "@/components/Benchmark/AdvancedBenchmark/AdvancedBenchmarkPartOne";
+import HardwareImage from "@/modules/Hardware/VersionOne/HardwareImage";
+import { Box } from "@mui/material";
 
-const DialogAllBenchmarks = ({
+const DialogHardwareComponents = ({
   open,
   handleClose,
   selectedBenchmarkView,
 }: DialogStandardBenchmarkProps) => {
-
-  const BenchmarkReviewData = {
-    selectedStandardBenchmarkViewName: selectedBenchmarkView?.Standard,
-    selectedStabilityBenchmarkViewName: selectedBenchmarkView?.Stability,
-    selectedBiorealisticBenchmarkViewName: selectedBenchmarkView?.Biorealistic,
-    selectedAdvancedBenchmarkViewName: selectedBenchmarkView?.Advanced,
-  };
-
   return (
     <Dialog
       open={open ? open : true}
@@ -45,7 +35,7 @@ const DialogAllBenchmarks = ({
           justifyContent="space-between"
           alignItems="center"
         >
-          <Typography>All Benchmark Results View</Typography>
+          <Typography>{selectedBenchmarkView?.Hardware}</Typography>
           <IconButton onClick={handleClose} aria-label="cancel">
             <CancelIcon />
           </IconButton>
@@ -53,13 +43,17 @@ const DialogAllBenchmarks = ({
       </DialogTitle>
       <DialogContent dividers>
         <DialogContentText id="scroll-dialog-description">
-          {selectedBenchmarkView?.Hardware}
-          {selectedBenchmarkView?.Waveform}
-          {selectedBenchmarkView?.CreatedAt}
-          <StandardBenchmarkPartOne BenchmarkReviewData={BenchmarkReviewData} />
-          <StabilityBenchmarkPartOne BenchmarkReviewData={BenchmarkReviewData} />
-          <BiorealisticBenchmarkPartOne BenchmarkReviewData={BenchmarkReviewData} />
-          <AdvancedBenchmarkPartOne BenchmarkReviewData={BenchmarkReviewData} />
+          {selectedBenchmarkView?.Hardware === "Hardware1" && (
+            <Box
+              sx={{
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100%",
+              }}
+            >
+              <HardwareImage />
+            </Box>
+          )}
         </DialogContentText>
       </DialogContent>
       <DialogActions>
@@ -68,5 +62,4 @@ const DialogAllBenchmarks = ({
     </Dialog>
   );
 };
-
-export default DialogAllBenchmarks;
+export default DialogHardwareComponents;

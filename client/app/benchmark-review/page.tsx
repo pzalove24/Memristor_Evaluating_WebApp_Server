@@ -1,5 +1,5 @@
 import { Header } from "@/components";
-import TableBenchmarkReview from "@/components/BenchmarkReview/TableBenchmarkReview";
+import TableBenchmarkReview from "@/modules/BenchmarkReview/TableBenchmarkReview";
 import { Box, Paper, Stack, Typography } from "@mui/material";
 import React from "react";
 

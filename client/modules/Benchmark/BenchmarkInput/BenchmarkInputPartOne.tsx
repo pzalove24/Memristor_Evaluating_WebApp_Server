@@ -2,17 +2,17 @@
 
 import * as React from "react";
 import { Box, Grid, Card, Typography, TextField, Stack } from "@mui/material";
-import { ParameterInputTabs } from "@/components/Input/BenchmarkInput";
+import { ParameterInputTabs } from "@/modules/Input/BenchmarkInput";
 import {
   HardwareSerialPort,
   VersionOne,
-} from "@/components/Hardware/VersionOne";
-import { SweepIVwaveform } from "@/components/Chart/Waveform/SweepIVwaveform";
-import { PulseIVwaveform } from "@/components/Chart/Waveform/PulseIVwaveform";
-import { ConductancePulseNumberWaveform } from "@/components/Chart/Waveform/ConductancePulseNumberWaveform";
-import { SweepRetentionTimeWaveform } from "@/components/Chart/Waveform/SweepRetentionTimeWaveform";
-import { PulseRetentionTimeWaveform } from "@/components/Chart/Waveform/PulseRetentionTimeWaveform";
-import { EnduranceCycleWaveform } from "@/components/Chart/Waveform/EnduranceCycleWaveform";
+} from "@/modules/Hardware/VersionOne";
+import { SweepIVwaveform } from "@/modules/Chart/Waveform/SweepIVwaveform";
+import { PulseIVwaveform } from "@/modules/Chart/Waveform/PulseIVwaveform";
+import { ConductancePulseNumberWaveform } from "@/modules/Chart/Waveform/ConductancePulseNumberWaveform";
+import { SweepRetentionTimeWaveform } from "@/modules/Chart/Waveform/SweepRetentionTimeWaveform";
+import { PulseRetentionTimeWaveform } from "@/modules/Chart/Waveform/PulseRetentionTimeWaveform";
+import { EnduranceCycleWaveform } from "@/modules/Chart/Waveform/EnduranceCycleWaveform";
 
 export const BenchmarkInputPartOne = () => {
   //SweepIV handleState

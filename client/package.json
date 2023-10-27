@@ -22,6 +22,7 @@
     "@types/react": "18.2.20",
     "@types/react-dom": "18.2.7",
     "@zeit/next-workers": "^1.0.0",
+    "axios": "^1.6.0",
     "chart.js": "^4.3.3",
     "eslint": "8.47.0",
     "eslint-config-next": "13.4.19",

@@ -11,13 +11,16 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import CancelIcon from "@mui/icons-material/Cancel";
 import ExportBenchmarkReview from "../SpeedDialExportBenchmark/ExportBenchmarkReview";
-import { BenchmarkInputPartOne } from "@/components/Benchmark/BenchmarkInput/BenchmarkInputPartOne";
+import { AdvancedBenchmarkPartOne } from "@/modules/Benchmark/AdvancedBenchmark/AdvancedBenchmarkPartOne";
 
-const DialogWaveform = ({
+const DialogAdvancedBenchmark = ({
   open,
   handleClose,
   selectedBenchmarkView,
 }: DialogStandardBenchmarkProps) => {
+  const BenchmarkReviewData = {
+    selectedAdvancedBenchmarkViewName: selectedBenchmarkView?.Advanced,
+  };
   return (
     <Dialog
       open={open ? open : true}
@@ -34,7 +37,7 @@ const DialogWaveform = ({
           justifyContent="space-between"
           alignItems="center"
         >
-          <Typography>{selectedBenchmarkView?.Waveform}</Typography>
+          <Typography>{selectedBenchmarkView?.Advanced}</Typography>
           <IconButton onClick={handleClose} aria-label="cancel">
             <CancelIcon />
           </IconButton>
@@ -42,7 +45,7 @@ const DialogWaveform = ({
       </DialogTitle>
       <DialogContent dividers>
         <DialogContentText id="scroll-dialog-description">
-          <BenchmarkInputPartOne />
+          <AdvancedBenchmarkPartOne BenchmarkReviewData={BenchmarkReviewData} />
         </DialogContentText>
       </DialogContent>
       <DialogActions>
@@ -52,4 +55,4 @@ const DialogWaveform = ({
   );
 };
 
-export default DialogWaveform;
+export default DialogAdvancedBenchmark;

@@ -16,11 +16,11 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
   SweepRetention,
   PulseRentention,
-} from "@/components/Chart/Benchmark/StabilityBenchmarkChart/RetentionTime";
+} from "@/modules/Chart/Benchmark/StabilityBenchmarkChart/RetentionTime";
 import {
   SweepEndurance,
   PulseEndurance,
-} from "@/components/Chart/Benchmark/StabilityBenchmarkChart/EnduranceCycle";
+} from "@/modules/Chart/Benchmark/StabilityBenchmarkChart/EnduranceCycle";
 
 import {
   BenchmarkChart,

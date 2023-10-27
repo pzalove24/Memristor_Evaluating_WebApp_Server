@@ -13,30 +13,30 @@ import Typography from "@mui/material/Typography";
 import {
   PulseIVchart,
   SweepIVchart,
-} from "@/components/Chart/Benchmark/StandardBenchmark/IVchart";
+} from "@/modules/Chart/Benchmark/StandardBenchmark/IVchart";
 import {
   PulseLogLog,
   SweepLogLog,
-} from "@/components/Chart/Benchmark/StandardBenchmark/LogLogIVCurve";
+} from "@/modules/Chart/Benchmark/StandardBenchmark/LogLogIVCurve";
 import {
   CumuResistancePulseType,
   CumuResistanceSweepType,
   CumuVoltagePulseType,
   CumuVoltageSweepType,
-} from "@/components/Chart/Benchmark/StandardBenchmark/CumulativeProbability";
+} from "@/modules/Chart/Benchmark/StandardBenchmark/CumulativeProbability";
 import {
   DistributeResistancePulseType,
   DistributeResistanceSweepType,
   DistributeVoltagePulseType,
   DistributeVoltageSweepType,
-} from "@/components/Chart/Benchmark/StandardBenchmark/DistributionSetReset";
+} from "@/modules/Chart/Benchmark/StandardBenchmark/DistributionSetReset";
 import {
   ResistanceOnOffPulse,
   ResistanceOnOffSweep,
   VoltageOnOffPulse,
   VoltageOnOffSweep,
-} from "@/components/Chart/Benchmark/StandardBenchmark/OnOffRatio";
-import { ConductancePulseTime } from "@/components/Chart/Benchmark/StandardBenchmark/ConductancePulseTimeChart";
+} from "@/modules/Chart/Benchmark/StandardBenchmark/OnOffRatio";
+import { ConductancePulseTime } from "@/modules/Chart/Benchmark/StandardBenchmark/ConductancePulseTimeChart";
 import {
   BenchmarkChart,
   DialogSelectedStandardBenchmarkReviewProps,

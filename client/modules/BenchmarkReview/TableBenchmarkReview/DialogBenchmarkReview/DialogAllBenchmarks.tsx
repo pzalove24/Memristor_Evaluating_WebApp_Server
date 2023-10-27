@@ -11,16 +11,24 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import CancelIcon from "@mui/icons-material/Cancel";
 import ExportBenchmarkReview from "../SpeedDialExportBenchmark/ExportBenchmarkReview";
-import { AdvancedBenchmarkPartOne } from "@/components/Benchmark/AdvancedBenchmark/AdvancedBenchmarkPartOne";
+import { StandardBenchmarkPartOne } from "@/modules/Benchmark/StandardBenchmark/StandardBenchmarkPartOne";
+import { StabilityBenchmarkPartOne } from "@/modules/Benchmark/StabilityBenchmark/StabilityBenchmarkPartOne";
+import { BiorealisticBenchmarkPartOne } from "@/modules/Benchmark/BiorealisticBenchmark/BiorealisticBenchmarkPartOne";
+import { AdvancedBenchmarkPartOne } from "@/modules/Benchmark/AdvancedBenchmark/AdvancedBenchmarkPartOne";
 
-const DialogAdvancedBenchmark = ({
+const DialogAllBenchmarks = ({
   open,
   handleClose,
   selectedBenchmarkView,
 }: DialogStandardBenchmarkProps) => {
+
   const BenchmarkReviewData = {
+    selectedStandardBenchmarkViewName: selectedBenchmarkView?.Standard,
+    selectedStabilityBenchmarkViewName: selectedBenchmarkView?.Stability,
+    selectedBiorealisticBenchmarkViewName: selectedBenchmarkView?.Biorealistic,
     selectedAdvancedBenchmarkViewName: selectedBenchmarkView?.Advanced,
   };
+
   return (
     <Dialog
       open={open ? open : true}
@@ -37,7 +45,7 @@ const DialogAdvancedBenchmark = ({
           justifyContent="space-between"
           alignItems="center"
         >
-          <Typography>{selectedBenchmarkView?.Advanced}</Typography>
+          <Typography>All Benchmark Results View</Typography>
           <IconButton onClick={handleClose} aria-label="cancel">
             <CancelIcon />
           </IconButton>
@@ -45,6 +53,12 @@ const DialogAdvancedBenchmark = ({
       </DialogTitle>
       <DialogContent dividers>
         <DialogContentText id="scroll-dialog-description">
+          {selectedBenchmarkView?.Hardware}
+          {selectedBenchmarkView?.Waveform}
+          {selectedBenchmarkView?.CreatedAt}
+          <StandardBenchmarkPartOne BenchmarkReviewData={BenchmarkReviewData} />
+          <StabilityBenchmarkPartOne BenchmarkReviewData={BenchmarkReviewData} />
+          <BiorealisticBenchmarkPartOne BenchmarkReviewData={BenchmarkReviewData} />
           <AdvancedBenchmarkPartOne BenchmarkReviewData={BenchmarkReviewData} />
         </DialogContentText>
       </DialogContent>
@@ -55,4 +69,4 @@ const DialogAdvancedBenchmark = ({
   );
 };
 
-export default DialogAdvancedBenchmark;
+export default DialogAllBenchmarks;

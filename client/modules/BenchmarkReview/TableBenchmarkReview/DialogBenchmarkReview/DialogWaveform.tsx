@@ -11,10 +11,9 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import CancelIcon from "@mui/icons-material/Cancel";
 import ExportBenchmarkReview from "../SpeedDialExportBenchmark/ExportBenchmarkReview";
-import HardwareImage from "@/components/Hardware/VersionOne/HardwareImage";
-import { Box } from "@mui/material";
+import { BenchmarkInputPartOne } from "@/modules/Benchmark/BenchmarkInput/BenchmarkInputPartOne";
 
-const DialogHardwareComponents = ({
+const DialogWaveform = ({
   open,
   handleClose,
   selectedBenchmarkView,
@@ -35,7 +34,7 @@ const DialogHardwareComponents = ({
           justifyContent="space-between"
           alignItems="center"
         >
-          <Typography>{selectedBenchmarkView?.Hardware}</Typography>
+          <Typography>{selectedBenchmarkView?.Waveform}</Typography>
           <IconButton onClick={handleClose} aria-label="cancel">
             <CancelIcon />
           </IconButton>
@@ -43,17 +42,7 @@ const DialogHardwareComponents = ({
       </DialogTitle>
       <DialogContent dividers>
         <DialogContentText id="scroll-dialog-description">
-          {selectedBenchmarkView?.Hardware === "Hardware1" && (
-            <Box
-              sx={{
-                justifyContent: "center",
-                alignItems: "center",
-                height: "100%",
-              }}
-            >
-              <HardwareImage />
-            </Box>
-          )}
+          <BenchmarkInputPartOne />
         </DialogContentText>
       </DialogContent>
       <DialogActions>
@@ -62,4 +51,5 @@ const DialogHardwareComponents = ({
     </Dialog>
   );
 };
-export default DialogHardwareComponents;
+
+export default DialogWaveform;

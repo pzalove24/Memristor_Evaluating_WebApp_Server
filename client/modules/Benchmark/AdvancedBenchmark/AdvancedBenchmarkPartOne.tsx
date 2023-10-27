@@ -16,31 +16,31 @@ import {
   MultiCurrentLevelSweepLogLog,
   MultiVoltageLevelPulseLogLog,
   MultiVoltageLevelSweepLogLog,
-} from "@/components/Chart/Benchmark/AdvancedBenchmarkChart/LogLogIVCurve";
+} from "@/modules/Chart/Benchmark/AdvancedBenchmarkChart/LogLogIVCurve";
 import {
   MultiCurrentLevelPulseIVchart,
   MultiCurrentLevelSweepIVchart,
   MultiVoltageLevelPulseIVchart,
   MultiVoltageLevelSweepIVchart,
-} from "@/components/Chart/Benchmark/AdvancedBenchmarkChart/IVchart";
+} from "@/modules/Chart/Benchmark/AdvancedBenchmarkChart/IVchart";
 
-import { MultiBitVersionOne } from "@/components/Chart/Benchmark/AdvancedBenchmarkChart/MultiBit";
-import { NeuroSimV3 } from "@/components/Chart/Benchmark/AdvancedBenchmarkChart/NeuroSim";
-import { ReconfigurableLogicVersionOne } from "@/components/Chart/Benchmark/AdvancedBenchmarkChart/ReconfigurableLogic";
+import { MultiBitVersionOne } from "@/modules/Chart/Benchmark/AdvancedBenchmarkChart/MultiBit";
+import { NeuroSimV3 } from "@/modules/Chart/Benchmark/AdvancedBenchmarkChart/NeuroSim";
+import { ReconfigurableLogicVersionOne } from "@/modules/Chart/Benchmark/AdvancedBenchmarkChart/ReconfigurableLogic";
 import {
   SweepEndurance,
   PulseEndurance,
-} from "@/components/Chart/Benchmark/StabilityBenchmarkChart/EnduranceCycle";
+} from "@/modules/Chart/Benchmark/StabilityBenchmarkChart/EnduranceCycle";
 import {
   SweepRetention,
   PulseRentention,
-} from "@/components/Chart/Benchmark/StabilityBenchmarkChart/RetentionTime";
+} from "@/modules/Chart/Benchmark/StabilityBenchmarkChart/RetentionTime";
 import {
   ResistanceOnOffSweep,
   ResistanceOnOffPulse,
   VoltageOnOffPulse,
   VoltageOnOffSweep,
-} from "@/components/Chart/Benchmark/StandardBenchmark/OnOffRatio";
+} from "@/modules/Chart/Benchmark/StandardBenchmark/OnOffRatio";
 
 import {
   BenchmarkChart,

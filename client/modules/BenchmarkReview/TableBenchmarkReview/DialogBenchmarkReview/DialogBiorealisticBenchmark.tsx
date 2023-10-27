@@ -11,15 +11,15 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import CancelIcon from "@mui/icons-material/Cancel";
 import ExportBenchmarkReview from "../SpeedDialExportBenchmark/ExportBenchmarkReview";
-import { StandardBenchmarkPartOne } from "@/components/Benchmark/StandardBenchmark/StandardBenchmarkPartOne";
+import { BiorealisticBenchmarkPartOne } from "@/modules/Benchmark/BiorealisticBenchmark/BiorealisticBenchmarkPartOne";
 
-const DialogStandardBenchmark = ({
+const DialogBiorealisticBenchmark = ({
   open,
   handleClose,
   selectedBenchmarkView,
 }: DialogStandardBenchmarkProps) => {
   const BenchmarkReviewData = {
-    selectedStandardBenchmarkViewName: selectedBenchmarkView?.Standard,
+    selectedBiorealisticBenchmarkViewName: selectedBenchmarkView?.Biorealistic,
   };
 
   return (
@@ -38,7 +38,7 @@ const DialogStandardBenchmark = ({
           justifyContent="space-between"
           alignItems="center"
         >
-          <Typography>{selectedBenchmarkView?.Standard}</Typography>
+          <Typography>{selectedBenchmarkView?.Biorealistic}</Typography>
           <IconButton onClick={handleClose} aria-label="cancel">
             <CancelIcon />
           </IconButton>
@@ -46,7 +46,9 @@ const DialogStandardBenchmark = ({
       </DialogTitle>
       <DialogContent dividers>
         <DialogContentText id="scroll-dialog-description">
-          <StandardBenchmarkPartOne BenchmarkReviewData={BenchmarkReviewData} />
+          <BiorealisticBenchmarkPartOne
+            BenchmarkReviewData={BenchmarkReviewData}
+          />
         </DialogContentText>
       </DialogContent>
       <DialogActions>
@@ -55,4 +57,5 @@ const DialogStandardBenchmark = ({
     </Dialog>
   );
 };
-export default DialogStandardBenchmark;
+
+export default DialogBiorealisticBenchmark;

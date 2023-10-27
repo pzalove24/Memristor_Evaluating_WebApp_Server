@@ -14,8 +14,8 @@ import {
   ChartIPSC_EPSC,
   PairPulse,
   ChartSTDP,
-} from "@/components/Chart/Benchmark/BiorealisticBenchmarkChart/BiorealisticProps";
-import { CurrentUnderDifferentPulseNumberWidth } from "@/components/Chart/Benchmark/BiorealisticBenchmarkChart/CurrentUnderDifferentPulseNumberWidth";
+} from "@/modules/Chart/Benchmark/BiorealisticBenchmarkChart/BiorealisticProps";
+import { CurrentUnderDifferentPulseNumberWidth } from "@/modules/Chart/Benchmark/BiorealisticBenchmarkChart/CurrentUnderDifferentPulseNumberWidth";
 import {
   BenchmarkChart,
   DialogSelectedBiorealisticBenchmarkReviewProps,

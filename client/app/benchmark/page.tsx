@@ -2,11 +2,11 @@ import React from "react";
 import { Stack, Paper, Box, Grid, Divider } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { Header, BenchmarkStepper } from "@/components";
-import { StandardBenchmarkPartOne } from "@/components/Benchmark/StandardBenchmark/StandardBenchmarkPartOne";
-import { StabilityBenchmarkPartOne } from "@/components/Benchmark/StabilityBenchmark/StabilityBenchmarkPartOne";
-import { BiorealisticBenchmarkPartOne } from "@/components/Benchmark/BiorealisticBenchmark/BiorealisticBenchmarkPartOne";
-import { AdvancedBenchmarkPartOne } from "@/components/Benchmark/AdvancedBenchmark/AdvancedBenchmarkPartOne";
-import { BenchmarkInputPartOne } from "@/components/Benchmark/BenchmarkInput/BenchmarkInputPartOne";
+import { StandardBenchmarkPartOne } from "@/modules/Benchmark/StandardBenchmark/StandardBenchmarkPartOne";
+import { StabilityBenchmarkPartOne } from "@/modules/Benchmark/StabilityBenchmark/StabilityBenchmarkPartOne";
+import { BiorealisticBenchmarkPartOne } from "@/modules/Benchmark/BiorealisticBenchmark/BiorealisticBenchmarkPartOne";
+import { AdvancedBenchmarkPartOne } from "@/modules/Benchmark/AdvancedBenchmark/AdvancedBenchmarkPartOne";
+import { BenchmarkInputPartOne } from "@/modules/Benchmark/BenchmarkInput/BenchmarkInputPartOne";
 
 const benchmark = () => {
   return (

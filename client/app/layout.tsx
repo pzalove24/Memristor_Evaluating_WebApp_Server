@@ -1,7 +1,8 @@
-import Box from "@mui/material/Box";
+// import Box from "@mui/material/Box";
 import ThemeRegistry from "@/theme/ThemeRegistry";
 import type { Metadata } from "next";
 import { SideBar } from "@/components";
+import Providers from "@/components/Providers";
 
 export const metadata: Metadata = {
   title: "opensource Memristor",
@@ -18,7 +19,9 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <ThemeRegistry>
-          <SideBar>{children}</SideBar>
+          <Providers>
+            <SideBar>{children}</SideBar>
+          </Providers>
         </ThemeRegistry>
       </body>
     </html>
