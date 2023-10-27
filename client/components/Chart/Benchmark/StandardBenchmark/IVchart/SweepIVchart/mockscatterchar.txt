@@ -9,16 +9,16 @@ if (typeof Highcharts === "object") {
   HighchartsExporting(Highcharts);
 }
 
-function getData(n: number): [number, number][] {
-  const arr: [number, number][] = [];
-  let a: number = 0;
-  let b: number = 0;
-  let c: number = 0;
-  let spike: number = 0;
-
+function getData(n: any) {
+  var arr = [],
+    i,
+    x,
+    a,
+    b,
+    c,
+    spike;
   for (
-    let i: number = 0,
-      x: number = Date.UTC(new Date().getUTCFullYear(), 0, 1) - n * 36e5;
+    i = 0, x = Date.UTC(new Date().getUTCFullYear(), 0, 1) - n * 36e5;
     i < n;
     i = i + 1, x = x + 36e5
   ) {
@@ -36,21 +36,34 @@ function getData(n: number): [number, number][] {
     } else {
       spike = 0;
     }
-
     arr.push([x, 2 * Math.sin(i / 100) + a + b + c + spike + Math.random()]);
   }
   return arr;
 }
-var n = 5000,
+var n = 500000,
   data = getData(n);
 
 const series: any = [
   {
     name: "Basketball",
+    id: "basketball",
     marker: {
       symbol: "circle",
     },
-    data: data,
+  },
+  {
+    name: "Triathlon",
+    id: "triathlon",
+    marker: {
+      symbol: "triangle",
+    },
+  },
+  {
+    name: "Volleyball",
+    id: "volleyball",
+    marker: {
+      symbol: "square",
+    },
   },
 ];
 
@@ -107,7 +120,6 @@ const options = {
     startOnTick: true,
     endOnTick: true,
     showLastLabel: true,
-    type: "datetime",
   },
   yAxis: {
     title: {

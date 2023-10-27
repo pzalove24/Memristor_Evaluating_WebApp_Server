@@ -33,3 +33,65 @@ model Post {
   user      User    @relation(fields: [userId], references: [id])
   userId    String
 }
+
+//---------------------------------------------------//
+
+model Benchmark {
+  id                String            @id @default(uuid())
+  name              String
+  Hardware          String
+  Waveform          WaveformBenchmark @relation(fields: [WaveformId], references: [id])
+  WaveformId        String
+  BenchmarkResult   BenchmarkResult   @relation(fields: [BenchmarkResultId], references: [id])
+  BenchmarkResultId String
+  createdAt         DateTime          @default(now())
+}
+
+model BenchmarkResult {
+  id                      String                @id @default(uuid())
+  Benchmark               Benchmark[]
+  StandardBenchmark       StandardBenchmark     @relation(fields: [StandardBenchmarkId], references: [id])
+  StandardBenchmarkId     String
+  StabilityBenchmark      StabilityBenchmark    @relation(fields: [StabilityBenchmarkId], references: [id])
+  StabilityBenchmarkId    String
+  BiorealisticBenchmark   BiorealisticBenchmark @relation(fields: [BiorealisticBenchmarkId], references: [id])
+  BiorealisticBenchmarkId String
+  AdvancedBenchmark       AdvancedBenchmark     @relation(fields: [AdvancedBenchmarkId], references: [id])
+  AdvancedBenchmarkId     String
+  createdAt               DateTime              @default(now())
+}
+
+model StandardBenchmark {
+  id              String            @id @default(uuid())
+  createdAt       DateTime          @default(now())
+  BenchmarkResult BenchmarkResult[]
+}
+
+model StabilityBenchmark {
+  id              String            @id @default(uuid())
+  createdAt       DateTime          @default(now())
+  BenchmarkResult BenchmarkResult[]
+}
+
+model BiorealisticBenchmark {
+  id              String            @id @default(uuid())
+  createdAt       DateTime          @default(now())
+  BenchmarkResult BenchmarkResult[]
+}
+
+model AdvancedBenchmark {
+  id              String            @id @default(uuid())
+  createdAt       DateTime          @default(now())
+  BenchmarkResult BenchmarkResult[]
+}
+
+model WaveformBenchmark {
+  id        String      @id @default(uuid())
+  Benchmark Benchmark[]
+  createdAt DateTime    @default(now())
+}
+
+model HardwareBenchmark {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+}
