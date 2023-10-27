@@ -3,7 +3,7 @@ import TableBenchmarkReview from "@/modules/BenchmarkReview/TableBenchmarkReview
 import { Box, Paper, Stack, Typography } from "@mui/material";
 import React from "react";
 
-const benchmarkReview = () => {
+const BenchmarkReview = () => {
   return (
     <Stack direction={"column"}>
       <Header title="benchmark review" subtitle="Review the benchmark result" />
@@ -26,4 +26,4 @@ const benchmarkReview = () => {
   );
 };
 
-export default benchmarkReview;
+export default BenchmarkReview;

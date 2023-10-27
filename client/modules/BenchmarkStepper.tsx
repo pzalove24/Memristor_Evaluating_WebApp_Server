@@ -43,8 +43,8 @@ export default function BenchmarkStepper() {
   };
 
   return (
-    <Box sx={{ mt: 3 }}>
-      <Stepper activeStep={activeStep} alternativeLabel>
+    <Box sx={{ m: 3 }}>
+      <Stepper activeStep={activeStep} orientation="vertical">
         {steps.map((step, index) => (
           <Step key={step.label}>
             <StepLabel

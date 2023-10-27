@@ -3,7 +3,7 @@ import { Stack } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { Header } from "@/components";
 
-const hardware = () => {
+const Hardware = () => {
   return (
     <Stack direction={"row"}>
       <Header
@@ -14,4 +14,4 @@ const hardware = () => {
   );
 };
 
-export default hardware;
+export default Hardware;

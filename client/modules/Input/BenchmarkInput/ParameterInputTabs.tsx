@@ -10,12 +10,12 @@ import EnduranceCycleInput from "./EnduranceCycleInput";
 import ConductancePulseNumberInput from "./ConductancePulseNumberInput";
 import SweepRetentionTimeInput from "./SweepRetentionTimeInput";
 import PulseRetentionTimeInput from "./PulseRetentionTimeInput";
-import { WaveFunctionSweepIVwaveformProps } from "@/components/Chart/Waveform/SweepIVwaveform/WaveFunctionSweepIVwaveform";
-import { WaveFunctionPulseIVwaveformProps } from "@/components/Chart/Waveform/PulseIVwaveform/WaveFunctionPulseIVwaveform";
-import { WaveFunctionEnduranceCycleWaveformProps } from "@/components/Chart/Waveform/EnduranceCycleWaveform/WaveFunctionEnduranceCycleWaveform";
-import { WaveFunctionSweepRetentionTimeWaveformProps } from "@/components/Chart/Waveform/SweepRetentionTimeWaveform/WaveFunctionSweepRetentionTimeWaveform";
-import { WaveFunctionPulseRetentionTimeWaveformProps } from "@/components/Chart/Waveform/PulseRetentionTimeWaveform/WaveFunctionPulseRetentionTimeWaveform";
-import { WaveFunctionConductancePulseTimeProps } from "@/components/Chart/Waveform/ConductancePulseNumberWaveform/WaveFunctionConductancePulseTime";
+import { WaveFunctionSweepIVwaveformProps } from "@/modules/Chart/Waveform/SweepIVwaveform/WaveFunctionSweepIVwaveform";
+import { WaveFunctionPulseIVwaveformProps } from "@/modules/Chart/Waveform/PulseIVwaveform/WaveFunctionPulseIVwaveform";
+import { WaveFunctionEnduranceCycleWaveformProps } from "@/modules/Chart/Waveform/EnduranceCycleWaveform/WaveFunctionEnduranceCycleWaveform";
+import { WaveFunctionSweepRetentionTimeWaveformProps } from "@/modules/Chart/Waveform/SweepRetentionTimeWaveform/WaveFunctionSweepRetentionTimeWaveform";
+import { WaveFunctionPulseRetentionTimeWaveformProps } from "@/modules/Chart/Waveform/PulseRetentionTimeWaveform/WaveFunctionPulseRetentionTimeWaveform";
+import { WaveFunctionConductancePulseTimeProps } from "@/modules/Chart/Waveform/ConductancePulseNumberWaveform/WaveFunctionConductancePulseTime";
 
 interface TabPanelProps {
   children?: React.ReactNode;

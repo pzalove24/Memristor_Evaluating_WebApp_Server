@@ -2,18 +2,21 @@
 
 import React from "react";
 import Box from "@mui/material/Box";
-import { Card, Typography, Stack } from "@mui/material";
+import { Typography, Stack, Grid, Card } from "@mui/material";
 import {
   HardwareConnection,
+  HardwareSerialPort,
   HardwareTesting,
   HardwareVersionSelection,
 } from ".";
 import HardwareImage from "./HardwareImage";
+import ManualRead from "@/modules/Benchmark/ManualOperation/ManualRead";
+import ManualWrite from "@/modules/Benchmark/ManualOperation/ManualWrite";
 
 export default function VersionOne() {
   return (
-    <Stack direction={"column"} sx={{ m: 1 }}>
-      <Card variant="outlined">
+    <Grid container>
+      <Grid item xs={4}>
         <Box
           sx={{
             "& > :not(style)": { m: 1 },
@@ -25,8 +28,8 @@ export default function VersionOne() {
         >
           <HardwareImage />
         </Box>
-      </Card>
-      <Card variant="outlined">
+      </Grid>
+      <Grid item xs={3}>
         <Stack
           spacing={2}
           sx={{
@@ -39,17 +42,16 @@ export default function VersionOne() {
           <HardwareVersionSelection />
           <HardwareConnection />
           <HardwareTesting />
-          <Typography>SELECT CONNECT TEST</Typography>
         </Stack>
-      </Card>
-      <Card variant="outlined">
+      </Grid>
+      <Grid item xs={5}>
         <Stack
           spacing={2}
           sx={{
-            display: "flex",
             justifyContent: "center",
             alignItems: "center",
             height: 215,
+            p: 3,
           }}
         >
           <Typography>SERIALPORT</Typography>
@@ -72,7 +74,27 @@ export default function VersionOne() {
             </Typography>
           </Box>
         </Stack>
-      </Card>
-    </Stack>
+      </Grid>
+      <Grid container xs={12}>
+        <Grid item xs={3}>
+          <ManualWrite />
+        </Grid>
+        <Grid item xs={9}>
+          <Card variant="outlined">
+            <Box
+              sx={{
+                "& > :not(style)": { m: 1 },
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: 360,
+              }}
+            >
+              <HardwareSerialPort />
+            </Box>
+          </Card>
+        </Grid>
+      </Grid>
+    </Grid>
   );
 }

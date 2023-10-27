@@ -2,7 +2,7 @@ import React from "react";
 import { Stack } from "@mui/material"
 import { Header } from "@/components";
 
-const dashboard = () => {
+const Dashboard = () => {
   return (
       <Stack direction={"row"}>
         <Header title="Dashboard" subtitle="Overall Memristor Performance" />
@@ -10,4 +10,4 @@ const dashboard = () => {
   );
 };
 
-export default dashboard;
+export default Dashboard;

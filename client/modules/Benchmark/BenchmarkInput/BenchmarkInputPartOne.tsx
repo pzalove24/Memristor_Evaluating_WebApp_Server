@@ -3,16 +3,14 @@
 import * as React from "react";
 import { Box, Grid, Card, Typography, TextField, Stack } from "@mui/material";
 import { ParameterInputTabs } from "@/modules/Input/BenchmarkInput";
-import {
-  HardwareSerialPort,
-  VersionOne,
-} from "@/modules/Hardware/VersionOne";
+import { HardwareSerialPort, VersionOne } from "@/modules/Hardware/VersionOne";
 import { SweepIVwaveform } from "@/modules/Chart/Waveform/SweepIVwaveform";
 import { PulseIVwaveform } from "@/modules/Chart/Waveform/PulseIVwaveform";
 import { ConductancePulseNumberWaveform } from "@/modules/Chart/Waveform/ConductancePulseNumberWaveform";
 import { SweepRetentionTimeWaveform } from "@/modules/Chart/Waveform/SweepRetentionTimeWaveform";
 import { PulseRetentionTimeWaveform } from "@/modules/Chart/Waveform/PulseRetentionTimeWaveform";
 import { EnduranceCycleWaveform } from "@/modules/Chart/Waveform/EnduranceCycleWaveform";
+import { BenchmarkStepper } from "@/components";
 
 export const BenchmarkInputPartOne = () => {
   //SweepIV handleState
@@ -232,10 +230,10 @@ export const BenchmarkInputPartOne = () => {
     <>
       <Grid item xs={12}>
         <Grid container>
-          <Grid item xs={4}>
-            <VersionOne />
+          <Grid item sm md lg={4} xl={6} xs justifyContent="center" alignItems="flex-start">
+            <BenchmarkStepper />
           </Grid>
-          <Grid item xs={8}>
+          <Grid item sm md lg={8} xl={6} xs>
             <Box sx={{ m: 1 }}>
               <Stack
                 direction={"row"}
@@ -292,19 +290,7 @@ export const BenchmarkInputPartOne = () => {
                   }
                 />
               </Card>
-              <Card variant="outlined">
-                <Box
-                  sx={{
-                    "& > :not(style)": { m: 1 },
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: 360,
-                  }}
-                >
-                  <HardwareSerialPort />
-                </Box>
-              </Card>
+             
             </Box>
           </Grid>
         </Grid>
