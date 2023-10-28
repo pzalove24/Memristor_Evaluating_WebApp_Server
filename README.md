@@ -20,6 +20,7 @@ Setup Server
 - npm install express
 - npm install --save-dev typescript @type/express
 - npm install --save-dev nodemon
+- npm i cors dotenv helmet morgan
 - npx tsc --init
 - tsconfig.json uncomment outDir and set to "outDir": "./dist"
 - npx tsc
