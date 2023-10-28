@@ -2,7 +2,7 @@
 
 import React from "react";
 import Box from "@mui/material/Box";
-import { Typography, Stack, Grid, Card } from "@mui/material";
+import { Typography, Stack, Grid, Card, SelectChangeEvent } from "@mui/material";
 import {
   HardwareConnection,
   HardwareSerialPort,
@@ -12,8 +12,16 @@ import {
 import HardwareImage from "./HardwareImage";
 import ManualRead from "@/modules/Benchmark/ManualOperation/ManualRead";
 import ManualWrite from "@/modules/Benchmark/ManualOperation/ManualWrite";
+import HardwarePort from "./HardwarePort";
 
 export default function VersionOne() {
+
+  const [comPort, setComPort] = React.useState('');
+
+  const handleChangePort = (event: SelectChangeEvent) => {
+    setComPort(event.target.value);
+  };
+
   return (
     <Grid container>
       <Grid item xs={4}>
@@ -40,6 +48,7 @@ export default function VersionOne() {
           }}
         >
           <HardwareVersionSelection />
+          <HardwarePort comPort={comPort} handleChangePort={handleChangePort} />
           <HardwareConnection />
           <HardwareTesting />
         </Stack>
