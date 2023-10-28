@@ -1,6 +1,7 @@
 # Memristor_Evaluating_WebApp
 
 Setup Client
+
 1. npx create-next-app@latest
 2. npm install @mui/material @emotion/react @emotion/styled
 3. npm install @mui/icons-material
@@ -11,10 +12,27 @@ Setup Client
 8. prisma https://www.youtube.com/watch?v=NgayZAuTgwM
 9. Web Worker https://loclv.hashnode.dev/a-simple-web-worker-demo-with-typescript-and-nextjs
 
+Setup Server
+
+1. Express Typescript following https://www.youtube.com/watch?v=i8xHOrPP3NA
+
+- npm init -y
+- npm install express
+- npm install --save-dev typescript @type/express
+- npm install --save-dev nodemon
+- npx tsc --init
+- tsconfig.json uncomment outDir and set to "outDir": "./dist"
+- npx tsc
+- add script in package.json
+  - "dev": "start /b tsc -w & nodemon dist/app.js" //Window10
+  - "dev": "tsc -w & nodemon dist/app.js", //Non-Window10
+
 Database Design
+
 1. https://astera1.medium.com/all-you-need-to-know-about-database-design-1586d2a1c403
 
 Mathematic Optimization
+
 1. Web Workers: Move the heavy computational task (multiplication loop) into a separate JavaScript thread using Web Workers. Web Workers allow you to run code in the background without blocking the main UI thread, ensuring that your app remains responsive.
 2. Chunk the Computation: Instead of running all 100,000 iterations in a single loop, break it into smaller chunks, and process them sequentially or in parallel using Web Workers. This prevents the UI from freezing during the computation.
 3. Use Memoization: If you're performing the same calculations multiple times, consider memoization to cache results and avoid redundant computations.
