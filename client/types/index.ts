@@ -67,3 +67,8 @@ export interface DialogSelectedBiorealisticBenchmarkReviewProps {
 export interface DialogSelectedAdvancedBenchmarkReviewProps {
   BenchmarkReviewData?: any;
 }
+
+export type BoardCommandProps = {
+  MANUALREAD: 'manual_read';
+  MANUALWRITE: 'manual_write';
+}

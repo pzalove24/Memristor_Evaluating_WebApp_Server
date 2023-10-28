@@ -4,7 +4,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import { Grid, Stack, TextField, Typography } from "@mui/material";
 import Button from "@mui/material/Button/Button";
-import { WaveFunctionSweepIVwaveformProps } from "@/components/Chart/Waveform/SweepIVwaveform/WaveFunctionSweepIVwaveform";
+import { WaveFunctionSweepIVwaveformProps } from "@/modules/Chart/Waveform/SweepIVwaveform/WaveFunctionSweepIVwaveform";
 
 type SweepIVInputProps = {
   handleChangeSweepIVwaveformValue: (

@@ -13,7 +13,17 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 
-export default function HardwareSerialPort() {
+interface HardwareSerialPortProps {
+  chartTitle: string;
+  xTitle: string;
+  yTitle: string;
+}
+
+export default function HardwareSerialPort({
+  chartTitle,
+  xTitle,
+  yTitle,
+}: HardwareSerialPortProps) {
   ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -39,20 +49,20 @@ export default function HardwareSerialPort() {
       },
       title: {
         display: true,
-        text: "SerialPort Visualization",
+        text: chartTitle,
       },
     },
     scales: {
       x: {
         title: {
           display: true,
-          text: "Time (ms)",
+          text: xTitle,
         },
       },
       y: {
         title: {
           display: true,
-          text: "Data (point)",
+          text: yTitle,
         },
       },
     },
@@ -62,7 +72,7 @@ export default function HardwareSerialPort() {
     labels: [0],
     datasets: [
       {
-        label: "T, V",
+        label: "time, data",
         data: [0],
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132, 0.5)",

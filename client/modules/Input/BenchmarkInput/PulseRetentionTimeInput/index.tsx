@@ -3,7 +3,7 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import { Button, Grid, TextField, Typography, Stack } from "@mui/material";
-import { WaveFunctionPulseRetentionTimeWaveformProps } from "@/components/Chart/Waveform/PulseRetentionTimeWaveform/WaveFunctionPulseRetentionTimeWaveform";
+import { WaveFunctionPulseRetentionTimeWaveformProps } from "@/modules/Chart/Waveform/PulseRetentionTimeWaveform/WaveFunctionPulseRetentionTimeWaveform";
 
 type PulseRetentionTimeInputProps = {
   handleChangePulseRetentionTimeWaveformValue: (

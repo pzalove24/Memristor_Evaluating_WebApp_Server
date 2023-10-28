@@ -77,6 +77,30 @@ export default function VersionOne() {
       </Grid>
       <Grid container xs={12}>
         <Grid item xs={3}>
+          <ManualRead />
+        </Grid>
+        <Grid item xs={9}>
+          <Card variant="outlined">
+            <Box
+              sx={{
+                "& > :not(style)": { m: 1 },
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: 360,
+              }}
+            >
+              <HardwareSerialPort
+                chartTitle="SerialPort Read Resistance"
+                xTitle="Time (us)"
+                yTitle="Resistance (Ohm)"
+              />
+            </Box>
+          </Card>
+        </Grid>
+      </Grid>
+      <Grid container xs={12}>
+        <Grid item xs={3}>
           <ManualWrite />
         </Grid>
         <Grid item xs={9}>
@@ -90,7 +114,11 @@ export default function VersionOne() {
                 height: 360,
               }}
             >
-              <HardwareSerialPort />
+              <HardwareSerialPort
+                chartTitle="SerialPort Write Voltage"
+                xTitle="Time (us)"
+                yTitle="Voltage (V)"
+              />
             </Box>
           </Card>
         </Grid>

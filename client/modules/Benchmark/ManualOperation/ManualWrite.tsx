@@ -1,59 +1,80 @@
-import { Box, Checkbox, FormControlLabel, Grid, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  Grid,
+  InputAdornment,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React from "react";
 
 const ManualWrite = () => {
   return (
-    <Box padding={3} >
+    <Box padding={3}>
       <Typography variant="h6" gutterBottom>
-        Payment method
+        Manual Write
       </Typography>
       <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
-          <TextField
-            required
-            id="cardName"
-            label="Name on card"
-            fullWidth
-            autoComplete="cc-name"
-            variant="standard"
-          />
+          <Stack spacing={2}>
+            <TextField
+              required
+              id="positiveVoltage"
+              label="Amplitude"
+              fullWidth
+              variant="standard"
+              InputProps={{
+                endAdornment: <InputAdornment position="end">V</InputAdornment>,
+              }}
+            />
+            <TextField
+              required
+              id="widthPostiveVoltage"
+              label="Width"
+              fullWidth
+              variant="standard"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">uS</InputAdornment>
+                ),
+              }}
+            />
+            <Button variant="contained" fullWidth>
+              POSITIVE PULSE
+            </Button>
+          </Stack>
         </Grid>
         <Grid item xs={12} md={6}>
-          <TextField
-            required
-            id="cardNumber"
-            label="Card number"
-            fullWidth
-            autoComplete="cc-number"
-            variant="standard"
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <TextField
-            required
-            id="expDate"
-            label="Expiry date"
-            fullWidth
-            autoComplete="cc-exp"
-            variant="standard"
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <TextField
-            required
-            id="cvv"
-            label="CVV"
-            helperText="Last three digits on signature strip"
-            fullWidth
-            autoComplete="cc-csc"
-            variant="standard"
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <FormControlLabel
-            control={<Checkbox color="secondary" name="saveCard" value="yes" />}
-            label="Remember credit card details for next time"
-          />
+          <Stack spacing={2}>
+            <TextField
+              required
+              id="negativeVoltage"
+              label="Amplitude"
+              fullWidth
+              variant="standard"
+              InputProps={{
+                endAdornment: <InputAdornment position="end">V</InputAdornment>,
+              }}
+            />
+            <TextField
+              required
+              id="widthNegativeVoltage"
+              label="Width"
+              fullWidth
+              variant="standard"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">uS</InputAdornment>
+                ),
+              }}
+            />
+            <Button variant="contained" fullWidth>
+              NEGATIVE PULSE
+            </Button>
+          </Stack>
         </Grid>
       </Grid>
     </Box>

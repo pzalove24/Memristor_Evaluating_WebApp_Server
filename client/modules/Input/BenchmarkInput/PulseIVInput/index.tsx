@@ -4,7 +4,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import { Grid, TextField, Typography, Stack } from "@mui/material";
 import Button from "@mui/material/Button/Button";
-import { WaveFunctionPulseIVwaveformProps } from "@/components/Chart/Waveform/PulseIVwaveform/WaveFunctionPulseIVwaveform";
+import { WaveFunctionPulseIVwaveformProps } from "@/modules/Chart/Waveform/PulseIVwaveform/WaveFunctionPulseIVwaveform";
 
 type PulseIVInputProps = {
   handleChangePulseIVwaveformValue: (

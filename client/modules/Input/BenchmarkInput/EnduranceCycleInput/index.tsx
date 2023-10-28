@@ -4,7 +4,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import { Grid, TextField, Typography, Stack } from "@mui/material";
 import Button from "@mui/material/Button/Button";
-import { WaveFunctionEnduranceCycleWaveformProps } from "@/components/Chart/Waveform/EnduranceCycleWaveform/WaveFunctionEnduranceCycleWaveform";
+import { WaveFunctionEnduranceCycleWaveformProps } from "@/modules/Chart/Waveform/EnduranceCycleWaveform/WaveFunctionEnduranceCycleWaveform";
 
 type EnduranceCycleInputProps = {
   handleChangeEnduranceCycleWaveformValue: (

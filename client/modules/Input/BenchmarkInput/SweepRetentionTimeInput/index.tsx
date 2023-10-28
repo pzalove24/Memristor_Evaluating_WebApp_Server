@@ -3,7 +3,7 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import { Button, Grid, TextField, Typography, Stack } from "@mui/material";
-import { WaveFunctionSweepRetentionTimeWaveformProps } from "@/components/Chart/Waveform/SweepRetentionTimeWaveform/WaveFunctionSweepRetentionTimeWaveform";
+import { WaveFunctionSweepRetentionTimeWaveformProps } from "@/modules/Chart/Waveform/SweepRetentionTimeWaveform/WaveFunctionSweepRetentionTimeWaveform";
 
 type SweepRetentionTimeInputProps = {
   handleChangeSweepRetentionTimeWaveformValue: (

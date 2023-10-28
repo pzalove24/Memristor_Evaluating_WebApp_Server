@@ -7,7 +7,7 @@ import FormHelperText from "@mui/material/FormHelperText";
 import Input from "@mui/material/Input";
 import InputLabel from "@mui/material/InputLabel";
 import { Button, Grid, TextField, Typography, Stack } from "@mui/material";
-import { WaveFunctionConductancePulseTimeProps } from "@/components/Chart/Waveform/ConductancePulseNumberWaveform/WaveFunctionConductancePulseTime";
+import { WaveFunctionConductancePulseTimeProps } from "@/modules/Chart/Waveform/ConductancePulseNumberWaveform/WaveFunctionConductancePulseTime";
 
 type ConductancePulseNumberInputProps = {
   handleChangesetConductancePulseNumberWaveformValue: (
