@@ -28,6 +28,8 @@ Setup Server
   - "dev": "start /b tsc -w & nodemon dist/app.js" //Window10
   - "dev": "tsc -w & nodemon dist/app.js", //Non-Window10
 
+2. Morgan to collect request log, for example, แนะนำ Morgan - ให้การเก็บ Request Log ใน NodeJS เป็นเรื่องง่าย BorntoDevCreators
+
 Database Design
 
 1. https://astera1.medium.com/all-you-need-to-know-about-database-design-1586d2a1c403

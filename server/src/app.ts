@@ -3,23 +3,26 @@ import cors from "cors";
 import dotenv from "dotenv";
 import helmet from "helmet";
 import morgan from "morgan";
+import serialPortRoutes from "./routes/serialPortRoutes";
 
 // CONFIGURATION
 dotenv.config();
 const app = express();
+app.use(express.json());
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
-app.use(morgan("common"));
+app.use(morgan("combined"));
 app.use(cors());
 
 // ROUTES
 app.get("/", (req, res) => {
   res.send("HelloWorld");
 });
+app.use("/serialPort", serialPortRoutes);
 
 // SERVER CONNECTION
-const PORT = process.env.PORT
+const PORT = process.env.PORT;
 
 app.listen(PORT, () => {
   console.log(`Server Port: ${PORT} CONNECTED`);
-})
+});
