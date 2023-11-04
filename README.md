@@ -18,7 +18,7 @@ Setup Server
 
 - npm init -y
 - npm install express
-- npm install --save-dev typescript @types/express @types/morgan
+- npm install --save-dev typescript @types/express @types/morgan @types/cors
 - npm install --save-dev nodemon
 - npm i cors dotenv helmet morgan
 - npx tsc --init
