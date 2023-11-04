@@ -1,3 +1,6 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": ["next/core-web-vitals", "eslint:recommended", "next"],
+  "globals": {
+    "globalThis": false // means it is not writeable
+  }
 }

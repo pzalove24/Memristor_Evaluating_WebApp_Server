@@ -3,6 +3,7 @@ import ThemeRegistry from "@/theme/ThemeRegistry";
 import type { Metadata } from "next";
 import { SideBar } from "@/components";
 import Providers from "@/components/Providers";
+import React from "react";
 
 export const metadata: Metadata = {
   title: "opensource Memristor",

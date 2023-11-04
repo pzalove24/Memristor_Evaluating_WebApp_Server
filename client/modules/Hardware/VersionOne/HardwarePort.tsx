@@ -11,8 +11,6 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { SerialPort } from "serialport";
-const { ReadlineParser } = require("@serialport/parser-readline");
 
 interface HardwarePortProps {
   comPort: string;
@@ -28,20 +26,6 @@ const HardwarePort = ({ comPort, handleChangePort }: HardwarePortProps) => {
   //   },
   // });
 
-  // console.log(comPortAvailable);
-
-  const port = new SerialPort({
-    path: "COM3",
-    baudRate: 9600,
-  });
-
-  const parser = port.pipe(new ReadlineParser({ delimiter: "\r\n" }));
-
-  parser.on("data", onData);
-
-  function onData(data: any) {
-    console.log("on Data at COM3 : " + data);
-  }
 
   return (
     <FormControl sx={{ m: 1, minWidth: 120 }}>

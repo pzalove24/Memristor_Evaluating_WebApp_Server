@@ -1,6 +1,6 @@
 import { Header } from "@/components";
 import TableBenchmarkReview from "@/modules/BenchmarkReview/TableBenchmarkReview";
-import { Box, Paper, Stack, Typography } from "@mui/material";
+import { Box, Paper, Stack } from "@mui/material";
 import React from "react";
 
 const BenchmarkReview = () => {

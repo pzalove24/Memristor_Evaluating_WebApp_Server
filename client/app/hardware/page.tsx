@@ -1,6 +1,5 @@
 import React from "react";
 import { Stack } from "@mui/material";
-import Typography from "@mui/material/Typography";
 import { Header } from "@/components";
 
 const Hardware = () => {
