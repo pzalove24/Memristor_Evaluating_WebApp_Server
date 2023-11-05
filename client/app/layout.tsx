@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: "opensource Memristor",
   description:
     "Opensource platform for memristor hardware and benchmark software",
+  manifest: "manifest.json",
 };
 
 export default function RootLayout({

@@ -1,0 +1,18 @@
+{
+  "name": "memristor_evaluating_webapp_server",
+  "version": "1.0.0",
+  "description": "MemristorBenchmarkSoftware",
+  "main": "index.js",
+  "scripts": {
+    "install-all": "npm install && cd server && npm install && cd ../client && npm install",
+    "dev:web": "concurrently \"cd client && npm run dev\" \"wait-on http://localhost:3000 && cd server && npm run dev \"",
+    "dev:web:server" : "cd server && npm run dev",
+    "dev:web:client" : "cd client && npm run dev",
+    "build:web": "cd server && tsc && cd .. && cd client && npm run build",
+    "build:web:server": "cd server && npm run start",
+    "build:web:client": "cd client && npm run build && npm run start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Peeratchai Kleebbua",
+  "license": "MIT"
+}
