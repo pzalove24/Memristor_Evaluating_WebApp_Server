@@ -5,7 +5,6 @@ import helmet from "helmet";
 import morgan from "morgan";
 import serialPortRoutes from "./routes/serialPortRoutes";
 import http from "http";
-import { createServer } from "node:http";
 import { Server } from "socket.io";
 
 // CONFIGURATION
@@ -22,11 +21,19 @@ const CLIENT_URL = process.env.CLIENT_URL;
 const server = http.createServer(app);
 
 const io = new Server(server, {
-  cors: { origin: "http://localhost:3000", methods: ["GET", "POST"] },
+  cors: {
+    origin: `${CLIENT_URL}`,
+    methods: ["GET", "POST"],
+  },
 });
 
 io.on("connection", (socket) => {
   console.log("User connected: ", socket.id);
+
+  socket.on("send_message", (data) => {
+    console.log(data)
+    socket.broadcast.emit("receive_message", data)
+  });
 });
 
 // ROUTES
@@ -38,6 +45,6 @@ app.use("/serialPort", serialPortRoutes);
 // SERVER CONNECTION
 const PORT = process.env.PORT;
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server Port: ${PORT} CONNECD`);
 });
