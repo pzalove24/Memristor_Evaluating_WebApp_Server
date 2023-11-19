@@ -29,6 +29,9 @@ Setup Server
   - "dev": "tsc -w & nodemon dist/app.js", //Non-Window10
 
 2. Morgan to collect request log, for example, แนะนำ Morgan - ให้การเก็บ Request Log ใน NodeJS เป็นเรื่องง่าย BorntoDevCreators
+3. https://stackoverflow.com/questions/77442570/how-to-integrate-socket-io-to-the-mvc-architecture-of-my-express-project
+4. https://socket.io/docs/v4/server-application-structure/#each-file-registers-its-own-event-handlers
+5. socket io should not be set in route/controller way
 
 Database Design
 

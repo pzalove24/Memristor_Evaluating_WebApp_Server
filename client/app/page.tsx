@@ -15,7 +15,7 @@ export default function Home() {
 
   React.useEffect(() => {
     socket.on("receive_message", (data) => {
-      setMessage(data.message);
+      setMessage(data);
     });
   }, [socket]);
 
