@@ -42,6 +42,7 @@ import {
   DialogSelectedStandardBenchmarkReviewProps,
 } from "@/types";
 import CheckedStandardBenchmark from "./CheckedStandardBenchmark";
+import ScatterBenchmarkChart from "@/components/charts/ScatterBenchmarkChart";
 
 export const StandardBenchmarkPartOne = ({
   BenchmarkReviewData,
@@ -117,7 +118,8 @@ export const StandardBenchmarkPartOne = ({
 
   const StandardBenchmarkChart: BenchmarkChart[] = [
     {
-      chart1: <SweepIVchart />,
+      // chart1: <SweepIVchart />,
+      chart1: <ScatterBenchmarkChart title="SweepIVchart" xTitle="voltage (V)" yTitle="current (uA)"/>,
       chart2: <SweepLogLog />,
       chart3: <CumuResistanceSweepType />,
       chart4: <DistributeResistanceSweepType />,

@@ -41,32 +41,86 @@ const io = new Server(server, {
 
 // SERIALPORT
 
-// const onConnection = (socket: any) => {
+io.on("connection", async (socket) => {
+  socket.on("serialPortList", async () => {
+    try {
+      const ports = await SerialPort.list();
+      socket.emit("COMPORT_SOCKET", ports);
+    } catch (error) {
+      console.error("Error listing serial ports:", error);
+    }
 
-// };
+    // SerialPort.list()
+    //   .then((ports) => {
+    //     ports.forEach((port) => {
+    //       console.log(`Port: ${port.path}, Manufacturer: ${port.manufacturer}`);
+    //       // Check if the port is open
+    //       if (port.path) {
+    //         console.log(`${port.path} is open.`);
+    //         // Add the open port to the array
+    //         openSerialPorts.push(port);
+    //       } else {
+    //         console.log(`${port.path} is not open.`);
+    //       }
+    //     });
+    //     // Now you have an array of open serial ports
+    //     console.log("Open serial ports:", openSerialPorts);
+    //     socket.emit("COMPORT_SOCKET", openSerialPorts);
+    //   })
+    //   .catch((err) => {
+    //     console.error("Error listing serial ports:", err);
+    //   });
+  });
 
-var serialConnection = new SerialPort({
-  path: "COM3",
-  baudRate: 9600,
-});
+  socket.on("selectedCOMPORT", (COM: string) => {
+    if (COM) {
+      var serialConnection = new SerialPort({
+        path: COM,
+        baudRate: 9600,
+      });
 
-const parser = serialConnection.pipe(new ReadlineParser({ delimiter: "\r\n" }));
+      const parser = serialConnection.pipe(
+        new ReadlineParser({ delimiter: "\r\n" })
+      );
 
-io.on("connection", (socket) => {
-  //relay socket.io writes to the serial port
-  // socket.on("data", (data) => {
-  //   serialConnection.write(data);
-  // });
-  serialConnection.open(function (err) {
-    if (err) {
-      return console.log("Error opening serialConnection: ", err.message);
+      //on data callback broadcast to the default socketio connection
+      serialConnection.on("open", function (err) {
+        console.log(err);
+        parser.on("data", function (benchmarkData) {
+          console.log(benchmarkData);
+          socket.emit("benchmark_data", benchmarkData);
+        });
+        if (err) {
+          return console.log("Error opening serialConnection: ", err.message);
+        }
+      });
+
+      //relay socket.io writes to the serial port
+      socket.on("command_benchmark", (command) => {
+        serialConnection.write(command);
+      });
+
+      //close handling by frontend
+      socket.on("disconnectCOMPORT", () => {
+        serialConnection.close(function (err) {
+          console.log("end serial connection", err);
+        });
+      });
+
+      //close handling by backend
+      serialConnection.on("close", function () {
+        console.log("close serial connection");
+        socket.emit("disconnectByUSB", "USBdisconnected");
+      });
+
+      //error handling
+      serialConnection.on("error", function () {
+        console.log("Can't establish serial connection " + COM);
+        // process.exit(1);
+      });
     }
   });
-  parser.on("data", function (data) {
-    console.log(data);
-    // io.emit("data", data);
-    socket.emit("receive_message", data);
-  });
+
   console.log("User connected: ", socket.id);
   // serialPortCommand(socket);
   // socket.on("send_message", (data) => {
@@ -78,20 +132,6 @@ io.on("connection", (socket) => {
     console.log("user disconnected");
   });
 });
-
-//on data callback broadcast to the default socketio connection
-// serialConnection.on("open", onConnection);
-
-// //close handling
-// serialConnection.on("close", function () {
-//   console.error("close serial connection with " + "COM3");
-// });
-
-// //error handling
-// serialConnection.on("error", function () {
-//   console.error("Can't establish serial connection with " + "COM3");
-//   // process.exit(1);
-// });
 
 // SERVER CONNECTION
 const PORT = process.env.PORT;

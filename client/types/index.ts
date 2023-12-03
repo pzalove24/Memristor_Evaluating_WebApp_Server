@@ -68,7 +68,13 @@ export interface DialogSelectedAdvancedBenchmarkReviewProps {
   BenchmarkReviewData?: any;
 }
 
-export type BoardCommandProps = {
-  MANUALREAD: 'manual_read';
-  MANUALWRITE: 'manual_write';
-}
+export type ComPortProps = {
+  path: string;
+  manufacturer: string;
+  serialNumber: string;
+  pnpId: string;
+  locationId: string;
+  friendlyName: string;
+  vendorId: string;
+  productId: string;
+};

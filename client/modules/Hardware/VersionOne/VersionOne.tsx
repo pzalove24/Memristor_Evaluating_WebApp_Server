@@ -2,10 +2,16 @@
 
 import React from "react";
 import Box from "@mui/material/Box";
-import { Typography, Stack, Grid, Card, SelectChangeEvent } from "@mui/material";
+import {
+  Typography,
+  Stack,
+  Grid,
+  Card,
+  SelectChangeEvent,
+} from "@mui/material";
 import {
   HardwareConnection,
-  HardwareSerialPort,
+  // HardwareSerialPort,
   HardwareTesting,
   HardwareVersionSelection,
 } from ".";
@@ -13,14 +19,63 @@ import HardwareImage from "./HardwareImage";
 import ManualRead from "@/modules/Benchmark/ManualOperation/ManualRead";
 import ManualWrite from "@/modules/Benchmark/ManualOperation/ManualWrite";
 import HardwarePort from "./HardwarePort";
+import LiveStreamingChart from "@/components/charts/LiveStreamingChart";
+import io from "socket.io-client";
+import { ComPortProps } from "@/types";
+
+const socket = io("http://localhost:3001");
 
 export default function VersionOne() {
-
-  const [comPort, setComPort] = React.useState('');
+  const [comPort, setComPort] = React.useState<ComPortProps[]>([]);
+  const [inputComPort, setInputComPort] = React.useState<string>("");
+  const [comPortStatus, setComPortStatus] = React.useState(false);
+  const [serialPortIncoming, setSerialPortIncoming] = React.useState("");
 
   const handleChangePort = (event: SelectChangeEvent) => {
-    setComPort(event.target.value);
+    setInputComPort(event.target.value);
   };
+
+  const requestPortLists = () => {
+    socket.emit("serialPortList", () => {});
+    socket.disconnect();
+  };
+
+  React.useEffect(() => {
+    socket.on("COMPORT_SOCKET", (COMPORT_SOCKET) => {
+      setComPort(COMPORT_SOCKET);
+    });
+    socket.on("disconnectByUSB", (USBDISCONNECTED) => {
+      if (USBDISCONNECTED === "USBdisconnected") {
+        disconnectCOMPORT();
+        setInputComPort("");
+      }
+    });
+    return () => {
+      socket.disconnect();
+    };
+  }, [socket]);
+
+  const selectedCOMPORT = () => {
+    socket.emit("selectedCOMPORT", inputComPort);
+    setComPortStatus(true);
+  };
+
+  const disconnectCOMPORT = () => {
+    socket.emit("disconnectCOMPORT", () => {});
+    setComPortStatus(false);
+    setSerialPortIncoming("");
+  };
+
+  React.useEffect(() => {
+    socket.on("benchmark_data", (benchmarkData) => {
+      setSerialPortIncoming(benchmarkData);
+    });
+    return () => {
+      socket.disconnect();
+    };
+  }, [inputComPort]);
+
+  console.log(serialPortIncoming);
 
   return (
     <Grid container>
@@ -48,8 +103,18 @@ export default function VersionOne() {
           }}
         >
           <HardwareVersionSelection />
-          <HardwarePort comPort={comPort} handleChangePort={handleChangePort} />
-          <HardwareConnection />
+          <HardwarePort
+            comPort={comPort}
+            inputComPort={inputComPort}
+            handleChangePort={handleChangePort}
+            requestPortLists={requestPortLists}
+          />
+          <HardwareConnection
+            inputComPort={inputComPort}
+            comPortStatus={comPortStatus}
+            selectedCOMPORT={selectedCOMPORT}
+            disconnectCOMPORT={disconnectCOMPORT}
+          />
           <HardwareTesting />
         </Stack>
       </Grid>
@@ -79,12 +144,12 @@ export default function VersionOne() {
             }}
           >
             <Typography noWrap sx={{ p: 3 }}>
-              SERIALPORTssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
+              {serialPortIncoming}
             </Typography>
           </Box>
         </Stack>
       </Grid>
-      <Grid container xs={12}>
+      <Grid container>
         <Grid item xs={3}>
           <ManualRead />
         </Grid>
@@ -99,8 +164,8 @@ export default function VersionOne() {
                 height: 360,
               }}
             >
-              <HardwareSerialPort
-                chartTitle="SerialPort Read Resistance"
+              <LiveStreamingChart
+                title="SerialPort Read Resistance"
                 xTitle="Time (us)"
                 yTitle="Resistance (Ohm)"
               />
@@ -108,7 +173,7 @@ export default function VersionOne() {
           </Card>
         </Grid>
       </Grid>
-      <Grid container xs={12}>
+      <Grid container>
         <Grid item xs={3}>
           <ManualWrite />
         </Grid>
@@ -123,8 +188,8 @@ export default function VersionOne() {
                 height: 360,
               }}
             >
-              <HardwareSerialPort
-                chartTitle="SerialPort Write Voltage"
+              <LiveStreamingChart
+                title="SerialPort Write Voltage"
                 xTitle="Time (us)"
                 yTitle="Voltage (V)"
               />
