@@ -22,6 +22,7 @@ import HardwarePort from "./HardwarePort";
 import LiveStreamingChart from "@/components/charts/LiveStreamingChart";
 import io from "socket.io-client";
 import { ComPortProps } from "@/types";
+import handleCommand, { BoardCommandType } from "@/utils/Commands";
 
 const socket = io("http://localhost:3001");
 
@@ -37,7 +38,6 @@ export default function VersionOne() {
 
   const requestPortLists = () => {
     socket.emit("serialPortList", () => {});
-    socket.disconnect();
   };
 
   React.useEffect(() => {
@@ -50,9 +50,6 @@ export default function VersionOne() {
         setInputComPort("");
       }
     });
-    return () => {
-      socket.disconnect();
-    };
   }, [socket]);
 
   const selectedCOMPORT = () => {
@@ -70,12 +67,14 @@ export default function VersionOne() {
     socket.on("benchmark_data", (benchmarkData) => {
       setSerialPortIncoming(benchmarkData);
     });
-    return () => {
-      socket.disconnect();
-    };
   }, [inputComPort]);
 
-  console.log(serialPortIncoming);
+  const serialPortTest = () => {
+    const command = {
+      type: BoardCommandType.TESTBOARD,
+    };
+    socket.emit("command_benchmark", handleCommand(command));
+  };
 
   return (
     <Grid container>
@@ -115,7 +114,10 @@ export default function VersionOne() {
             selectedCOMPORT={selectedCOMPORT}
             disconnectCOMPORT={disconnectCOMPORT}
           />
-          <HardwareTesting />
+          <HardwareTesting
+            comPortStatus={comPortStatus}
+            serialPortTest={serialPortTest}
+          />
         </Stack>
       </Grid>
       <Grid item xs={5}>

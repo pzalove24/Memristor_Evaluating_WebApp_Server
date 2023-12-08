@@ -72,6 +72,27 @@ io.on("connection", async (socket) => {
     //   });
   });
 
+  // var serialConnection = new SerialPort({
+  //   path: "COM3",
+  //   baudRate: 9600,
+  // });
+
+  // const parser = serialConnection.pipe(
+  //   new ReadlineParser({ delimiter: "\r\n" })
+  // );
+
+  // //on data callback broadcast to the default socketio connection
+  // serialConnection.on("open", function (err) {
+  //   console.log(err);
+  //   parser.on("data", function (benchmarkData) {
+  //     console.log(benchmarkData);
+  //     socket.emit("benchmark_data", benchmarkData);
+  //   });
+  //   if (err) {
+  //     return console.log("Error opening serialConnection: ", err.message);
+  //   }
+  // });
+
   socket.on("selectedCOMPORT", (COM: string) => {
     if (COM) {
       var serialConnection = new SerialPort({
@@ -97,6 +118,7 @@ io.on("connection", async (socket) => {
 
       //relay socket.io writes to the serial port
       socket.on("command_benchmark", (command) => {
+        console.log(command);
         serialConnection.write(command);
       });
 
