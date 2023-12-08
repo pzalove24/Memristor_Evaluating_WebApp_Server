@@ -13,8 +13,8 @@ export enum BoardCommandType {
 
 export interface Command {
   type: BoardCommandType;
-  operand1?: number;
-  operand2?: number;
+  voltage?: number;
+  widthVoltage?: number;
 }
 
 const handleCommand = (command: Command): number | string => {
@@ -22,19 +22,19 @@ const handleCommand = (command: Command): number | string => {
     case BoardCommandType.TESTBOARD:
       return BoardCommandType.TESTBOARD;
     case BoardCommandType.MANUALREAD:
-      return BoardCommandType.MANUALREAD;
+      return `${command.type} ${command.voltage}`;
     case BoardCommandType.MANUALWRITE:
-      return BoardCommandType.MANUALWRITE;
+      return `${command.type} ${command.voltage} ${command.widthVoltage}`;
     case BoardCommandType.IVCHART:
       return BoardCommandType.IVCHART;
     case BoardCommandType.Add:
-      return command.operand1 ? command.operand1 : 0;
+      return command.voltage ? command.voltage : 0;
     case BoardCommandType.Subtract:
-      return command.operand1 ? command.operand1 : 0;
+      return command.voltage ? command.voltage : 0;
     case BoardCommandType.Multiply:
-      return command.operand1 ? command.operand1 : 0;
+      return command.voltage ? command.voltage : 0;
     case BoardCommandType.Divide:
-      return command.operand1 ? command.operand1 : 0;
+      return command.voltage ? command.voltage : 0;
     default:
       // Handle unknown command
       return 0;

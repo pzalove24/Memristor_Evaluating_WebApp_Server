@@ -1,6 +1,6 @@
+import { initialManualReadValuesProps } from "@/modules/Hardware/VersionOne/VersionOne";
 import {
   Box,
-  Button,
   Checkbox,
   FormControlLabel,
   Grid,
@@ -8,36 +8,78 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import Button from "@mui/material/Button";
+import { FormikProps } from "formik";
 import React from "react";
 
-const ManualRead = () => {
+type ManualReadProps = {
+  formikProps: FormikProps<initialManualReadValuesProps>;
+};
+
+const ManualRead = ({ formikProps }: ManualReadProps) => {
+  const {
+    values,
+    setFieldValue,
+    handleChange,
+    handleBlur,
+    touched,
+    errors,
+    isSubmitting,
+    isValid,
+  } = formikProps;
+
   return (
     <Box padding={3}>
       <Typography variant="h6" gutterBottom>
         Manual Read
       </Typography>
+
       <Grid container spacing={3}>
         <Grid item xs={12} md={12}>
           <TextField
             required
-            id="readVoltage"
+            id="displayVoltage"
+            name="displayVoltage"
             placeholder="specify read voltage"
             fullWidth
-            value={"0.5"}
-            variant="standard"
+            value={values.displayVoltage}
+            variant="outlined"
+            type="number"
             InputProps={{
               endAdornment: <InputAdornment position="end">V</InputAdornment>,
             }}
+            inputProps={{ step: "0.1" }}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.displayVoltage && Boolean(errors.displayVoltage)}
+            helperText={touched.displayVoltage && errors.displayVoltage}
           />
         </Grid>
+        <Grid item xs={12}>
+          <Typography textAlign={"center"}>
+            Current Set Voltage = {values.currentVoltage}
+          </Typography>
+        </Grid>
         <Grid item xs={12} md={6}>
-          <Button variant="contained" fullWidth>
+          <Button
+            disabled={Boolean(errors.displayVoltage)}
+            variant="contained"
+            fullWidth
+            onClick={() =>
+              setFieldValue("currentVoltage", values.displayVoltage, true)
+            }
+          >
             UPDATE READ
           </Button>
         </Grid>
         <Grid item xs={12} md={6}>
-          <Button variant="contained" fullWidth>
-            READ
+          <Button
+            disabled={!isValid || isSubmitting}
+            variant="contained"
+            fullWidth
+            type="submit"
+          >
+            Submit
           </Button>
         </Grid>
       </Grid>

@@ -22,7 +22,64 @@ import HardwarePort from "./HardwarePort";
 import LiveStreamingChart from "@/components/charts/LiveStreamingChart";
 import io from "socket.io-client";
 import { ComPortProps } from "@/types";
-import handleCommand, { BoardCommandType } from "@/utils/Commands";
+import handleCommand, { BoardCommandType, Command } from "@/utils/Commands";
+import { FormikProvider, useFormik } from "formik";
+import * as yup from "yup";
+
+const validationManualReadSchema = yup.object({
+  command: yup.string().required("Command is required"),
+  displayVoltage: yup
+    .number()
+    .required("Voltage is required")
+    .positive("Voltage must be a positive number")
+    .min(0.5, "Voltage must be more than 0.5")
+    .max(1.0, "Voltage must be less than 1.0"),
+  currentVoltage: yup
+    .number()
+    .required("Voltage is required")
+    .positive("Voltage must be a positive number")
+    .min(0.5, "Voltage must be more than 0.5")
+    .max(1.0, "Voltage must be less than 1.0"),
+});
+
+const validationManualWriteSchema = yup.object({
+  command: yup.string().required("Command is required"),
+  positiveVoltage: yup
+    .number()
+    .required("Positive Voltage is required")
+    .positive("Voltage must be a positive number")
+    .moreThan(0, "Voltage must be more than 0"),
+  widthPostiveVoltage: yup
+    .number()
+    .required("Width Positive Voltage is required")
+    .positive("Width Positive Voltage must be a positive number")
+    .min(0.5, "Width Positive Voltage must be more than 0.5"),
+  negativeVoltage: yup
+    .number()
+    .required("Negative Voltage is required")
+    .negative("Voltage must be a negative number")
+    .lessThan(0, "Voltage must be less than 0"),
+  widthNegativeVoltage: yup
+    .number()
+    .required("Width Negative Voltage is required")
+    .positive("Width Negative Voltage must be a positive number")
+    .min(0.5, "Width Negative Voltage must be more than 0.5"),
+});
+
+export type initialManualReadValuesProps = {
+  command: BoardCommandType.MANUALREAD;
+  displayVoltage: number;
+  currentVoltage: number;
+};
+
+export type initialManualWriteValuesProps = {
+  command: BoardCommandType.MANUALWRITE;
+  polaritySent: "positive" | "negative";
+  positiveVoltage: number;
+  widthPostiveVoltage: number;
+  negativeVoltage: number;
+  widthNegativeVoltage: number;
+};
 
 const socket = io("http://localhost:3001");
 
@@ -32,6 +89,7 @@ export default function VersionOne() {
   const [comPortStatus, setComPortStatus] = React.useState(false);
   const [serialPortIncoming, setSerialPortIncoming] = React.useState("");
 
+  //**SOCKET COMPORT**\\
   const handleChangePort = (event: SelectChangeEvent) => {
     setInputComPort(event.target.value);
   };
@@ -75,6 +133,64 @@ export default function VersionOne() {
     };
     socket.emit("command_benchmark", handleCommand(command));
   };
+
+  //**END**\\
+
+  //**MANUAL_OPERATION_FORMIK**\\
+
+  const initialManualReadValues: initialManualReadValuesProps = {
+    command: BoardCommandType.MANUALREAD,
+    displayVoltage: 0.5,
+    currentVoltage: 0.5,
+  };
+
+  const initialManualWriteValues: initialManualWriteValuesProps = {
+    command: BoardCommandType.MANUALWRITE,
+    polaritySent: "positive",
+    positiveVoltage: 1.0,
+    widthPostiveVoltage: 1.0,
+    negativeVoltage: -1.0,
+    widthNegativeVoltage: 1.0,
+  };
+
+  const manualReadFormik = useFormik({
+    initialValues: initialManualReadValues,
+    validationSchema: validationManualReadSchema,
+    onSubmit: async (values) => {
+      console.log(values);
+      const command = {
+        type: values.command,
+        voltage: values.currentVoltage,
+      };
+      socket.emit("command_benchmark", handleCommand(command));
+    },
+  });
+
+  const manualWriteFormik = useFormik({
+    initialValues: initialManualWriteValues,
+    validationSchema: validationManualWriteSchema,
+    onSubmit: async (values) => {
+      if (values.polaritySent === "positive") {
+        console.log(values);
+        const command = {
+          type: values.command,
+          voltage: values.positiveVoltage,
+          widthVoltage: values.widthPostiveVoltage,
+        };
+        socket.emit("command_benchmark", handleCommand(command));
+      } else if (values.polaritySent === "negative") {
+        console.log("negative");
+        const command = {
+          type: values.command,
+          voltage: values.negativeVoltage,
+          widthVoltage: values.widthNegativeVoltage,
+        };
+        socket.emit("command_benchmark", handleCommand(command));
+      }
+    },
+  });
+
+  //**END**\\
 
   return (
     <Grid container>
@@ -153,7 +269,9 @@ export default function VersionOne() {
       </Grid>
       <Grid container>
         <Grid item xs={3}>
-          <ManualRead />
+          <form onSubmit={manualReadFormik.handleSubmit}>
+            <ManualRead formikProps={manualReadFormik} />
+          </form>
         </Grid>
         <Grid item xs={9}>
           <Card variant="outlined">
@@ -166,18 +284,20 @@ export default function VersionOne() {
                 height: 360,
               }}
             >
-              <LiveStreamingChart
+              {/* <LiveStreamingChart
                 title="SerialPort Read Resistance"
                 xTitle="Time (us)"
                 yTitle="Resistance (Ohm)"
-              />
+              /> */}
             </Box>
           </Card>
         </Grid>
       </Grid>
       <Grid container>
         <Grid item xs={3}>
-          <ManualWrite />
+          <form onSubmit={manualWriteFormik.handleSubmit}>
+            <ManualWrite formikProps={manualWriteFormik} />
+          </form>
         </Grid>
         <Grid item xs={9}>
           <Card variant="outlined">
@@ -190,11 +310,11 @@ export default function VersionOne() {
                 height: 360,
               }}
             >
-              <LiveStreamingChart
+              {/* <LiveStreamingChart
                 title="SerialPort Write Voltage"
                 xTitle="Time (us)"
                 yTitle="Voltage (V)"
-              />
+              /> */}
             </Box>
           </Card>
         </Grid>

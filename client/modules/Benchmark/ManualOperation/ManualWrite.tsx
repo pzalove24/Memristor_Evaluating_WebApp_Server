@@ -1,3 +1,4 @@
+import { initialManualWriteValuesProps } from "@/modules/Hardware/VersionOne/VersionOne";
 import {
   Box,
   Button,
@@ -9,9 +10,25 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { FormikProps } from "formik";
 import React from "react";
 
-const ManualWrite = () => {
+type ManualWriteProps = {
+  formikProps: FormikProps<initialManualWriteValuesProps>;
+};
+
+const ManualWrite = ({ formikProps }: ManualWriteProps) => {
+  const {
+    values,
+    setFieldValue,
+    handleChange,
+    handleBlur,
+    touched,
+    errors,
+    isSubmitting,
+    isValid,
+  } = formikProps;
+
   return (
     <Box padding={3}>
       <Typography variant="h6" gutterBottom>
@@ -23,26 +40,53 @@ const ManualWrite = () => {
             <TextField
               required
               id="positiveVoltage"
+              name="positiveVoltage"
               label="Amplitude"
               fullWidth
-              variant="standard"
+              value={values.positiveVoltage}
+              variant="outlined"
+              type="number"
               InputProps={{
                 endAdornment: <InputAdornment position="end">V</InputAdornment>,
               }}
+              inputProps={{ step: "0.1" }}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.positiveVoltage && Boolean(errors.positiveVoltage)}
+              helperText={touched.positiveVoltage && errors.positiveVoltage}
             />
             <TextField
               required
               id="widthPostiveVoltage"
+              name="widthPostiveVoltage"
               label="Width"
               fullWidth
-              variant="standard"
+              value={values.widthPostiveVoltage}
+              variant="outlined"
+              type="number"
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">uS</InputAdornment>
                 ),
               }}
+              inputProps={{ step: "0.1" }}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={
+                touched.widthPostiveVoltage &&
+                Boolean(errors.widthPostiveVoltage)
+              }
+              helperText={
+                touched.widthPostiveVoltage && errors.widthPostiveVoltage
+              }
             />
-            <Button variant="contained" fullWidth>
+            <Button
+              disabled={!isValid || isSubmitting}
+              variant="contained"
+              fullWidth
+              type="submit"
+              onClick={() => setFieldValue("polaritySent", "positive", true)}
+            >
               POSITIVE PULSE
             </Button>
           </Stack>
@@ -52,26 +96,53 @@ const ManualWrite = () => {
             <TextField
               required
               id="negativeVoltage"
+              name="negativeVoltage"
               label="Amplitude"
               fullWidth
-              variant="standard"
+              value={values.negativeVoltage}
+              variant="outlined"
+              type="number"
               InputProps={{
                 endAdornment: <InputAdornment position="end">V</InputAdornment>,
               }}
+              inputProps={{ step: "0.1" }}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.negativeVoltage && Boolean(errors.negativeVoltage)}
+              helperText={touched.negativeVoltage && errors.negativeVoltage}
             />
             <TextField
               required
               id="widthNegativeVoltage"
+              name="widthNegativeVoltage"
               label="Width"
               fullWidth
-              variant="standard"
+              value={values.widthNegativeVoltage}
+              variant="outlined"
+              type="number"
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">uS</InputAdornment>
                 ),
               }}
+              inputProps={{ step: "0.1" }}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={
+                touched.widthNegativeVoltage &&
+                Boolean(errors.widthNegativeVoltage)
+              }
+              helperText={
+                touched.widthNegativeVoltage && errors.widthNegativeVoltage
+              }
             />
-            <Button variant="contained" fullWidth>
+            <Button
+              disabled={!isValid || isSubmitting}
+              variant="contained"
+              fullWidth
+              type="submit"
+              onClick={() => setFieldValue("polaritySent", "negative", true)}
+            >
               NEGATIVE PULSE
             </Button>
           </Stack>
