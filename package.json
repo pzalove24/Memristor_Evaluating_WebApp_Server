@@ -6,13 +6,20 @@
   "scripts": {
     "install-all": "npm install && cd server && npm install && cd ../client && npm install",
     "dev:web": "concurrently \"npm run dev:web:client\" \"wait-on http://localhost:3000 && npm run dev:web:server \"",
-    "dev:web:server" : "cd server && npm run dev",
-    "dev:web:client" : "cd client && npm run dev",
-    "build:web": "cd server && tsc && cd .. && cd client && npm run build",
-    "build:web:server": "cd server && npm run start",
-    "build:web:client": "cd client && npm run build && npm run start",
+    "dev:web:server": "cd server && npm run dev",
+    "dev:web:client": "cd client && npm run dev",
+    "build:web": "npm run build:web:server && npm run build:web:client",
+    "build:web:server": "cd server && npm run build",
+    "build:web:client": "cd client && npm run build",
+    "start:web": "concurrently  \"npm run start:web:client\" \"wait-on http://localhost:3000 && npm run start:web:server \"",
+    "start:web:server": "cd server && npm run start",
+    "start:web:client": "cd client && npm run start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Peeratchai Kleebbua",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "concurrently": "^8.2.2",
+    "wait-on": "^7.2.0"
+  }
 }

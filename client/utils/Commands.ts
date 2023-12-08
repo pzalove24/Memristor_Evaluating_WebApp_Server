@@ -4,7 +4,7 @@ export enum BoardCommandType {
   TESTBOARD = "test_board",
   MANUALREAD = "manual_read",
   MANUALWRITE = "manual_write",
-  IVchart = "IVchart",
+  IVCHART = "IVchart",
   Add = "A",
   Subtract = "S",
   Multiply = "M",
@@ -25,6 +25,8 @@ const handleCommand = (command: Command): number | string => {
       return BoardCommandType.MANUALREAD;
     case BoardCommandType.MANUALWRITE:
       return BoardCommandType.MANUALWRITE;
+    case BoardCommandType.IVCHART:
+      return BoardCommandType.IVCHART;
     case BoardCommandType.Add:
       return command.operand1 ? command.operand1 : 0;
     case BoardCommandType.Subtract:
