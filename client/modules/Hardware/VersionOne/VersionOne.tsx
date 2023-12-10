@@ -22,12 +22,17 @@ import HardwarePort from "./HardwarePort";
 import LiveStreamingChart from "@/components/charts/LiveStreamingChart";
 import io from "socket.io-client";
 import { ComPortProps } from "@/types";
-import handleCommand, { BoardCommandType, Command } from "@/utils/Commands";
-import { FormikProvider, useFormik } from "formik";
+import handleCommand, { Command } from "@/utils/Commands";
+import { useFormik } from "formik";
 import * as yup from "yup";
+import {
+  BoardCommandType,
+  ManualCommandType,
+  TestCommandType,
+} from "@/types/commandType";
 
 const validationManualReadSchema = yup.object({
-  command: yup.string().required("Command is required"),
+  tag: yup.string().required("Tag is required"),
   displayVoltage: yup
     .number()
     .required("Voltage is required")
@@ -43,7 +48,7 @@ const validationManualReadSchema = yup.object({
 });
 
 const validationManualWriteSchema = yup.object({
-  command: yup.string().required("Command is required"),
+  tag: yup.string().required("Tag is required"),
   positiveVoltage: yup
     .number()
     .required("Positive Voltage is required")
@@ -67,13 +72,13 @@ const validationManualWriteSchema = yup.object({
 });
 
 export type initialManualReadValuesProps = {
-  command: BoardCommandType.MANUALREAD;
+  tag: BoardCommandType;
   displayVoltage: number;
   currentVoltage: number;
 };
 
 export type initialManualWriteValuesProps = {
-  command: BoardCommandType.MANUALWRITE;
+  tag: BoardCommandType;
   polaritySent: "positive" | "negative";
   positiveVoltage: number;
   widthPostiveVoltage: number;
@@ -84,6 +89,7 @@ export type initialManualWriteValuesProps = {
 const socket = io("http://localhost:3001");
 
 export default function VersionOne() {
+  const [currentSocket, setCurrentSocket] = React.useState<any>(null);
   const [comPort, setComPort] = React.useState<ComPortProps[]>([]);
   const [inputComPort, setInputComPort] = React.useState<string>("");
   const [comPortStatus, setComPortStatus] = React.useState(false);
@@ -95,10 +101,18 @@ export default function VersionOne() {
   };
 
   const requestPortLists = () => {
+    if (currentSocket) {
+      socket.disconnect();
+    }
     socket.emit("serialPortList", () => {});
   };
 
   React.useEffect(() => {
+    disconnectCOMPORT();
+    socket.on("disconnect", function () {
+      socket.connect();
+    });
+    setCurrentSocket(socket);
     socket.on("COMPORT_SOCKET", (COMPORT_SOCKET) => {
       setComPort(COMPORT_SOCKET);
     });
@@ -108,7 +122,16 @@ export default function VersionOne() {
         setInputComPort("");
       }
     });
-  }, [socket]);
+
+    // Attach the event listener when the component mounts
+    window.addEventListener("beforeunload", disconnectCOMPORT);
+
+    // Remove the event listener when the component unmounts
+    return () => {
+      disconnectCOMPORT();
+      window.removeEventListener("beforeunload", disconnectCOMPORT);
+    };
+  }, []);
 
   const selectedCOMPORT = () => {
     socket.emit("selectedCOMPORT", inputComPort);
@@ -119,6 +142,9 @@ export default function VersionOne() {
     socket.emit("disconnectCOMPORT", () => {});
     setComPortStatus(false);
     setSerialPortIncoming("");
+    if (currentSocket) {
+      socket.disconnect();
+    }
   };
 
   React.useEffect(() => {
@@ -128,8 +154,8 @@ export default function VersionOne() {
   }, [inputComPort]);
 
   const serialPortTest = () => {
-    const command = {
-      type: BoardCommandType.TESTBOARD,
+    const command: Command = {
+      tag: TestCommandType.TESTBOARD_WEB,
     };
     socket.emit("command_benchmark", handleCommand(command));
   };
@@ -139,13 +165,13 @@ export default function VersionOne() {
   //**MANUAL_OPERATION_FORMIK**\\
 
   const initialManualReadValues: initialManualReadValuesProps = {
-    command: BoardCommandType.MANUALREAD,
+    tag: ManualCommandType.MANUALREAD_WEB,
     displayVoltage: 0.5,
     currentVoltage: 0.5,
   };
 
   const initialManualWriteValues: initialManualWriteValuesProps = {
-    command: BoardCommandType.MANUALWRITE,
+    tag: ManualCommandType.MANUALWRITE_WEB,
     polaritySent: "positive",
     positiveVoltage: 1.0,
     widthPostiveVoltage: 1.0,
@@ -158,9 +184,9 @@ export default function VersionOne() {
     validationSchema: validationManualReadSchema,
     onSubmit: async (values) => {
       console.log(values);
-      const command = {
-        type: values.command,
-        voltage: values.currentVoltage,
+      const command: Command = {
+        tag: values.tag,
+        write_voltage: values.currentVoltage,
       };
       socket.emit("command_benchmark", handleCommand(command));
     },
@@ -172,18 +198,18 @@ export default function VersionOne() {
     onSubmit: async (values) => {
       if (values.polaritySent === "positive") {
         console.log(values);
-        const command = {
-          type: values.command,
-          voltage: values.positiveVoltage,
-          widthVoltage: values.widthPostiveVoltage,
+        const command: Command = {
+          tag: values.tag,
+          write_voltage: values.positiveVoltage,
+          pulse_width: values.widthPostiveVoltage,
         };
         socket.emit("command_benchmark", handleCommand(command));
       } else if (values.polaritySent === "negative") {
         console.log("negative");
-        const command = {
-          type: values.command,
-          voltage: values.negativeVoltage,
-          widthVoltage: values.widthNegativeVoltage,
+        const command: Command = {
+          tag: values.tag,
+          write_voltage: values.negativeVoltage,
+          pulse_width: values.widthNegativeVoltage,
         };
         socket.emit("command_benchmark", handleCommand(command));
       }
