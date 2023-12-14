@@ -5,58 +5,18 @@ import Box from "@mui/material/Box";
 import { Grid, TextField, Typography, Stack } from "@mui/material";
 import Button from "@mui/material/Button/Button";
 import { WaveFunctionPulseIVwaveformProps } from "@/modules/Chart/Waveform/PulseIVwaveform/WaveFunctionPulseIVwaveform";
+import { FormikProps } from "formik";
+import { initialBenchmarkInputValuesProps } from "@/modules/Benchmark/BenchmarkInput/BenchmarkInputPartOne";
 
 type PulseIVInputProps = {
-  handleChangePulseIVwaveformValue: (
-    positivePulseValue: number, //positiveVoltage
-    negativePulseValue: number, //negativeVoltage
-    pulseDuration: number, //voltageWidth
-    distanceBetweenPulse: number, //interval
-    stepsPerSegment: number, //voltageStep
-    cycles: number //sweepCycle
-  ) => void;
-  pulseIVwaveformValue: WaveFunctionPulseIVwaveformProps;
+  benchmarkInputFormik: FormikProps<initialBenchmarkInputValuesProps>;
 };
 
 export default function PulseIVInput({
-  handleChangePulseIVwaveformValue,
-  pulseIVwaveformValue,
+  benchmarkInputFormik,
 }: PulseIVInputProps) {
-  const [negativeVoltage, setNegativeVoltage] = React.useState<number>(
-    pulseIVwaveformValue.negativePulseValue
-  );
-  const [positiveVoltage, setPositiveVoltage] = React.useState<number>(
-    pulseIVwaveformValue.positivePulseValue
-  );
-  const [voltageWidth, setVoltageWidth] = React.useState<number>(
-    pulseIVwaveformValue.pulseDuration
-  );
-  const [voltageStep, setVoltageStep] = React.useState<number>(
-    pulseIVwaveformValue.stepsPerSegment
-  );
-  const [interval, setInterval] = React.useState<number>(
-    pulseIVwaveformValue.distanceBetweenPulse
-  );
-  const [sweepCycle, setSweepCycle] = React.useState<number>(
-    pulseIVwaveformValue.cycles
-  );
+  const { values, handleChange, resetForm } = benchmarkInputFormik;
   const [deviceChannel, setDeviceChannel] = React.useState<number>(1);
-
-  const handleReset = () => {
-    setNegativeVoltage(0);
-    setPositiveVoltage(0);
-    setVoltageWidth(0);
-    setVoltageStep(0);
-    setInterval(0);
-    handleChangePulseIVwaveformValue(
-      positiveVoltage,
-      negativeVoltage,
-      voltageWidth,
-      interval,
-      voltageStep,
-      sweepCycle
-    );
-  };
 
   return (
     <Box
@@ -89,7 +49,8 @@ export default function PulseIVInput({
         </Grid>
         <Grid item xs={7}>
           <TextField
-            id="standard-number"
+            id="pulseIVwaveformValue.negativePulseValue"
+            name="pulseIVwaveformValue.negativePulseValue"
             type="number"
             InputLabelProps={{
               shrink: true,
@@ -97,15 +58,8 @@ export default function PulseIVInput({
             variant="standard"
             helperText="negative voltage (-3.00 - 0.00)"
             placeholder="provide number"
-            value={negativeVoltage}
-            onChange={(e) => {
-              var value = parseFloat(e.target.value);
-
-              if (value > 0) value = 0; //max
-              if (value < -3) value = -3; //min
-
-              setNegativeVoltage(value);
-            }}
+            value={values.pulseIVwaveformValue.negativePulseValue}
+            onChange={handleChange}
             inputProps={{ min: -3, max: 0 }}
           />
         </Grid>
@@ -117,7 +71,8 @@ export default function PulseIVInput({
         </Grid>
         <Grid item xs={7}>
           <TextField
-            id="standard-number"
+            id="pulseIVwaveformValue.positivePulseValue"
+            name="pulseIVwaveformValue.positivePulseValue"
             type="number"
             InputLabelProps={{
               shrink: true,
@@ -125,15 +80,8 @@ export default function PulseIVInput({
             variant="standard"
             helperText="positive voltage (0.00 - 3.00)"
             placeholder="provide number"
-            value={positiveVoltage}
-            onChange={(e) => {
-              var value = parseFloat(e.target.value);
-
-              if (value > 3) value = 3; //max
-              if (value < 0) value = 0; //min
-
-              setPositiveVoltage(value);
-            }}
+            value={values.pulseIVwaveformValue.positivePulseValue}
+            onChange={handleChange}
             inputProps={{ min: 0, max: 3 }}
           />
         </Grid>
@@ -145,7 +93,8 @@ export default function PulseIVInput({
         </Grid>
         <Grid item xs={7}>
           <TextField
-            id="standard-number"
+            id="pulseIVwaveformValue.pulseDuration"
+            name="pulseIVwaveformValue.pulseDuration"
             type="number"
             InputLabelProps={{
               shrink: true,
@@ -153,15 +102,8 @@ export default function PulseIVInput({
             variant="standard"
             helperText="the width of voltage pulse"
             placeholder="provide number"
-            value={voltageWidth}
-            onChange={(e) => {
-              var value = parseInt(e.target.value);
-
-              if (value > 1000) value = 1000; //max
-              if (value < 0) value = 0; //min
-
-              setVoltageWidth(value);
-            }}
+            value={values.pulseIVwaveformValue.pulseDuration}
+            onChange={handleChange}
             inputProps={{ min: 0, max: 1000 }}
           />
         </Grid>
@@ -173,7 +115,8 @@ export default function PulseIVInput({
         </Grid>
         <Grid item xs={7}>
           <TextField
-            id="standard-number"
+            id="pulseIVwaveformValue.stepsPerSegment"
+            name="pulseIVwaveformValue.stepsPerSegment"
             type="number"
             InputLabelProps={{
               shrink: true,
@@ -181,15 +124,8 @@ export default function PulseIVInput({
             variant="standard"
             helperText="the voltage step for resolution"
             placeholder="provide number"
-            value={voltageStep}
-            onChange={(e) => {
-              var value = parseInt(e.target.value);
-
-              if (value > 100000) value = 100000; //max
-              if (value < 0) value = 0; //min
-
-              setVoltageStep(value);
-            }}
+            value={values.pulseIVwaveformValue.stepsPerSegment}
+            onChange={handleChange}
             inputProps={{ min: 0, max: 100000 }}
           />
         </Grid>
@@ -201,7 +137,8 @@ export default function PulseIVInput({
         </Grid>
         <Grid item xs={7}>
           <TextField
-            id="standard-number"
+            id="pulseIVwaveformValue.distanceBetweenPulse"
+            name="pulseIVwaveformValue.distanceBetweenPulse"
             type="number"
             InputLabelProps={{
               shrink: true,
@@ -209,15 +146,8 @@ export default function PulseIVInput({
             variant="standard"
             helperText="Interpulse interval between each voltage"
             placeholder="provide number"
-            value={interval}
-            onChange={(e) => {
-              var value = parseFloat(e.target.value);
-
-              if (value > 100000) value = 100000; //max
-              if (value < 0) value = 0; //min
-
-              setInterval(value);
-            }}
+            value={values.pulseIVwaveformValue.distanceBetweenPulse}
+            onChange={handleChange}
             inputProps={{ min: 0, max: 100000 }}
           />
         </Grid>
@@ -229,7 +159,8 @@ export default function PulseIVInput({
         </Grid>
         <Grid item xs={7}>
           <TextField
-            id="standard-number"
+            id="pulseIVwaveformValue.cycles"
+            name="pulseIVwaveformValue.cycles"
             type="number"
             InputLabelProps={{
               shrink: true,
@@ -237,15 +168,8 @@ export default function PulseIVInput({
             variant="standard"
             helperText="the number of applied voltage pulse"
             placeholder="provide number"
-            value={sweepCycle}
-            onChange={(e) => {
-              var value = parseFloat(e.target.value);
-
-              if (value > 100000) value = 100000; //max
-              if (value < 0) value = 0; //min
-
-              setSweepCycle(value);
-            }}
+            value={values.pulseIVwaveformValue.cycles}
+            onChange={handleChange}
             inputProps={{ min: 0, max: 100000 }}
           />
         </Grid>
@@ -274,20 +198,20 @@ export default function PulseIVInput({
           <Stack spacing={5} direction={"row"}>
             <Button
               variant="contained"
-              onClick={() =>
-                handleChangePulseIVwaveformValue(
-                  positiveVoltage,
-                  negativeVoltage,
-                  voltageWidth,
-                  interval,
-                  voltageStep,
-                  sweepCycle
-                )
-              }
+              // onClick={() =>
+              //   handleChangePulseIVwaveformValue(
+              //     positiveVoltage,
+              //     negativeVoltage,
+              //     voltageWidth,
+              //     interval,
+              //     voltageStep,
+              //     sweepCycle
+              //   )
+              // }
             >
               View Waveform
             </Button>
-            <Button variant="contained" onClick={handleReset}>
+            <Button variant="contained" onClick={() => resetForm()}>
               RESET
             </Button>
           </Stack>

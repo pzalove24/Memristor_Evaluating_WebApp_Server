@@ -21,12 +21,12 @@ import ManualWrite from "@/modules/Benchmark/ManualOperation/ManualWrite";
 import HardwarePort from "./HardwarePort";
 import LiveStreamingChart from "@/components/charts/LiveStreamingChart";
 import io from "socket.io-client";
-import { ComPortProps } from "@/types";
 import handleCommand, { Command } from "@/utils/Commands";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import {
   BoardCommandType,
+  ComPortProps,
   ManualCommandType,
   TestCommandType,
 } from "@/types/commandType";

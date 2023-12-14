@@ -4,71 +4,38 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import { Button, Grid, TextField, Typography, Stack } from "@mui/material";
 import { WaveFunctionSweepRetentionTimeWaveformProps } from "@/modules/Chart/Waveform/SweepRetentionTimeWaveform/WaveFunctionSweepRetentionTimeWaveform";
+import { FormikProps } from "formik";
+import { initialBenchmarkInputValuesProps } from "@/modules/Benchmark/BenchmarkInput/BenchmarkInputPartOne";
 
 type SweepRetentionTimeInputProps = {
-  handleChangeSweepRetentionTimeWaveformValue: (
-    positivePulseValue: number, //positiveVoltage
-    intermediatePulseValue: number, //readVoltage
-    negativePulseValue: number, //negativeVoltage
-    positivePulseDuration: number, //positiveVoltageWidth
-    intermediatePulseDuration: number, //measureTime
-    negativePulseDuration: number, //negativeVoltageWidth
-    distanceBetweenPulse: number, //interval
-    cycles: number //retentionCycleTesting
-  ) => void;
-  sweepRetentionTimeWaveformValue: WaveFunctionSweepRetentionTimeWaveformProps;
+  benchmarkInputFormik: FormikProps<initialBenchmarkInputValuesProps>;
 };
 
 export default function SweepRetentionTimeInput({
-  handleChangeSweepRetentionTimeWaveformValue,
-  sweepRetentionTimeWaveformValue,
+  benchmarkInputFormik,
 }: SweepRetentionTimeInputProps) {
-  const [negativeVoltage, setNegativeVoltage] = React.useState<number>(
-    sweepRetentionTimeWaveformValue.negativePulseValue
-  );
-  const [readVoltage, setReadVoltage] = React.useState<number>(
-    sweepRetentionTimeWaveformValue.intermediatePulseValue
-  );
-  const [positiveVoltage, setPositiveVoltage] = React.useState<number>(
-    sweepRetentionTimeWaveformValue.positivePulseValue
-  );
-  const [negativeVoltageWidth, setNegativeVoltageWidth] =
-    React.useState<number>(
-      sweepRetentionTimeWaveformValue.negativePulseDuration
-    );
-  const [measureTime, setMeasureTime] = React.useState<number>(
-    sweepRetentionTimeWaveformValue.intermediatePulseDuration
-  );
-  const [positiveVoltageWidth, setPositiveVoltageWidth] =
-    React.useState<number>(
-      sweepRetentionTimeWaveformValue.positivePulseDuration
-    );
-  const [interval, setInterval] = React.useState<number>(
-    sweepRetentionTimeWaveformValue.distanceBetweenPulse
-  );
-  const [retentionCycleTesting, setRetentionCycleTesting] =
-    React.useState<number>(sweepRetentionTimeWaveformValue.cycles);
+  const { values, handleChange, resetForm } = benchmarkInputFormik;
   const [deviceChannel, setDeviceChannel] = React.useState<number>(1);
 
-  const handleReset = () => {
-    setNegativeVoltage(0);
-    setReadVoltage(0);
-    setPositiveVoltage(0);
-    setNegativeVoltageWidth(0);
-    setPositiveVoltageWidth(0);
-    setMeasureTime(0);
-    setInterval(0);
-    handleChangeSweepRetentionTimeWaveformValue(
-      positiveVoltage,
-      readVoltage,
-      negativeVoltage,
-      positiveVoltageWidth,
-      measureTime,
-      negativeVoltageWidth,
-      interval,
-      retentionCycleTesting
-    );
-  };
+  // const handleReset = () => {
+  //   setNegativeVoltage(0);
+  //   setReadVoltage(0);
+  //   setPositiveVoltage(0);
+  //   setNegativeVoltageWidth(0);
+  //   setPositiveVoltageWidth(0);
+  //   setMeasureTime(0);
+  //   setInterval(0);
+  //   handleChangeSweepRetentionTimeWaveformValue(
+  //     positiveVoltage,
+  //     readVoltage,
+  //     negativeVoltage,
+  //     positiveVoltageWidth,
+  //     measureTime,
+  //     negativeVoltageWidth,
+  //     interval,
+  //     retentionCycleTesting
+  //   );
+  // };
 
   return (
     <Box
@@ -101,7 +68,8 @@ export default function SweepRetentionTimeInput({
         </Grid>
         <Grid item xs={7}>
           <TextField
-            id="standard-number"
+            id="sweepRetentionTimeWaveformValue.negativePulseValue"
+            name="sweepRetentionTimeWaveformValue.negativePulseValue"
             type="number"
             InputLabelProps={{
               shrink: true,
@@ -109,15 +77,8 @@ export default function SweepRetentionTimeInput({
             variant="standard"
             helperText="negative voltage (-3.00 - 0.00)"
             placeholder="provide number"
-            value={negativeVoltage}
-            onChange={(e) => {
-              var value = parseFloat(e.target.value);
-
-              if (value > 0) value = 0; //max
-              if (value < -3) value = -3; //min
-
-              setNegativeVoltage(value);
-            }}
+            value={values.sweepRetentionTimeWaveformValue.negativePulseValue}
+            onChange={handleChange}
             inputProps={{ min: -3, max: 0 }}
           />
         </Grid>
@@ -129,7 +90,8 @@ export default function SweepRetentionTimeInput({
         </Grid>
         <Grid item xs={7}>
           <TextField
-            id="standard-number"
+            id="sweepRetentionTimeWaveformValue.intermediatePulseValue"
+            name="sweepRetentionTimeWaveformValue.intermediatePulseValue"
             type="number"
             InputLabelProps={{
               shrink: true,
@@ -137,15 +99,10 @@ export default function SweepRetentionTimeInput({
             variant="standard"
             helperText="read voltage (0.00 - 3.00)"
             placeholder="provide number"
-            value={readVoltage}
-            onChange={(e) => {
-              var value = parseFloat(e.target.value);
-
-              if (value > 3) value = 3; //max
-              if (value < 0) value = 0; //min
-
-              setReadVoltage(value);
-            }}
+            value={
+              values.sweepRetentionTimeWaveformValue.intermediatePulseValue
+            }
+            onChange={handleChange}
             inputProps={{ min: 0, max: 3 }}
           />
         </Grid>
@@ -157,7 +114,8 @@ export default function SweepRetentionTimeInput({
         </Grid>
         <Grid item xs={7}>
           <TextField
-            id="standard-number"
+            id="sweepRetentionTimeWaveformValue.positivePulseValue"
+            name="sweepRetentionTimeWaveformValue.positivePulseValue"
             type="number"
             InputLabelProps={{
               shrink: true,
@@ -165,15 +123,8 @@ export default function SweepRetentionTimeInput({
             variant="standard"
             helperText="positive voltage (0.00 - 3.00)"
             placeholder="provide number"
-            value={positiveVoltage}
-            onChange={(e) => {
-              var value = parseFloat(e.target.value);
-
-              if (value > 3) value = 3; //max
-              if (value < 0) value = 0; //min
-
-              setPositiveVoltage(value);
-            }}
+            value={values.sweepRetentionTimeWaveformValue.positivePulseValue}
+            onChange={handleChange}
             inputProps={{ min: 0, max: 3 }}
           />
         </Grid>
@@ -185,7 +136,8 @@ export default function SweepRetentionTimeInput({
         </Grid>
         <Grid item xs={7}>
           <TextField
-            id="standard-number"
+            id="sweepRetentionTimeWaveformValue.negativePulseDuration"
+            name="sweepRetentionTimeWaveformValue.negativePulseDuration"
             type="number"
             InputLabelProps={{
               shrink: true,
@@ -193,15 +145,8 @@ export default function SweepRetentionTimeInput({
             variant="standard"
             helperText="the width of negative voltage pulse"
             placeholder="provide number"
-            value={negativeVoltageWidth}
-            onChange={(e) => {
-              var value = parseInt(e.target.value);
-
-              if (value > 1000) value = 1000; //max
-              if (value < 0) value = 0; //min
-
-              setNegativeVoltageWidth(value);
-            }}
+            value={values.sweepRetentionTimeWaveformValue.negativePulseDuration}
+            onChange={handleChange}
             inputProps={{ min: 0, max: 1000 }}
           />
         </Grid>
@@ -215,7 +160,8 @@ export default function SweepRetentionTimeInput({
         </Grid>
         <Grid item xs={7}>
           <TextField
-            id="standard-number"
+            id="sweepRetentionTimeWaveformValue.intermediatePulseDuration"
+            name="sweepRetentionTimeWaveformValue.intermediatePulseDuration"
             type="number"
             InputLabelProps={{
               shrink: true,
@@ -223,15 +169,10 @@ export default function SweepRetentionTimeInput({
             variant="standard"
             helperText="How long to measure retention time"
             placeholder="provide number"
-            value={measureTime}
-            onChange={(e) => {
-              var value = parseInt(e.target.value);
-
-              if (value > 1000) value = 1000; //max
-              if (value < 0) value = 0; //min
-
-              setMeasureTime(value);
-            }}
+            value={
+              values.sweepRetentionTimeWaveformValue.intermediatePulseDuration
+            }
+            onChange={handleChange}
             inputProps={{ min: 0, max: 1000 }}
           />
         </Grid>
@@ -243,7 +184,8 @@ export default function SweepRetentionTimeInput({
         </Grid>
         <Grid item xs={7}>
           <TextField
-            id="standard-number"
+            id="sweepRetentionTimeWaveformValue.positivePulseDuration"
+            name="sweepRetentionTimeWaveformValue.positivePulseDuration"
             type="number"
             InputLabelProps={{
               shrink: true,
@@ -251,15 +193,8 @@ export default function SweepRetentionTimeInput({
             variant="standard"
             helperText="the width of positive voltage pulse"
             placeholder="provide number"
-            value={positiveVoltageWidth}
-            onChange={(e) => {
-              var value = parseInt(e.target.value);
-
-              if (value > 1000) value = 1000; //max
-              if (value < 0) value = 0; //min
-
-              setPositiveVoltageWidth(value);
-            }}
+            value={values.sweepRetentionTimeWaveformValue.positivePulseDuration}
+            onChange={handleChange}
             inputProps={{ min: 0, max: 1000 }}
           />
         </Grid>
@@ -272,7 +207,8 @@ export default function SweepRetentionTimeInput({
         </Grid>
         <Grid item xs={7}>
           <TextField
-            id="standard-number"
+            id="sweepRetentionTimeWaveformValue.distanceBetweenPulse"
+            name="sweepRetentionTimeWaveformValue.distanceBetweenPulse"
             type="number"
             InputLabelProps={{
               shrink: true,
@@ -280,15 +216,8 @@ export default function SweepRetentionTimeInput({
             variant="standard"
             helperText="Interpulse interval between each voltage"
             placeholder="provide number"
-            value={interval}
-            onChange={(e) => {
-              var value = parseFloat(e.target.value);
-
-              if (value > 100000) value = 100000; //max
-              if (value < 0) value = 0; //min
-
-              setInterval(value);
-            }}
+            value={values.sweepRetentionTimeWaveformValue.distanceBetweenPulse}
+            onChange={handleChange}
             inputProps={{ min: 0, max: 100000 }}
           />
         </Grid>
@@ -300,7 +229,8 @@ export default function SweepRetentionTimeInput({
         </Grid>
         <Grid item xs={7}>
           <TextField
-            id="standard-number"
+            id="sweepRetentionTimeWaveformValue.cycles"
+            name="sweepRetentionTimeWaveformValue.cycles"
             type="number"
             InputLabelProps={{
               shrink: true,
@@ -308,15 +238,8 @@ export default function SweepRetentionTimeInput({
             variant="standard"
             helperText="How many retention time testing"
             placeholder="provide number"
-            value={retentionCycleTesting}
-            onChange={(e) => {
-              var value = parseInt(e.target.value);
-
-              if (value > 100000) value = 100000; //max
-              if (value < 0) value = 0; //min
-
-              setRetentionCycleTesting(value);
-            }}
+            value={values.sweepRetentionTimeWaveformValue.cycles}
+            onChange={handleChange}
             inputProps={{ min: 0, max: 100000 }}
           />
         </Grid>
@@ -345,22 +268,10 @@ export default function SweepRetentionTimeInput({
           <Stack spacing={5} direction={"row"}>
             <Button
               variant="contained"
-              onClick={() =>
-                handleChangeSweepRetentionTimeWaveformValue(
-                  positiveVoltage,
-                  readVoltage,
-                  negativeVoltage,
-                  positiveVoltageWidth,
-                  measureTime,
-                  negativeVoltageWidth,
-                  interval,
-                  retentionCycleTesting
-                )
-              }
             >
               View Waveform
             </Button>
-            <Button variant="contained" onClick={handleReset}>
+            <Button variant="contained" onClick={() => resetForm()}>
               RESET
             </Button>
           </Stack>

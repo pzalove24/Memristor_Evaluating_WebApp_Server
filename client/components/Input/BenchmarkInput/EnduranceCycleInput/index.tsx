@@ -5,67 +5,38 @@ import Box from "@mui/material/Box";
 import { Grid, TextField, Typography, Stack } from "@mui/material";
 import Button from "@mui/material/Button/Button";
 import { WaveFunctionEnduranceCycleWaveformProps } from "@/modules/Chart/Waveform/EnduranceCycleWaveform/WaveFunctionEnduranceCycleWaveform";
+import { initialBenchmarkInputValuesProps } from "@/modules/Benchmark/BenchmarkInput/BenchmarkInputPartOne";
+import { FormikProps } from "formik";
 
 type EnduranceCycleInputProps = {
-  handleChangeEnduranceCycleWaveformValue: (
-    positivePulseValue: number, //positiveVoltage
-    intermediatePulseValue: number, //readVoltage
-    negativePulseValue: number, //negativeVoltage
-    positivePulseDuration: number, //positiveVoltageWidth
-    intermediatePulseDuration: number, //readVoltageWidth
-    negativePulseDuration: number, //negativeVoltageWidth
-    distanceBetweenPulse: number, //interval
-    cycles: number //enduranceCycleTesting
-  ) => void;
-  enduranceCycleWaveformValue: WaveFunctionEnduranceCycleWaveformProps;
+  benchmarkInputFormik: FormikProps<initialBenchmarkInputValuesProps>;
 };
 
 export default function EnduranceCycleInput({
-  handleChangeEnduranceCycleWaveformValue,
-  enduranceCycleWaveformValue,
+  benchmarkInputFormik,
 }: EnduranceCycleInputProps) {
-  const [negativeVoltage, setNegativeVoltage] = React.useState<number>(
-    enduranceCycleWaveformValue.negativePulseValue
-  );
-  const [readVoltage, setReadVoltage] = React.useState<number>(
-    enduranceCycleWaveformValue.intermediatePulseValue
-  );
-  const [positiveVoltage, setPositiveVoltage] = React.useState<number>(
-    enduranceCycleWaveformValue.positivePulseValue
-  );
-  const [negativeVoltageWidth, setNegativeVoltageWidth] =
-    React.useState<number>(enduranceCycleWaveformValue.negativePulseDuration);
-  const [readVoltageWidth, setReadVoltageWidth] = React.useState<number>(
-    enduranceCycleWaveformValue.intermediatePulseDuration
-  );
-  const [positiveVoltageWidth, setPositiveVoltageWidth] =
-    React.useState<number>(enduranceCycleWaveformValue.positivePulseDuration);
-  const [interval, setInterval] = React.useState<number>(
-    enduranceCycleWaveformValue.distanceBetweenPulse
-  );
-  const [enduranceCycleTesting, setEnduranceCycleTesting] =
-    React.useState<number>(enduranceCycleWaveformValue.cycles);
+  const { values, handleChange, resetForm } = benchmarkInputFormik;
   const [deviceChannel, setDeviceChannel] = React.useState<number>(1);
 
-  const handleReset = () => {
-    setNegativeVoltage(0);
-    setReadVoltage(0);
-    setPositiveVoltage(0);
-    setNegativeVoltageWidth(0);
-    setReadVoltageWidth(0);
-    setPositiveVoltageWidth(0);
-    setInterval(0);
-    handleChangeEnduranceCycleWaveformValue(
-      positiveVoltage,
-      readVoltage,
-      negativeVoltage,
-      positiveVoltageWidth,
-      readVoltageWidth,
-      negativeVoltageWidth,
-      interval,
-      enduranceCycleTesting
-    );
-  };
+  // const handleReset = () => {
+  //   setNegativeVoltage(0);
+  //   setReadVoltage(0);
+  //   setPositiveVoltage(0);
+  //   setNegativeVoltageWidth(0);
+  //   setReadVoltageWidth(0);
+  //   setPositiveVoltageWidth(0);
+  //   setInterval(0);
+  //   handleChangeEnduranceCycleWaveformValue(
+  //     positiveVoltage,
+  //     readVoltage,
+  //     negativeVoltage,
+  //     positiveVoltageWidth,
+  //     readVoltageWidth,
+  //     negativeVoltageWidth,
+  //     interval,
+  //     enduranceCycleTesting
+  //   );
+  // };
 
   return (
     <Box
@@ -98,7 +69,8 @@ export default function EnduranceCycleInput({
         </Grid>
         <Grid item xs={7}>
           <TextField
-            id="standard-number"
+            id="enduranceCycleWaveformValue.negativePulseValue"
+            name="enduranceCycleWaveformValue.negativePulseValue"
             type="number"
             InputLabelProps={{
               shrink: true,
@@ -106,15 +78,8 @@ export default function EnduranceCycleInput({
             variant="standard"
             helperText="negative voltage (-3.00 - 0.00)"
             placeholder="provide number"
-            value={negativeVoltage}
-            onChange={(e) => {
-              var value = parseFloat(e.target.value);
-
-              if (value > 0) value = 0; //max
-              if (value < -3) value = -3; //min
-
-              setNegativeVoltage(value);
-            }}
+            value={values.enduranceCycleWaveformValue.negativePulseValue}
+            onChange={handleChange}
             inputProps={{ min: -3, max: 0 }}
           />
         </Grid>
@@ -126,7 +91,8 @@ export default function EnduranceCycleInput({
         </Grid>
         <Grid item xs={7}>
           <TextField
-            id="standard-number"
+            id="enduranceCycleWaveformValue.intermediatePulseValue"
+            name="enduranceCycleWaveformValue.intermediatePulseValue"
             type="number"
             InputLabelProps={{
               shrink: true,
@@ -134,15 +100,8 @@ export default function EnduranceCycleInput({
             variant="standard"
             helperText="read voltage (0.00 - 3.00)"
             placeholder="provide number"
-            value={readVoltage}
-            onChange={(e) => {
-              var value = parseFloat(e.target.value);
-
-              if (value > 3) value = 3; //max
-              if (value < 0) value = 0; //min
-
-              setReadVoltage(value);
-            }}
+            value={values.enduranceCycleWaveformValue.intermediatePulseValue}
+            onChange={handleChange}
             inputProps={{ min: 0, max: 3 }}
           />
         </Grid>
@@ -154,7 +113,8 @@ export default function EnduranceCycleInput({
         </Grid>
         <Grid item xs={7}>
           <TextField
-            id="standard-number"
+            id="enduranceCycleWaveformValue.positivePulseValue"
+            name="enduranceCycleWaveformValue.positivePulseValue"
             type="number"
             InputLabelProps={{
               shrink: true,
@@ -162,15 +122,8 @@ export default function EnduranceCycleInput({
             variant="standard"
             helperText="positive voltage (0.00 - 3.00)"
             placeholder="provide number"
-            value={positiveVoltage}
-            onChange={(e) => {
-              var value = parseFloat(e.target.value);
-
-              if (value > 3) value = 3; //max
-              if (value < 0) value = 0; //min
-
-              setPositiveVoltage(value);
-            }}
+            value={values.enduranceCycleWaveformValue.positivePulseValue}
+            onChange={handleChange}
             inputProps={{ min: 0, max: 3 }}
           />
         </Grid>
@@ -182,7 +135,8 @@ export default function EnduranceCycleInput({
         </Grid>
         <Grid item xs={7}>
           <TextField
-            id="standard-number"
+            id="enduranceCycleWaveformValue.negativePulseDuration"
+            name="enduranceCycleWaveformValue.negativePulseDuration"
             type="number"
             InputLabelProps={{
               shrink: true,
@@ -190,15 +144,8 @@ export default function EnduranceCycleInput({
             variant="standard"
             helperText="the width of postive voltage pulse"
             placeholder="provide number"
-            value={negativeVoltageWidth}
-            onChange={(e) => {
-              var value = parseInt(e.target.value);
-
-              if (value > 1000) value = 1000; //max
-              if (value < 0) value = 0; //min
-
-              setNegativeVoltageWidth(value);
-            }}
+            value={values.enduranceCycleWaveformValue.negativePulseDuration}
+            onChange={handleChange}
             inputProps={{ min: 0, max: 1000 }}
           />
         </Grid>
@@ -210,7 +157,8 @@ export default function EnduranceCycleInput({
         </Grid>
         <Grid item xs={7}>
           <TextField
-            id="standard-number"
+            id="enduranceCycleWaveformValue.intermediatePulseDuration"
+            name="enduranceCycleWaveformValue.intermediatePulseDuration"
             type="number"
             InputLabelProps={{
               shrink: true,
@@ -218,15 +166,8 @@ export default function EnduranceCycleInput({
             variant="standard"
             helperText="the width of read voltage pulse"
             placeholder="provide number"
-            value={readVoltageWidth}
-            onChange={(e) => {
-              var value = parseInt(e.target.value);
-
-              if (value > 1000) value = 1000; //max
-              if (value < 0) value = 0; //min
-
-              setReadVoltageWidth(value);
-            }}
+            value={values.enduranceCycleWaveformValue.intermediatePulseDuration}
+            onChange={handleChange}
             inputProps={{ min: 0, max: 1000 }}
           />
         </Grid>
@@ -238,7 +179,8 @@ export default function EnduranceCycleInput({
         </Grid>
         <Grid item xs={7}>
           <TextField
-            id="standard-number"
+            id="enduranceCycleWaveformValue.positivePulseDuration"
+            name="enduranceCycleWaveformValue.positivePulseDuration"
             type="number"
             InputLabelProps={{
               shrink: true,
@@ -246,15 +188,8 @@ export default function EnduranceCycleInput({
             variant="standard"
             helperText="the width of negative voltage pulse"
             placeholder="provide number"
-            value={positiveVoltageWidth}
-            onChange={(e) => {
-              var value = parseInt(e.target.value);
-
-              if (value > 1000) value = 1000; //max
-              if (value < 0) value = 0; //min
-
-              setPositiveVoltageWidth(value);
-            }}
+            value={values.enduranceCycleWaveformValue.positivePulseDuration}
+            onChange={handleChange}
             inputProps={{ min: 0, max: 1000 }}
           />
         </Grid>
@@ -267,7 +202,8 @@ export default function EnduranceCycleInput({
         </Grid>
         <Grid item xs={7}>
           <TextField
-            id="standard-number"
+            id="enduranceCycleWaveformValue.distanceBetweenPulse"
+            name="enduranceCycleWaveformValue.distanceBetweenPulse"
             type="number"
             InputLabelProps={{
               shrink: true,
@@ -275,15 +211,8 @@ export default function EnduranceCycleInput({
             variant="standard"
             helperText="Interpulse interval between each voltage"
             placeholder="provide number"
-            value={interval}
-            onChange={(e) => {
-              var value = parseFloat(e.target.value);
-
-              if (value > 100000) value = 100000; //max
-              if (value < 0) value = 0; //min
-
-              setInterval(value);
-            }}
+            value={values.enduranceCycleWaveformValue.distanceBetweenPulse}
+            onChange={handleChange}
             inputProps={{ min: 0, max: 100000 }}
           />
         </Grid>
@@ -295,7 +224,8 @@ export default function EnduranceCycleInput({
         </Grid>
         <Grid item xs={7}>
           <TextField
-            id="standard-number"
+            id="enduranceCycleWaveformValue.cycles"
+            name="enduranceCycleWaveformValue.cycles"
             type="number"
             InputLabelProps={{
               shrink: true,
@@ -303,15 +233,8 @@ export default function EnduranceCycleInput({
             variant="standard"
             helperText="How many endurance cycle testing"
             placeholder="provide number"
-            value={enduranceCycleTesting}
-            onChange={(e) => {
-              var value = parseFloat(e.target.value);
-
-              if (value > 100000) value = 100000; //max
-              if (value < 0) value = 0; //min
-
-              setEnduranceCycleTesting(value);
-            }}
+            value={values.enduranceCycleWaveformValue.cycles}
+            onChange={handleChange}
             inputProps={{ min: 0, max: 100000 }}
           />
         </Grid>
@@ -340,22 +263,22 @@ export default function EnduranceCycleInput({
           <Stack spacing={5} direction={"row"}>
             <Button
               variant="contained"
-              onClick={() =>
-                handleChangeEnduranceCycleWaveformValue(
-                  positiveVoltage,
-                  readVoltage,
-                  negativeVoltage,
-                  positiveVoltageWidth,
-                  readVoltageWidth,
-                  negativeVoltageWidth,
-                  interval,
-                  enduranceCycleTesting
-                )
-              }
+              // onClick={() =>
+              //   handleChangeEnduranceCycleWaveformValue(
+              //     positiveVoltage,
+              //     readVoltage,
+              //     negativeVoltage,
+              //     positiveVoltageWidth,
+              //     readVoltageWidth,
+              //     negativeVoltageWidth,
+              //     interval,
+              //     enduranceCycleTesting
+              //   )
+              // }
             >
               View Waveform
             </Button>
-            <Button variant="contained" onClick={handleReset}>
+            <Button variant="contained" onClick={() => resetForm()}>
               RESET
             </Button>
           </Stack>

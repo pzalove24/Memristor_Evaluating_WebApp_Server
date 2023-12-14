@@ -5,52 +5,18 @@ import Box from "@mui/material/Box";
 import { Grid, Stack, TextField, Typography } from "@mui/material";
 import Button from "@mui/material/Button/Button";
 import { WaveFunctionSweepIVwaveformProps } from "@/modules/Chart/Waveform/SweepIVwaveform/WaveFunctionSweepIVwaveform";
+import { FormikProps } from "formik";
+import { initialBenchmarkInputValuesProps } from "@/modules/Benchmark/BenchmarkInput/BenchmarkInputPartOne";
 
 type SweepIVInputProps = {
-  handleChangeSweepIVwaveformValue: (
-    positivePulseValue: number, //positiveVoltage
-    negativePulseValue: number, //negativeVoltage
-    pulseDuration: number, //voltageWidth
-    stepsPerSegment: number, //voltageStep
-    cycles: number //sweepCycle
-  ) => void;
-  sweepIVwaveformValue: WaveFunctionSweepIVwaveformProps;
+  benchmarkInputFormik: FormikProps<initialBenchmarkInputValuesProps>;
 };
 
 export default function SweepIVInput({
-  handleChangeSweepIVwaveformValue,
-  sweepIVwaveformValue,
+  benchmarkInputFormik,
 }: SweepIVInputProps) {
-  const [negativeVoltage, setNegativeVoltage] = React.useState<number>(
-    sweepIVwaveformValue.negativePulseValue
-  );
-  const [positiveVoltage, setPositiveVoltage] = React.useState<number>(
-    sweepIVwaveformValue.positivePulseValue
-  );
-  const [voltageWidth, setVoltageWidth] = React.useState<number>(
-    sweepIVwaveformValue.pulseDuration
-  );
-  const [voltageStep, setVoltageStep] = React.useState<number>(
-    sweepIVwaveformValue.stepsPerSegment
-  );
-  const [sweepCycle, setSweepCycle] = React.useState<number>(
-    sweepIVwaveformValue.cycles
-  );
+  const { values, handleChange, resetForm } = benchmarkInputFormik;
   const [deviceChannel, setDeviceChannel] = React.useState<number>(1);
-
-  const handleReset = () => {
-    setNegativeVoltage(0);
-    setPositiveVoltage(0);
-    setVoltageWidth(0);
-    setVoltageStep(0);
-    handleChangeSweepIVwaveformValue(
-      positiveVoltage,
-      negativeVoltage,
-      voltageWidth,
-      voltageStep,
-      sweepCycle
-    );
-  };
 
   return (
     <Box
@@ -83,7 +49,8 @@ export default function SweepIVInput({
         </Grid>
         <Grid item xs={7}>
           <TextField
-            id="standard-number"
+            id="sweepIVwaveformValue.negativePulseValue"
+            name="sweepIVwaveformValue.negativePulseValue"
             type="number"
             InputLabelProps={{
               shrink: true,
@@ -91,15 +58,8 @@ export default function SweepIVInput({
             variant="standard"
             helperText="negative voltage (-3.00 - 0.00)"
             placeholder="provide number"
-            value={negativeVoltage}
-            onChange={(e) => {
-              var value = parseFloat(e.target.value);
-
-              if (value > 0) value = 0; //max
-              if (value < -3) value = -3; //min
-
-              setNegativeVoltage(value);
-            }}
+            value={values.sweepIVwaveformValue.negativePulseValue}
+            onChange={handleChange}
             inputProps={{ min: -3, max: 0 }}
           />
         </Grid>
@@ -111,7 +71,8 @@ export default function SweepIVInput({
         </Grid>
         <Grid item xs={7}>
           <TextField
-            id="standard-number"
+            id="sweepIVwaveformValue.positivePulseValue"
+            name="sweepIVwaveformValue.positivePulseValue"
             type="number"
             InputLabelProps={{
               shrink: true,
@@ -119,15 +80,8 @@ export default function SweepIVInput({
             variant="standard"
             helperText="positive voltage (0.00 - 3.00)"
             placeholder="provide number"
-            value={positiveVoltage}
-            onChange={(e) => {
-              var value = parseFloat(e.target.value);
-
-              if (value > 3) value = 3; //max
-              if (value < 0) value = 0; //min
-
-              setPositiveVoltage(value);
-            }}
+            value={values.sweepIVwaveformValue.positivePulseValue}
+            onChange={handleChange}
             inputProps={{ min: 0, max: 3 }}
           />
         </Grid>
@@ -139,7 +93,8 @@ export default function SweepIVInput({
         </Grid>
         <Grid item xs={7}>
           <TextField
-            id="standard-number"
+            id="sweepIVwaveformValue.pulseDuration"
+            name="sweepIVwaveformValue.pulseDuration"
             type="number"
             InputLabelProps={{
               shrink: true,
@@ -147,15 +102,8 @@ export default function SweepIVInput({
             variant="standard"
             helperText="the width of voltage pulse"
             placeholder="provide number"
-            value={voltageWidth}
-            onChange={(e) => {
-              var value = parseInt(e.target.value);
-
-              if (value > 1000) value = 1000; //max
-              if (value < 0) value = 0; //min
-
-              setVoltageWidth(value);
-            }}
+            value={values.sweepIVwaveformValue.pulseDuration}
+            onChange={handleChange}
             inputProps={{ min: 0, max: 1000 }}
           />
         </Grid>
@@ -167,7 +115,8 @@ export default function SweepIVInput({
         </Grid>
         <Grid item xs={7}>
           <TextField
-            id="standard-number"
+            id="sweepIVwaveformValue.stepsPerSegment"
+            name="sweepIVwaveformValue.stepsPerSegment"
             type="number"
             InputLabelProps={{
               shrink: true,
@@ -175,15 +124,8 @@ export default function SweepIVInput({
             variant="standard"
             helperText="the voltage step for resolution"
             placeholder="provide number"
-            value={voltageStep}
-            onChange={(e) => {
-              var value = parseInt(e.target.value);
-
-              if (value > 100000) value = 100000; //max
-              if (value < 0) value = 0; //min
-
-              setVoltageStep(value);
-            }}
+            value={values.sweepIVwaveformValue.stepsPerSegment}
+            onChange={handleChange}
             inputProps={{ min: 0, max: 100000 }}
           />
         </Grid>
@@ -195,7 +137,8 @@ export default function SweepIVInput({
         </Grid>
         <Grid item xs={7}>
           <TextField
-            id="standard-number"
+            id="sweepIVwaveformValue.cycles"
+            name="sweepIVwaveformValue.cycles"
             type="number"
             InputLabelProps={{
               shrink: true,
@@ -203,15 +146,8 @@ export default function SweepIVInput({
             variant="standard"
             helperText="the number of applied voltage pulse"
             placeholder="provide number"
-            value={sweepCycle}
-            onChange={(e) => {
-              var value = parseFloat(e.target.value);
-
-              if (value > 100000) value = 100000; //max
-              if (value < 0) value = 0; //min
-
-              setSweepCycle(value);
-            }}
+            value={values.sweepIVwaveformValue.cycles}
+            onChange={handleChange}
             inputProps={{ min: 0, max: 100000 }}
           />
         </Grid>
@@ -240,19 +176,19 @@ export default function SweepIVInput({
           <Stack spacing={5} direction={"row"}>
             <Button
               variant="contained"
-              onClick={() =>
-                handleChangeSweepIVwaveformValue(
-                  positiveVoltage,
-                  negativeVoltage,
-                  voltageWidth,
-                  voltageStep,
-                  sweepCycle
-                )
-              }
+              // onClick={() =>
+              //   handleChangeSweepIVwaveformValue(
+              //     positiveVoltage,
+              //     negativeVoltage,
+              //     voltageWidth,
+              //     voltageStep,
+              //     sweepCycle
+              //   )
+              // }
             >
               View Waveform
             </Button>
-            <Button variant="contained" onClick={handleReset}>
+            <Button variant="contained" onClick={() => resetForm()}>
               RESET
             </Button>
           </Stack>

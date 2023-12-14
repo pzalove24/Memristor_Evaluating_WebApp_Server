@@ -10,12 +10,8 @@ import EnduranceCycleInput from "./EnduranceCycleInput";
 import ConductancePulseNumberInput from "./ConductancePulseNumberInput";
 import SweepRetentionTimeInput from "./SweepRetentionTimeInput";
 import PulseRetentionTimeInput from "./PulseRetentionTimeInput";
-import { WaveFunctionSweepIVwaveformProps } from "@/modules/Chart/Waveform/SweepIVwaveform/WaveFunctionSweepIVwaveform";
-import { WaveFunctionPulseIVwaveformProps } from "@/modules/Chart/Waveform/PulseIVwaveform/WaveFunctionPulseIVwaveform";
-import { WaveFunctionEnduranceCycleWaveformProps } from "@/modules/Chart/Waveform/EnduranceCycleWaveform/WaveFunctionEnduranceCycleWaveform";
-import { WaveFunctionSweepRetentionTimeWaveformProps } from "@/modules/Chart/Waveform/SweepRetentionTimeWaveform/WaveFunctionSweepRetentionTimeWaveform";
-import { WaveFunctionPulseRetentionTimeWaveformProps } from "@/modules/Chart/Waveform/PulseRetentionTimeWaveform/WaveFunctionPulseRetentionTimeWaveform";
-import { WaveFunctionConductancePulseTimeProps } from "@/modules/Chart/Waveform/ConductancePulseNumberWaveform/WaveFunctionConductancePulseTime";
+import { FormikProps } from "formik";
+import { initialBenchmarkInputValuesProps } from "@/modules/Benchmark/BenchmarkInput/BenchmarkInputPartOne";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -53,88 +49,15 @@ function ParameterInputTabProps(index: number) {
 }
 
 type ParameterInputTabsProps = {
-  handleChangeSweepIVwaveformValue: (
-    positivePulseValue: number,
-    negativePulseValue: number,
-    pulseDuration: number,
-    stepsPerSegment: number,
-    cycles: number
-  ) => void;
-  sweepIVwaveformValue: WaveFunctionSweepIVwaveformProps;
-  handleChangePulseIVwaveformValue: (
-    positivePulseValue: number,
-    negativePulseValue: number,
-    pulseDuration: number,
-    distanceBetweenPulse: number,
-    stepsPerSegment: number,
-    cycles: number
-  ) => void;
-  pulseIVwaveformValue: WaveFunctionPulseIVwaveformProps;
-  handleChangeEnduranceCycleWaveformValue: (
-    positivePulseValue: number,
-    intermediatePulseValue: number,
-    negativePulseValue: number,
-    positivePulseDuration: number,
-    intermediatePulseDuration: number,
-    negativePulseDuration: number,
-    distanceBetweenPulse: number,
-    cycles: number
-  ) => void;
-  enduranceCycleWaveformValue: WaveFunctionEnduranceCycleWaveformProps;
-  handleChangeSweepRetentionTimeWaveformValue: (
-    positivePulseValue: number,
-    intermediatePulseValue: number,
-    negativePulseValue: number,
-    positivePulseDuration: number,
-    intermediatePulseDuration: number,
-    negativePulseDuration: number,
-    distanceBetweenPulse: number,
-    cycles: number
-  ) => void;
-  sweepRetentionTimeWaveformValue: WaveFunctionSweepRetentionTimeWaveformProps;
-  handleChangePulseRetentionTimeWaveformValue: (
-    positivePulseValue: number,
-    intermediatePulseValue: number,
-    negativePulseValue: number,
-    positivePulseDuration: number,
-    intermediatePulseDuration: number,
-    negativePulseDuration: number,
-    distanceBetweenPulse: number,
-    cycleIntermediatePulse: number,
-    cycles: number
-  ) => void;
-  pulseRetentionTimeWaveformValue: WaveFunctionPulseRetentionTimeWaveformProps;
-  handleChangesetConductancePulseNumberWaveformValue: (
-    positivePulseValue: number,
-    intermediatePulseValue: number,
-    negativePulseValue: number,
-    positivePulseDuration: number,
-    intermediatePulseDuration: number,
-    negativePulseDuration: number,
-    distanceBetweenPulse: number,
-    cycleReadingPulse: number,
-    cycles: number
-  ) => void;
-  conductancePulseNumberWaveformValue: WaveFunctionConductancePulseTimeProps;
+  benchmarkInputFormik: FormikProps<initialBenchmarkInputValuesProps>;
 };
 
 export default function ParameterInputTabs({
-  handleChangeSweepIVwaveformValue,
-  sweepIVwaveformValue,
-  handleChangePulseIVwaveformValue,
-  pulseIVwaveformValue,
-  handleChangeEnduranceCycleWaveformValue,
-  enduranceCycleWaveformValue,
-  handleChangeSweepRetentionTimeWaveformValue,
-  sweepRetentionTimeWaveformValue,
-  handleChangePulseRetentionTimeWaveformValue,
-  pulseRetentionTimeWaveformValue,
-  handleChangesetConductancePulseNumberWaveformValue,
-  conductancePulseNumberWaveformValue,
+  benchmarkInputFormik,
 }: ParameterInputTabsProps) {
   const [value, setValue] = React.useState(0);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChangeTabs = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
@@ -143,7 +66,7 @@ export default function ParameterInputTabs({
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs
           value={value}
-          onChange={handleChange}
+          onChange={handleChangeTabs}
           aria-label="basic tabs example"
           variant="scrollable"
           scrollButtons
@@ -158,50 +81,40 @@ export default function ParameterInputTabs({
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <SweepIVInput
-          handleChangeSweepIVwaveformValue={handleChangeSweepIVwaveformValue}
-          sweepIVwaveformValue={sweepIVwaveformValue}
-        />
+        <form onSubmit={benchmarkInputFormik.handleSubmit}>
+          <SweepIVInput benchmarkInputFormik={benchmarkInputFormik} />
+        </form>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <PulseIVInput
-          handleChangePulseIVwaveformValue={handleChangePulseIVwaveformValue}
-          pulseIVwaveformValue={pulseIVwaveformValue}
-        />
+        <form onSubmit={benchmarkInputFormik.handleSubmit}>
+          <PulseIVInput benchmarkInputFormik={benchmarkInputFormik} />
+        </form>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        <ConductancePulseNumberInput
-          handleChangesetConductancePulseNumberWaveformValue={
-            handleChangesetConductancePulseNumberWaveformValue
-          }
-          conductancePulseNumberWaveformValue={
-            conductancePulseNumberWaveformValue
-          }
-        />
+        <form onSubmit={benchmarkInputFormik.handleSubmit}>
+          <ConductancePulseNumberInput
+            benchmarkInputFormik={benchmarkInputFormik}
+          />
+        </form>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3}>
-        <EnduranceCycleInput
-          handleChangeEnduranceCycleWaveformValue={
-            handleChangeEnduranceCycleWaveformValue
-          }
-          enduranceCycleWaveformValue={enduranceCycleWaveformValue}
-        />
+        <form onSubmit={benchmarkInputFormik.handleSubmit}>
+          <EnduranceCycleInput benchmarkInputFormik={benchmarkInputFormik} />
+        </form>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={4}>
-        <SweepRetentionTimeInput
-          handleChangeSweepRetentionTimeWaveformValue={
-            handleChangeSweepRetentionTimeWaveformValue
-          }
-          sweepRetentionTimeWaveformValue={sweepRetentionTimeWaveformValue}
-        />
+        <form onSubmit={benchmarkInputFormik.handleSubmit}>
+          <SweepRetentionTimeInput
+            benchmarkInputFormik={benchmarkInputFormik}
+          />
+        </form>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={5}>
-        <PulseRetentionTimeInput
-          handleChangePulseRetentionTimeWaveformValue={
-            handleChangePulseRetentionTimeWaveformValue
-          }
-          pulseRetentionTimeWaveformValue={pulseRetentionTimeWaveformValue}
-        />
+        <form onSubmit={benchmarkInputFormik.handleSubmit}>
+          <PulseRetentionTimeInput
+            benchmarkInputFormik={benchmarkInputFormik}
+          />
+        </form>
       </CustomTabPanel>
     </Box>
   );

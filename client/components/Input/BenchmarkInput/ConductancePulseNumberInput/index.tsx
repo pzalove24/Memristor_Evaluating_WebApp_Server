@@ -8,88 +8,29 @@ import Input from "@mui/material/Input";
 import InputLabel from "@mui/material/InputLabel";
 import { Button, Grid, TextField, Typography, Stack } from "@mui/material";
 import { WaveFunctionConductancePulseTimeProps } from "@/modules/Chart/Waveform/ConductancePulseNumberWaveform/WaveFunctionConductancePulseTime";
+import { FormikProps } from "formik";
+import { initialBenchmarkInputValuesProps } from "@/modules/Benchmark/BenchmarkInput/BenchmarkInputPartOne";
 
 type ConductancePulseNumberInputProps = {
-  handleChangesetConductancePulseNumberWaveformValue: (
-    positivePulseValue: number, //positiveVoltage
-    intermediatePulseValue: number, //readVoltage
-    negativePulseValue: number, //negativeVoltage
-    positivePulseDuration: number, //positiveVoltageWidth
-    intermediatePulseDuration: number, //measureTime
-    negativePulseDuration: number, //negativeVoltageWidth
-    distanceBetweenPulse: number, //waitTime
-    cycleReadingPulse: number, //programmingPulse
-    cycles: number //programmingCyclesRepeat
-  ) => void;
-  conductancePulseNumberWaveformValue: WaveFunctionConductancePulseTimeProps;
+  benchmarkInputFormik: FormikProps<initialBenchmarkInputValuesProps>;
 };
 
 export default function ConductancePulseNumberInput({
-  handleChangesetConductancePulseNumberWaveformValue,
-  conductancePulseNumberWaveformValue,
+  benchmarkInputFormik,
 }: ConductancePulseNumberInputProps) {
-  const [negativeVoltage, setNegativeVoltage] = React.useState<number>(
-    conductancePulseNumberWaveformValue.negativePulseValue
-  );
-  const [readVoltage, setReadVoltage] = React.useState<number>(
-    conductancePulseNumberWaveformValue.intermediatePulseValue
-  );
-
-  const [positiveVoltage, setPositiveVoltage] = React.useState<number>(
-    conductancePulseNumberWaveformValue.positivePulseValue
-  );
-
-  const [negativeVoltageWidth, setNegativeVoltageWidth] =
-    React.useState<number>(
-      conductancePulseNumberWaveformValue.negativePulseDuration
-    );
-
-  const [positiveVoltageWidth, setPositiveVoltageWidth] =
-    React.useState<number>(
-      conductancePulseNumberWaveformValue.positivePulseDuration
-    );
-
-  const [measureTime, setMeasureTime] = React.useState<number>(
-    conductancePulseNumberWaveformValue.intermediatePulseDuration
-  );
-
-  const [waitTime, setWaitTime] = React.useState<number>(
-    conductancePulseNumberWaveformValue.distanceBetweenPulse
-  );
-  const [programmingPulse, setProgrammingPulse] = React.useState<number>(
-    conductancePulseNumberWaveformValue.cycleReadingPulse
-  );
-
-  const [programmingCyclesRepeat, setProgrammingCyclesRepeat] =
-    React.useState<number>(conductancePulseNumberWaveformValue.cycles);
-
+  const { values, handleChange, resetForm } = benchmarkInputFormik;
   const [deviceChannel, setDeviceChannel] = React.useState<number>(1);
 
-  const totalMeasureTime =
-    programmingPulse *
-    (positiveVoltageWidth + waitTime + measureTime + waitTime);
+  // const totalMeasureTime =
+  //   programmingPulse *
+  //   (positiveVoltageWidth + waitTime + measureTime + waitTime);
 
-  const handleReset = () => {
-    setNegativeVoltage(0);
-    setReadVoltage(0);
-    setPositiveVoltage(0);
-    setNegativeVoltageWidth(0);
-    setPositiveVoltageWidth(0);
-    setMeasureTime(0);
-    setWaitTime(0);
-    setProgrammingPulse(0);
-    handleChangesetConductancePulseNumberWaveformValue(
-      positiveVoltage,
-      readVoltage,
-      negativeVoltage,
-      positiveVoltageWidth,
-      measureTime,
-      negativeVoltageWidth,
-      waitTime,
-      programmingPulse,
-      programmingCyclesRepeat
-    );
-  };
+  const totalMeasureTime =
+    values.conductancePulseNumberWaveformValue.cycleReadingPulse *
+    (values.conductancePulseNumberWaveformValue.positivePulseDuration +
+      values.conductancePulseNumberWaveformValue.distanceBetweenPulse +
+      values.conductancePulseNumberWaveformValue.intermediatePulseDuration +
+      values.conductancePulseNumberWaveformValue.distanceBetweenPulse);
 
   return (
     <Box
@@ -122,7 +63,8 @@ export default function ConductancePulseNumberInput({
         </Grid>
         <Grid item xs={7}>
           <TextField
-            id="standard-number"
+            id="conductancePulseNumberWaveformValue.negativePulseValue"
+            name="conductancePulseNumberWaveformValue.negativePulseValue"
             type="number"
             InputLabelProps={{
               shrink: true,
@@ -130,15 +72,10 @@ export default function ConductancePulseNumberInput({
             variant="standard"
             helperText="negative voltage (-3.00 - 0.00)"
             placeholder="provide number"
-            value={negativeVoltage}
-            onChange={(e) => {
-              var value = parseFloat(e.target.value);
-
-              if (value > 0) value = 0; //max
-              if (value < -3) value = -3; //min
-
-              setNegativeVoltage(value);
-            }}
+            value={
+              values.conductancePulseNumberWaveformValue.negativePulseValue
+            }
+            onChange={handleChange}
             inputProps={{ min: -3, max: 0 }}
           />
         </Grid>
@@ -150,7 +87,8 @@ export default function ConductancePulseNumberInput({
         </Grid>
         <Grid item xs={7}>
           <TextField
-            id="standard-number"
+            id="conductancePulseNumberWaveformValue.intermediatePulseValue"
+            name="conductancePulseNumberWaveformValue.intermediatePulseValue"
             type="number"
             InputLabelProps={{
               shrink: true,
@@ -158,15 +96,10 @@ export default function ConductancePulseNumberInput({
             variant="standard"
             helperText="read voltage (0.00 - 3.00)"
             placeholder="provide number"
-            value={readVoltage}
-            onChange={(e) => {
-              var value = parseFloat(e.target.value);
-
-              if (value > 3) value = 3; //max
-              if (value < 0) value = 0; //min
-
-              setReadVoltage(value);
-            }}
+            value={
+              values.conductancePulseNumberWaveformValue.intermediatePulseValue
+            }
+            onChange={handleChange}
             inputProps={{ min: 0, max: 3 }}
           />
         </Grid>
@@ -178,7 +111,8 @@ export default function ConductancePulseNumberInput({
         </Grid>
         <Grid item xs={7}>
           <TextField
-            id="standard-number"
+            id="conductancePulseNumberWaveformValue.positivePulseValue"
+            name="conductancePulseNumberWaveformValue.positivePulseValue"
             type="number"
             InputLabelProps={{
               shrink: true,
@@ -186,15 +120,10 @@ export default function ConductancePulseNumberInput({
             variant="standard"
             helperText="positive voltage (0.00 - 3.00)"
             placeholder="provide number"
-            value={positiveVoltage}
-            onChange={(e) => {
-              var value = parseFloat(e.target.value);
-
-              if (value > 3) value = 3; //max
-              if (value < 0) value = 0; //min
-
-              setPositiveVoltage(value);
-            }}
+            value={
+              values.conductancePulseNumberWaveformValue.positivePulseValue
+            }
+            onChange={handleChange}
             inputProps={{ min: 0, max: 3 }}
           />
         </Grid>
@@ -206,7 +135,8 @@ export default function ConductancePulseNumberInput({
         </Grid>
         <Grid item xs={7}>
           <TextField
-            id="standard-number"
+            id="conductancePulseNumberWaveformValue.negativePulseDuration"
+            name="conductancePulseNumberWaveformValue.negativePulseDuration"
             type="number"
             InputLabelProps={{
               shrink: true,
@@ -214,15 +144,10 @@ export default function ConductancePulseNumberInput({
             variant="standard"
             helperText="the width of negative voltage pulse"
             placeholder="provide number"
-            value={negativeVoltageWidth}
-            onChange={(e) => {
-              var value = parseInt(e.target.value);
-
-              if (value > 1000) value = 1000; //max
-              if (value < 0) value = 0; //min
-
-              setNegativeVoltageWidth(value);
-            }}
+            value={
+              values.conductancePulseNumberWaveformValue.negativePulseDuration
+            }
+            onChange={handleChange}
             inputProps={{ min: 0, max: 1000 }}
           />
         </Grid>
@@ -234,7 +159,8 @@ export default function ConductancePulseNumberInput({
         </Grid>
         <Grid item xs={7}>
           <TextField
-            id="standard-number"
+            id="conductancePulseNumberWaveformValue.positivePulseDuration"
+            name="conductancePulseNumberWaveformValue.positivePulseDuration"
             type="number"
             InputLabelProps={{
               shrink: true,
@@ -242,15 +168,10 @@ export default function ConductancePulseNumberInput({
             variant="standard"
             helperText="the width of positive voltage pulse"
             placeholder="provide number"
-            value={positiveVoltageWidth}
-            onChange={(e) => {
-              var value = parseInt(e.target.value);
-
-              if (value > 1000) value = 1000; //max
-              if (value < 0) value = 0; //min
-
-              setPositiveVoltageWidth(value);
-            }}
+            value={
+              values.conductancePulseNumberWaveformValue.positivePulseDuration
+            }
+            onChange={handleChange}
             inputProps={{ min: 0, max: 1000 }}
           />
         </Grid>
@@ -262,7 +183,8 @@ export default function ConductancePulseNumberInput({
         </Grid>
         <Grid item xs={7}>
           <TextField
-            id="standard-number"
+            id="conductancePulseNumberWaveformValue.intermediatePulseDuration"
+            name="conductancePulseNumberWaveformValue.intermediatePulseDuration"
             type="number"
             InputLabelProps={{
               shrink: true,
@@ -270,15 +192,11 @@ export default function ConductancePulseNumberInput({
             variant="standard"
             helperText="How long to test in a single pulse"
             placeholder="provide number"
-            value={measureTime}
-            onChange={(e) => {
-              var value = parseFloat(e.target.value);
-
-              if (value > 100000) value = 100000; //max
-              if (value < 0) value = 0; //min
-
-              setMeasureTime(value);
-            }}
+            value={
+              values.conductancePulseNumberWaveformValue
+                .intermediatePulseDuration
+            }
+            onChange={handleChange}
             inputProps={{ min: 0, max: 100000 }}
           />
         </Grid>
@@ -290,7 +208,8 @@ export default function ConductancePulseNumberInput({
         </Grid>
         <Grid item xs={7}>
           <TextField
-            id="standard-number"
+            id="conductancePulseNumberWaveformValue.distanceBetweenPulse"
+            name="conductancePulseNumberWaveformValue.distanceBetweenPulse"
             type="number"
             InputLabelProps={{
               shrink: true,
@@ -298,15 +217,10 @@ export default function ConductancePulseNumberInput({
             variant="standard"
             helperText="The time wait for testsing pulse retention time"
             placeholder="provide number"
-            value={waitTime}
-            onChange={(e) => {
-              var value = parseFloat(e.target.value);
-
-              if (value > 100000) value = 100000; //max
-              if (value < 0) value = 0; //min
-
-              setWaitTime(value);
-            }}
+            value={
+              values.conductancePulseNumberWaveformValue.distanceBetweenPulse
+            }
+            onChange={handleChange}
             inputProps={{ min: 0, max: 100000 }}
           />
         </Grid>
@@ -318,7 +232,8 @@ export default function ConductancePulseNumberInput({
         </Grid>
         <Grid item xs={7}>
           <TextField
-            id="standard-number"
+            id="conductancePulseNumberWaveformValue.cycleReadingPulse"
+            name="conductancePulseNumberWaveformValue.cycleReadingPulse"
             type="number"
             InputLabelProps={{
               shrink: true,
@@ -326,15 +241,8 @@ export default function ConductancePulseNumberInput({
             variant="standard"
             helperText="the number of applied voltage pulse"
             placeholder="provide number"
-            value={programmingPulse}
-            onChange={(e) => {
-              var value = parseFloat(e.target.value);
-
-              if (value > 100000) value = 100000; //max
-              if (value < 0) value = 0; //min
-
-              setProgrammingPulse(value);
-            }}
+            value={values.conductancePulseNumberWaveformValue.cycleReadingPulse}
+            onChange={handleChange}
             inputProps={{ min: 0, max: 100000 }}
           />
           <Typography variant="h6">{`Total Time in a single cycle = ${totalMeasureTime}`}</Typography>
@@ -347,7 +255,8 @@ export default function ConductancePulseNumberInput({
         </Grid>
         <Grid item xs={7}>
           <TextField
-            id="standard-number"
+            id="conductancePulseNumberWaveformValue.cycles"
+            name="conductancePulseNumberWaveformValue.cycles"
             type="number"
             InputLabelProps={{
               shrink: true,
@@ -355,15 +264,8 @@ export default function ConductancePulseNumberInput({
             variant="standard"
             helperText="How many programming cycle testing"
             placeholder="provide number"
-            value={programmingCyclesRepeat}
-            onChange={(e) => {
-              var value = parseInt(e.target.value);
-
-              if (value > 100) value = 100; //max
-              if (value < 0) value = 0; //min
-
-              setProgrammingCyclesRepeat(value);
-            }}
+            value={values.conductancePulseNumberWaveformValue.cycles}
+            onChange={handleChange}
             inputProps={{ min: 0, max: 100 }}
           />
         </Grid>
@@ -392,23 +294,23 @@ export default function ConductancePulseNumberInput({
           <Stack spacing={5} direction={"row"}>
             <Button
               variant="contained"
-              onClick={() =>
-                handleChangesetConductancePulseNumberWaveformValue(
-                  positiveVoltage,
-                  readVoltage,
-                  negativeVoltage,
-                  positiveVoltageWidth,
-                  measureTime,
-                  negativeVoltageWidth,
-                  waitTime,
-                  programmingPulse,
-                  programmingCyclesRepeat
-                )
-              }
+              // onClick={() =>
+              //   handleChangesetConductancePulseNumberWaveformValue(
+              //     positiveVoltage,
+              //     readVoltage,
+              //     negativeVoltage,
+              //     positiveVoltageWidth,
+              //     measureTime,
+              //     negativeVoltageWidth,
+              //     waitTime,
+              //     programmingPulse,
+              //     programmingCyclesRepeat
+              //   )
+              // }
             >
               View Waveform
             </Button>
-            <Button variant="contained" onClick={handleReset}>
+            <Button variant="contained" onClick={() => resetForm()}>
               RESET
             </Button>
           </Stack>

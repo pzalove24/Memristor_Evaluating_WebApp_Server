@@ -3,7 +3,10 @@
 import * as React from "react";
 import { Box, Grid, Card, Typography, TextField, Stack } from "@mui/material";
 import { ParameterInputTabs } from "@/components/Input/BenchmarkInput";
-import { HardwareSerialPort, VersionOne } from "@/components/Hardware/VersionOne";
+import {
+  HardwareSerialPort,
+  VersionOne,
+} from "@/components/Hardware/VersionOne";
 import { SweepIVwaveform } from "@/modules/Chart/Waveform/SweepIVwaveform";
 import { PulseIVwaveform } from "@/modules/Chart/Waveform/PulseIVwaveform";
 import { ConductancePulseNumberWaveform } from "@/modules/Chart/Waveform/ConductancePulseNumberWaveform";
@@ -11,211 +14,24 @@ import { SweepRetentionTimeWaveform } from "@/modules/Chart/Waveform/SweepRetent
 import { PulseRetentionTimeWaveform } from "@/modules/Chart/Waveform/PulseRetentionTimeWaveform";
 import { EnduranceCycleWaveform } from "@/modules/Chart/Waveform/EnduranceCycleWaveform";
 import { BenchmarkStepper } from "@/components";
+import { useFormik } from "formik";
+import { WaveFunctionSweepIVwaveformProps } from "@/modules/Chart/Waveform/SweepIVwaveform/WaveFunctionSweepIVwaveform";
+import { WaveFunctionPulseIVwaveformProps } from "@/modules/Chart/Waveform/PulseIVwaveform/WaveFunctionPulseIVwaveform";
+import { WaveFunctionEnduranceCycleWaveformProps } from "@/modules/Chart/Waveform/EnduranceCycleWaveform/WaveFunctionEnduranceCycleWaveform";
+import { WaveFunctionSweepRetentionTimeWaveformProps } from "@/modules/Chart/Waveform/SweepRetentionTimeWaveform/WaveFunctionSweepRetentionTimeWaveform";
+import { WaveFunctionPulseRetentionTimeWaveformProps } from "@/modules/Chart/Waveform/PulseRetentionTimeWaveform/WaveFunctionPulseRetentionTimeWaveform";
+import { WaveFunctionConductancePulseTimeProps } from "@/modules/Chart/Waveform/ConductancePulseNumberWaveform/WaveFunctionConductancePulseTime";
+
+export type initialBenchmarkInputValuesProps = {
+  sweepIVwaveformValue: WaveFunctionSweepIVwaveformProps;
+  pulseIVwaveformValue: WaveFunctionPulseIVwaveformProps;
+  enduranceCycleWaveformValue: WaveFunctionEnduranceCycleWaveformProps;
+  sweepRetentionTimeWaveformValue: WaveFunctionSweepRetentionTimeWaveformProps;
+  pulseRetentionTimeWaveformValue: WaveFunctionPulseRetentionTimeWaveformProps;
+  conductancePulseNumberWaveformValue: WaveFunctionConductancePulseTimeProps;
+};
 
 export const BenchmarkInputPartOne = () => {
-  //SweepIV handleState
-  const [sweepIVwaveformValue, setSweepIVwaveformValue] = React.useState({
-    positivePulseValue: 0,
-    negativePulseValue: 0,
-    pulseDuration: 0,
-    stepsPerSegment: 0,
-    cycles: 1,
-  });
-
-  const handleChangeSweepIVwaveformValue = (
-    positivePulseValue: number,
-    negativePulseValue: number,
-    pulseDuration: number,
-    stepsPerSegment: number,
-    cycles: number
-  ) => {
-    setSweepIVwaveformValue({
-      positivePulseValue: positivePulseValue,
-      negativePulseValue: negativePulseValue,
-      pulseDuration: pulseDuration,
-      stepsPerSegment: stepsPerSegment,
-      cycles: cycles,
-    });
-  };
-
-  //PulseIV handleState
-  const [pulseIVwaveformValue, setPulseIVwaveformValue] = React.useState({
-    positivePulseValue: 0,
-    negativePulseValue: 0,
-    pulseDuration: 0,
-    distanceBetweenPulse: 0,
-    stepsPerSegment: 0,
-    cycles: 1,
-  });
-
-  const handleChangePulseIVwaveformValue = (
-    positivePulseValue: number,
-    negativePulseValue: number,
-    pulseDuration: number,
-    distanceBetweenPulse: number,
-    stepsPerSegment: number,
-    cycles: number
-  ) => {
-    setPulseIVwaveformValue({
-      positivePulseValue: positivePulseValue,
-      negativePulseValue: negativePulseValue,
-      pulseDuration: pulseDuration,
-      distanceBetweenPulse: distanceBetweenPulse,
-      stepsPerSegment: stepsPerSegment,
-      cycles: cycles,
-    });
-  };
-
-  //EnduranceCycleWaveform handleState
-  const [enduranceCycleWaveformValue, setEnduranceCycleWaveformValue] =
-    React.useState({
-      positivePulseValue: 0,
-      intermediatePulseValue: 0,
-      negativePulseValue: 0,
-      positivePulseDuration: 0,
-      intermediatePulseDuration: 0,
-      negativePulseDuration: 0,
-      distanceBetweenPulse: 0,
-      cycles: 1,
-    });
-
-  const handleChangeEnduranceCycleWaveformValue = (
-    positivePulseValue: number,
-    intermediatePulseValue: number,
-    negativePulseValue: number,
-    positivePulseDuration: number,
-    intermediatePulseDuration: number,
-    negativePulseDuration: number,
-    distanceBetweenPulse: number,
-    cycles: number
-  ) => {
-    setEnduranceCycleWaveformValue({
-      positivePulseValue: positivePulseValue,
-      intermediatePulseValue: intermediatePulseValue,
-      negativePulseValue: negativePulseValue,
-      positivePulseDuration: positivePulseDuration,
-      intermediatePulseDuration: intermediatePulseDuration,
-      negativePulseDuration: negativePulseDuration,
-      distanceBetweenPulse: distanceBetweenPulse,
-      cycles: cycles,
-    });
-  };
-
-  //SweepRetentionTimeWaveform handleState
-
-  const [sweepRetentionTimeWaveformValue, setSweepRetentionTimeWaveformValue] =
-    React.useState({
-      positivePulseValue: 0,
-      intermediatePulseValue: 0,
-      negativePulseValue: 0,
-      positivePulseDuration: 0,
-      intermediatePulseDuration: 0,
-      negativePulseDuration: 0,
-      distanceBetweenPulse: 0,
-      cycles: 1,
-    });
-
-  const handleChangeSweepRetentionTimeWaveformValue = (
-    positivePulseValue: number,
-    intermediatePulseValue: number,
-    negativePulseValue: number,
-    positivePulseDuration: number,
-    intermediatePulseDuration: number,
-    negativePulseDuration: number,
-    distanceBetweenPulse: number,
-    cycles: number
-  ) => {
-    setSweepRetentionTimeWaveformValue({
-      positivePulseValue: positivePulseValue,
-      intermediatePulseValue: intermediatePulseValue,
-      negativePulseValue: negativePulseValue,
-      positivePulseDuration: positivePulseDuration,
-      intermediatePulseDuration: intermediatePulseDuration,
-      negativePulseDuration: negativePulseDuration,
-      distanceBetweenPulse: distanceBetweenPulse,
-      cycles: cycles,
-    });
-  };
-
-  //PulseRetentionTimeWaveform handleState
-
-  const [pulseRetentionTimeWaveformValue, setPulseRetentionTimeWaveformValue] =
-    React.useState({
-      positivePulseValue: 0,
-      intermediatePulseValue: 0,
-      negativePulseValue: 0,
-      positivePulseDuration: 0,
-      intermediatePulseDuration: 0,
-      negativePulseDuration: 0,
-      distanceBetweenPulse: 0,
-      cycleIntermediatePulse: 0,
-      cycles: 1,
-    });
-
-  const handleChangePulseRetentionTimeWaveformValue = (
-    positivePulseValue: number,
-    intermediatePulseValue: number,
-    negativePulseValue: number,
-    positivePulseDuration: number,
-    intermediatePulseDuration: number,
-    negativePulseDuration: number,
-    distanceBetweenPulse: number,
-    cycleIntermediatePulse: number,
-    cycles: number
-  ) => {
-    setPulseRetentionTimeWaveformValue({
-      positivePulseValue: positivePulseValue,
-      intermediatePulseValue: intermediatePulseValue,
-      negativePulseValue: negativePulseValue,
-      positivePulseDuration: positivePulseDuration,
-      intermediatePulseDuration: intermediatePulseDuration,
-      negativePulseDuration: negativePulseDuration,
-      distanceBetweenPulse: distanceBetweenPulse,
-      cycleIntermediatePulse: cycleIntermediatePulse,
-      cycles: cycles,
-    });
-  };
-
-  //ConductancePulseNumberWaveform handleState
-
-  const [
-    conductancePulseNumberWaveformValue,
-    setConductancePulseNumberWaveformValue,
-  ] = React.useState({
-    positivePulseValue: 0,
-    intermediatePulseValue: 0,
-    negativePulseValue: 0,
-    positivePulseDuration: 0,
-    intermediatePulseDuration: 0,
-    negativePulseDuration: 0,
-    distanceBetweenPulse: 0,
-    cycleReadingPulse: 0,
-    cycles: 1,
-  });
-
-  const handleChangesetConductancePulseNumberWaveformValue = (
-    positivePulseValue: number,
-    intermediatePulseValue: number,
-    negativePulseValue: number,
-    positivePulseDuration: number,
-    intermediatePulseDuration: number,
-    negativePulseDuration: number,
-    distanceBetweenPulse: number,
-    cycleReadingPulse: number,
-    cycles: number
-  ) => {
-    setConductancePulseNumberWaveformValue({
-      positivePulseValue: positivePulseValue,
-      intermediatePulseValue: intermediatePulseValue,
-      negativePulseValue: negativePulseValue,
-      positivePulseDuration: positivePulseDuration,
-      intermediatePulseDuration: intermediatePulseDuration,
-      negativePulseDuration: negativePulseDuration,
-      distanceBetweenPulse: distanceBetweenPulse,
-      cycleReadingPulse: cycleReadingPulse,
-      cycles: cycles,
-    });
-  };
 
   const gridStyle = {
     "& > :not(style)": { m: 1 },
@@ -226,11 +42,92 @@ export const BenchmarkInputPartOne = () => {
     width: "auto",
     m: 1,
   };
+
+  //**BENCHMARK_INPUT_FORMIK**\\
+
+  const initialBenchmarkInputValues: initialBenchmarkInputValuesProps = {
+    sweepIVwaveformValue: {
+      positivePulseValue: 0,
+      negativePulseValue: 0,
+      pulseDuration: 0,
+      stepsPerSegment: 0,
+      cycles: 1,
+    },
+    pulseIVwaveformValue: {
+      positivePulseValue: 0,
+      negativePulseValue: 0,
+      pulseDuration: 0,
+      distanceBetweenPulse: 0,
+      stepsPerSegment: 0,
+      cycles: 1,
+    },
+    enduranceCycleWaveformValue: {
+      positivePulseValue: 0,
+      intermediatePulseValue: 0,
+      negativePulseValue: 0,
+      positivePulseDuration: 0,
+      intermediatePulseDuration: 0,
+      negativePulseDuration: 0,
+      distanceBetweenPulse: 0,
+      cycles: 1,
+    },
+    sweepRetentionTimeWaveformValue: {
+      positivePulseValue: 0,
+      intermediatePulseValue: 0,
+      negativePulseValue: 0,
+      positivePulseDuration: 0,
+      intermediatePulseDuration: 0,
+      negativePulseDuration: 0,
+      distanceBetweenPulse: 0,
+      cycles: 1,
+    },
+    pulseRetentionTimeWaveformValue: {
+      positivePulseValue: 0,
+      intermediatePulseValue: 0,
+      negativePulseValue: 0,
+      positivePulseDuration: 0,
+      intermediatePulseDuration: 0,
+      negativePulseDuration: 0,
+      distanceBetweenPulse: 0,
+      cycleIntermediatePulse: 0,
+      cycles: 1,
+    },
+    conductancePulseNumberWaveformValue: {
+      positivePulseValue: 0,
+      intermediatePulseValue: 0,
+      negativePulseValue: 0,
+      positivePulseDuration: 0,
+      intermediatePulseDuration: 0,
+      negativePulseDuration: 0,
+      distanceBetweenPulse: 0,
+      cycleReadingPulse: 0,
+      cycles: 1,
+    },
+  };
+
+  const benchmarkInputFormik = useFormik({
+    initialValues: initialBenchmarkInputValues,
+    onSubmit: async (values) => {
+      console.log(values);
+    },
+  });
+  //**END**\\
+
+  console.log(benchmarkInputFormik.values);
   return (
     <>
       <Grid item xs={12}>
         <Grid container>
-          <Grid item sm md lg={4} xl={6} xs justifyContent="center" alignItems="flex-start">
+          <Grid
+            item
+            sm
+            md
+            lg={4}
+            xl={6}
+            xs
+            justifyContent="center"
+            alignItems="flex-start"
+          >
             <BenchmarkStepper />
           </Grid>
           <Grid item sm md lg={8} xl={6} xs>
@@ -257,40 +154,12 @@ export const BenchmarkInputPartOne = () => {
                 />
               </Stack>
               <Card variant="outlined">
-                <ParameterInputTabs
-                  handleChangeSweepIVwaveformValue={
-                    handleChangeSweepIVwaveformValue
-                  }
-                  sweepIVwaveformValue={sweepIVwaveformValue}
-                  handleChangePulseIVwaveformValue={
-                    handleChangePulseIVwaveformValue
-                  }
-                  pulseIVwaveformValue={pulseIVwaveformValue}
-                  handleChangeEnduranceCycleWaveformValue={
-                    handleChangeEnduranceCycleWaveformValue
-                  }
-                  enduranceCycleWaveformValue={enduranceCycleWaveformValue}
-                  handleChangeSweepRetentionTimeWaveformValue={
-                    handleChangeSweepRetentionTimeWaveformValue
-                  }
-                  sweepRetentionTimeWaveformValue={
-                    sweepRetentionTimeWaveformValue
-                  }
-                  handleChangePulseRetentionTimeWaveformValue={
-                    handleChangePulseRetentionTimeWaveformValue
-                  }
-                  pulseRetentionTimeWaveformValue={
-                    pulseRetentionTimeWaveformValue
-                  }
-                  handleChangesetConductancePulseNumberWaveformValue={
-                    handleChangesetConductancePulseNumberWaveformValue
-                  }
-                  conductancePulseNumberWaveformValue={
-                    conductancePulseNumberWaveformValue
-                  }
-                />
+                
+                  <ParameterInputTabs
+                    benchmarkInputFormik={benchmarkInputFormik}
+                  />
+               
               </Card>
-             
             </Box>
           </Grid>
         </Grid>
@@ -299,7 +168,11 @@ export const BenchmarkInputPartOne = () => {
         <Grid container>
           <Grid item sm md lg xl xs>
             <Box sx={gridStyle}>
-              <SweepIVwaveform sweepIVwaveformValue={sweepIVwaveformValue} />
+              <SweepIVwaveform
+                sweepIVwaveformValue={
+                  benchmarkInputFormik.values.sweepIVwaveformValue
+                }
+              />
             </Box>
           </Grid>
         </Grid>
@@ -308,13 +181,19 @@ export const BenchmarkInputPartOne = () => {
         <Grid container>
           <Grid item sm={6} md={6} lg={6} xl={6} xs>
             <Box sx={gridStyle}>
-              <PulseIVwaveform pulseIVwaveformValue={pulseIVwaveformValue} />
+              <PulseIVwaveform
+                pulseIVwaveformValue={
+                  benchmarkInputFormik.values.pulseIVwaveformValue
+                }
+              />
             </Box>
           </Grid>
           <Grid item sm={6} md={6} lg={6} xl={6} xs>
             <Box sx={gridStyle}>
               <EnduranceCycleWaveform
-                enduranceCycleWaveformValue={enduranceCycleWaveformValue}
+                enduranceCycleWaveformValue={
+                  benchmarkInputFormik.values.enduranceCycleWaveformValue
+                }
               />
             </Box>
           </Grid>
@@ -326,7 +205,8 @@ export const BenchmarkInputPartOne = () => {
             <Box sx={gridStyle}>
               <ConductancePulseNumberWaveform
                 conductancePulseNumberWaveformValue={
-                  conductancePulseNumberWaveformValue
+                  benchmarkInputFormik.values
+                    .conductancePulseNumberWaveformValue
                 }
               />
             </Box>
@@ -339,7 +219,7 @@ export const BenchmarkInputPartOne = () => {
             <Box sx={gridStyle}>
               <SweepRetentionTimeWaveform
                 sweepRetentionTimeWaveformValue={
-                  sweepRetentionTimeWaveformValue
+                  benchmarkInputFormik.values.sweepRetentionTimeWaveformValue
                 }
               />
             </Box>
@@ -348,7 +228,7 @@ export const BenchmarkInputPartOne = () => {
             <Box sx={gridStyle}>
               <PulseRetentionTimeWaveform
                 pulseRetentionTimeWaveformValue={
-                  pulseRetentionTimeWaveformValue
+                  benchmarkInputFormik.values.pulseRetentionTimeWaveformValue
                 }
               />
             </Box>
