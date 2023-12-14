@@ -1,4 +1,4 @@
-import { initialManualReadValuesProps } from "@/modules/Hardware/VersionOne/VersionOne";
+import { initialManualReadValuesProps } from "@/components/Hardware/VersionOne/VersionOne";
 import {
   Box,
   Checkbox,

@@ -1,4 +1,4 @@
-import { initialManualWriteValuesProps } from "@/modules/Hardware/VersionOne/VersionOne";
+import { initialManualWriteValuesProps } from "@/components/Hardware/VersionOne/VersionOne";
 import {
   Box,
   Button,

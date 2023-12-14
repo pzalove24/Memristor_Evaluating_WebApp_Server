@@ -1,4 +1,4 @@
-import { VersionOne } from "@/modules/Hardware/VersionOne";
+import { VersionOne } from "@/components/Hardware/VersionOne";
 import { Box, Grid, Typography } from "@mui/material";
 import React from "react";
 

@@ -11,7 +11,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import CancelIcon from "@mui/icons-material/Cancel";
 import ExportBenchmarkReview from "../SpeedDialExportBenchmark/ExportBenchmarkReview";
-import HardwareImage from "@/modules/Hardware/VersionOne/HardwareImage";
+import HardwareImage from "@/components/Hardware/VersionOne/HardwareImage";
 import { Box } from "@mui/material";
 
 const DialogHardwareComponents = ({

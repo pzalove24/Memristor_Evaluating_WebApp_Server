@@ -2,8 +2,8 @@
 
 import * as React from "react";
 import { Box, Grid, Card, Typography, TextField, Stack } from "@mui/material";
-import { ParameterInputTabs } from "@/modules/Input/BenchmarkInput";
-import { HardwareSerialPort, VersionOne } from "@/modules/Hardware/VersionOne";
+import { ParameterInputTabs } from "@/components/Input/BenchmarkInput";
+import { HardwareSerialPort, VersionOne } from "@/components/Hardware/VersionOne";
 import { SweepIVwaveform } from "@/modules/Chart/Waveform/SweepIVwaveform";
 import { PulseIVwaveform } from "@/modules/Chart/Waveform/PulseIVwaveform";
 import { ConductancePulseNumberWaveform } from "@/modules/Chart/Waveform/ConductancePulseNumberWaveform";
