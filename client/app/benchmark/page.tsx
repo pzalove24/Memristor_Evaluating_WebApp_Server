@@ -18,9 +18,12 @@ import { BiorealisticBenchmarkPartOne } from "@/modules/Benchmark/BiorealisticBe
 import { AdvancedBenchmarkPartOne } from "@/modules/Benchmark/AdvancedBenchmark/AdvancedBenchmarkPartOne";
 import { BenchmarkInputPartOne } from "@/modules/Benchmark/BenchmarkInput/BenchmarkInputPartOne";
 import ManualOperationPartOne from "@/modules/Benchmark/ManualOperation/ManualOperationPartOne";
+import useComPortStore from "@/shared/comPortStore";
 
 const Benchmark = () => {
   const [openBenchmark, setOpenBenchmark] = useState(false);
+
+  const { comPortReady } = useComPortStore();
 
   return (
     <Stack direction={"column"}>
@@ -49,6 +52,7 @@ const Benchmark = () => {
               <ButtonGroup fullWidth>
                 <Button
                   onClick={() => setOpenBenchmark(true)}
+                  // disabled={openBenchmark || !comPortReady}
                   disabled={openBenchmark}
                   variant="contained"
                 >

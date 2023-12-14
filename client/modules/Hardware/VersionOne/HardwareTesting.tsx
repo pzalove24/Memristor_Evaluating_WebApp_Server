@@ -4,18 +4,18 @@ import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import Stack from "@mui/material/Stack";
 
 type HardwareTestingProps = {
-  comPortStatus: boolean;
+  comPortReady: boolean;
   serialPortTest: () => void;
 };
 
 export default function HardwareTesting({
-  comPortStatus,
+  comPortReady,
   serialPortTest,
 }: HardwareTestingProps) {
   return (
     <Stack direction="row" spacing={2}>
       <Button
-        disabled={!comPortStatus}
+        disabled={!comPortReady}
         variant="contained"
         endIcon={<PlayCircleIcon />}
         onClick={serialPortTest}

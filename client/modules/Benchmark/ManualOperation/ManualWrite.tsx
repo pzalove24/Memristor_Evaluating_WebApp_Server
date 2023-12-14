@@ -15,9 +15,10 @@ import React from "react";
 
 type ManualWriteProps = {
   formikProps: FormikProps<initialManualWriteValuesProps>;
+  comPortReady: boolean;
 };
 
-const ManualWrite = ({ formikProps }: ManualWriteProps) => {
+const ManualWrite = ({ formikProps, comPortReady }: ManualWriteProps) => {
   const {
     values,
     setFieldValue,
@@ -81,7 +82,7 @@ const ManualWrite = ({ formikProps }: ManualWriteProps) => {
               }
             />
             <Button
-              disabled={!isValid || isSubmitting}
+              disabled={!isValid || isSubmitting || !comPortReady}
               variant="contained"
               fullWidth
               type="submit"
@@ -137,7 +138,7 @@ const ManualWrite = ({ formikProps }: ManualWriteProps) => {
               }
             />
             <Button
-              disabled={!isValid || isSubmitting}
+              disabled={!isValid || isSubmitting || !comPortReady}
               variant="contained"
               fullWidth
               type="submit"

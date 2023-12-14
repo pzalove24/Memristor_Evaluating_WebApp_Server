@@ -5,14 +5,14 @@ import Stack from "@mui/material/Stack";
 
 type HardwareConnectionProp = {
   inputComPort: string;
-  comPortStatus: boolean;
+  comPortReady: boolean;
   selectedCOMPORT: () => void;
   disconnectCOMPORT: () => void;
 };
 
 export default function HardwareConnection({
   inputComPort,
-  comPortStatus,
+  comPortReady,
   selectedCOMPORT,
   disconnectCOMPORT,
 }: HardwareConnectionProp) {
@@ -21,11 +21,11 @@ export default function HardwareConnection({
       <Button
         disabled={inputComPort === ""}
         variant="contained"
-        color={comPortStatus ? "error" : "info"}
+        color={comPortReady ? "error" : "info"}
         endIcon={<UsbIcon />}
-        onClick={comPortStatus ? disconnectCOMPORT : selectedCOMPORT}
+        onClick={comPortReady ? disconnectCOMPORT : selectedCOMPORT}
       >
-        {comPortStatus ? "DISCONNECT" : "CONNECT"}
+        {comPortReady ? "DISCONNECT" : "CONNECT"}
       </Button>
     </Stack>
   );

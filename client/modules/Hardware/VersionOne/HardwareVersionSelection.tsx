@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import React from 'react'
+import React from "react";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
@@ -13,7 +13,13 @@ import MenuList from "@mui/material/MenuList";
 
 const options = ["Version One"];
 
-export default function HardwareVersionSelection() {
+type HardwareVersionSelectionProps = {
+  comPortReady: boolean;
+};
+
+export default function HardwareVersionSelection({
+  comPortReady,
+}: HardwareVersionSelectionProps) {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLDivElement>(null);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
@@ -48,6 +54,7 @@ export default function HardwareVersionSelection() {
   return (
     <React.Fragment>
       <ButtonGroup
+        disabled={comPortReady}
         variant="contained"
         ref={anchorRef}
         aria-label="split button"

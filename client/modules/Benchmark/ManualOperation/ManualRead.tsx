@@ -14,9 +14,10 @@ import React from "react";
 
 type ManualReadProps = {
   formikProps: FormikProps<initialManualReadValuesProps>;
+  comPortReady: boolean;
 };
 
-const ManualRead = ({ formikProps }: ManualReadProps) => {
+const ManualRead = ({ formikProps, comPortReady }: ManualReadProps) => {
   const {
     values,
     setFieldValue,
@@ -62,7 +63,7 @@ const ManualRead = ({ formikProps }: ManualReadProps) => {
         </Grid>
         <Grid item xs={12} md={6}>
           <Button
-            disabled={Boolean(errors.displayVoltage)}
+            disabled={Boolean(errors.displayVoltage) || !comPortReady}
             variant="contained"
             fullWidth
             onClick={() =>
@@ -74,7 +75,7 @@ const ManualRead = ({ formikProps }: ManualReadProps) => {
         </Grid>
         <Grid item xs={12} md={6}>
           <Button
-            disabled={!isValid || isSubmitting}
+            disabled={!isValid || isSubmitting || !comPortReady}
             variant="contained"
             fullWidth
             type="submit"

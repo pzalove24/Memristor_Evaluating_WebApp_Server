@@ -30,6 +30,7 @@ import {
   ManualCommandType,
   TestCommandType,
 } from "@/types/commandType";
+import useComPortStore from "@/shared/comPortStore";
 
 const validationManualReadSchema = yup.object({
   tag: yup.string().required("Tag is required"),
@@ -92,8 +93,16 @@ export default function VersionOne() {
   const [currentSocket, setCurrentSocket] = React.useState<any>(null);
   const [comPort, setComPort] = React.useState<ComPortProps[]>([]);
   const [inputComPort, setInputComPort] = React.useState<string>("");
-  const [comPortStatus, setComPortStatus] = React.useState(false);
   const [serialPortIncoming, setSerialPortIncoming] = React.useState("");
+  const {
+    comPortStatus,
+    comPortDisconnected,
+    comPortReady,
+    comPortInProgress,
+    updateStatus,
+  } = useComPortStore();
+
+  console.log(comPortStatus);
 
   //**SOCKET COMPORT**\\
   const handleChangePort = (event: SelectChangeEvent) => {
@@ -135,12 +144,12 @@ export default function VersionOne() {
 
   const selectedCOMPORT = () => {
     socket.emit("selectedCOMPORT", inputComPort);
-    setComPortStatus(true);
+    updateStatus("READY");
   };
 
   const disconnectCOMPORT = () => {
     socket.emit("disconnectCOMPORT", () => {});
-    setComPortStatus(false);
+    updateStatus("DISCONNECTED");
     setSerialPortIncoming("");
     if (currentSocket) {
       socket.disconnect();
@@ -243,21 +252,22 @@ export default function VersionOne() {
             height: 360,
           }}
         >
-          <HardwareVersionSelection />
+          <HardwareVersionSelection comPortReady={comPortReady} />
           <HardwarePort
             comPort={comPort}
             inputComPort={inputComPort}
+            comPortReady={comPortReady}
             handleChangePort={handleChangePort}
             requestPortLists={requestPortLists}
           />
           <HardwareConnection
             inputComPort={inputComPort}
-            comPortStatus={comPortStatus}
+            comPortReady={comPortReady}
             selectedCOMPORT={selectedCOMPORT}
             disconnectCOMPORT={disconnectCOMPORT}
           />
           <HardwareTesting
-            comPortStatus={comPortStatus}
+            comPortReady={comPortReady}
             serialPortTest={serialPortTest}
           />
         </Stack>
@@ -296,7 +306,10 @@ export default function VersionOne() {
       <Grid container>
         <Grid item xs={3}>
           <form onSubmit={manualReadFormik.handleSubmit}>
-            <ManualRead formikProps={manualReadFormik} />
+            <ManualRead
+              comPortReady={comPortReady}
+              formikProps={manualReadFormik}
+            />
           </form>
         </Grid>
         <Grid item xs={9}>
@@ -322,7 +335,10 @@ export default function VersionOne() {
       <Grid container>
         <Grid item xs={3}>
           <form onSubmit={manualWriteFormik.handleSubmit}>
-            <ManualWrite formikProps={manualWriteFormik} />
+            <ManualWrite
+              comPortReady={comPortReady}
+              formikProps={manualWriteFormik}
+            />
           </form>
         </Grid>
         <Grid item xs={9}>

@@ -19,6 +19,7 @@ import { ComPortProps } from "@/types";
 interface HardwarePortProps {
   comPort: ComPortProps[];
   inputComPort: string | null;
+  comPortReady: boolean;
   handleChangePort: (event: SelectChangeEvent) => void;
   requestPortLists: () => void;
 }
@@ -26,6 +27,7 @@ interface HardwarePortProps {
 const HardwarePort = ({
   comPort,
   inputComPort,
+  comPortReady,
   handleChangePort,
   requestPortLists,
 }: HardwarePortProps) => {
@@ -42,6 +44,7 @@ const HardwarePort = ({
       <FormControl sx={{ m: 1, minWidth: 120 }}>
         <InputLabel id="comPort selection">COM</InputLabel>
         <Select
+          disabled={comPortReady}
           variant="outlined"
           labelId="comPort selection"
           id="comPort"
@@ -63,7 +66,13 @@ const HardwarePort = ({
         </Select>
         <FormHelperText>Select COM port</FormHelperText>
       </FormControl>
-      <Button variant="contained" onClick={requestPortLists}>Refresh COMPORT</Button>
+      <Button
+        disabled={comPortReady}
+        variant="contained"
+        onClick={requestPortLists}
+      >
+        Refresh COMPORT
+      </Button>
     </Stack>
   );
 };
