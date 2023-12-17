@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Stack,
   Paper,
@@ -24,6 +24,12 @@ const Benchmark = () => {
   const [openBenchmark, setOpenBenchmark] = useState(false);
 
   const { comPortReady } = useComPortStore();
+
+  // useEffect(() => {
+  //   if (comPortReady === false) {
+  //     setOpenBenchmark(false);
+  //   }
+  // }, [comPortReady]);
 
   return (
     <Stack direction={"column"}>
@@ -67,6 +73,7 @@ const Benchmark = () => {
                 </Button>
               </ButtonGroup>
             </Grid>
+            {/* {openBenchmark && comPortReady && ( */}
             {openBenchmark && (
               <>
                 <Grid item xs={12}>

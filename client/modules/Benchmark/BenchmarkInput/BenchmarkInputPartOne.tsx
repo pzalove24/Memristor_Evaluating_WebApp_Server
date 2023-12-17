@@ -1,7 +1,15 @@
 "use client";
 
 import * as React from "react";
-import { Box, Grid, Card, Typography, TextField, Stack } from "@mui/material";
+import {
+  Box,
+  Grid,
+  Card,
+  Typography,
+  TextField,
+  Stack,
+  Button,
+} from "@mui/material";
 import { ParameterInputTabs } from "@/components/Input/BenchmarkInput";
 import {
   HardwareSerialPort,
@@ -32,6 +40,16 @@ export type initialBenchmarkInputValuesProps = {
 };
 
 export const BenchmarkInputPartOne = () => {
+  const [openViewWaveform, setOpenViewWaveform] =
+    React.useState<boolean>(false);
+
+  const handleViewWaveform = () => {
+    if (openViewWaveform) {
+      setOpenViewWaveform(false);
+    } else if (!openViewWaveform) {
+      setOpenViewWaveform(true);
+    }
+  };
 
   const gridStyle = {
     "& > :not(style)": { m: 1 },
@@ -116,21 +134,22 @@ export const BenchmarkInputPartOne = () => {
   console.log(benchmarkInputFormik.values);
   return (
     <>
-      <Grid item xs={12}>
+      <Grid item xs={12} sx={{ mb: 1.5 }}>
         <Grid container>
           <Grid
             item
             sm
             md
-            lg={4}
-            xl={6}
+            lg={3}
+            xl={3}
             xs
             justifyContent="center"
             alignItems="flex-start"
+            sx={{pt:5}}
           >
             <BenchmarkStepper />
           </Grid>
-          <Grid item sm md lg={8} xl={6} xs>
+          <Grid item sm md lg={9} xl={9} xs>
             <Box sx={{ m: 1 }}>
               <Stack
                 direction={"row"}
@@ -154,87 +173,107 @@ export const BenchmarkInputPartOne = () => {
                 />
               </Stack>
               <Card variant="outlined">
-                
-                  <ParameterInputTabs
-                    benchmarkInputFormik={benchmarkInputFormik}
-                  />
-               
+                <ParameterInputTabs
+                  benchmarkInputFormik={benchmarkInputFormik}
+                />
               </Card>
             </Box>
+            <Stack
+              justifyContent="center"
+              alignItems="center"
+              spacing={5}
+              direction={"row"}
+            >
+              <Button variant="contained" onClick={handleViewWaveform}>
+                {openViewWaveform ? "Close Waveform" : "View Waveform"}
+              </Button>
+              <Button
+                variant="contained"
+                onClick={() => benchmarkInputFormik.resetForm()}
+              >
+                Reset All Input
+              </Button>
+            </Stack>
           </Grid>
         </Grid>
       </Grid>
-      <Grid item xs={12}>
-        <Grid container>
-          <Grid item sm md lg xl xs>
-            <Box sx={gridStyle}>
-              <SweepIVwaveform
-                sweepIVwaveformValue={
-                  benchmarkInputFormik.values.sweepIVwaveformValue
-                }
-              />
-            </Box>
+      {openViewWaveform && (
+        <>
+          <Grid item xs={12}>
+            <Grid container>
+              <Grid item sm md lg xl xs>
+                <Box sx={gridStyle}>
+                  <SweepIVwaveform
+                    sweepIVwaveformValue={
+                      benchmarkInputFormik.values.sweepIVwaveformValue
+                    }
+                  />
+                </Box>
+              </Grid>
+            </Grid>
           </Grid>
-        </Grid>
-      </Grid>
-      <Grid item xs={12}>
-        <Grid container>
-          <Grid item sm={6} md={6} lg={6} xl={6} xs>
-            <Box sx={gridStyle}>
-              <PulseIVwaveform
-                pulseIVwaveformValue={
-                  benchmarkInputFormik.values.pulseIVwaveformValue
-                }
-              />
-            </Box>
+          <Grid item xs={12}>
+            <Grid container>
+              <Grid item sm={6} md={6} lg={6} xl={6} xs>
+                <Box sx={gridStyle}>
+                  <PulseIVwaveform
+                    pulseIVwaveformValue={
+                      benchmarkInputFormik.values.pulseIVwaveformValue
+                    }
+                  />
+                </Box>
+              </Grid>
+              <Grid item sm={6} md={6} lg={6} xl={6} xs>
+                <Box sx={gridStyle}>
+                  <EnduranceCycleWaveform
+                    enduranceCycleWaveformValue={
+                      benchmarkInputFormik.values.enduranceCycleWaveformValue
+                    }
+                  />
+                </Box>
+              </Grid>
+            </Grid>
           </Grid>
-          <Grid item sm={6} md={6} lg={6} xl={6} xs>
-            <Box sx={gridStyle}>
-              <EnduranceCycleWaveform
-                enduranceCycleWaveformValue={
-                  benchmarkInputFormik.values.enduranceCycleWaveformValue
-                }
-              />
-            </Box>
+          <Grid item xs={12}>
+            <Grid container>
+              <Grid item sm md lg xl xs>
+                <Box sx={gridStyle}>
+                  <ConductancePulseNumberWaveform
+                    conductancePulseNumberWaveformValue={
+                      benchmarkInputFormik.values
+                        .conductancePulseNumberWaveformValue
+                    }
+                  />
+                </Box>
+              </Grid>
+            </Grid>
           </Grid>
-        </Grid>
-      </Grid>
-      <Grid item xs={12}>
-        <Grid container>
-          <Grid item sm md lg xl xs>
-            <Box sx={gridStyle}>
-              <ConductancePulseNumberWaveform
-                conductancePulseNumberWaveformValue={
-                  benchmarkInputFormik.values
-                    .conductancePulseNumberWaveformValue
-                }
-              />
-            </Box>
+          <Grid item xs={12}>
+            <Grid container>
+              <Grid item sm={6} md={6} lg={6} xl={6} xs>
+                <Box sx={gridStyle}>
+                  <SweepRetentionTimeWaveform
+                    sweepRetentionTimeWaveformValue={
+                      benchmarkInputFormik.values
+                        .sweepRetentionTimeWaveformValue
+                    }
+                  />
+                </Box>
+              </Grid>
+              <Grid item sm={6} md={6} lg={6} xl={6} xs>
+                <Box sx={gridStyle}>
+                  <PulseRetentionTimeWaveform
+                    pulseRetentionTimeWaveformValue={
+                      benchmarkInputFormik.values
+                        .pulseRetentionTimeWaveformValue
+                    }
+                  />
+                </Box>
+              </Grid>
+            </Grid>
           </Grid>
-        </Grid>
-      </Grid>
-      <Grid item xs={12}>
-        <Grid container>
-          <Grid item sm={6} md={6} lg={6} xl={6} xs>
-            <Box sx={gridStyle}>
-              <SweepRetentionTimeWaveform
-                sweepRetentionTimeWaveformValue={
-                  benchmarkInputFormik.values.sweepRetentionTimeWaveformValue
-                }
-              />
-            </Box>
-          </Grid>
-          <Grid item sm={6} md={6} lg={6} xl={6} xs>
-            <Box sx={gridStyle}>
-              <PulseRetentionTimeWaveform
-                pulseRetentionTimeWaveformValue={
-                  benchmarkInputFormik.values.pulseRetentionTimeWaveformValue
-                }
-              />
-            </Box>
-          </Grid>
-        </Grid>
-      </Grid>
+        </>
+      )}
     </>
   );
 };

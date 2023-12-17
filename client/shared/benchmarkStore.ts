@@ -1,18 +1,50 @@
 import { create } from "zustand";
 import React from "react";
 
-export type benchmarkStatus = "DISCONNECTED" | "READY" | "IN_PROGRESS";
+export type benchmarkStatus =
+  | "TESTNAME"
+  | "HARDWARESELECTION"
+  | "BENCHMARKSELECTION"
+  | "INPUTSETUP"
+  | "EVALUATION"
+  | "FINISH";
 
-export type comPortState = {
+export type benchmarkState = {
   benchmarkStatus: benchmarkStatus;
+  standardBenchmarkPulseSelection?: any[];
+  standardBenchmarkSweepSelection?: any[];
+  stabilityBenchmarkPulseSelection?: any[];
+  stabilityBenchmarkSweepSelection?: any[];
+  advancedBenchmarkPulseSelection?: any[];
+  advancedBenchmarkSweepSelection?: any[];
 };
 
-export type comPortAction = {
+export type benchmarkAction = {
   updateStatus: (status: benchmarkStatus) => void;
+  addStandardBenchmarkPulse: () => void;
+  addStandardBenchmarkSweep: () => void;
+  addstabilityBenchmarkPulse: () => void;
+  addstabilityBenchmarkSweep: () => void;
+  addAdvancedBenchmarkPulse: () => void;
+  addAdvancedBenchmarkSweep: () => void;
 };
 
-const useBenchmarkStore = create<comPortState & comPortAction>((set) => ({
-    
+const useBenchmarkStore = create<benchmarkState & benchmarkAction>((set) => ({
+  benchmarkStatus: "HARDWARESELECTION",
+  standardBenchmarkPulseSelection: [],
+  standardBenchmarkSweepSelection: [],
+  stabilityBenchmarkPulseSelection: [],
+  stabilityBenchmarkSweepSelection: [],
+  advancedBenchmarkPulseSelection: [],
+  advancedBenchmarkSweepSelection: [],
+  updateStatus: (status: benchmarkStatus) =>
+    set(() => ({ benchmarkStatus: status })),
+  addStandardBenchmarkPulse: () => ({}),
+  addStandardBenchmarkSweep: () => ({}),
+  addstabilityBenchmarkPulse: () => ({}),
+  addstabilityBenchmarkSweep: () => ({}),
+  addAdvancedBenchmarkPulse: () => ({}),
+  addAdvancedBenchmarkSweep: () => ({}),
 }));
 
 export default useBenchmarkStore;

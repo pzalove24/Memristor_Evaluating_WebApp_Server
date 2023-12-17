@@ -14,35 +14,14 @@ type PulseRetentionTimeInputProps = {
 export default function PulseRetentionTimeInput({
   benchmarkInputFormik,
 }: PulseRetentionTimeInputProps) {
-  const { values, handleChange, resetForm } = benchmarkInputFormik;
+  const { values, setFieldValue, handleChange, initialValues } =
+    benchmarkInputFormik;
   const [deviceChannel, setDeviceChannel] = React.useState<number>(1);
 
   const totalMeasureTime =
     values.pulseRetentionTimeWaveformValue.cycleIntermediatePulse *
     (values.pulseRetentionTimeWaveformValue.intermediatePulseDuration +
       values.pulseRetentionTimeWaveformValue.distanceBetweenPulse);
-
-  // const handleReset = () => {
-  //   setNegativeVoltage(0);
-  //   setReadVoltage(0);
-  //   setPositiveVoltage(0);
-  //   setNegativeVoltageWidth(0);
-  //   setPositiveVoltageWidth(0);
-  //   setMeasureTime(0);
-  //   setWaitTime(0);
-  //   setCycleMeasure(0);
-  //   handleChangePulseRetentionTimeWaveformValue(
-  //     positiveVoltage,
-  //     readVoltage,
-  //     negativeVoltage,
-  //     positiveVoltageWidth,
-  //     measureTime,
-  //     negativeVoltageWidth,
-  //     waitTime,
-  //     cycleMeasure,
-  //     retentionCycleTesting
-  //   );
-  // };
 
   return (
     <Box
@@ -63,9 +42,22 @@ export default function PulseRetentionTimeInput({
         columnSpacing={{ xs: 1, sm: 2, md: 3 }}
       >
         <Grid item xs={12}>
-          <Typography variant="h4" fontWeight="bold">
-            Pulse Retention Time Input
-          </Typography>
+          <Stack direction="row" spacing={2}>
+            <Typography variant="h4" fontWeight="bold">
+              Pulse Retention Time Input
+            </Typography>
+            <Button
+              variant="contained"
+              onClick={() =>
+                setFieldValue(
+                  "pulseRetentionTimeWaveformValue",
+                  initialValues.pulseRetentionTimeWaveformValue
+                )
+              }
+            >
+              RESET
+            </Button>
+          </Stack>
         </Grid>
         <Grid item xs={4}>
           <Typography>Negative Voltage (V)</Typography>
@@ -292,14 +284,6 @@ export default function PulseRetentionTimeInput({
             value={deviceChannel}
             onChange={(event) => setDeviceChannel(parseInt(event.target.value))}
           />
-        </Grid>
-        <Grid item xs={12}>
-          <Stack spacing={5} direction={"row"}>
-            <Button variant="contained">View Waveform</Button>
-            <Button variant="contained" onClick={() => resetForm()}>
-              RESET
-            </Button>
-          </Stack>
         </Grid>
       </Grid>
     </Box>

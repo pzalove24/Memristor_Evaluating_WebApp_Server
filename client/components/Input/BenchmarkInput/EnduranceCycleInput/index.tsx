@@ -15,28 +15,9 @@ type EnduranceCycleInputProps = {
 export default function EnduranceCycleInput({
   benchmarkInputFormik,
 }: EnduranceCycleInputProps) {
-  const { values, handleChange, resetForm } = benchmarkInputFormik;
+  const { values, setFieldValue, handleChange, initialValues } =
+    benchmarkInputFormik;
   const [deviceChannel, setDeviceChannel] = React.useState<number>(1);
-
-  // const handleReset = () => {
-  //   setNegativeVoltage(0);
-  //   setReadVoltage(0);
-  //   setPositiveVoltage(0);
-  //   setNegativeVoltageWidth(0);
-  //   setReadVoltageWidth(0);
-  //   setPositiveVoltageWidth(0);
-  //   setInterval(0);
-  //   handleChangeEnduranceCycleWaveformValue(
-  //     positiveVoltage,
-  //     readVoltage,
-  //     negativeVoltage,
-  //     positiveVoltageWidth,
-  //     readVoltageWidth,
-  //     negativeVoltageWidth,
-  //     interval,
-  //     enduranceCycleTesting
-  //   );
-  // };
 
   return (
     <Box
@@ -57,9 +38,22 @@ export default function EnduranceCycleInput({
         columnSpacing={{ xs: 1, sm: 2, md: 3 }}
       >
         <Grid item xs={12}>
-          <Typography variant="h4" fontWeight="bold">
-            Endurance Cycle Input
-          </Typography>
+          <Stack direction="row" spacing={2}>
+            <Typography variant="h4" fontWeight="bold">
+              Endurance Cycle Input
+            </Typography>
+            <Button
+              variant="contained"
+              onClick={() =>
+                setFieldValue(
+                  "enduranceCycleWaveformValue",
+                  initialValues.enduranceCycleWaveformValue
+                )
+              }
+            >
+              RESET
+            </Button>
+          </Stack>
         </Grid>
         <Grid item xs={4}>
           <Typography>Negative Voltage (V)</Typography>
@@ -258,30 +252,6 @@ export default function EnduranceCycleInput({
             value={deviceChannel}
             onChange={(event) => setDeviceChannel(parseInt(event.target.value))}
           />
-        </Grid>
-        <Grid item xs={12}>
-          <Stack spacing={5} direction={"row"}>
-            <Button
-              variant="contained"
-              // onClick={() =>
-              //   handleChangeEnduranceCycleWaveformValue(
-              //     positiveVoltage,
-              //     readVoltage,
-              //     negativeVoltage,
-              //     positiveVoltageWidth,
-              //     readVoltageWidth,
-              //     negativeVoltageWidth,
-              //     interval,
-              //     enduranceCycleTesting
-              //   )
-              // }
-            >
-              View Waveform
-            </Button>
-            <Button variant="contained" onClick={() => resetForm()}>
-              RESET
-            </Button>
-          </Stack>
         </Grid>
       </Grid>
     </Box>

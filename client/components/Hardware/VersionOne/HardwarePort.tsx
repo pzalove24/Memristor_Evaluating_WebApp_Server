@@ -14,7 +14,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { ComPortProps } from "@/types";
+import { ComPortProps } from "@/types/commandType";
 
 interface HardwarePortProps {
   comPort: ComPortProps[];

@@ -15,7 +15,8 @@ type SweepIVInputProps = {
 export default function SweepIVInput({
   benchmarkInputFormik,
 }: SweepIVInputProps) {
-  const { values, handleChange, resetForm } = benchmarkInputFormik;
+  const { values, setFieldValue, handleChange, initialValues } =
+    benchmarkInputFormik;
   const [deviceChannel, setDeviceChannel] = React.useState<number>(1);
 
   return (
@@ -37,9 +38,22 @@ export default function SweepIVInput({
         columnSpacing={{ xs: 1, sm: 2, md: 3 }}
       >
         <Grid item xs={12}>
-          <Typography variant="h4" fontWeight="bold">
-            Sweep IV curve Input
-          </Typography>
+          <Stack direction="row" spacing={2}>
+            <Typography variant="h4" fontWeight="bold">
+              Sweep IV curve Input
+            </Typography>
+            <Button
+              variant="contained"
+              onClick={() =>
+                setFieldValue(
+                  "sweepIVwaveformValue",
+                  initialValues.sweepIVwaveformValue
+                )
+              }
+            >
+              RESET
+            </Button>
+          </Stack>
         </Grid>
         <Grid item xs={4}>
           <Typography>Negative Voltage (V)</Typography>
@@ -171,27 +185,6 @@ export default function SweepIVInput({
             value={deviceChannel}
             onChange={(event) => setDeviceChannel(parseInt(event.target.value))}
           />
-        </Grid>
-        <Grid item xs={12}>
-          <Stack spacing={5} direction={"row"}>
-            <Button
-              variant="contained"
-              // onClick={() =>
-              //   handleChangeSweepIVwaveformValue(
-              //     positiveVoltage,
-              //     negativeVoltage,
-              //     voltageWidth,
-              //     voltageStep,
-              //     sweepCycle
-              //   )
-              // }
-            >
-              View Waveform
-            </Button>
-            <Button variant="contained" onClick={() => resetForm()}>
-              RESET
-            </Button>
-          </Stack>
         </Grid>
       </Grid>
     </Box>
