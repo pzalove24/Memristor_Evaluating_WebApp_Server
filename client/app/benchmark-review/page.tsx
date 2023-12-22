@@ -1,3 +1,5 @@
+"use client";
+
 import { Header } from "@/components";
 import TableBenchmarkReview from "@/modules/BenchmarkReview/TableBenchmarkReview";
 import { Box, Paper, Stack } from "@mui/material";
