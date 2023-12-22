@@ -1,34 +1,34 @@
 "use client";
 
 import * as React from "react";
-import io from "socket.io-client";
+// import io from "socket.io-client";
 
-const socket = io("http://localhost:3001");
+// const socket = io("http://localhost:3001");
 
 export default function Home() {
-  const [message, setMessage] = React.useState("");
-  const [inputMessage, setInputMessage] = React.useState("second");
+  // const [message, setMessage] = React.useState("");
+  // const [inputMessage, setInputMessage] = React.useState("second");
 
-  const sendMessage = () => {
-    socket.emit("send_message", { message: inputMessage });
-  };
+  // const sendMessage = () => {
+  //   socket.emit("send_message", { message: inputMessage });
+  // };
 
-  React.useEffect(() => {
-    socket.on("receive_message", (data) => {
-      setMessage(data);
-    });
-  }, [socket]);
+  // React.useEffect(() => {
+  //   socket.on("receive_message", (data) => {
+  //     setMessage(data);
+  //   });
+  // }, [socket]);
 
   return (
     <main>
-      <input
+      {/* <input
         title="message"
         onChange={(e) => setInputMessage(e.target.value)}
       />
       <button title={"socketTest"} onClick={sendMessage}>
         click me
       </button>
-      <div>{message}</div>
+      <div>{message}</div> */}
     </main>
   );
 }

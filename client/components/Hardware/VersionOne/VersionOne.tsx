@@ -31,6 +31,7 @@ import {
   TestCommandType,
 } from "@/types/commandType";
 import useComPortStore from "@/shared/comPortStore";
+import useComPortSocket from "@/hooks/comPortSocket";
 
 const validationManualReadSchema = yup.object({
   tag: yup.string().required("Tag is required"),
@@ -87,13 +88,13 @@ export type initialManualWriteValuesProps = {
   widthNegativeVoltage: number;
 };
 
-const socket = io("http://localhost:3001");
+// const socket = io("http://localhost:3001");
 
 export default function VersionOne() {
-  const [currentSocket, setCurrentSocket] = React.useState<any>(null);
-  const [comPort, setComPort] = React.useState<ComPortProps[]>([]);
-  const [inputComPort, setInputComPort] = React.useState<string>("");
-  const [serialPortIncoming, setSerialPortIncoming] = React.useState("");
+  // const [currentSocket, setCurrentSocket] = React.useState<any>(null);
+  // const [comPort, setComPort] = React.useState<ComPortProps[]>([]);
+  // const [inputComPort, setInputComPort] = React.useState<string>("");
+  // const [serialPortIncoming, setSerialPortIncoming] = React.useState("");
   const {
     comPortStatus,
     comPortDisconnected,
@@ -104,72 +105,45 @@ export default function VersionOne() {
 
   console.log(comPortStatus);
 
-  //**SOCKET COMPORT**\\
-  const handleChangePort = (event: SelectChangeEvent) => {
-    setInputComPort(event.target.value);
-  };
+  const {
+    comPort,
+    inputComPort,
+    serialPortIncoming,
+    requestPortLists,
+    selectedCOMPORT,
+    handleChangePort,
+    serialPortTest,
+    serialPortCommandSent,
+    disconnectCOMPORT,
+  } = useComPortSocket();
 
-  const requestPortLists = () => {
-    if (currentSocket) {
-      socket.disconnect();
-    }
-    socket.emit("serialPortList", () => {});
-  };
 
-  React.useEffect(() => {
-    disconnectCOMPORT();
-    socket.on("disconnect", function () {
-      socket.connect();
-    });
-    setCurrentSocket(socket);
-    socket.on("COMPORT_SOCKET", (COMPORT_SOCKET) => {
-      setComPort(COMPORT_SOCKET);
-    });
-    socket.on("disconnectByUSB", (USBDISCONNECTED) => {
-      if (USBDISCONNECTED === "USBdisconnected") {
-        disconnectCOMPORT();
-        setInputComPort("");
-      }
-    });
+  // React.useEffect(() => {
+  //   disconnectCOMPORT();
+  //   socket.on("disconnect", function () {
+  //     socket.connect();
+  //   });
+  //   setCurrentSocket(socket);
+  //   socket.on("COMPORT_SOCKET", (COMPORT_SOCKET) => {
+  //     setComPort(COMPORT_SOCKET);
+  //   });
+  //   socket.on("disconnectByUSB", (USBDISCONNECTED) => {
+  //     if (USBDISCONNECTED === "USBdisconnected") {
+  //       disconnectCOMPORT();
+  //       setInputComPort("");
+  //     }
+  //   });
 
-    // Attach the event listener when the component mounts
-    window.addEventListener("beforeunload", disconnectCOMPORT);
+  //   // Attach the event listener when the component mounts
+  //   window.addEventListener("beforeunload", disconnectCOMPORT);
 
-    // Remove the event listener when the component unmounts
-    return () => {
-      disconnectCOMPORT();
-      window.removeEventListener("beforeunload", disconnectCOMPORT);
-    };
-  }, []);
+  //   // Remove the event listener when the component unmounts
+  //   return () => {
+  //     disconnectCOMPORT();
+  //     window.removeEventListener("beforeunload", disconnectCOMPORT);
+  //   };
+  // }, []);
 
-  const selectedCOMPORT = () => {
-    socket.emit("selectedCOMPORT", inputComPort);
-    updateStatus("READY");
-  };
-
-  const disconnectCOMPORT = () => {
-    socket.emit("disconnectCOMPORT", () => {});
-    updateStatus("DISCONNECTED");
-    setSerialPortIncoming("");
-    if (currentSocket) {
-      socket.disconnect();
-    }
-  };
-
-  React.useEffect(() => {
-    socket.on("benchmark_data", (benchmarkData) => {
-      setSerialPortIncoming(benchmarkData);
-    });
-  }, [inputComPort]);
-
-  const serialPortTest = () => {
-    const command: Command = {
-      tag: TestCommandType.TESTBOARD_WEB,
-    };
-    socket.emit("command_benchmark", handleCommand(command));
-  };
-
-  //**END**\\
 
   //**MANUAL_OPERATION_FORMIK**\\
 
@@ -197,7 +171,8 @@ export default function VersionOne() {
         tag: values.tag,
         write_voltage: values.currentVoltage,
       };
-      socket.emit("command_benchmark", handleCommand(command));
+      serialPortCommandSent(command);
+      // socket.emit("command_benchmark", handleCommand(command));
     },
   });
 
@@ -212,7 +187,8 @@ export default function VersionOne() {
           write_voltage: values.positiveVoltage,
           pulse_width: values.widthPostiveVoltage,
         };
-        socket.emit("command_benchmark", handleCommand(command));
+        serialPortCommandSent(command);
+        // socket.emit("command_benchmark", handleCommand(command));
       } else if (values.polaritySent === "negative") {
         console.log("negative");
         const command: Command = {
@@ -220,7 +196,8 @@ export default function VersionOne() {
           write_voltage: values.negativeVoltage,
           pulse_width: values.widthNegativeVoltage,
         };
-        socket.emit("command_benchmark", handleCommand(command));
+        serialPortCommandSent(command);
+        // socket.emit("command_benchmark", handleCommand(command));
       }
     },
   });

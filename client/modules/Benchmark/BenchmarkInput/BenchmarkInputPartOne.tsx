@@ -9,6 +9,7 @@ import {
   TextField,
   Stack,
   Button,
+  Grow,
 } from "@mui/material";
 import { ParameterInputTabs } from "@/components/Input/BenchmarkInput";
 import {
@@ -23,12 +24,14 @@ import { PulseRetentionTimeWaveform } from "@/modules/Chart/Waveform/PulseRetent
 import { EnduranceCycleWaveform } from "@/modules/Chart/Waveform/EnduranceCycleWaveform";
 import { BenchmarkStepper } from "@/components";
 import { useFormik } from "formik";
+import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import { WaveFunctionSweepIVwaveformProps } from "@/modules/Chart/Waveform/SweepIVwaveform/WaveFunctionSweepIVwaveform";
 import { WaveFunctionPulseIVwaveformProps } from "@/modules/Chart/Waveform/PulseIVwaveform/WaveFunctionPulseIVwaveform";
 import { WaveFunctionEnduranceCycleWaveformProps } from "@/modules/Chart/Waveform/EnduranceCycleWaveform/WaveFunctionEnduranceCycleWaveform";
 import { WaveFunctionSweepRetentionTimeWaveformProps } from "@/modules/Chart/Waveform/SweepRetentionTimeWaveform/WaveFunctionSweepRetentionTimeWaveform";
 import { WaveFunctionPulseRetentionTimeWaveformProps } from "@/modules/Chart/Waveform/PulseRetentionTimeWaveform/WaveFunctionPulseRetentionTimeWaveform";
 import { WaveFunctionConductancePulseTimeProps } from "@/modules/Chart/Waveform/ConductancePulseNumberWaveform/WaveFunctionConductancePulseTime";
+import useBenchmarkStore from "@/shared/benchmarkStore";
 
 export type initialBenchmarkInputValuesProps = {
   sweepIVwaveformValue: WaveFunctionSweepIVwaveformProps;
@@ -42,6 +45,8 @@ export type initialBenchmarkInputValuesProps = {
 export const BenchmarkInputPartOne = () => {
   const [openViewWaveform, setOpenViewWaveform] =
     React.useState<boolean>(false);
+
+  const { benchmarkStatus } = useBenchmarkStore();
 
   const handleViewWaveform = () => {
     if (openViewWaveform) {
@@ -145,7 +150,7 @@ export const BenchmarkInputPartOne = () => {
             xs
             justifyContent="center"
             alignItems="flex-start"
-            sx={{pt:5}}
+            sx={{ pt: 5 }}
           >
             <BenchmarkStepper />
           </Grid>
@@ -158,6 +163,13 @@ export const BenchmarkInputPartOne = () => {
                 alignItems={"center"}
                 sx={{ m: 3 }}
               >
+                <Grow
+                  in={benchmarkStatus === "TESTNAME"}
+                  style={{ transformOrigin: "0 0 0" }}
+                  {...(benchmarkStatus === "TESTNAME" ? { timeout: 500 } : {})}
+                >
+                  <ArrowCircleRightIcon fontSize="large" />
+                </Grow>
                 <Typography variant="h5">Benchmark Test Name :</Typography>
                 <TextField
                   id="standard-number"
@@ -172,11 +184,28 @@ export const BenchmarkInputPartOne = () => {
                   onChange={(e) => {}}
                 />
               </Stack>
-              <Card variant="outlined">
-                <ParameterInputTabs
-                  benchmarkInputFormik={benchmarkInputFormik}
-                />
-              </Card>
+              <Stack
+                direction={"row"}
+                spacing={3}
+                justifyContent={"flex-start"}
+                alignItems={"center"}
+                sx={{ m: 3 }}
+              >
+                <Grow
+                  in={benchmarkStatus === "INPUTSETUP"}
+                  style={{ transformOrigin: "0 0 0" }}
+                  {...(benchmarkStatus === "INPUTSETUP"
+                    ? { timeout: 500 }
+                    : {})}
+                >
+                  <ArrowCircleRightIcon fontSize="large" />
+                </Grow>
+                <Card variant="outlined">
+                  <ParameterInputTabs
+                    benchmarkInputFormik={benchmarkInputFormik}
+                  />
+                </Card>
+              </Stack>
             </Box>
             <Stack
               justifyContent="center"

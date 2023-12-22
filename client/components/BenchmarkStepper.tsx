@@ -11,6 +11,8 @@ import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import useBenchmarkStore from "@/shared/benchmarkStore";
+import handleCommand from "@/utils/Commands";
+import useComPortSocket from "@/hooks/comPortSocket";
 
 const steps = [
   {
@@ -43,8 +45,9 @@ const steps = [
 export default function BenchmarkStepper() {
   const [activeStep, setActiveStep] = React.useState(0);
 
-  const { benchmarkStatus, updateStatus } = useBenchmarkStore();
-
+  const { benchmarkStatus, updateStatus, standardBenchmarkPulseSelection } =
+    useBenchmarkStore();
+  console.log(standardBenchmarkPulseSelection);
   console.log(activeStep);
   const handleChangeBenchmarkStatusState = (currentActiveStep: number) => {
     switch (currentActiveStep) {
@@ -52,7 +55,7 @@ export default function BenchmarkStepper() {
         updateStatus("TESTNAME");
         break;
       case 1:
-        updateStatus("HARDWARESELECTION");
+        updateStatus("TESTHARDWARE");
         break;
       case 2:
         updateStatus("BENCHMARKSELECTION");
@@ -86,6 +89,8 @@ export default function BenchmarkStepper() {
     setActiveStep(0);
   };
 
+  const { serialPortTest } = useComPortSocket();
+
   React.useEffect(() => {
     handleChangeBenchmarkStatusState(activeStep);
   }, [activeStep]);
@@ -110,6 +115,16 @@ export default function BenchmarkStepper() {
               <Typography>{step.description}</Typography>
               <Box sx={{ mb: 2 }}>
                 <div>
+                  {benchmarkStatus === "TESTHARDWARE" && (
+                    <Button
+                      variant="contained"
+                      color="info"
+                      onClick={serialPortTest}
+                      sx={{ mt: 1, mr: 1 }}
+                    >
+                      Test
+                    </Button>
+                  )}
                   <Button
                     variant="contained"
                     color="secondary"

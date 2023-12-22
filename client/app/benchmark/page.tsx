@@ -9,8 +9,10 @@ import {
   Divider,
   Button,
   ButtonGroup,
+  Grow,
 } from "@mui/material";
 import Typography from "@mui/material/Typography";
+import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import { Header } from "@/components";
 import { StandardBenchmarkPartOne } from "@/modules/Benchmark/StandardBenchmark/StandardBenchmarkPartOne";
 import { StabilityBenchmarkPartOne } from "@/modules/Benchmark/StabilityBenchmark/StabilityBenchmarkPartOne";
@@ -19,11 +21,13 @@ import { AdvancedBenchmarkPartOne } from "@/modules/Benchmark/AdvancedBenchmark/
 import { BenchmarkInputPartOne } from "@/modules/Benchmark/BenchmarkInput/BenchmarkInputPartOne";
 import ManualOperationPartOne from "@/modules/Benchmark/ManualOperation/ManualOperationPartOne";
 import useComPortStore from "@/shared/comPortStore";
+import useBenchmarkStore from "@/shared/benchmarkStore";
 
 const Benchmark = () => {
   const [openBenchmark, setOpenBenchmark] = useState(false);
 
   const { comPortReady } = useComPortStore();
+  const { benchmarkStatus } = useBenchmarkStore();
 
   // useEffect(() => {
   //   if (comPortReady === false) {
@@ -58,23 +62,22 @@ const Benchmark = () => {
               <ButtonGroup fullWidth>
                 <Button
                   onClick={() => setOpenBenchmark(true)}
-                  // disabled={openBenchmark || !comPortReady}
-                  disabled={openBenchmark}
+                  disabled={openBenchmark || !comPortReady}
+                  // disabled={openBenchmark}
                   variant="contained"
                 >
                   Benchmark Setup
                 </Button>
                 <Button
                   onClick={() => setOpenBenchmark(false)}
-                  disabled={!openBenchmark}
+                  disabled={!openBenchmark || !comPortReady}
                   variant="contained"
                 >
                   Close Setup
                 </Button>
               </ButtonGroup>
             </Grid>
-            {/* {openBenchmark && comPortReady && ( */}
-            {openBenchmark && (
+            {openBenchmark && comPortReady && (
               <>
                 <Grid item xs={12}>
                   <Typography
@@ -89,16 +92,33 @@ const Benchmark = () => {
                 </Grid>
                 <BenchmarkInputPartOne />
                 <Grid item xs={12}>
-                  <Divider />
-                  <Typography
+                  <Divider />{" "}
+                  <Stack
+                    direction={"row"}
+                    spacing={3}
+                    justifyContent={"flex-start"}
+                    alignItems={"center"}
                     sx={{ mt: 2, ml: 2 }}
-                    color="secondary"
-                    display="block"
-                    variant="h3"
-                    fontWeight="bold"
                   >
-                    Benchmark Result
-                  </Typography>
+                    <Typography
+                      color="secondary"
+                      display="block"
+                      variant="h3"
+                      fontWeight="bold"
+                    >
+                      Benchmark Result
+                    </Typography>
+
+                    <Grow
+                      in={benchmarkStatus === "BENCHMARKSELECTION"}
+                      style={{ transformOrigin: "0 0 0" }}
+                      {...(benchmarkStatus === "BENCHMARKSELECTION"
+                        ? { timeout: 500 }
+                        : {})}
+                    >
+                      <ArrowCircleLeftIcon fontSize="large" />
+                    </Grow>
+                  </Stack>
                 </Grid>
                 <StandardBenchmarkPartOne />
                 <StabilityBenchmarkPartOne />

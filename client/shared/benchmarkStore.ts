@@ -1,17 +1,19 @@
 import { create } from "zustand";
 import React from "react";
+import { StandardBenchmarkPulseType } from "@/types/commandType";
 
 export type benchmarkStatus =
   | "TESTNAME"
-  | "HARDWARESELECTION"
+  | "TESTHARDWARE"
   | "BENCHMARKSELECTION"
   | "INPUTSETUP"
   | "EVALUATION"
   | "FINISH";
 
 export type benchmarkState = {
+  benchmarkName: string;
   benchmarkStatus: benchmarkStatus;
-  standardBenchmarkPulseSelection?: any[];
+  standardBenchmarkPulseSelection?: StandardBenchmarkPulseType[];
   standardBenchmarkSweepSelection?: any[];
   stabilityBenchmarkPulseSelection?: any[];
   stabilityBenchmarkSweepSelection?: any[];
@@ -20,6 +22,7 @@ export type benchmarkState = {
 };
 
 export type benchmarkAction = {
+  updateBenchmarkName: (name: string) => void;
   updateStatus: (status: benchmarkStatus) => void;
   addStandardBenchmarkPulse: () => void;
   addStandardBenchmarkSweep: () => void;
@@ -30,13 +33,17 @@ export type benchmarkAction = {
 };
 
 const useBenchmarkStore = create<benchmarkState & benchmarkAction>((set) => ({
-  benchmarkStatus: "HARDWARESELECTION",
-  standardBenchmarkPulseSelection: [],
+  benchmarkName: "",
+  benchmarkStatus: "TESTNAME",
+  standardBenchmarkPulseSelection: [
+    StandardBenchmarkPulseType.CONDUCTANCEPULSE_WEB,
+  ],
   standardBenchmarkSweepSelection: [],
   stabilityBenchmarkPulseSelection: [],
   stabilityBenchmarkSweepSelection: [],
   advancedBenchmarkPulseSelection: [],
   advancedBenchmarkSweepSelection: [],
+  updateBenchmarkName: (name: string) => set(() => ({ benchmarkName: name })),
   updateStatus: (status: benchmarkStatus) =>
     set(() => ({ benchmarkStatus: status })),
   addStandardBenchmarkPulse: () => ({}),
