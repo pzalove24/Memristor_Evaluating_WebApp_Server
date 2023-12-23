@@ -340,8 +340,8 @@ export const AdvancedBenchmarkPartOne = ({
     advancedBenchmarkSweepSelection,
   } = useBenchmarkStore();
 
-  console.log("a-pulse", advancedBenchmarkPulseSelection);
-  console.log("a-sweep", advancedBenchmarkSweepSelection);
+  // console.log("a-pulse", advancedBenchmarkPulseSelection);
+  // console.log("a-sweep", advancedBenchmarkSweepSelection);
 
   const initialAdvancedBenchmarkChartValues: TAdvancedBenchmarkType = {
     advancedBenchmarkPulse: advancedBenchmarkPulseData,

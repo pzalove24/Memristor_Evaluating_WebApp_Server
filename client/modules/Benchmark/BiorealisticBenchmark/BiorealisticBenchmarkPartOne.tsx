@@ -95,7 +95,7 @@ export const BiorealisticBenchmarkPartOne = ({
   const { addBiorealisticBenchmark, biorealisticBenchmarkSelection } =
     useBenchmarkStore();
 
-  console.log("bio", biorealisticBenchmarkSelection);
+  // console.log("bio", biorealisticBenchmarkSelection);
 
   const initialBiorealisticBenchmarkChartValues: TBiorealisticBenchmarkType = {
     biorealisticBenchmarkBiologicalNeuron:

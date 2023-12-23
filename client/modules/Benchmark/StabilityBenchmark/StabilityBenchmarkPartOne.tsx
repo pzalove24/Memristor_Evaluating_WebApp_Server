@@ -104,8 +104,8 @@ export const StabilityBenchmarkPartOne = ({
     stabilityBenchmarkSweepSelection,
   } = useBenchmarkStore();
 
-  console.log("st-pulse", stabilityBenchmarkPulseSelection);
-  console.log("st-sweep", stabilityBenchmarkSweepSelection);
+  // console.log("st-pulse", stabilityBenchmarkPulseSelection);
+  // console.log("st-sweep", stabilityBenchmarkSweepSelection);
 
   const initialStabilityBenchmarkChartValues: TStabilityBenchmarkType = {
     stabilityBenchmarkPulse: stabilityBenchmarkPulseData,

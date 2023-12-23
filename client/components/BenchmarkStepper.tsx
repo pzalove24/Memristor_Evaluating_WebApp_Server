@@ -10,7 +10,7 @@ import StepContent from "@mui/material/StepContent";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
-import useBenchmarkStore from "@/shared/benchmarkStore";
+import useBenchmarkStore, { benchmarkStatus } from "@/shared/benchmarkStore";
 import handleCommand from "@/utils/Commands";
 import useComPortSocket from "@/hooks/comPortSocket";
 
@@ -45,10 +45,23 @@ const steps = [
 export default function BenchmarkStepper() {
   const [activeStep, setActiveStep] = React.useState(0);
 
-  const { benchmarkStatus, updateStatus, standardBenchmarkPulseSelection } =
-    useBenchmarkStore();
-  console.log(standardBenchmarkPulseSelection);
-  console.log(activeStep);
+  const {
+    standardBenchmarkPulseSelection,
+    standardBenchmarkSweepSelection,
+    stabilityBenchmarkPulseSelection,
+    stabilityBenchmarkSweepSelection,
+    biorealisticBenchmarkSelection,
+    advancedBenchmarkPulseSelection,
+    advancedBenchmarkSweepSelection,
+    benchmarkName,
+    benchmarkStatus,
+    updateStatus,
+  } = useBenchmarkStore();
+
+  const { serialPortTest } = useComPortSocket();
+
+  console.log("pulse", standardBenchmarkPulseSelection);
+  console.log("active", activeStep);
   const handleChangeBenchmarkStatusState = (currentActiveStep: number) => {
     switch (currentActiveStep) {
       case 0:
@@ -75,7 +88,7 @@ export default function BenchmarkStepper() {
     }
   };
 
-  console.log(benchmarkStatus);
+  console.log("status", benchmarkStatus);
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -89,7 +102,34 @@ export default function BenchmarkStepper() {
     setActiveStep(0);
   };
 
-  const { serialPortTest } = useComPortSocket();
+  const handleContinue = (currentStatus: benchmarkStatus) => {
+    if (currentStatus === "TESTNAME") {
+      if (benchmarkName === "") {
+        return false;
+      }
+      return true;
+    } else if (currentStatus === "TESTHARDWARE") {
+      return true;
+    } else if (currentStatus === "BENCHMARKSELECTION") {
+      const isBenchmarkSelected = [
+        standardBenchmarkPulseSelection,
+        standardBenchmarkSweepSelection,
+        stabilityBenchmarkPulseSelection,
+        stabilityBenchmarkSweepSelection,
+        biorealisticBenchmarkSelection,
+        advancedBenchmarkPulseSelection,
+        advancedBenchmarkSweepSelection,
+      ].some((selection) => selection && selection?.length > 0);
+
+      return isBenchmarkSelected;
+    } else if (currentStatus === "INPUTSETUP") {
+      return true;
+    } else if (currentStatus === "EVALUATION") {
+      return true;
+    } else if (currentStatus === "FINISH") {
+      return true;
+    }
+  };
 
   React.useEffect(() => {
     handleChangeBenchmarkStatusState(activeStep);
@@ -126,6 +166,7 @@ export default function BenchmarkStepper() {
                     </Button>
                   )}
                   <Button
+                    disabled={!handleContinue(benchmarkStatus)}
                     variant="contained"
                     color="secondary"
                     onClick={handleNext}

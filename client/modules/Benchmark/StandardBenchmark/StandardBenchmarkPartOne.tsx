@@ -221,8 +221,8 @@ export const StandardBenchmarkPartOne = ({
     standardBenchmarkPulseSelection,
     standardBenchmarkSweepSelection,
   } = useBenchmarkStore();
-  console.log("s-pulse", standardBenchmarkPulseSelection);
-  console.log("s-sweep", standardBenchmarkSweepSelection);
+  // console.log("s-pulse", standardBenchmarkPulseSelection);
+  // console.log("s-sweep", standardBenchmarkSweepSelection);
 
   const initialStandardBenchmarkChartValues: TStandardBenchmarkType = {
     standardBenchmarkPulse: standardBenchmarkPulseData,

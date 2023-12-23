@@ -45,8 +45,11 @@ export type initialBenchmarkInputValuesProps = {
 export const BenchmarkInputPartOne = () => {
   const [openViewWaveform, setOpenViewWaveform] =
     React.useState<boolean>(false);
+  const { benchmarkStatus, updateBenchmarkName, benchmarkName } =
+    useBenchmarkStore();
+  const [name, setName] = React.useState<string>(benchmarkName);
 
-  const { benchmarkStatus } = useBenchmarkStore();
+  console.log("name", benchmarkName);
 
   const handleViewWaveform = () => {
     if (openViewWaveform) {
@@ -181,8 +184,15 @@ export const BenchmarkInputPartOne = () => {
                   helperText="Specify test name"
                   placeholder="provide name"
                   required
-                  onChange={(e) => {}}
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                 />
+                <Button
+                  variant="contained"
+                  onClick={() => updateBenchmarkName(name)}
+                >
+                  Set Benchmark Name
+                </Button>
               </Stack>
               <Stack
                 direction={"row"}

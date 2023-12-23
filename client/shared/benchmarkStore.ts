@@ -61,9 +61,10 @@ export type benchmarkAction = {
   addAdvancedBenchmarkSweep: (
     benchmarkSelects: AdvancedBenchmarkSweepType[]
   ) => void;
+  resetBenchmark: () => void;
 };
 
-const useBenchmarkStore = create<benchmarkState & benchmarkAction>((set) => ({
+const initialBenchmarkSetUp: benchmarkState = {
   benchmarkName: "",
   benchmarkStatus: "TESTNAME",
   standardBenchmarkPulseSelection: [],
@@ -73,6 +74,10 @@ const useBenchmarkStore = create<benchmarkState & benchmarkAction>((set) => ({
   biorealisticBenchmarkSelection: [],
   advancedBenchmarkPulseSelection: [],
   advancedBenchmarkSweepSelection: [],
+};
+
+const useBenchmarkStore = create<benchmarkState & benchmarkAction>((set) => ({
+  ...initialBenchmarkSetUp,
   updateBenchmarkName: (name: string) => set(() => ({ benchmarkName: name })),
   updateStatus: (status: benchmarkStatus) =>
     set(() => ({ benchmarkStatus: status })),
@@ -96,6 +101,9 @@ const useBenchmarkStore = create<benchmarkState & benchmarkAction>((set) => ({
     set(() => ({ advancedBenchmarkPulseSelection: benchmarkSelects })),
   addAdvancedBenchmarkSweep: (benchmarkSelects: AdvancedBenchmarkSweepType[]) =>
     set(() => ({ advancedBenchmarkSweepSelection: benchmarkSelects })),
+  resetBenchmark: () => {
+    set(initialBenchmarkSetUp);
+  },
 }));
 
 export default useBenchmarkStore;

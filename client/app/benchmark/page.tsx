@@ -27,7 +27,7 @@ const Benchmark = () => {
   const [openBenchmark, setOpenBenchmark] = useState(false);
 
   const { comPortReady } = useComPortStore();
-  const { benchmarkStatus } = useBenchmarkStore();
+  const { benchmarkStatus, resetBenchmark } = useBenchmarkStore();
 
   // useEffect(() => {
   //   if (comPortReady === false) {
@@ -62,9 +62,9 @@ const Benchmark = () => {
               <ButtonGroup fullWidth>
                 <Button
                   onClick={() => setOpenBenchmark(true)}
-                  // disabled={openBenchmark || !comPortReady}
+                  disabled={openBenchmark || !comPortReady}
                   //{openBenchmark && comPortReady && (
-                  disabled={openBenchmark}
+                  // disabled={openBenchmark}
                   variant="contained"
                 >
                   Benchmark Setup
@@ -78,7 +78,7 @@ const Benchmark = () => {
                 </Button>
               </ButtonGroup>
             </Grid>
-            {openBenchmark && (
+            {openBenchmark && comPortReady && (
               <>
                 <Grid item xs={12}>
                   <Typography
@@ -92,39 +92,43 @@ const Benchmark = () => {
                   </Typography>
                 </Grid>
                 <BenchmarkInputPartOne />
-                <Grid item xs={12}>
-                  <Divider />{" "}
-                  <Stack
-                    direction={"row"}
-                    spacing={3}
-                    justifyContent={"flex-start"}
-                    alignItems={"center"}
-                    sx={{ mt: 2, ml: 2 }}
-                  >
-                    <Typography
-                      color="secondary"
-                      display="block"
-                      variant="h3"
-                      fontWeight="bold"
-                    >
-                      Benchmark Result
-                    </Typography>
-
-                    <Grow
-                      in={benchmarkStatus === "BENCHMARKSELECTION"}
-                      style={{ transformOrigin: "0 0 0" }}
-                      {...(benchmarkStatus === "BENCHMARKSELECTION"
-                        ? { timeout: 500 }
-                        : {})}
-                    >
-                      <ArrowCircleLeftIcon fontSize="large" />
-                    </Grow>
-                  </Stack>
-                </Grid>
-                <StandardBenchmarkPartOne />
-                <StabilityBenchmarkPartOne />
-                <BiorealisticBenchmarkPartOne />
-                <AdvancedBenchmarkPartOne />
+                {benchmarkStatus !== "TESTNAME" &&
+                  benchmarkStatus !== "TESTHARDWARE" && (
+                    <>
+                      <Grid item xs={12}>
+                        <Divider />{" "}
+                        <Stack
+                          direction={"row"}
+                          spacing={3}
+                          justifyContent={"flex-start"}
+                          alignItems={"center"}
+                          sx={{ mt: 2, ml: 2 }}
+                        >
+                          <Typography
+                            color="secondary"
+                            display="block"
+                            variant="h3"
+                            fontWeight="bold"
+                          >
+                            Benchmark Result
+                          </Typography>
+                          <Grow
+                            in={benchmarkStatus === "BENCHMARKSELECTION"}
+                            style={{ transformOrigin: "0 0 0" }}
+                            {...(benchmarkStatus === "BENCHMARKSELECTION"
+                              ? { timeout: 500 }
+                              : {})}
+                          >
+                            <ArrowCircleLeftIcon fontSize="large" />
+                          </Grow>
+                        </Stack>
+                      </Grid>
+                      <StandardBenchmarkPartOne />
+                      <StabilityBenchmarkPartOne />
+                      <BiorealisticBenchmarkPartOne />
+                      <AdvancedBenchmarkPartOne />
+                    </>
+                  )}
               </>
             )}
           </Grid>
