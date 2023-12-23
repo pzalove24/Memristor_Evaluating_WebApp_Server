@@ -47,14 +47,23 @@ export type StandardBenchmarkPulseChart = {
   loglogPulseChart: DefaultBenchmarkChartType & {
     tag: StandardBenchmarkPulseType.LOGLOGPULSE_WEB;
   };
-  onoffPulseChart: DefaultBenchmarkChartType & {
-    tag: StandardBenchmarkPulseType.ONOFFPULSE_WEB;
+  onoffPulseResistanceChart: DefaultBenchmarkChartType & {
+    tag: StandardBenchmarkPulseType.ONOFFPULSE_R_WEB;
   };
-  distributionPulseChart: DefaultBenchmarkChartType & {
-    tag: StandardBenchmarkPulseType.DISTRIBUTIONPULSE_WEB;
+  distributionPulseResistanceChart: DefaultBenchmarkChartType & {
+    tag: StandardBenchmarkPulseType.DISTRIBUTIONPULSE_R_WEB;
   };
-  cumulativePulseChart: DefaultBenchmarkChartType & {
-    tag: StandardBenchmarkPulseType.CUMULATIVEPULSE_WEB;
+  cumulativePulseResistanceChart: DefaultBenchmarkChartType & {
+    tag: StandardBenchmarkPulseType.CUMULATIVEPULSE_R_WEB;
+  };
+  onoffPulseVoltageChart: DefaultBenchmarkChartType & {
+    tag: StandardBenchmarkPulseType.ONOFFPULSE_V_WEB;
+  };
+  distributionPulseVoltageChart: DefaultBenchmarkChartType & {
+    tag: StandardBenchmarkPulseType.DISTRIBUTIONPULSE_V_WEB;
+  };
+  cumulativePulseVoltageChart: DefaultBenchmarkChartType & {
+    tag: StandardBenchmarkPulseType.CUMULATIVEPULSE_V_WEB;
   };
   conductancePulseChart: DefaultBenchmarkChartType & {
     tag: StandardBenchmarkPulseType.CONDUCTANCEPULSE_WEB;
@@ -68,17 +77,23 @@ export type StandardBenchmarkSweepChart = {
   loglogSweepChart: DefaultBenchmarkChartType & {
     tag: StandardBenchmarkSweepType.LOGLOGSWEEP_WEB;
   };
-  onoffSweepChart: DefaultBenchmarkChartType & {
-    tag: StandardBenchmarkSweepType.ONOFFSWEEP_WEB;
+  onoffSweepResistanceChart: DefaultBenchmarkChartType & {
+    tag: StandardBenchmarkSweepType.ONOFFSWEEP_R_WEB;
   };
-  distributionSweepChart: DefaultBenchmarkChartType & {
-    tag: StandardBenchmarkSweepType.DISTRIBUTIONSWEEP_WEB;
+  distributionSweepResistanceChart: DefaultBenchmarkChartType & {
+    tag: StandardBenchmarkSweepType.DISTRIBUTIONSWEEP_R_WEB;
   };
-  cumulativeSweepChart: DefaultBenchmarkChartType & {
-    tag: StandardBenchmarkSweepType.CUMULATIVESWEEP_WEB;
+  cumulativeSweepResistanceChart: DefaultBenchmarkChartType & {
+    tag: StandardBenchmarkSweepType.CUMULATIVESWEEP_R_WEB;
   };
-  conductanceSweepChart: DefaultBenchmarkChartType & {
-    tag: StandardBenchmarkSweepType.CONDUCTANCESWEEP_WEB;
+  onoffSweepVoltageChart: DefaultBenchmarkChartType & {
+    tag: StandardBenchmarkSweepType.ONOFFSWEEP_V_WEB;
+  };
+  distributionSweepVoltageChart: DefaultBenchmarkChartType & {
+    tag: StandardBenchmarkSweepType.DISTRIBUTIONSWEEP_V_WEB;
+  };
+  cumulativeSweepVoltageChart: DefaultBenchmarkChartType & {
+    tag: StandardBenchmarkSweepType.CUMULATIVESWEEP_V_WEB;
   };
 };
 

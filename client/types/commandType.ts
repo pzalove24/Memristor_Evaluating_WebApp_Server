@@ -51,7 +51,7 @@ export enum StandardBenchmarkSweepType {
   ONOFFSWEEP_R_WEB = "oosw",
   DISTRIBUTIONSWEEP_R_WEB = "dirsw",
   CUMULATIVESWEEP_R_WEB = "cursw",
-  CONDUCTANCESWEEP_R_WEB = "cprsw",
+  // CONDUCTANCESWEEP_R_WEB = "cprsw",
   ONOFFSWEEP_V_WEB = "oorsw",
   DISTRIBUTIONSWEEP_V_WEB = "divsw",
   CUMULATIVESWEEP_V_WEB = "cuvsw",
