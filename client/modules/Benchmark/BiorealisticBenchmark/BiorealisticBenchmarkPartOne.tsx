@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import {
   Box,
   Grid,
@@ -21,55 +21,65 @@ import {
   DialogSelectedBiorealisticBenchmarkReviewProps,
 } from "@/types";
 import CheckedBiorealisticBenchmark from "./CheckedBiorealisticBenchmark";
+import { useFormik } from "formik";
+import {
+  BiorealisticBenchmarkBiologicalNeuronType,
+  BiorealisticBenchmarkBiologicalSynapseType,
+} from "@/types/commandType";
+import {
+  DefaultBenchmarkChartType,
+  DefaultBenchmarkLabel,
+} from "@/types/chartType";
+import useBenchmarkStore from "@/shared/benchmarkStore";
+import ScatterBenchmarkChart from "@/components/charts/ScatterBenchmarkChart";
+
+export type TBiorealisticBenchmarkType = {
+  biorealisticBenchmarkBiologicalNeuron: DefaultBenchmarkChartType[];
+  biorealisticBenchmarkBiologicalSynapse: DefaultBenchmarkChartType[];
+};
+
+const biorealisticBenchmarkBiologicalNeuronData: DefaultBenchmarkChartType[] = [
+  {
+    title: "ChartSTDP",
+    xTitle: "voltage (V)",
+    yTitle: "current (uA)",
+    label: DefaultBenchmarkLabel.BiorealisticBenchmarkBiologicalNeuronChart,
+    chartTag: false,
+    tag: BiorealisticBenchmarkBiologicalNeuronType.CHART_STDP_WEB,
+  },
+  {
+    title: "PairPulse",
+    xTitle: "voltage (V)",
+    yTitle: "current (uA)",
+    label: DefaultBenchmarkLabel.BiorealisticBenchmarkBiologicalNeuronChart,
+    chartTag: false,
+    tag: BiorealisticBenchmarkBiologicalNeuronType.PAIRPULSE_WEB,
+  },
+  {
+    title: "ChartIPSC_EPSC",
+    xTitle: "voltage (V)",
+    yTitle: "current (uA)",
+    label: DefaultBenchmarkLabel.BiorealisticBenchmarkBiologicalNeuronChart,
+    chartTag: false,
+    tag: BiorealisticBenchmarkBiologicalNeuronType.CHART_IPSC_EPSC_WEB,
+  },
+];
+
+const biorealisticBenchmarkBiologicalSynapseData: DefaultBenchmarkChartType[] =
+  [
+    {
+      title: "CurrentUnderDifferentPulseNumberWidth",
+      xTitle: "voltage (V)",
+      yTitle: "current (uA)",
+      label: DefaultBenchmarkLabel.BiorealisticBenchmarkBiologicalSynapseChart,
+      chartTag: false,
+      tag: BiorealisticBenchmarkBiologicalSynapseType.CURRENT_UNDER_DIFFERENT_PULSENUMBER_WDITH_WEB,
+    },
+  ];
 
 export const BiorealisticBenchmarkPartOne = ({
   BenchmarkReviewData,
 }: DialogSelectedBiorealisticBenchmarkReviewProps) => {
-  //Benchmark Selection handlestate
-
-  const [
-    checkedBiorealisticBenchmarkSelections,
-    setCheckedBiorealisticBenchmarkSelections,
-  ] = React.useState({
-    BiologicalNeuron: [
-      { ChartSTDP: false },
-      { PairPulse: false },
-      { ChartIPSC_EPSC: false },
-    ],
-    BiologicalSynapse: [{ CurrentUnderDifferentPulseNumberWidth: false }],
-  });
-
-  const handleChangeChildren = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    groupChart: string,
-    index: number
-  ) => {
-    const checkedChartName = event.target.name;
-    const checkedChart = event.target.checked;
-
-    setCheckedBiorealisticBenchmarkSelections((prevChecked: any) => ({
-      ...prevChecked,
-      [groupChart]: prevChecked[groupChart].map((item: any, i: any) =>
-        i === index ? { ...item, [checkedChartName]: checkedChart } : item
-      ),
-    }));
-  };
-
-  const handleChangeAllChildren = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    groupChart: string
-  ) => {
-    const checkedChart = event.target.checked;
-
-    setCheckedBiorealisticBenchmarkSelections((prevChecked: any) => ({
-      ...prevChecked,
-      [groupChart]: prevChecked[groupChart].map((item: any) => ({
-        ...item,
-        [Object.keys(item)[0]]: checkedChart,
-      })),
-    }));
-  };
-
   const gridStyle = {
     "& > :not(style)": { m: 1 },
     display: "flex",
@@ -80,24 +90,61 @@ export const BiorealisticBenchmarkPartOne = ({
     m: 1,
   };
 
-  const BiorealisticBenchmarkChart: BenchmarkChart[] = [
-    {
-      chart1: <ChartSTDP />,
-      chart2: <PairPulse />,
-      chart3: <ChartIPSC_EPSC />,
-      chart4: <CurrentUnderDifferentPulseNumberWidth />,
-      checkedChart1:
-        checkedBiorealisticBenchmarkSelections.BiologicalNeuron[0].ChartSTDP,
-      checkedChart2:
-        checkedBiorealisticBenchmarkSelections.BiologicalNeuron[1].PairPulse,
-      checkedChart3:
-        checkedBiorealisticBenchmarkSelections.BiologicalNeuron[2]
-          .ChartIPSC_EPSC,
-      checkedChart4:
-        checkedBiorealisticBenchmarkSelections.BiologicalSynapse[0]
-          .CurrentUnderDifferentPulseNumberWidth,
+  //**BIOREALISTIC_BENCHMARK_FORMIK**\\
+
+  const { addBiorealisticBenchmark, biorealisticBenchmarkSelection } =
+    useBenchmarkStore();
+
+  console.log("bio", biorealisticBenchmarkSelection);
+
+  const initialBiorealisticBenchmarkChartValues: TBiorealisticBenchmarkType = {
+    biorealisticBenchmarkBiologicalNeuron:
+      biorealisticBenchmarkBiologicalNeuronData,
+    biorealisticBenchmarkBiologicalSynapse:
+      biorealisticBenchmarkBiologicalSynapseData,
+  };
+
+  const biorealisticBenchmarkChartFormik = useFormik({
+    initialValues: initialBiorealisticBenchmarkChartValues,
+
+    onSubmit: async (values) => {
+      const selectedBiorealisticBenchmarkBiologicalNeuron =
+        values.biorealisticBenchmarkBiologicalNeuron
+          .filter((selected) => selected.chartTag === true)
+          .map(
+            (item) => item.tag
+          ) as BiorealisticBenchmarkBiologicalNeuronType[];
+
+      const selectedBiorealisticBenchmarkBiologicalSynapse =
+        values.biorealisticBenchmarkBiologicalSynapse
+          .filter((selected) => selected.chartTag === true)
+          .map(
+            (item) => item.tag
+          ) as BiorealisticBenchmarkBiologicalSynapseType[];
+
+      const allBiorealisticBenchmarkSelection = [
+        ...selectedBiorealisticBenchmarkBiologicalNeuron,
+        ...selectedBiorealisticBenchmarkBiologicalSynapse,
+      ];
+
+      addBiorealisticBenchmark(allBiorealisticBenchmarkSelection);
     },
-  ];
+  });
+
+  const prevValuesRef = useRef(biorealisticBenchmarkChartFormik.values);
+
+  useEffect(() => {
+    // Check if form values have changed
+    if (prevValuesRef.current !== biorealisticBenchmarkChartFormik.values) {
+      // Submit the form whenever values change
+      biorealisticBenchmarkChartFormik.submitForm();
+    }
+
+    // Update the ref with the current values
+    prevValuesRef.current = biorealisticBenchmarkChartFormik.values;
+  }, [biorealisticBenchmarkChartFormik.values]);
+
+  //**END **\\
 
   return (
     <>
@@ -109,53 +156,53 @@ export const BiorealisticBenchmarkPartOne = ({
             id="Biorealistic Benchmark-header"
           >
             <Typography color="secondary" display="block" variant="h5">
-              Biorealistic Benchmark{" "}
+              Biorealistic Benchmark
               {BenchmarkReviewData?.selectedBiorealisticBenchmarkViewName &&
                 ` for ${BenchmarkReviewData?.selectedBiorealisticBenchmarkViewName}`}
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
             <CheckedBiorealisticBenchmark
-              BenchmarkSelections={checkedBiorealisticBenchmarkSelections}
-              handleChangeChildren={handleChangeChildren}
-              handleChangeAllChildren={handleChangeAllChildren}
+              BenchmarkChartFormik={biorealisticBenchmarkChartFormik}
             />
-            {BiorealisticBenchmarkChart.map(
-              ({
-                chart1,
-                chart2,
-                chart3,
-                chart4,
-                checkedChart1,
-                checkedChart2,
-                checkedChart3,
-                checkedChart4,
-                index,
-              }) => (
-                <Grid key={index} container>
-                  {checkedChart1 && (
-                    <Grid item sm={6} md={3} lg={3} xl={3} xs>
-                      <Box sx={gridStyle}>{chart1}</Box>
+            <Grid container>
+              {biorealisticBenchmarkChartFormik.values.biorealisticBenchmarkBiologicalNeuron.map(
+                (chart: DefaultBenchmarkChartType, index: number) =>
+                  chart.chartTag ? (
+                    <Grid key={index} item sm={6} md={3} lg={3} xl={3} xs={3}>
+                      {chart.chartTag && (
+                        <Box sx={gridStyle}>
+                          <ScatterBenchmarkChart
+                            title={chart.title}
+                            xTitle={chart.xTitle}
+                            yTitle={chart.yTitle}
+                          />
+                        </Box>
+                      )}
                     </Grid>
-                  )}
-                  {checkedChart2 && (
-                    <Grid item sm={6} md={3} lg={3} xl={3} xs>
-                      <Box sx={gridStyle}>{chart2}</Box>
+                  ) : (
+                    <></>
+                  )
+              )}
+              {biorealisticBenchmarkChartFormik.values.biorealisticBenchmarkBiologicalSynapse.map(
+                (chart: DefaultBenchmarkChartType, index: number) =>
+                  chart.chartTag ? (
+                    <Grid key={index} item sm={6} md={3} lg={3} xl={3} xs={3}>
+                      {chart.chartTag && (
+                        <Box sx={gridStyle}>
+                          <ScatterBenchmarkChart
+                            title={chart.title}
+                            xTitle={chart.xTitle}
+                            yTitle={chart.yTitle}
+                          />
+                        </Box>
+                      )}
                     </Grid>
-                  )}
-                  {checkedChart3 && (
-                    <Grid item sm={6} md={3} lg={3} xl={3} xs>
-                      <Box sx={gridStyle}>{chart3}</Box>
-                    </Grid>
-                  )}
-                  {checkedChart4 && (
-                    <Grid item sm={6} md={3} lg={3} xl={3} xs>
-                      <Box sx={gridStyle}>{chart4}</Box>
-                    </Grid>
-                  )}
-                </Grid>
-              )
-            )}
+                  ) : (
+                    <></>
+                  )
+              )}
+            </Grid>
           </AccordionDetails>
         </Accordion>
       </Grid>

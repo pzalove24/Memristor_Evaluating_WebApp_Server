@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import {
   Box,
   Grid,
@@ -27,50 +27,64 @@ import {
   DialogSelectedStabilityBenchmarkReviewProps,
 } from "@/types";
 import CheckedStabilityBenchmark from "./CheckedStabilityBenchmark";
+import { useFormik } from "formik";
+import {
+  StabilityBenchmarkPulseType,
+  StabilityBenchmarkSweepType,
+} from "@/types/commandType";
+import {
+  DefaultBenchmarkChartType,
+  DefaultBenchmarkLabel,
+} from "@/types/chartType";
+import useBenchmarkStore from "@/shared/benchmarkStore";
+import ScatterBenchmarkChart from "@/components/charts/ScatterBenchmarkChart";
+
+export type TStabilityBenchmarkType = {
+  stabilityBenchmarkPulse: DefaultBenchmarkChartType[];
+  stabilityBenchmarkSweep: DefaultBenchmarkChartType[];
+};
+
+const stabilityBenchmarkPulseData: DefaultBenchmarkChartType[] = [
+  {
+    title: "PulseEndurance",
+    xTitle: "voltage (V)",
+    yTitle: "current (uA)",
+    label: DefaultBenchmarkLabel.StabilityBenchmarkPulseChart,
+    chartTag: false,
+    tag: StabilityBenchmarkPulseType.ENDURANCEPULSE_WEB,
+  },
+  {
+    title: "PulseRentention",
+    xTitle: "voltage (V)",
+    yTitle: "current (uA)",
+    label: DefaultBenchmarkLabel.StabilityBenchmarkPulseChart,
+    chartTag: false,
+    tag: StabilityBenchmarkPulseType.RETENTIONPULSE_WEB,
+  },
+];
+
+const stabilityBenchmarkSweepData: DefaultBenchmarkChartType[] = [
+  {
+    title: "SweepEndurance",
+    xTitle: "voltage (V)",
+    yTitle: "current (uA)",
+    label: DefaultBenchmarkLabel.StabilityBenchmarkSweepChart,
+    chartTag: false,
+    tag: StabilityBenchmarkSweepType.ENDURANCESWEEP_WEB,
+  },
+  {
+    title: "SweepRetention",
+    xTitle: "voltage (V)",
+    yTitle: "current (uA)",
+    label: DefaultBenchmarkLabel.StabilityBenchmarkSweepChart,
+    chartTag: false,
+    tag: StabilityBenchmarkSweepType.RETENTIONSWEEP_WEB,
+  },
+];
 
 export const StabilityBenchmarkPartOne = ({
   BenchmarkReviewData,
 }: DialogSelectedStabilityBenchmarkReviewProps) => {
-  //Benchmark Selection handlestate
-  const [
-    checkedStabilityBenchmarkSelections,
-    setCheckedStabilityBenchmarkSelections,
-  ] = React.useState({
-    SweepVoltage: [{ SweepRetention: false }, { SweepEndurance: false }],
-    PulseVoltage: [{ PulseRentention: false }, { PulseEndurance: false }],
-  });
-
-  const handleChangeChildren = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    groupChart: string,
-    index: number
-  ) => {
-    const checkedChartName = event.target.name;
-    const checkedChart = event.target.checked;
-
-    setCheckedStabilityBenchmarkSelections((prevChecked: any) => ({
-      ...prevChecked,
-      [groupChart]: prevChecked[groupChart].map((item: any, i: any) =>
-        i === index ? { ...item, [checkedChartName]: checkedChart } : item
-      ),
-    }));
-  };
-
-  const handleChangeAllChildren = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    groupChart: string
-  ) => {
-    const checkedChart = event.target.checked;
-
-    setCheckedStabilityBenchmarkSelections((prevChecked: any) => ({
-      ...prevChecked,
-      [groupChart]: prevChecked[groupChart].map((item: any) => ({
-        ...item,
-        [Object.keys(item)[0]]: checkedChart,
-      })),
-    }));
-  };
-
   const gridStyle = {
     "& > :not(style)": { m: 1 },
     display: "flex",
@@ -81,23 +95,63 @@ export const StabilityBenchmarkPartOne = ({
     m: 1,
   };
 
-  const StabilityBenchmarkChart: BenchmarkChart[] = [
-    {
-      chart1: <SweepRetention />,
-      chart2: <SweepEndurance />,
-      chart3: <PulseRentention />,
-      chart4: <PulseEndurance />,
-      checkedChart1:
-        checkedStabilityBenchmarkSelections.SweepVoltage[0].SweepRetention,
-      checkedChart2:
-        checkedStabilityBenchmarkSelections.SweepVoltage[1].SweepEndurance,
-      checkedChart3:
-        checkedStabilityBenchmarkSelections.PulseVoltage[0].PulseRentention,
-      checkedChart4:
-        checkedStabilityBenchmarkSelections.PulseVoltage[1].PulseEndurance,
-      index: 0,
+  //**STABILITY_BENCHMARK_FORMIK**\\
+
+  const {
+    addStabilityBenchmarkPulse,
+    addStabilityBenchmarkSweep,
+    stabilityBenchmarkPulseSelection,
+    stabilityBenchmarkSweepSelection,
+  } = useBenchmarkStore();
+
+  console.log("st-pulse", stabilityBenchmarkPulseSelection);
+  console.log("st-sweep", stabilityBenchmarkSweepSelection);
+
+  const initialStabilityBenchmarkChartValues: TStabilityBenchmarkType = {
+    stabilityBenchmarkPulse: stabilityBenchmarkPulseData,
+    stabilityBenchmarkSweep: stabilityBenchmarkSweepData,
+  };
+
+  const stabilityBenchmarkChartFormik = useFormik({
+    initialValues: initialStabilityBenchmarkChartValues,
+
+    onSubmit: async (values) => {
+      const selectedStabilityBenchmarkPulse = values.stabilityBenchmarkPulse
+        .filter((selected) => selected.chartTag === true)
+        .map((item) => item.tag);
+      if (selectedStabilityBenchmarkPulse) {
+        addStabilityBenchmarkPulse(
+          selectedStabilityBenchmarkPulse as StabilityBenchmarkPulseType[]
+        );
+      }
+
+      const selectedStabilityBenchmarkSweep = values.stabilityBenchmarkSweep
+        .filter((selected) => selected.chartTag === true)
+        .map((item) => item.tag);
+
+      if (selectedStabilityBenchmarkSweep) {
+        addStabilityBenchmarkSweep(
+          selectedStabilityBenchmarkSweep as StabilityBenchmarkSweepType[]
+        );
+      }
     },
-  ];
+  });
+
+  const prevValuesRef = useRef(stabilityBenchmarkChartFormik.values);
+
+  useEffect(() => {
+    // Check if form values have changed
+    if (prevValuesRef.current !== stabilityBenchmarkChartFormik.values) {
+      // Submit the form whenever values change
+      stabilityBenchmarkChartFormik.submitForm();
+    }
+
+    // Update the ref with the current values
+    prevValuesRef.current = stabilityBenchmarkChartFormik.values;
+  }, [stabilityBenchmarkChartFormik.values]);
+
+  //**END **\\
+
   return (
     <>
       <Grid item xs={12}>
@@ -107,61 +161,54 @@ export const StabilityBenchmarkPartOne = ({
             aria-controls="Stability Benchmark-content"
             id="Stability Benchmark-header"
           >
-            <Stack direction={"row"} spacing={5} alignItems={"center"}>
-              <Typography color="secondary" display="block" variant="h5">
-                Stability Benchmark{" "}
-                {BenchmarkReviewData?.selectedStabilityBenchmarkViewName &&
-                  ` for ${BenchmarkReviewData?.selectedStabilityBenchmarkViewName}`}
-              </Typography>
-              <Chip
-                color="error"
-                label="ATTENTION: DAMAGE DEVICE"
-                icon={<ErrorIcon />}
-              />
-            </Stack>
+            <Typography color="secondary" display="block" variant="h5">
+              Stability Benchmark
+              {BenchmarkReviewData?.selectedStabilityBenchmarkViewName &&
+                ` for ${BenchmarkReviewData?.selectedStabilityBenchmarkViewName}`}
+            </Typography>
           </AccordionSummary>
           <AccordionDetails>
             <CheckedStabilityBenchmark
-              BenchmarkSelections={checkedStabilityBenchmarkSelections}
-              handleChangeChildren={handleChangeChildren}
-              handleChangeAllChildren={handleChangeAllChildren}
+              BenchmarkChartFormik={stabilityBenchmarkChartFormik}
             />
-            {StabilityBenchmarkChart.map(
-              ({
-                chart1,
-                chart2,
-                chart3,
-                chart4,
-                checkedChart1,
-                checkedChart2,
-                checkedChart3,
-                checkedChart4,
-                index,
-              }) => (
-                <Grid key={index} container>
-                  {checkedChart1 && (
-                    <Grid item sm={6} md={3} lg={3} xl={3} xs>
-                      <Box sx={gridStyle}>{chart1}</Box>
+            <Grid container>
+              {stabilityBenchmarkChartFormik.values.stabilityBenchmarkPulse.map(
+                (chart: DefaultBenchmarkChartType, index: number) =>
+                  chart.chartTag ? (
+                    <Grid key={index} item sm={6} md={3} lg={3} xl={3} xs={3}>
+                      {chart.chartTag && (
+                        <Box sx={gridStyle}>
+                          <ScatterBenchmarkChart
+                            title={chart.title}
+                            xTitle={chart.xTitle}
+                            yTitle={chart.yTitle}
+                          />
+                        </Box>
+                      )}
                     </Grid>
-                  )}
-                  {checkedChart2 && (
-                    <Grid item sm={6} md={3} lg={3} xl={3} xs>
-                      <Box sx={gridStyle}>{chart2}</Box>
+                  ) : (
+                    <></>
+                  )
+              )}
+              {stabilityBenchmarkChartFormik.values.stabilityBenchmarkSweep.map(
+                (chart: DefaultBenchmarkChartType, index: number) =>
+                  chart.chartTag ? (
+                    <Grid key={index} item sm={6} md={3} lg={3} xl={3} xs={3}>
+                      {chart.chartTag && (
+                        <Box sx={gridStyle}>
+                          <ScatterBenchmarkChart
+                            title={chart.title}
+                            xTitle={chart.xTitle}
+                            yTitle={chart.yTitle}
+                          />
+                        </Box>
+                      )}
                     </Grid>
-                  )}
-                  {checkedChart3 && (
-                    <Grid item sm={6} md={3} lg={3} xl={3} xs>
-                      <Box sx={gridStyle}>{chart3}</Box>
-                    </Grid>
-                  )}
-                  {checkedChart4 && (
-                    <Grid item sm={6} md={3} lg={3} xl={3} xs>
-                      <Box sx={gridStyle}>{chart4}</Box>
-                    </Grid>
-                  )}
-                </Grid>
-              )
-            )}
+                  ) : (
+                    <></>
+                  )
+              )}
+            </Grid>
           </AccordionDetails>
         </Accordion>
       </Grid>

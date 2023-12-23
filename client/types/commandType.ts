@@ -39,11 +39,10 @@ export enum StandardBenchmarkPulseType {
   ONOFFPULSE_R_WEB = "oopw",
   DISTRIBUTIONPULSE_R_WEB = "dirpw",
   CUMULATIVEPULSE_R_WEB = "curpw",
-  CONDUCTANCEPULSE_R_WEB = "cprpw",
   ONOFFPULSE_V_WEB = "oorpw",
   DISTRIBUTIONPULSE_V_WEB = "divpw",
   CUMULATIVEPULSE_V_WEB = "cuvpw",
-  CONDUCTANCEPULSE_V_WEB = "cpvpw",
+  CONDUCTANCEPULSE_WEB = "cpvpw",
 }
 
 export enum StandardBenchmarkSweepType {
@@ -69,6 +68,16 @@ export enum StabilityBenchmarkSweepType {
   RETENTIONSWEEP_WEB = "rtsw",
 }
 
+export enum BiorealisticBenchmarkBiologicalNeuronType {
+  CHART_STDP_WEB = "stw",
+  PAIRPULSE_WEB = "ppw",
+  CHART_IPSC_EPSC_WEB = "ciew",
+}
+
+export enum BiorealisticBenchmarkBiologicalSynapseType {
+  CURRENT_UNDER_DIFFERENT_PULSENUMBER_WDITH_WEB = "cudpww",
+}
+
 export enum AdvancedBenchmarkPulseType {
   MULTILEVEL_COMPLIANCE_IVCHARTPULSE_WEB = "ivmcpw",
   MULTILEVEL_VOLTAGE_IVCHARTPULSE_WEB = "ivmvpw",
@@ -87,6 +96,8 @@ export type BoardCommandType =
   | StandardBenchmarkSweepType
   | StabilityBenchmarkPulseType
   | StabilityBenchmarkSweepType
+  | BiorealisticBenchmarkBiologicalNeuronType
+  | BiorealisticBenchmarkBiologicalSynapseType
   | AdvancedBenchmarkPulseType
   | AdvancedBenchmarkSweepType;
 

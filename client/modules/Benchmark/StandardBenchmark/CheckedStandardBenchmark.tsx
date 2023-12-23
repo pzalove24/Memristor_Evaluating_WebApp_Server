@@ -2,7 +2,6 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import {
@@ -11,7 +10,6 @@ import {
 } from "@/types/chartType";
 import { FormikProps } from "formik";
 import { TStandardBenchmarkType } from "./StandardBenchmarkPartOne";
-import useBenchmarkStore from "@/shared/benchmarkStore";
 
 type TCheckedStandardBenchmark = {
   BenchmarkChartFormik: FormikProps<TStandardBenchmarkType>;
@@ -21,9 +19,6 @@ const CheckedStandardBenchmark = ({
   BenchmarkChartFormik,
 }: TCheckedStandardBenchmark) => {
   const { values, handleChange, setFieldValue } = BenchmarkChartFormik;
-
-  const { addStandardBenchmarkPulse, addStandardBenchmarkSweep } =
-    useBenchmarkStore();
 
   //standardBenchmarkPulse handle checkbox
   const handleCheckboxChangeStandardBenchmarkPulse = (index: number) => {

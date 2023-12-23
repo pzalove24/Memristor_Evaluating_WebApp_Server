@@ -14,10 +14,12 @@ import { TStandardBenchmarkType } from "@/modules/Benchmark/StandardBenchmark/St
 export enum DefaultBenchmarkLabel {
   StandardBenchmarkPulseChart = "Standard Benchmark using Sweep Voltage Waveform",
   StandardBenchmarkSweepChart = "Standard Benchmark using Pulse Voltage Waveform",
-  StabilityBenchmarkPulseChart = "",
-  StabilityBenchmarkSweepChart = "",
-  AdvancedBenchmarkPulseChart = "",
-  AdvancedBenchmarkSweepChart = "",
+  StabilityBenchmarkPulseChart = "Stability Benchmark using Pulse Voltage Waveform",
+  StabilityBenchmarkSweepChart = "Stability Benchmark using Sweep Voltage Waveform",
+  BiorealisticBenchmarkBiologicalNeuronChart = "Biorealistic Benchmark for Biological Neuron",
+  BiorealisticBenchmarkBiologicalSynapseChart = "Biorealistic Benchmark for Biological Synapse",
+  AdvancedBenchmarkPulseChart = "Advanced Benchmark using Sweep Voltage Waveform",
+  AdvancedBenchmarkSweepChart = "Advanced Benchmark using Sweep Voltage Waveform",
 }
 
 export type DefaultBenchmarkChartType = {
@@ -129,4 +131,3 @@ export type BenchmarkChartType = {
 export type StandardBenchmarkChartType =
   | StandardBenchmarkPulseChart
   | StandardBenchmarkSweepChart;
-

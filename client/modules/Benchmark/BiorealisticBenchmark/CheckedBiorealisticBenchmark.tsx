@@ -2,37 +2,76 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import { CheckedBenchmarkProps } from "@/types";
+import { FormikProps } from "formik";
+import { TBiorealisticBenchmarkType } from "./BiorealisticBenchmarkPartOne";
+import { DefaultBenchmarkChartType, DefaultBenchmarkLabel } from "@/types/chartType";
+
+type TCheckedBiorealisticBenchmark = {
+  BenchmarkChartFormik: FormikProps<TBiorealisticBenchmarkType>;
+};
 
 const CheckedBiorealisticBenchmark = ({
-  BenchmarkSelections,
-  handleChangeChildren,
-  handleChangeAllChildren,
-}: CheckedBenchmarkProps) => {
-  const BiologicalNeuronChildren = (
+  BenchmarkChartFormik,
+}: TCheckedBiorealisticBenchmark) => {
+  const { values, handleChange, setFieldValue } = BenchmarkChartFormik;
+
+  //biorealisticBenchmarkBiologicalNeuron handle checkbox
+  const handleCheckboxChangeBiorealisticBenchmarkBiologicalNeuron = (index: number) => {
+    const checkboxes = [...values.biorealisticBenchmarkBiologicalNeuron];
+    checkboxes[index].chartTag = !checkboxes[index].chartTag;
+    setFieldValue("biorealisticBenchmarkBiologicalNeuron", checkboxes);
+  };
+
+  const areAllCheckedBiorealisticBenchmarkBiologicalNeuron =
+    values.biorealisticBenchmarkBiologicalNeuron.every((checkbox) => checkbox.chartTag);
+  const areSomeCheckedBiorealisticBenchmarkBiologicalNeuron =
+    values.biorealisticBenchmarkBiologicalNeuron.some((checkbox) => checkbox.chartTag);
+  const indeterminateBiorealisticBenchmarkBiologicalNeuron =
+    !areAllCheckedBiorealisticBenchmarkBiologicalNeuron &&
+    areSomeCheckedBiorealisticBenchmarkBiologicalNeuron;
+
+  //biorealisticBenchmarkBiologicalSynapse handle checkbox
+
+  const handleCheckboxChangeBiorealisticBenchmarkBiologicalSynapse = (index: number) => {
+    const checkboxes = [...values.biorealisticBenchmarkBiologicalSynapse];
+    checkboxes[index].chartTag = !checkboxes[index].chartTag;
+    setFieldValue("biorealisticBenchmarkBiologicalSynapse", checkboxes);
+  };
+
+  const areAllCheckedBiorealisticBenchmarkBiologicalSynapse =
+    values.biorealisticBenchmarkBiologicalSynapse.every((checkbox) => checkbox.chartTag);
+  const areSomeCheckedBiorealisticBenchmarkBiologicalSynapse =
+    values.biorealisticBenchmarkBiologicalSynapse.some((checkbox) => checkbox.chartTag);
+  const indeterminateBiorealisticBenchmarkBiologicalSynapse =
+    !areAllCheckedBiorealisticBenchmarkBiologicalSynapse &&
+    areSomeCheckedBiorealisticBenchmarkBiologicalSynapse;
+
+  // render checkbox
+  const BiologicalNeuronVoltageChildren = (
     <Box sx={{ display: "flex", flexDirection: "column", ml: 3 }}>
-      {BenchmarkSelections.BiologicalNeuron.map((element: any, index: any) => (
-        <FormControlLabel
-          key={index}
-          label={Object.keys(element)[0]}
-          control={
-            <Checkbox
-              name={Object.keys(element)[0]}
-              checked={Object.values(element)[0] as boolean}
-              onChange={(e) =>
-                handleChangeChildren(e, "BiologicalNeuron", index)
-              }
-            />
-          }
-        />
-      ))}
+      {values.biorealisticBenchmarkBiologicalNeuron.map(
+        (chart: DefaultBenchmarkChartType, index: number) => (
+          <FormControlLabel
+            key={index}
+            label={chart.title}
+            control={
+              <Checkbox
+                name={chart.title}
+                checked={chart.chartTag}
+                onChange={() =>
+                  handleCheckboxChangeBiorealisticBenchmarkBiologicalNeuron(index)
+                }
+              />
+            }
+          />
+        )
+      )}
     </Box>
   );
 
-  const BiologicalSynapseChildren = (
+  const BiologicalSynapseVoltageChildren = (
     <Box
       sx={{
         display: "flex",
@@ -40,21 +79,23 @@ const CheckedBiorealisticBenchmark = ({
         ml: 3,
       }}
     >
-      {BenchmarkSelections.BiologicalSynapse.map((element: any, index: any) => (
-        <FormControlLabel
-          key={index}
-          label={Object.keys(element)[0]}
-          control={
-            <Checkbox
-              name={Object.keys(element)[0]}
-              checked={Object.values(element)[0] as boolean}
-              onChange={(e) =>
-                handleChangeChildren(e, "BiologicalSynapse", index)
-              }
-            />
-          }
-        />
-      ))}
+      {values.biorealisticBenchmarkBiologicalSynapse.map(
+        (chart: DefaultBenchmarkChartType, index: number) => (
+          <FormControlLabel
+            key={index}
+            label={chart.title}
+            control={
+              <Checkbox
+                name={chart.title}
+                checked={chart.chartTag}
+                onChange={() =>
+                  handleCheckboxChangeBiorealisticBenchmarkBiologicalSynapse(index)
+                }
+              />
+            }
+          />
+        )
+      )}
     </Box>
   );
 
@@ -69,26 +110,25 @@ const CheckedBiorealisticBenchmark = ({
               alignItems="flex-start"
             >
               <FormControlLabel
-                label="Biorealistic Benchmark for neuron"
+                label={DefaultBenchmarkLabel.BiorealisticBenchmarkBiologicalNeuronChart}
                 control={
                   <Checkbox
-                    checked={BenchmarkSelections.BiologicalNeuron.every(
-                      (item: any) => item[Object.keys(item)[0]]
-                    )}
-                    indeterminate={
-                      !BenchmarkSelections.BiologicalNeuron.every(
-                        (item: any) => item[Object.keys(item)[0]]
-                      ) &&
-                      !BenchmarkSelections.BiologicalNeuron.every(
-                        (item: any) => !item[Object.keys(item)[0]]
-                      )
-                    }
-                    onChange={(e) => handleChangeAllChildren(e, "BiologicalNeuron")}
+                    checked={areAllCheckedBiorealisticBenchmarkBiologicalNeuron}
+                    indeterminate={indeterminateBiorealisticBenchmarkBiologicalNeuron}
+                    onChange={() => {
+                      setFieldValue(
+                        "biorealisticBenchmarkBiologicalNeuron",
+                        values.biorealisticBenchmarkBiologicalNeuron.map((checkbox) => ({
+                          ...checkbox,
+                          chartTag: !areAllCheckedBiorealisticBenchmarkBiologicalNeuron,
+                        }))
+                      );
+                    }}
                   />
                 }
               />
             </Box>
-            {BiologicalNeuronChildren}
+            {BiologicalNeuronVoltageChildren}
           </Paper>
         </Grid>
         <Grid item sm={4} md={4} lg={4} xl={4} xs>
@@ -99,26 +139,25 @@ const CheckedBiorealisticBenchmark = ({
               alignItems="flex-start"
             >
               <FormControlLabel
-                label="Biorealistic Benchmark for synapse"
+                label={DefaultBenchmarkLabel.BiorealisticBenchmarkBiologicalSynapseChart}
                 control={
                   <Checkbox
-                    checked={BenchmarkSelections.BiologicalSynapse.every(
-                      (item: any) => item[Object.keys(item)[0]]
-                    )}
-                    indeterminate={
-                      !BenchmarkSelections.BiologicalSynapse.every(
-                        (item: any) => item[Object.keys(item)[0]]
-                      ) &&
-                      !BenchmarkSelections.BiologicalSynapse.every(
-                        (item: any) => !item[Object.keys(item)[0]]
-                      )
-                    }
-                    onChange={(e) => handleChangeAllChildren(e, "BiologicalSynapse")}
+                    checked={areAllCheckedBiorealisticBenchmarkBiologicalSynapse}
+                    indeterminate={indeterminateBiorealisticBenchmarkBiologicalSynapse}
+                    onChange={() => {
+                      setFieldValue(
+                        "biorealisticBenchmarkBiologicalSynapse",
+                        values.biorealisticBenchmarkBiologicalSynapse.map((checkbox) => ({
+                          ...checkbox,
+                          chartTag: !areAllCheckedBiorealisticBenchmarkBiologicalSynapse,
+                        }))
+                      );
+                    }}
                   />
                 }
               />
             </Box>
-            {BiologicalSynapseChildren}
+            {BiologicalSynapseVoltageChildren}
           </Paper>
         </Grid>
       </Grid>

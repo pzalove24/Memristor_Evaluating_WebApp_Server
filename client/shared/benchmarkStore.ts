@@ -3,6 +3,8 @@ import React from "react";
 import {
   AdvancedBenchmarkPulseType,
   AdvancedBenchmarkSweepType,
+  BiorealisticBenchmarkBiologicalNeuronType,
+  BiorealisticBenchmarkBiologicalSynapseType,
   StabilityBenchmarkPulseType,
   StabilityBenchmarkSweepType,
   StandardBenchmarkPulseType,
@@ -24,6 +26,10 @@ export type benchmarkState = {
   standardBenchmarkSweepSelection?: StandardBenchmarkSweepType[];
   stabilityBenchmarkPulseSelection?: StabilityBenchmarkPulseType[];
   stabilityBenchmarkSweepSelection?: StabilityBenchmarkSweepType[];
+  biorealisticBenchmarkSelection?: (
+    | BiorealisticBenchmarkBiologicalNeuronType
+    | BiorealisticBenchmarkBiologicalSynapseType
+  )[];
   advancedBenchmarkPulseSelection?: AdvancedBenchmarkPulseType[];
   advancedBenchmarkSweepSelection?: AdvancedBenchmarkSweepType[];
 };
@@ -37,11 +43,17 @@ export type benchmarkAction = {
   addStandardBenchmarkSweep: (
     benchmarkSelects: StandardBenchmarkSweepType[]
   ) => void;
-  addstabilityBenchmarkPulse: (
+  addStabilityBenchmarkPulse: (
     benchmarkSelects: StabilityBenchmarkPulseType[]
   ) => void;
-  addstabilityBenchmarkSweep: (
+  addStabilityBenchmarkSweep: (
     benchmarkSelects: StabilityBenchmarkSweepType[]
+  ) => void;
+  addBiorealisticBenchmark: (
+    benchmarkSelects: (
+      | BiorealisticBenchmarkBiologicalNeuronType
+      | BiorealisticBenchmarkBiologicalSynapseType
+    )[]
   ) => void;
   addAdvancedBenchmarkPulse: (
     benchmarkSelects: AdvancedBenchmarkPulseType[]
@@ -58,6 +70,7 @@ const useBenchmarkStore = create<benchmarkState & benchmarkAction>((set) => ({
   standardBenchmarkSweepSelection: [],
   stabilityBenchmarkPulseSelection: [],
   stabilityBenchmarkSweepSelection: [],
+  biorealisticBenchmarkSelection: [],
   advancedBenchmarkPulseSelection: [],
   advancedBenchmarkSweepSelection: [],
   updateBenchmarkName: (name: string) => set(() => ({ benchmarkName: name })),
@@ -67,12 +80,18 @@ const useBenchmarkStore = create<benchmarkState & benchmarkAction>((set) => ({
     set(() => ({ standardBenchmarkPulseSelection: benchmarkSelects })),
   addStandardBenchmarkSweep: (benchmarkSelects: StandardBenchmarkSweepType[]) =>
     set(() => ({ standardBenchmarkSweepSelection: benchmarkSelects })),
-  addstabilityBenchmarkPulse: (
+  addStabilityBenchmarkPulse: (
     benchmarkSelects: StabilityBenchmarkPulseType[]
   ) => set(() => ({ stabilityBenchmarkPulseSelection: benchmarkSelects })),
-  addstabilityBenchmarkSweep: (
+  addStabilityBenchmarkSweep: (
     benchmarkSelects: StabilityBenchmarkSweepType[]
   ) => set(() => ({ stabilityBenchmarkSweepSelection: benchmarkSelects })),
+  addBiorealisticBenchmark: (
+    benchmarkSelects: (
+      | BiorealisticBenchmarkBiologicalNeuronType
+      | BiorealisticBenchmarkBiologicalSynapseType
+    )[]
+  ) => set(() => ({ biorealisticBenchmarkSelection: benchmarkSelects })),
   addAdvancedBenchmarkPulse: (benchmarkSelects: AdvancedBenchmarkPulseType[]) =>
     set(() => ({ advancedBenchmarkPulseSelection: benchmarkSelects })),
   addAdvancedBenchmarkSweep: (benchmarkSelects: AdvancedBenchmarkSweepType[]) =>
