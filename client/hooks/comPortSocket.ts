@@ -1,10 +1,10 @@
 import useComPortStore from "@/shared/comPortStore";
-import { ComPortProps, TestCommandType } from "@/types/commandType";
 import handleCommand, { Command } from "@/utils/Commands";
 import { SelectChangeEvent } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import { usePathname } from "next/navigation";
+import { ComPortProps, TestCommandType } from "@/types/commandType";
 
 const socket = io("http://localhost:3001");
 

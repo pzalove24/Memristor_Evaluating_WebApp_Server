@@ -36,19 +36,27 @@ export enum ManualCommandType {
 export enum StandardBenchmarkPulseType {
   IVCHARTPULSE_WEB = "ivpw",
   LOGLOGPULSE_WEB = "llpw",
-  ONOFFPULSE_WEB = "oopw",
-  DISTRIBUTIONPULSE_WEB = "dipw",
-  CUMULATIVEPULSE_WEB = "cupw",
-  CONDUCTANCEPULSE_WEB = "cppw",
+  ONOFFPULSE_R_WEB = "oopw",
+  DISTRIBUTIONPULSE_R_WEB = "dirpw",
+  CUMULATIVEPULSE_R_WEB = "curpw",
+  CONDUCTANCEPULSE_R_WEB = "cprpw",
+  ONOFFPULSE_V_WEB = "oorpw",
+  DISTRIBUTIONPULSE_V_WEB = "divpw",
+  CUMULATIVEPULSE_V_WEB = "cuvpw",
+  CONDUCTANCEPULSE_V_WEB = "cpvpw",
 }
 
 export enum StandardBenchmarkSweepType {
   IVCHARTSWEEP_WEB = "ivsw",
   LOGLOGSWEEP_WEB = "llsw",
-  ONOFFSWEEP_WEB = "oosw",
-  DISTRIBUTIONSWEEP_WEB = "disw",
-  CUMULATIVESWEEP_WEB = "cusw",
-  CONDUCTANCESWEEP_WEB = "cpsw",
+  ONOFFSWEEP_R_WEB = "oosw",
+  DISTRIBUTIONSWEEP_R_WEB = "dirsw",
+  CUMULATIVESWEEP_R_WEB = "cursw",
+  CONDUCTANCESWEEP_R_WEB = "cprsw",
+  ONOFFSWEEP_V_WEB = "oorsw",
+  DISTRIBUTIONSWEEP_V_WEB = "divsw",
+  CUMULATIVESWEEP_V_WEB = "cuvsw",
+  // CONDUCTANCESWEEP_V_WEB = "cpvsw",
 }
 
 export enum StabilityBenchmarkPulseType {

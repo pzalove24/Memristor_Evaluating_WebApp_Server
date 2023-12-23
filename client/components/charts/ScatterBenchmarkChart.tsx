@@ -14,6 +14,8 @@ const ScatterBenchmarkChart = ({
 }: ScatterBenchmarkChartProps) => {
   const opts: any = { renderer: "svg" };
   const style: any = { height: "100%", width: "100%" };
+  const eChartsRef = React.useRef(null as any);
+  
   const option: any = {
     title: {
         text: title,
@@ -59,7 +61,7 @@ const ScatterBenchmarkChart = ({
       },
     ],
   };
-  return <ReactECharts option={option} opts={opts} style={style} />;
+  return <ReactECharts option={option} opts={opts} style={style} ref={eChartsRef}/>;
 };
 
 export default ScatterBenchmarkChart;

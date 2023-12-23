@@ -62,8 +62,9 @@ const Benchmark = () => {
               <ButtonGroup fullWidth>
                 <Button
                   onClick={() => setOpenBenchmark(true)}
-                  disabled={openBenchmark || !comPortReady}
-                  // disabled={openBenchmark}
+                  // disabled={openBenchmark || !comPortReady}
+                  //{openBenchmark && comPortReady && (
+                  disabled={openBenchmark}
                   variant="contained"
                 >
                   Benchmark Setup
@@ -77,7 +78,7 @@ const Benchmark = () => {
                 </Button>
               </ButtonGroup>
             </Grid>
-            {openBenchmark && comPortReady && (
+            {openBenchmark && (
               <>
                 <Grid item xs={12}>
                   <Typography

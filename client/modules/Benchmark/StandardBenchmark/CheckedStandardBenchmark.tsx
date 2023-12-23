@@ -5,32 +5,81 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import { CheckedBenchmarkProps } from "@/types";
+import {
+  DefaultBenchmarkChartType,
+  DefaultBenchmarkLabel,
+} from "@/types/chartType";
+import { FormikProps } from "formik";
+import { TStandardBenchmarkType } from "./StandardBenchmarkPartOne";
+import useBenchmarkStore from "@/shared/benchmarkStore";
+
+type TCheckedStandardBenchmark = {
+  BenchmarkChartFormik: FormikProps<TStandardBenchmarkType>;
+};
 
 const CheckedStandardBenchmark = ({
-  BenchmarkSelections,
-  handleChangeChildren,
-  handleChangeAllChildren,
-}: CheckedBenchmarkProps) => {
-  const SweepVoltageChildren = (
+  BenchmarkChartFormik,
+}: TCheckedStandardBenchmark) => {
+  const { values, handleChange, setFieldValue } = BenchmarkChartFormik;
+
+  const { addStandardBenchmarkPulse, addStandardBenchmarkSweep } =
+    useBenchmarkStore();
+
+  //standardBenchmarkPulse handle checkbox
+  const handleCheckboxChangeStandardBenchmarkPulse = (index: number) => {
+    const checkboxes = [...values.standardBenchmarkPulse];
+    checkboxes[index].chartTag = !checkboxes[index].chartTag;
+    setFieldValue("standardBenchmarkPulse", checkboxes);
+  };
+
+  const areAllCheckedStandardBenchmarkPulse =
+    values.standardBenchmarkPulse.every((checkbox) => checkbox.chartTag);
+  const areSomeCheckedStandardBenchmarkPulse =
+    values.standardBenchmarkPulse.some((checkbox) => checkbox.chartTag);
+  const indeterminateStandardBenchmarkPulse =
+    !areAllCheckedStandardBenchmarkPulse &&
+    areSomeCheckedStandardBenchmarkPulse;
+
+  //standardBenchmarkSweep handle checkbox
+
+  const handleCheckboxChangeStandardBenchmarkSweep = (index: number) => {
+    const checkboxes = [...values.standardBenchmarkSweep];
+    checkboxes[index].chartTag = !checkboxes[index].chartTag;
+    setFieldValue("standardBenchmarkSweep", checkboxes);
+  };
+
+  const areAllCheckedStandardBenchmarkSweep =
+    values.standardBenchmarkSweep.every((checkbox) => checkbox.chartTag);
+  const areSomeCheckedStandardBenchmarkSweep =
+    values.standardBenchmarkSweep.some((checkbox) => checkbox.chartTag);
+  const indeterminateStandardBenchmarkSweep =
+    !areAllCheckedStandardBenchmarkSweep &&
+    areSomeCheckedStandardBenchmarkSweep;
+
+  // render checkbox
+  const PulseVoltageChildren = (
     <Box sx={{ display: "flex", flexDirection: "column", ml: 3 }}>
-      {BenchmarkSelections.SweepVoltage.map((element: any, index: any) => (
-        <FormControlLabel
-          key={index}
-          label={Object.keys(element)[0]}
-          control={
-            <Checkbox
-              name={Object.keys(element)[0]}
-              checked={Object.values(element)[0] as boolean}
-              onChange={(e) => handleChangeChildren(e, "SweepVoltage", index)}
-            />
-          }
-        />
-      ))}
+      {values.standardBenchmarkPulse.map(
+        (chart: DefaultBenchmarkChartType, index: number) => (
+          <FormControlLabel
+            key={index}
+            label={chart.title}
+            control={
+              <Checkbox
+                name={chart.title}
+                checked={chart.chartTag}
+                onChange={() =>
+                  handleCheckboxChangeStandardBenchmarkPulse(index)
+                }
+              />
+            }
+          />
+        )
+      )}
     </Box>
   );
 
-  const PulseVoltageChildren = (
+  const SweepVoltageChildren = (
     <Box
       sx={{
         display: "flex",
@@ -38,35 +87,17 @@ const CheckedStandardBenchmark = ({
         ml: 3,
       }}
     >
-      {BenchmarkSelections.PulseVoltage.map((element: any, index: any) => (
-        <FormControlLabel
-          key={index}
-          label={Object.keys(element)[0]}
-          control={
-            <Checkbox
-              name={Object.keys(element)[0]}
-              checked={Object.values(element)[0] as boolean}
-              onChange={(e) => handleChangeChildren(e, "PulseVoltage", index)}
-            />
-          }
-        />
-      ))}
-    </Box>
-  );
-
-  const AdditionalBenchmarkChildren = (
-    <Box sx={{ display: "flex", flexDirection: "column", ml: 3 }}>
-      {BenchmarkSelections.AdditionalBenchmark.map(
-        (element: any, index: any) => (
+      {values.standardBenchmarkSweep.map(
+        (chart: DefaultBenchmarkChartType, index: number) => (
           <FormControlLabel
             key={index}
-            label={Object.keys(element)[0]}
+            label={chart.title}
             control={
               <Checkbox
-                name={Object.keys(element)[0]}
-                checked={Object.values(element)[0] as boolean}
-                onChange={(e) =>
-                  handleChangeChildren(e, "AdditionalBenchmark", index)
+                name={chart.title}
+                checked={chart.chartTag}
+                onChange={() =>
+                  handleCheckboxChangeStandardBenchmarkSweep(index)
                 }
               />
             }
@@ -87,51 +118,20 @@ const CheckedStandardBenchmark = ({
               alignItems="flex-start"
             >
               <FormControlLabel
-                label="Standard Benchmark using Sweep Voltage Waveform"
+                label={DefaultBenchmarkLabel.StandardBenchmarkPulseChart}
                 control={
                   <Checkbox
-                    checked={BenchmarkSelections.SweepVoltage.every(
-                      (item: any) => item[Object.keys(item)[0]]
-                    )}
-                    indeterminate={
-                      !BenchmarkSelections.SweepVoltage.every(
-                        (item: any) => item[Object.keys(item)[0]]
-                      ) &&
-                      !BenchmarkSelections.SweepVoltage.every(
-                        (item: any) => !item[Object.keys(item)[0]]
-                      )
-                    }
-                    onChange={(e) => handleChangeAllChildren(e, "SweepVoltage")}
-                  />
-                }
-              />
-            </Box>
-            {SweepVoltageChildren}
-          </Paper>
-        </Grid>
-        <Grid item sm={4} md={4} lg={4} xl={4} xs>
-          <Paper sx={{ height: "100%" }} elevation={4}>
-            <Box
-              display={"flex"}
-              justifyContent="center"
-              alignItems="flex-start"
-            >
-              <FormControlLabel
-                label="Standard Benchmark using Pulse Voltage Waveform"
-                control={
-                  <Checkbox
-                    checked={BenchmarkSelections.PulseVoltage.every(
-                      (item: any) => item[Object.keys(item)[0]]
-                    )}
-                    indeterminate={
-                      !BenchmarkSelections.PulseVoltage.every(
-                        (item: any) => item[Object.keys(item)[0]]
-                      ) &&
-                      !BenchmarkSelections.PulseVoltage.every(
-                        (item: any) => !item[Object.keys(item)[0]]
-                      )
-                    }
-                    onChange={(e) => handleChangeAllChildren(e, "PulseVoltage")}
+                    checked={areAllCheckedStandardBenchmarkPulse}
+                    indeterminate={indeterminateStandardBenchmarkPulse}
+                    onChange={() => {
+                      setFieldValue(
+                        "standardBenchmarkPulse",
+                        values.standardBenchmarkPulse.map((checkbox) => ({
+                          ...checkbox,
+                          chartTag: !areAllCheckedStandardBenchmarkPulse,
+                        }))
+                      );
+                    }}
                   />
                 }
               />
@@ -147,28 +147,25 @@ const CheckedStandardBenchmark = ({
               alignItems="flex-start"
             >
               <FormControlLabel
-                label="Addional Standard Benchmark"
+                label={DefaultBenchmarkLabel.StandardBenchmarkSweepChart}
                 control={
                   <Checkbox
-                    checked={BenchmarkSelections.AdditionalBenchmark.every(
-                      (item: any) => item[Object.keys(item)[0]]
-                    )}
-                    indeterminate={
-                      !BenchmarkSelections.AdditionalBenchmark.every(
-                        (item: any) => item[Object.keys(item)[0]]
-                      ) &&
-                      !BenchmarkSelections.AdditionalBenchmark.every(
-                        (item: any) => !item[Object.keys(item)[0]]
-                      )
-                    }
-                    onChange={(e) =>
-                      handleChangeAllChildren(e, "AdditionalBenchmark")
-                    }
+                    checked={areAllCheckedStandardBenchmarkSweep}
+                    indeterminate={indeterminateStandardBenchmarkSweep}
+                    onChange={() => {
+                      setFieldValue(
+                        "standardBenchmarkSweep",
+                        values.standardBenchmarkSweep.map((checkbox) => ({
+                          ...checkbox,
+                          chartTag: !areAllCheckedStandardBenchmarkSweep,
+                        }))
+                      );
+                    }}
                   />
                 }
               />
             </Box>
-            {AdditionalBenchmarkChildren}
+            {SweepVoltageChildren}
           </Paper>
         </Grid>
       </Grid>

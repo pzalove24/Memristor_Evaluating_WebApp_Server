@@ -46,11 +46,7 @@ export interface DialogStandardBenchmarkProps {
   selectedBenchmarkView: BenchmarkTableViewProps | null;
 }
 
-export interface CheckedBenchmarkProps {
-  BenchmarkSelections: any;
-  handleChangeChildren: any;
-  handleChangeAllChildren: any;
-}
+
 
 export interface DialogSelectedStandardBenchmarkReviewProps {
   BenchmarkReviewData?: any;
@@ -67,4 +63,3 @@ export interface DialogSelectedBiorealisticBenchmarkReviewProps {
 export interface DialogSelectedAdvancedBenchmarkReviewProps {
   BenchmarkReviewData?: any;
 }
-
