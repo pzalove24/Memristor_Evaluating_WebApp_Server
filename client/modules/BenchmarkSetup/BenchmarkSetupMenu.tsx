@@ -56,6 +56,7 @@ const BenchmarkSetupMenu = () => {
             {...a11yProps(index)}
             sx={{
               textTransform: "none",
+              mt:2
             }}
           />
         ))}

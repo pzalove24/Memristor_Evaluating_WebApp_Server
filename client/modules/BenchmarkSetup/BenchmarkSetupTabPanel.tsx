@@ -1,13 +1,40 @@
 import { CheckBoxAutocomplete } from "@/components/Autocomplete/CheckBoxAutocomplete";
 import { CustomTablePagination } from "@/components/Table/TablePagination";
 import { TBenchmarkSetupTabPanelProps } from "@/types/benchmarkSetupType/benchmarkSetupTabsType";
-import { Box, Grid, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Grid,
+  Radio,
+  RadioGroup,
+  Stack,
+  Typography,
+} from "@mui/material";
 import React from "react";
 
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
   value: number;
+}
+
+function RowRadioButtonsGroup() {
+  return (
+    <FormControl>
+      <FormLabel id="demo-row-radio-buttons-group-label" color="info">Select Setup</FormLabel>
+      <RadioGroup
+        row
+        defaultValue={"Input"}
+        aria-labelledby="demo-row-radio-buttons-group-label"
+        name="row-radio-buttons-group"
+      >
+        <FormControlLabel value="Input" control={<Radio />} label="Input" />
+        <FormControlLabel value="Result" control={<Radio />} label="Result" />
+      </RadioGroup>
+    </FormControl>
+  );
 }
 
 function TabPanel(props: TabPanelProps) {
@@ -61,6 +88,9 @@ const BenchmarkSetupTabPanel = ({
       </Box>
       <Box>
         <Grid container sx={{ mt: 3 }} columnSpacing={2}>
+          <Grid item xs={12} md={12} marginBottom={2}>
+            <RowRadioButtonsGroup />
+          </Grid>
           <Grid item xs={12} md={4}>
             <CheckBoxAutocomplete label="Voltage Type" placeholder="voltage" />
           </Grid>

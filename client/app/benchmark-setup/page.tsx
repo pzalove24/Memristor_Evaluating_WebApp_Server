@@ -8,6 +8,9 @@ import React from "react";
 // graph
 // calculation
 
+//input
+//result => use the same input
+
 const BenchmarkSetup = () => {
   return (
     <Stack direction={"column"}>
