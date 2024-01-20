@@ -1,3 +1,5 @@
+import React from "react";
+
 export interface ResearchPageItemProps {
   text: String;
   icon?: React.JSX.Element;

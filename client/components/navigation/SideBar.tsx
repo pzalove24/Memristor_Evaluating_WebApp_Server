@@ -6,22 +6,20 @@ import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import List from "@mui/material/List";
+import AutoGraphIcon from '@mui/icons-material/AutoGraph';
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
+import BiotechIcon from '@mui/icons-material/Biotech';
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
+import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
 import DockIcon from "@mui/icons-material/Dock";
 import AssessmentIcon from "@mui/icons-material/Assessment";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ScienceIcon from "@mui/icons-material/Science";
-import ArticleIcon from "@mui/icons-material/Article";
+// import ArticleIcon from "@mui/icons-material/Article";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import {
@@ -29,6 +27,8 @@ import {
   ResearchPageItemProps,
   SideBarProps,
 } from "@/types";
+import { PageModule, TListMenuNavigationProps } from "@/types/navigation";
+import MenuMain from "./MenuMain";
 
 const drawerWidth = 240;
 
@@ -103,56 +103,79 @@ const Drawer = styled(MuiDrawer, {
 
 export default function SideBar({ children }: SideBarProps) {
   const theme = useTheme();
-  const [open, setOpen]: any = React.useState(false);
+  const [openDrawer, setOpenDrawer] = React.useState<boolean>(false);
   const router = useRouter();
 
   const handleDrawerOpen = () => {
-    setOpen(true);
+    setOpenDrawer(true);
   };
 
   const handleDrawerClose = () => {
-    setOpen(false);
+    setOpenDrawer(false);
   };
 
-  const researchPageItem: ResearchPageItemProps[] = [
+  const listMenuNavigation: TListMenuNavigationProps[] = [
     {
-      text: "dashboard",
-      icon: <DashboardIcon />,
-      link: "/dashboard",
-      index: 0,
+      module: PageModule.RESEARCH,
+      mainMenu: [
+        {
+          name: "Dashboard",
+          icon: <DashboardIcon />,
+          href: "/dashboard",
+          description: "Dashboard Description",
+        },
+        {
+          name: "Hardware",
+          icon: <DockIcon />,
+          href: "/hardware",
+          description: "Page for organizing hardware",
+        },
+        {
+          name: "Benchmark",
+          icon: <BiotechIcon />,
+          description: "Page for organizing hardware",
+          subMenu: [
+            {
+              name: "Benchmark Setup",
+              icon: <SettingsSuggestIcon />,
+              href: "/benchmark-setup",
+              pageAt: "benchmark-setup",
+              description: "setup benchmark",
+            },
+            {
+              name: "Benchmark Operation",
+              icon: <AssessmentIcon />,
+              href: "/benchmark",
+              pageAt: "benchmark",
+              description: "performing benchmark operation",
+            },
+            {
+              name: "Benchmark review",
+              icon: <AutoGraphIcon />,
+              href: "/benchmark-review",
+              pageAt: "benchmark-review",
+              description: "review benchmark result",
+            },
+          ],
+        },
+      ],
     },
     {
-      text: "hardware",
-      icon: <DockIcon />,
-      link: "/hardware",
-      index: 1,
-    },
-    {
-      text: "benchmark",
-      icon: <AssessmentIcon />,
-      link: "/benchmark",
-      index: 2,
-    },
-    {
-      text: "benchmark review",
-      icon: <ArticleIcon />,
-      link: "/benchmark-review",
-      index: 3,
-    },
-  ];
-
-  const algorithmPageItem: AlgorithmPageItemProps[] = [
-    {
-      text: "research",
-      icon: <ScienceIcon />,
-      link: "/research",
-      index: 0,
+      module: PageModule.ALGORITHM,
+      mainMenu: [
+        {
+          name: "research",
+          icon: <ScienceIcon />,
+          href: "/research",
+          description: "Dashboard Description",
+        },
+      ],
     },
   ];
 
   return (
     <Box sx={{ display: "flex" }}>
-      <AppBar color="primary" position="fixed" open={open}>
+      <AppBar color="primary" position="fixed" open={openDrawer}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -161,7 +184,7 @@ export default function SideBar({ children }: SideBarProps) {
             edge="start"
             sx={{
               marginRight: 5,
-              ...(open && { display: "none" }),
+              ...(openDrawer && { display: "none" }),
             }}
           >
             <MenuIcon />
@@ -171,9 +194,9 @@ export default function SideBar({ children }: SideBarProps) {
           </Typography>
         </Toolbar>
       </AppBar>
-      <Drawer variant="permanent" open={open}>
+      <Drawer variant="permanent" open={openDrawer}>
         <DrawerHeader>
-          {open ? (
+          {openDrawer ? (
             <Image
               src="/AMPlogo.png"
               alt="AMP"
@@ -194,77 +217,23 @@ export default function SideBar({ children }: SideBarProps) {
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List>
-          {researchPageItem.map(({ text, icon, link, index }) => (
-            <ListItem key={index} disablePadding sx={{ display: "block" }}>
-              <ListItemButton
-                onClick={() => {
-                  router.push(`${link}`);
-                }}
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
-                  }}
-                >
-                  {icon}
-                </ListItemIcon>
-                <ListItemText
-                  primaryTypographyProps={{
-                    color: "text.secondary",
-                    fontWeight: "medium",
-                  }}
-                  primary={text}
-                  sx={{ opacity: open ? 1 : 0 }}
-                />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {algorithmPageItem.map(({ text, icon, link, index }) => (
-            <ListItem key={index} disablePadding sx={{ display: "block" }}>
-              <ListItemButton
-                onClick={() => {
-                  router.push(`${link}`);
-                }}
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
-                  }}
-                >
-                  {icon}
-                </ListItemIcon>
-                <ListItemText
-                  primaryTypographyProps={{
-                    color: "text.secondary",
-                    fontWeight: "medium",
-                  }}
-                  primary={text}
-                  sx={{ opacity: open ? 1 : 0 }}
-                />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
+        {listMenuNavigation.map((listAllMenu) => (
+          <MenuMain
+            key={listAllMenu.module}
+            menuMain={listAllMenu}
+            openMainMenu={openDrawer}
+          />
+        ))}
       </Drawer>
-      <Box sx={{ display: "block", p: 3, marginTop: 10, width: "100%", overflow: 'auto' }}>
+      <Box
+        sx={{
+          display: "block",
+          p: 3,
+          marginTop: 10,
+          width: "100%",
+          overflow: "auto",
+        }}
+      >
         {children}
       </Box>
     </Box>
