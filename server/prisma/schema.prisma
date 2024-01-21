@@ -44,16 +44,6 @@ model Comment {
 
 //---------------------------------------------------//
 
-model SetResetVoltageDefinition {
-  setResetVoltageDefId String           @id @default(cuid())
-  paperReferences      paperReference[]
-  defName              String
-  condition            String
-  createdAt            DateTime         @default(now())
-  updatedAt            DateTime         @updatedAt
-}
-
-
 model BenchmarkType {
   benchmarkTypeId       String                 @id @default(cuid())
   benchmarkInformations BenchmarkInformation[]
@@ -102,7 +92,7 @@ model BenchmarkInput {
 
 model BenchmarkInputSetup {
   benchmarkInputSetupId   String         @id @default(cuid())
-  benchmarkUnit           BenchmarkUnit?  @relation(fields: [benchmarkUnitId], references: [benchmarkUnitId])
+  benchmarkUnit           BenchmarkUnit? @relation(fields: [benchmarkUnitId], references: [benchmarkUnitId])
   benchmarkUnitId         String?
   benchmarkInputSetupName String
   voltageType             String
@@ -151,14 +141,30 @@ model BenchmarkResult {
   updatedAt         DateTime @updatedAt
 }
 
+model SetResetVoltageDefinition {
+  setResetVoltageDefId String                                    @id @default(cuid())
+  paperReferences      SetResetVoltageDefinitionPaperReference[]
+  defName              String
+  condition            String
+  createdAt            DateTime                                  @default(now())
+  updatedAt            DateTime                                  @updatedAt
+}
+
 model paperReference {
-  paperReferenceId          String                     @id @default(cuid())
-  article                   String
-  url                       String
-  SetResetVoltageDefinition SetResetVoltageDefinition? @relation(fields: [setResetVoltageDefId], references: [setResetVoltageDefId])
-  setResetVoltageDefId      String?
-  createdAt                 DateTime                   @default(now())
-  updatedAt                 DateTime                   @updatedAt
+  paperReferenceId   String                                    @id @default(cuid())
+  setResetVoltageDef SetResetVoltageDefinitionPaperReference[]
+  article            String
+  url                String
+  createdAt          DateTime                                  @default(now())
+  updatedAt          DateTime                                  @updatedAt
+}
+
+model SetResetVoltageDefinitionPaperReference {
+  setResetVoltageDefinitionPaperReferenceId String                    @id @default(cuid())
+  SetResetVoltageDefinition                 SetResetVoltageDefinition @relation(fields: [setResetVoltageDefId], references: [setResetVoltageDefId])
+  setResetVoltageDefId                      String
+  paperReference                            paperReference?           @relation(fields: [paperReferenceId], references: [paperReferenceId])
+  paperReferenceId                          String?
 }
 
 // tag unique

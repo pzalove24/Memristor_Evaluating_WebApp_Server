@@ -1,11 +1,7 @@
 [
     {
         "setResetVoltageDefId": "clro0gqdy000208js74vo6d52",
-        "paperReferences": [
-            {
-                "paperReferenceId": "clro0i0ld000308js8zgbdm3k"
-            }
-        ],
+        "paperReferences": ["clro0i0ld000308js8zgbdm3k", "clro40dmi002w08l6e2yx9qj3"],
         "defName": "threshold voltage definition (constant-current method)",
         "condition": "specify the desirable current for both HRS and LRS"
     }

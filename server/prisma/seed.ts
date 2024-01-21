@@ -138,30 +138,50 @@ async function main() {
       await fs.readFile(paperReferencePath, "utf-8")
     );
 
-    for (const setResetVoltageDefinition of setResetVoltageDefinitions) {
-      const createdSetResetVoltageDefinition =
-        await prisma.setResetVoltageDefinition.create({
-          data: {
-            ...setResetVoltageDefinition,
-            paperReferences: {
-              create: paperReferences
-                .filter(
-                  (info) =>
-                    info.setResetVoltageDefId ===
-                    setResetVoltageDefinition.setResetVoltageDefId
-                )
-                .map((info) => ({
-                  ...info,
-                  setResetVoltageDefId: undefined, // Exclude benchmarkTypeId to rely on the relationship
-                })),
-            },
-          },
-        });
+    //กำลังทำให้ seed ไม่ต้องใช้ list เก็บซ้ำซาก
+    
+    
 
-      console.log(
-        `Created BenchmarkType: ${createdSetResetVoltageDefinition.defName}`
-      );
-    }
+    // // Insert users and liked posts seed data
+    // for (const setResetVoltageDefinition of setResetVoltageDefinitions) {
+    //   const createdSetResetVoltageDefinition = await prisma.setResetVoltageDefinition.upsert({
+    //     where: { setResetVoltageDefId: setResetVoltageDefinition.setResetVoltageDefId },
+    //     update: {},
+    //     create: {
+    //       ...setResetVoltageDefinition,
+    //       paperReferences: {
+    //         connect: paperReferences.map(paperReferenceId => ({ paperReferenceId: paperReferenceId })),
+    //       },
+    //     },
+    //   });
+
+    //   console.log(`Created User: ${createdUser.username}`);
+    // }
+
+    // for (const setResetVoltageDefinition of setResetVoltageDefinitions) {
+    //   const createdSetResetVoltageDefinition =
+    //     await prisma.setResetVoltageDefinition.create({
+    //       data: {
+    //         ...setResetVoltageDefinition,
+    //         paperReferences: {
+    //           create: paperReferences
+    //             .filter(
+    //               (info) =>
+    //                 info.setResetVoltageDefId ===
+    //                 setResetVoltageDefinition.setResetVoltageDefId
+    //             )
+    //             .map((info) => ({
+    //               ...info,
+    //               setResetVoltageDefId: undefined, // Exclude benchmarkTypeId to rely on the relationship
+    //             })),
+    //         },
+    //       },
+    //     });
+
+    //   console.log(
+    //     `Created BenchmarkType: ${createdSetResetVoltageDefinition.defName}`
+    //   );
+    // }
 
     // // Insert benchmarkType and benchmarkInformation seed data
     // for (const benchmarkType of benchmarkTypes) {
