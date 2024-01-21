@@ -53,6 +53,7 @@ model SetResetVoltageDefinition {
   updatedAt            DateTime         @updatedAt
 }
 
+
 model BenchmarkType {
   benchmarkTypeId       String                 @id @default(cuid())
   benchmarkInformations BenchmarkInformation[]
@@ -78,49 +79,67 @@ model BenchmarkInformation {
 // Benchmark Input
 
 model BenchmarkInput {
-  benchmarkInputId String   @id @default(cuid())
-  active           Boolean  @default(true)
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  benchmarkInputId     String                @id @default(cuid())
+  // benchmarkInputTags   BenchmarkInputTag[]
+  benchmarkInputSetups BenchmarkInputSetup[]
+  active               Boolean               @default(true)
+  benchmarkInputName   String
+  voltageType          String
+  BenchmarkMethod      BenchmarkMethod[]
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
 }
 
-model BenchmarkInputTag {
-  benchmarkInputTagId String   @id @default(cuid())
-  tagName             String
-  tagIndication       String
-  createdAt           DateTime @default(now())
-  updatedAt           DateTime @updatedAt
-}
+// model BenchmarkInputTag {
+//   benchmarkInputTagId String         @id @default(cuid())
+//   tagName             String
+//   tagIndication       String
+//   BenchmarkInput      BenchmarkInput @relation(fields: [benchmarkInputId], references: [benchmarkInputId])
+//   benchmarkInputId    String
+//   createdAt           DateTime       @default(now())
+//   updatedAt           DateTime       @updatedAt
+// }
 
 model BenchmarkInputSetup {
-  benchmarkInputSetupId String   @id @default(cuid())
-  voltageType           String
-  dataType              String
-  decimalNumber         Int
-  exampleData           Float
-  upperLimit            Float
-  lowerLimit            Float
-  step                  Float
-  createdAt             DateTime @default(now())
-  updatedAt             DateTime @updatedAt
+  benchmarkInputSetupId   String         @id @default(cuid())
+  benchmarkUnit           BenchmarkUnit?  @relation(fields: [benchmarkUnitId], references: [benchmarkUnitId])
+  benchmarkUnitId         String?
+  benchmarkInputSetupName String
+  voltageType             String
+  dataType                String
+  decimalNumber           Int
+  exampleData             Float
+  upperLimit              Float
+  lowerLimit              Float
+  stepIncreasing          Float
+  BenchmarkInput          BenchmarkInput @relation(fields: [benchmarkInputId], references: [benchmarkInputId])
+  benchmarkInputId        String
+  createdAt               DateTime       @default(now())
+  updatedAt               DateTime       @updatedAt
 }
 
 model BenchmarkUnit {
-  benchmarkUnitId    String   @id @default(cuid())
-  unitName           String
-  unitType           String
-  benchmarkSetupType String
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
+  benchmarkUnitId     String                @id @default(cuid())
+  unitName            String
+  unitType            String
+  benchmarkSetupType  String
+  BenchmarkInputSetup BenchmarkInputSetup[]
+  BenchmarkMethod     BenchmarkMethod[]
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
 }
 
 model BenchmarkMethod {
-  benchmarkMethodId   String   @id @default(cuid())
-  active              Boolean  @default(false)
+  benchmarkMethodId   String         @id @default(cuid())
+  BenchmarkInput      BenchmarkInput @relation(fields: [benchmarkInputId], references: [benchmarkInputId])
+  benchmarkInputId    String
+  benchmarkUnit       BenchmarkUnit  @relation(fields: [benchmarkUnitId], references: [benchmarkUnitId])
+  benchmarkUnitId     String
+  active              Boolean        @default(false)
   benchmarkMethodName String
-  methodType          String   //graph // calculation
-  createdAt           DateTime @default(now())
-  updatedAt           DateTime @updatedAt
+  methodType          String //graph // calculation
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @updatedAt
 }
 
 // Benchmark Result
@@ -203,7 +222,6 @@ model paperReference {
 //   id        String   @id @default(uuid())
 //   createdAt DateTime @default(now())
 // }
-
 
 //** input จะมีหลายค่าให้กรอก เราจึงมี input setup ที่เก็บพวกค่าที่จะกรอก //
 // เดี๋ยวใช้ collapse
