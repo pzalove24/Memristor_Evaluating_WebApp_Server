@@ -44,12 +44,23 @@ model Comment {
 
 //---------------------------------------------------//
 
+model SetResetVoltageDefinition {
+  setResetVoltageDefId String           @id @default(cuid())
+  paperReferences      paperReference[]
+  defName              String
+  condition            String
+  createdAt            DateTime         @default(now())
+  updatedAt            DateTime         @updatedAt
+}
+
 model BenchmarkType {
   benchmarkTypeId       String                 @id @default(cuid())
   benchmarkInformations BenchmarkInformation[]
   active                Boolean                @default(true)
   benchmarkTypeName     String
   voltageType           String
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
 }
 
 model BenchmarkInformation {
@@ -60,11 +71,75 @@ model BenchmarkInformation {
   voltageType            String
   BenchmarkType          BenchmarkType @relation(fields: [benchmarkTypeId], references: [benchmarkTypeId])
   benchmarkTypeId        String
+  createdAt              DateTime      @default(now())
+  updatedAt              DateTime      @updatedAt
 }
 
+// Benchmark Input
+
 model BenchmarkInput {
-  benchmarkInputId String  @id @default(cuid())
-  active           Boolean @default(true)
+  benchmarkInputId String   @id @default(cuid())
+  active           Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model BenchmarkInputTag {
+  benchmarkInputTagId String   @id @default(cuid())
+  tagName             String
+  tagIndication       String
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}
+
+model BenchmarkInputSetup {
+  benchmarkInputSetupId String   @id @default(cuid())
+  voltageType           String
+  dataType              String
+  decimalNumber         Int
+  exampleData           Float
+  upperLimit            Float
+  lowerLimit            Float
+  step                  Float
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+}
+
+model BenchmarkUnit {
+  benchmarkUnitId    String   @id @default(cuid())
+  unitName           String
+  unitType           String
+  benchmarkSetupType String
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model BenchmarkMethod {
+  benchmarkMethodId   String   @id @default(cuid())
+  active              Boolean  @default(false)
+  benchmarkMethodName String
+  methodType          String   //graph // calculation
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}
+
+// Benchmark Result
+
+model BenchmarkResult {
+  benchmarkResultId String   @id @default(cuid())
+  benchmarkName     String   @unique
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model paperReference {
+  paperReferenceId          String                     @id @default(cuid())
+  article                   String
+  url                       String
+  SetResetVoltageDefinition SetResetVoltageDefinition? @relation(fields: [setResetVoltageDefId], references: [setResetVoltageDefId])
+  setResetVoltageDefId      String?
+  createdAt                 DateTime                   @default(now())
+  updatedAt                 DateTime                   @updatedAt
 }
 
 // tag unique
@@ -128,3 +203,8 @@ model BenchmarkInput {
 //   id        String   @id @default(uuid())
 //   createdAt DateTime @default(now())
 // }
+
+
+//** input จะมีหลายค่าให้กรอก เราจึงมี input setup ที่เก็บพวกค่าที่จะกรอก //
+// เดี๋ยวใช้ collapse
+// ใน input สามารถ inactive switch ได้ เพื่อปิดการกรอกค่านั้น
