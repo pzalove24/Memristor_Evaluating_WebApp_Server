@@ -22,15 +22,22 @@ import { useTheme } from "@mui/material/styles";
 import FirstPageIcon from "@mui/icons-material/FirstPage";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import LastPageIcon from "@mui/icons-material/LastPage";
 import { TablePaginationActionsProps } from "@mui/material/TablePagination/TablePaginationActions";
+import TableCollapse from "./TableCollapse";
 
-type TDisplayType = "Text Field" | "Switch" | "Typography" | "Select";
+export type TTableDisplayType =
+  | "Text Field"
+  | "Switch"
+  | "Typography"
+  | "Select";
 
 interface Column {
-  id: "active" | "name" | "code" | "population" | "size" | "density";
+  id: "active" | "name" | "code" | "population" | "size" | "density" | "Expand Data";
   label: string;
-  DisplayType: TDisplayType;
+  DisplayType: TTableDisplayType;
   minWidth?: number;
   align?: "right";
   format?: (value: number) => string;
@@ -64,6 +71,14 @@ const columns: readonly Column[] = [
   {
     id: "density",
     label: "Density",
+    minWidth: 170,
+    align: "right",
+    format: (value: number) => value.toFixed(2),
+    DisplayType: "Typography",
+  },
+  {
+    id: "Expand Data",
+    label: "Expand Data",
     minWidth: 170,
     align: "right",
     format: (value: number) => value.toFixed(2),
@@ -204,51 +219,6 @@ export const CustomTablePagination = () => {
     setPage(0);
   };
 
-  const rowDisplay = (
-    displayType: TDisplayType,
-    data: string | number | boolean
-  ) => {
-    switch (displayType) {
-      case "Typography":
-        return <Typography>{data}</Typography>;
-      case "Text Field":
-        return (
-          <TextField
-            id="outlined-basic"
-            label="Outlined"
-            variant="outlined"
-            value={data}
-          />
-        );
-      case "Switch":
-        return (
-          <Switch
-            checked={data as boolean}
-            // onChange={() => handleActiveChange(data)}
-          />
-        );
-      case "Select":
-        return (
-          <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Age</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={data}
-              label="Age"
-              //   onChange={handleChange}
-            >
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
-            </Select>
-          </FormControl>
-        );
-      default:
-        break;
-    }
-  };
-
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <TableContainer sx={{ maxHeight: 440 }}>
@@ -271,25 +241,7 @@ export const CustomTablePagination = () => {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                    {/* <TableCell>
-      
-                    </TableCell> */}
-                    {columns.map((column) => {
-                      const value = row[column.id];
-                      console.log(value);
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value === "number"
-                            ? rowDisplay(
-                                column.DisplayType,
-                                column.format(value)
-                              )
-                            : rowDisplay(column.DisplayType, value)}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
+                  <TableCollapse key={row.code} row={row} columns={columns} />
                 );
               })}
           </TableBody>
