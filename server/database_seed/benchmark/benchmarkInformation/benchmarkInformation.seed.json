@@ -1,65 +1,50 @@
 [
     {
-        "active": false,
+        "benchmarkInformationId": "clrnlz4s6000308l3e8s4d4fc",
+        "active": true,
         "benchmarkInfoName": "IV Chart Sweep",
         "abbreviation": "ivsw",
         "voltageType": "sweep",
-        "benchmarkType": "Standard Benchmark"
+        "benchmarkTypeId": "clrnlxyae000208l35rlohd6q"
     },
     {
-        "active": false,
+        "benchmarkInformationId": "clrnlz84q000408l3bpv6617k",
+        "active": true,
         "benchmarkInfoName": "Log Log IV Sweep",
         "abbreviation": "llsw",
         "voltageType": "sweep",
-        "benchmarkType": "Standard Benchmark"
+        "benchmarkTypeId": "clrnlxyae000208l35rlohd6q"
     },
     {
-        "active": false,
+        "benchmarkInformationId": "clrnlzir0000508l38guy6cws",
+        "active": true,
         "benchmarkInfoName": "On Off Sweep",
         "abbreviation": "oosw",
         "voltageType": "sweep",
-        "benchmarkType": "Standard Benchmark"
+        "benchmarkTypeId": "clrnlxyae000208l35rlohd6q"
     },
     {
-        "active": false,
+        "benchmarkInformationId": "clrnlzmxv000608l3ah3iacxx",
+        "active": true,
         "benchmarkInfoName": "Distribution Set Reset Cycle Sweep",
-        "abbreviation": "",
+        "abbreviation": "dcsw",
         "voltageType": "sweep",
-        "benchmarkType": "Standard Benchmark"
+        "benchmarkTypeId": "clrnlxyae000208l35rlohd6q"
     },
     {
-        "active": false,
+        "benchmarkInformationId": "clrnlzqyp000708l3gbd14uho",
+        "active": true,
         "benchmarkInfoName": "Distribution Set Reset Sweep",
-        "abbreviation": "",
+        "abbreviation": "disw",
         "voltageType": "sweep",
-        "benchmarkType": "Standard Benchmark"
+        "benchmarkTypeId": "clrnlxyae000208l35rlohd6q"
     },
     {
-        "active": false,
+        "benchmarkInformationId": "clrnlzvch000808l3ch1q8m8w",
+        "active": true,
         "benchmarkInfoName": "Cumulative Probability Sweep",
-        "abbreviation": "",
+        "abbreviation": "cusw",
         "voltageType": "sweep",
-        "benchmarkType": "Standard Benchmark"
-    },
-    {
-        "active": false,
-        "benchmarkInfoName": "Distribution Set Reset Sweep",
-        "abbreviation": "",
-        "voltageType": "sweep",
-        "benchmarkType": "Standard Benchmark"
-    },
-    {
-        "active": false,
-        "benchmarkInfoName": "Distribution Set Reset Sweep",
-        "abbreviation": "",
-        "voltageType": "sweep",
-        "benchmarkType": "Standard Benchmark"
-    },
-    {
-        "active": false,
-        "benchmarkInfoName": "",
-        "abbreviation": "",
-        "voltageType": "pulse",
-        "benchmarkType": "Standard Benchmark",
+        "benchmarkTypeId": "clrnlxyae000208l35rlohd6q"
     }
 ]

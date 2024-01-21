@@ -1,4 +1,8 @@
-import { PrismaClient } from "@prisma/client";
+import {
+  BenchmarkInformation,
+  BenchmarkType,
+  PrismaClient,
+} from "@prisma/client";
 import fs from "fs/promises";
 import path from "path";
 const prisma = new PrismaClient();
@@ -45,52 +49,96 @@ const prisma = new PrismaClient();
 async function main() {
   try {
     // Resolve the absolute path to the JSON files
-    const usersPath = path.resolve(__dirname, '../database_seed/users.json');
-    const postsPath = path.resolve(__dirname, '../database_seed/posts.json');
-    const commentsPath = path.resolve(__dirname, '../database_seed/comments.json');
+    const usersPath = path.resolve(__dirname, "../database_seed/users.json");
+    const postsPath = path.resolve(__dirname, "../database_seed/posts.json");
+    const commentsPath = path.resolve(
+      __dirname,
+      "../database_seed/comments.json"
+    );
 
     // Read user seed data from file
-    const users = JSON.parse(await fs.readFile(usersPath, 'utf-8'));
+    const users = JSON.parse(await fs.readFile(usersPath, "utf-8"));
 
     // Read post seed data from file
-    const posts = JSON.parse(await fs.readFile(postsPath, 'utf-8'));
+    const posts = JSON.parse(await fs.readFile(postsPath, "utf-8"));
 
     // Read comment seed data from file
-    const comments = JSON.parse(await fs.readFile(commentsPath, 'utf-8'));
+    const comments = JSON.parse(await fs.readFile(commentsPath, "utf-8"));
 
-    console.log("users", users)
-    console.log("posts", posts)
-    console.log("comments", comments)
+    console.log("users", users);
+    console.log("posts", posts);
+    console.log("comments", comments);
 
-    // Insert users from seed data
-    for (const user of users) {
-      await prisma.user.create({
-        data: user,
-      });
-    }
+    // // Insert users from seed data
+    // for (const user of users) {
+    //   await prisma.user.create({
+    //     data: user,
+    //   });
+    // }
 
-    // Insert posts from seed data
-    for (const post of posts) {
-      // Create the post without comments first
-      const { comments: postComments, ...postWithoutComments } = post;
-      const createdPost = await prisma.post.create({
-        data: postWithoutComments,
-      });
+    // // Insert posts from seed data
+    // for (const post of posts) {
+    //   // Create the post without comments first
+    //   const { comments: postComments, ...postWithoutComments } = post;
+    //   const createdPost = await prisma.post.create({
+    //     data: postWithoutComments,
+    //   });
 
-      // Filter comments for the current post
-      const postCommentsForCurrentPost = comments.filter(
-        (comment: any) => comment.postId === post.id
-      );
+    //   // Filter comments for the current post
+    //   const postCommentsForCurrentPost = comments.filter(
+    //     (comment: any) => comment.postId === post.id
+    //   );
 
-      // Create comments for the post
-      for (const comment of postCommentsForCurrentPost) {
-        await prisma.comment.create({
-          data: {
-            ...comment,
-            postId: createdPost.id,
+    //   // Create comments for the post
+    //   for (const comment of postCommentsForCurrentPost) {
+    //     await prisma.comment.create({
+    //       data: {
+    //         ...comment,
+    //         postId: createdPost.id,
+    //       },
+    //     });
+    //   }
+    // }
+
+    // Benchmark Seed data
+    const benchmarkTypePath = path.resolve(
+      __dirname,
+      "../database_seed/benchmark/benchmarkType/benchmarkType.seed.json"
+    );
+    const benchmarkInformationPath = path.resolve(
+      __dirname,
+      "../database_seed/benchmark/benchmarkInformation/benchmarkInformation.seed.json"
+    );
+
+    // Read user seed data from file
+    const benchmarkTypes: BenchmarkType[] = JSON.parse(
+      await fs.readFile(benchmarkTypePath, "utf-8")
+    );
+    const benchmarkInformations: BenchmarkInformation[] = JSON.parse(
+      await fs.readFile(benchmarkInformationPath, "utf-8")
+    );
+
+    // Insert benchmarkType and benchmarkInformation seed data
+    for (const benchmarkType of benchmarkTypes) {
+      const createdBenchmarkType = await prisma.benchmarkType.create({
+        data: {
+          ...benchmarkType,
+          benchmarkInformations: {
+            create: benchmarkInformations
+              .filter(
+                (info) => info.benchmarkTypeId === benchmarkType.benchmarkTypeId
+              )
+              .map((info) => ({
+                ...info,
+                benchmarkTypeId: undefined, // Exclude benchmarkTypeId to rely on the relationship
+              })),
           },
-        });
-      }
+        },
+      });
+
+      console.log(
+        `Created BenchmarkType: ${createdBenchmarkType.benchmarkTypeName}`
+      );
     }
 
     console.log("Seeding complete");

@@ -7,6 +7,7 @@ import http from "http";
 import { Server } from "socket.io";
 import { SerialPort, ReadlineParser } from "serialport";
 import { serialPortCommand } from "./socket/serialPortSocket";
+import benchmarkRoutes from "./routes/benchmark/benchmarkRoute"
 
 // CONFIGURATION
 dotenv.config();
@@ -16,6 +17,10 @@ app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan("combined"));
 app.use(cors());
+
+
+//REST API ROUTES
+app.use("/benchmark", benchmarkRoutes);
 
 // SOCKET.IO CONFIGURATION
 const CLIENT_URL = process.env.CLIENT_URL;

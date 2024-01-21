@@ -11,20 +11,20 @@ datasource db {
 }
 
 model User {
-  id       String   @id @default(cuid())
-  username String   @unique
-  email    String   @unique
-  posts    Post[]   // User can have multiple posts
-  comments Comment[] // User can leave multiple comments
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id        String    @id @default(cuid())
+  username  String    @unique
+  email     String    @unique
+  posts     Post[] // User can have multiple posts
+  comments  Comment[] // User can leave multiple comments
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 model Post {
-  id        String   @id @default(cuid())
+  id        String    @id @default(cuid())
   title     String
   content   String
-  author    User     @relation(fields: [authorId], references: [id])
+  author    User      @relation(fields: [authorId], references: [id])
   authorId  String
   comments  Comment[] // Post can have multiple comments
   createdAt DateTime  @default(now())
@@ -41,7 +41,33 @@ model Comment {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
 //---------------------------------------------------//
+
+model BenchmarkType {
+  benchmarkTypeId       String                 @id @default(cuid())
+  benchmarkInformations BenchmarkInformation[]
+  active                Boolean                @default(true)
+  benchmarkTypeName     String
+  voltageType           String
+}
+
+model BenchmarkInformation {
+  benchmarkInformationId String        @id @default(cuid())
+  active                 Boolean       @default(true)
+  benchmarkInfoName      String
+  abbreviation           String
+  voltageType            String
+  BenchmarkType          BenchmarkType @relation(fields: [benchmarkTypeId], references: [benchmarkTypeId])
+  benchmarkTypeId        String
+}
+
+model BenchmarkInput {
+  benchmarkInputId String  @id @default(cuid())
+  active           Boolean @default(true)
+}
+
+// tag unique
 
 // model Benchmark {
 //   id                String            @id @default(uuid())

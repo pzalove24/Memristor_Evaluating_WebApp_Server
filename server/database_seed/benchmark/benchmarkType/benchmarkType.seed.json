@@ -1,42 +1,28 @@
 [
     {
+        "benchmarkTypeId": "clrnlxyae000208l35rlohd6q",
+        "benchmarkInformations": [
+            {
+                "benchmarkInfomationId": "clrnlz4s6000308l3e8s4d4fc"
+            },
+            {
+                "benchmarkInfomationId": "clrnlz84q000408l3bpv6617k"
+            },
+            {
+                "benchmarkInfomationId": "clrnlzir0000508l38guy6cws"
+            },
+            {
+                "benchmarkInfomationId": "clrnlzmxv000608l3ah3iacxx"
+            },
+            {
+                "benchmarkInfomationId": "clrnlzqyp000708l3gbd14uho"
+            },
+            {
+                "benchmarkInfomationId": "clrnlzvch000808l3ch1q8m8w"
+            }
+        ],
         "active": true,
         "benchmarkTypeName": "Standard Benchmark",
         "voltageType": "sweep"
-    },
-    {
-        "active": true,
-        "benchmarkTypeName": "Stability Benchmark",
-        "voltageType": "sweep"
-    },
-    {
-        "active": true,
-        "benchmarkTypeName": "Biorealistic Benchmark",
-        "voltageType": "sweep"
-    },
-    {
-        "active": true,
-        "benchmarkTypeName": "Advanced Benchmark",
-        "voltageType": "sweep"
-    },
-    {
-        "active": true,
-        "benchmarkTypeName": "Standard Benchmark",
-        "voltageType": "pulse"
-    },
-    {
-        "active": true,
-        "benchmarkTypeName": "Stability Benchmark",
-        "voltageType": "pulse"
-    },
-    {
-        "active": true,
-        "benchmarkTypeName": "Biorealistic Benchmark",
-        "voltageType": "pulse"
-    },
-    {
-        "active": true,
-        "benchmarkTypeName": "Advanced Benchmark",
-        "voltageType": "pulse"
     }
 ]
