@@ -1,0 +1,6 @@
+[
+    {
+        "name": "threshold voltage definition (constant-current method)",
+        "condition": "specify the desirable current for both HRS and LRS"
+    }
+]

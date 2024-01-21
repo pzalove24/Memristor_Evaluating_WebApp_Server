@@ -1,0 +1,42 @@
+[
+    {
+        "active": true,
+        "benchmarkTypeName": "Standard Benchmark",
+        "voltageType": "sweep"
+    },
+    {
+        "active": true,
+        "benchmarkTypeName": "Stability Benchmark",
+        "voltageType": "sweep"
+    },
+    {
+        "active": true,
+        "benchmarkTypeName": "Biorealistic Benchmark",
+        "voltageType": "sweep"
+    },
+    {
+        "active": true,
+        "benchmarkTypeName": "Advanced Benchmark",
+        "voltageType": "sweep"
+    },
+    {
+        "active": true,
+        "benchmarkTypeName": "Standard Benchmark",
+        "voltageType": "pulse"
+    },
+    {
+        "active": true,
+        "benchmarkTypeName": "Stability Benchmark",
+        "voltageType": "pulse"
+    },
+    {
+        "active": true,
+        "benchmarkTypeName": "Biorealistic Benchmark",
+        "voltageType": "pulse"
+    },
+    {
+        "active": true,
+        "benchmarkTypeName": "Advanced Benchmark",
+        "voltageType": "pulse"
+    }
+]

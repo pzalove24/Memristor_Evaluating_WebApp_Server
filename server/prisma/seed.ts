@@ -1,45 +1,104 @@
 import { PrismaClient } from "@prisma/client";
+import fs from "fs/promises";
+import path from "path";
 const prisma = new PrismaClient();
+// async function main() {
+//   const alice = await prisma.user.upsert({
+//     where: { email: "alice@prisma.io" },
+//     update: {},
+//     create: {
+//       email: "alice@prisma.io",
+//       username: "Alice",
+//       posts: {
+//         create: {
+//           title: "Check out Prisma with Next.js",
+//           content: "https://www.prisma.io/nextjs",
+//         },
+//       },
+//     },
+//   });
+//   const bob = await prisma.user.upsert({
+//     where: { email: "bob@prisma.io" },
+//     update: {},
+//     create: {
+//       email: "bob@prisma.io",
+//       username: "Bob",
+//       posts: {
+//         create: [
+//           {
+//             title: "Follow Prisma on Twitter",
+//             content: "https://twitter.com/prisma",
+
+//           },
+//           {
+//             title: "Follow Nexus on Twitter",
+//             content: "https://twitter.com/nexusgql",
+
+//           },
+//         ],
+//       },
+//     },
+//   });
+//   console.log({ alice, bob });
+// }
+
 async function main() {
-  const alice = await prisma.user.upsert({
-    where: { email: "alice@prisma.io" },
-    update: {},
-    create: {
-      email: "alice@prisma.io",
-      name: "Alice",
-      posts: {
-        create: {
-          title: "Check out Prisma with Next.js",
-          content: "https://www.prisma.io/nextjs",
-          published: true,
-        },
-      },
-    },
-  });
-  const bob = await prisma.user.upsert({
-    where: { email: "bob@prisma.io" },
-    update: {},
-    create: {
-      email: "bob@prisma.io",
-      name: "Bob",
-      posts: {
-        create: [
-          {
-            title: "Follow Prisma on Twitter",
-            content: "https://twitter.com/prisma",
-            published: true,
+  try {
+    // Resolve the absolute path to the JSON files
+    const usersPath = path.resolve(__dirname, '../database_seed/users.json');
+    const postsPath = path.resolve(__dirname, '../database_seed/posts.json');
+    const commentsPath = path.resolve(__dirname, '../database_seed/comments.json');
+
+    // Read user seed data from file
+    const users = JSON.parse(await fs.readFile(usersPath, 'utf-8'));
+
+    // Read post seed data from file
+    const posts = JSON.parse(await fs.readFile(postsPath, 'utf-8'));
+
+    // Read comment seed data from file
+    const comments = JSON.parse(await fs.readFile(commentsPath, 'utf-8'));
+
+    console.log("users", users)
+    console.log("posts", posts)
+    console.log("comments", comments)
+
+    // Insert users from seed data
+    for (const user of users) {
+      await prisma.user.create({
+        data: user,
+      });
+    }
+
+    // Insert posts from seed data
+    for (const post of posts) {
+      // Create the post without comments first
+      const { comments: postComments, ...postWithoutComments } = post;
+      const createdPost = await prisma.post.create({
+        data: postWithoutComments,
+      });
+
+      // Filter comments for the current post
+      const postCommentsForCurrentPost = comments.filter(
+        (comment: any) => comment.postId === post.id
+      );
+
+      // Create comments for the post
+      for (const comment of postCommentsForCurrentPost) {
+        await prisma.comment.create({
+          data: {
+            ...comment,
+            postId: createdPost.id,
           },
-          {
-            title: "Follow Nexus on Twitter",
-            content: "https://twitter.com/nexusgql",
-            published: true,
-          },
-        ],
-      },
-    },
-  });
-  console.log({ alice, bob });
+        });
+      }
+    }
+
+    console.log("Seeding complete");
+  } catch (error) {
+    console.error("Error seeding data:", error);
+  }
 }
+
 main()
   .then(async () => {
     await prisma.$disconnect();

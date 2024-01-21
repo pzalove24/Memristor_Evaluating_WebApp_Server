@@ -31,7 +31,7 @@ function RowRadioButtonsGroup() {
         name="row-radio-buttons-group"
       >
         <FormControlLabel value="Input" control={<Radio />} label="Input" />
-        <FormControlLabel value="Result" control={<Radio />} label="Result" />
+        <FormControlLabel value="Method" control={<Radio />} label="Method" />
       </RadioGroup>
     </FormControl>
   );

@@ -10,88 +10,95 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Todo {
-  id        String   @id @default(uuid())
-  title     String
-  complete  Boolean
+model User {
+  id       String   @id @default(cuid())
+  username String   @unique
+  email    String   @unique
+  posts    Post[]   // User can have multiple posts
+  comments Comment[] // User can leave multiple comments
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model User {
-  id    String @id @default(uuid())
-  email String @unique
-  name  String
-  posts Post[]
-}
-
 model Post {
-  id        String  @id @default(uuid())
+  id        String   @id @default(cuid())
   title     String
   content   String
-  published Boolean
-  user      User    @relation(fields: [userId], references: [id])
-  userId    String
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
+  comments  Comment[] // Post can have multiple comments
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
+model Comment {
+  id        String   @id @default(cuid())
+  text      String
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
+  post      Post     @relation(fields: [postId], references: [id])
+  postId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
 //---------------------------------------------------//
 
-model Benchmark {
-  id                String            @id @default(uuid())
-  name              String
-  Hardware          String
-  Waveform          WaveformBenchmark @relation(fields: [WaveformId], references: [id])
-  WaveformId        String
-  BenchmarkResult   BenchmarkResult   @relation(fields: [BenchmarkResultId], references: [id])
-  BenchmarkResultId String
-  createdAt         DateTime          @default(now())
-}
+// model Benchmark {
+//   id                String            @id @default(uuid())
+//   name              String
+//   Hardware          String
+//   Waveform          WaveformBenchmark @relation(fields: [WaveformId], references: [id])
+//   WaveformId        String
+//   BenchmarkResult   BenchmarkResult   @relation(fields: [BenchmarkResultId], references: [id])
+//   BenchmarkResultId String
+//   createdAt         DateTime          @default(now())
+// }
 
-model BenchmarkResult {
-  id                      String                @id @default(uuid())
-  Benchmark               Benchmark[]
-  StandardBenchmark       StandardBenchmark     @relation(fields: [StandardBenchmarkId], references: [id])
-  StandardBenchmarkId     String
-  StabilityBenchmark      StabilityBenchmark    @relation(fields: [StabilityBenchmarkId], references: [id])
-  StabilityBenchmarkId    String
-  BiorealisticBenchmark   BiorealisticBenchmark @relation(fields: [BiorealisticBenchmarkId], references: [id])
-  BiorealisticBenchmarkId String
-  AdvancedBenchmark       AdvancedBenchmark     @relation(fields: [AdvancedBenchmarkId], references: [id])
-  AdvancedBenchmarkId     String
-  createdAt               DateTime              @default(now())
-}
+// model BenchmarkResult {
+//   id                      String                @id @default(uuid())
+//   Benchmark               Benchmark[]
+//   StandardBenchmark       StandardBenchmark     @relation(fields: [StandardBenchmarkId], references: [id])
+//   StandardBenchmarkId     String
+//   StabilityBenchmark      StabilityBenchmark    @relation(fields: [StabilityBenchmarkId], references: [id])
+//   StabilityBenchmarkId    String
+//   BiorealisticBenchmark   BiorealisticBenchmark @relation(fields: [BiorealisticBenchmarkId], references: [id])
+//   BiorealisticBenchmarkId String
+//   AdvancedBenchmark       AdvancedBenchmark     @relation(fields: [AdvancedBenchmarkId], references: [id])
+//   AdvancedBenchmarkId     String
+//   createdAt               DateTime              @default(now())
+// }
 
-model StandardBenchmark {
-  id              String            @id @default(uuid())
-  createdAt       DateTime          @default(now())
-  BenchmarkResult BenchmarkResult[]
-}
+// model StandardBenchmark {
+//   id              String            @id @default(uuid())
+//   createdAt       DateTime          @default(now())
+//   BenchmarkResult BenchmarkResult[]
+// }
 
-model StabilityBenchmark {
-  id              String            @id @default(uuid())
-  createdAt       DateTime          @default(now())
-  BenchmarkResult BenchmarkResult[]
-}
+// model StabilityBenchmark {
+//   id              String            @id @default(uuid())
+//   createdAt       DateTime          @default(now())
+//   BenchmarkResult BenchmarkResult[]
+// }
 
-model BiorealisticBenchmark {
-  id              String            @id @default(uuid())
-  createdAt       DateTime          @default(now())
-  BenchmarkResult BenchmarkResult[]
-}
+// model BiorealisticBenchmark {
+//   id              String            @id @default(uuid())
+//   createdAt       DateTime          @default(now())
+//   BenchmarkResult BenchmarkResult[]
+// }
 
-model AdvancedBenchmark {
-  id              String            @id @default(uuid())
-  createdAt       DateTime          @default(now())
-  BenchmarkResult BenchmarkResult[]
-}
+// model AdvancedBenchmark {
+//   id              String            @id @default(uuid())
+//   createdAt       DateTime          @default(now())
+//   BenchmarkResult BenchmarkResult[]
+// }
 
-model WaveformBenchmark {
-  id        String      @id @default(uuid())
-  Benchmark Benchmark[]
-  createdAt DateTime    @default(now())
-}
+// model WaveformBenchmark {
+//   id        String      @id @default(uuid())
+//   Benchmark Benchmark[]
+//   createdAt DateTime    @default(now())
+// }
 
-model HardwareBenchmark {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-}
+// model HardwareBenchmark {
+//   id        String   @id @default(uuid())
+//   createdAt DateTime @default(now())
+// }

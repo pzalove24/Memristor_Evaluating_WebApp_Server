@@ -1,0 +1,65 @@
+[
+    {
+        "active": false,
+        "benchmarkInfoName": "IV Chart Sweep",
+        "abbreviation": "ivsw",
+        "voltageType": "sweep",
+        "benchmarkType": "Standard Benchmark"
+    },
+    {
+        "active": false,
+        "benchmarkInfoName": "Log Log IV Sweep",
+        "abbreviation": "llsw",
+        "voltageType": "sweep",
+        "benchmarkType": "Standard Benchmark"
+    },
+    {
+        "active": false,
+        "benchmarkInfoName": "On Off Sweep",
+        "abbreviation": "oosw",
+        "voltageType": "sweep",
+        "benchmarkType": "Standard Benchmark"
+    },
+    {
+        "active": false,
+        "benchmarkInfoName": "Distribution Set Reset Cycle Sweep",
+        "abbreviation": "",
+        "voltageType": "sweep",
+        "benchmarkType": "Standard Benchmark"
+    },
+    {
+        "active": false,
+        "benchmarkInfoName": "Distribution Set Reset Sweep",
+        "abbreviation": "",
+        "voltageType": "sweep",
+        "benchmarkType": "Standard Benchmark"
+    },
+    {
+        "active": false,
+        "benchmarkInfoName": "Cumulative Probability Sweep",
+        "abbreviation": "",
+        "voltageType": "sweep",
+        "benchmarkType": "Standard Benchmark"
+    },
+    {
+        "active": false,
+        "benchmarkInfoName": "Distribution Set Reset Sweep",
+        "abbreviation": "",
+        "voltageType": "sweep",
+        "benchmarkType": "Standard Benchmark"
+    },
+    {
+        "active": false,
+        "benchmarkInfoName": "Distribution Set Reset Sweep",
+        "abbreviation": "",
+        "voltageType": "sweep",
+        "benchmarkType": "Standard Benchmark"
+    },
+    {
+        "active": false,
+        "benchmarkInfoName": "",
+        "abbreviation": "",
+        "voltageType": "pulse",
+        "benchmarkType": "Standard Benchmark",
+    }
+]
