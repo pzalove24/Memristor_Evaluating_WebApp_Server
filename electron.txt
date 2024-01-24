@@ -1,0 +1,2 @@
+Use monorepo strategy to make nestjs serve nextjs static site got from build
+Use electron to serve nestjs
