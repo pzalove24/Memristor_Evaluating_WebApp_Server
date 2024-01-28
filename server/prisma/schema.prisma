@@ -1,0 +1,234 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String    @id @default(cuid())
+  username  String    @unique
+  email     String    @unique
+  posts     Post[] // User can have multiple posts
+  comments  Comment[] // User can leave multiple comments
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Post {
+  id        String    @id @default(cuid())
+  title     String
+  content   String
+  author    User      @relation(fields: [authorId], references: [id])
+  authorId  String
+  comments  Comment[] // Post can have multiple comments
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  text      String
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
+  post      Post     @relation(fields: [postId], references: [id])
+  postId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+//---------------------------------------------------//
+
+model BenchmarkType {
+  benchmarkTypeId       String                 @id @default(cuid())
+  benchmarkInformations BenchmarkInformation[]
+  active                Boolean                @default(true)
+  benchmarkTypeName     String
+  voltageType           String
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
+}
+
+model BenchmarkInformation {
+  benchmarkInformationId String        @id @default(cuid())
+  active                 Boolean       @default(true)
+  benchmarkInfoName      String
+  abbreviation           String
+  voltageType            String
+  BenchmarkType          BenchmarkType @relation(fields: [benchmarkTypeId], references: [benchmarkTypeId])
+  benchmarkTypeId        String
+  createdAt              DateTime      @default(now())
+  updatedAt              DateTime      @updatedAt
+}
+
+// Benchmark Input
+
+model BenchmarkInput {
+  benchmarkInputId     String                @id @default(cuid())
+  // benchmarkInputTags   BenchmarkInputTag[]
+  benchmarkInputSetups BenchmarkInputSetup[]
+  active               Boolean               @default(true)
+  benchmarkInputName   String
+  voltageType          String
+  BenchmarkMethod      BenchmarkMethod[]
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+}
+
+// model BenchmarkInputTag {
+//   benchmarkInputTagId String         @id @default(cuid())
+//   tagName             String
+//   tagIndication       String
+//   BenchmarkInput      BenchmarkInput @relation(fields: [benchmarkInputId], references: [benchmarkInputId])
+//   benchmarkInputId    String
+//   createdAt           DateTime       @default(now())
+//   updatedAt           DateTime       @updatedAt
+// }
+
+model BenchmarkInputSetup {
+  benchmarkInputSetupId   String         @id @default(cuid())
+  benchmarkUnit           BenchmarkUnit? @relation(fields: [benchmarkUnitId], references: [benchmarkUnitId])
+  benchmarkUnitId         String?
+  benchmarkInputSetupName String
+  voltageType             String
+  dataType                String
+  decimalNumber           Int
+  exampleData             Float
+  upperLimit              Float
+  lowerLimit              Float
+  stepIncreasing          Float
+  BenchmarkInput          BenchmarkInput @relation(fields: [benchmarkInputId], references: [benchmarkInputId])
+  benchmarkInputId        String
+  createdAt               DateTime       @default(now())
+  updatedAt               DateTime       @updatedAt
+}
+
+model BenchmarkUnit {
+  benchmarkUnitId     String                @id @default(cuid())
+  unitName            String
+  unitType            String
+  benchmarkSetupType  String
+  BenchmarkInputSetup BenchmarkInputSetup[]
+  BenchmarkMethod     BenchmarkMethod[]
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+}
+
+model BenchmarkMethod {
+  benchmarkMethodId   String         @id @default(cuid())
+  BenchmarkInput      BenchmarkInput @relation(fields: [benchmarkInputId], references: [benchmarkInputId])
+  benchmarkInputId    String
+  benchmarkUnit       BenchmarkUnit  @relation(fields: [benchmarkUnitId], references: [benchmarkUnitId])
+  benchmarkUnitId     String
+  active              Boolean        @default(false)
+  benchmarkMethodName String
+  methodType          String //graph // calculation
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @updatedAt
+}
+
+// Benchmark Result
+
+model BenchmarkResult {
+  benchmarkResultId String   @id @default(cuid())
+  benchmarkName     String   @unique
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model SetResetVoltageDefinition {
+  setResetVoltageDefId String                                    @id @default(cuid())
+  paperReferences      SetResetVoltageDefinitionPaperReference[]
+  defName              String
+  condition            String
+  createdAt            DateTime                                  @default(now())
+  updatedAt            DateTime                                  @updatedAt
+}
+
+model paperReference {
+  paperReferenceId   String                                    @id @default(cuid())
+  setResetVoltageDef SetResetVoltageDefinitionPaperReference[]
+  article            String
+  url                String
+  createdAt          DateTime                                  @default(now())
+  updatedAt          DateTime                                  @updatedAt
+}
+
+model SetResetVoltageDefinitionPaperReference {
+  setResetVoltageDefinitionPaperReferenceId String                    @id @default(cuid())
+  SetResetVoltageDefinition                 SetResetVoltageDefinition @relation(fields: [setResetVoltageDefId], references: [setResetVoltageDefId])
+  setResetVoltageDefId                      String
+  paperReference                            paperReference?           @relation(fields: [paperReferenceId], references: [paperReferenceId])
+  paperReferenceId                          String?
+}
+
+// tag unique
+
+// model Benchmark {
+//   id                String            @id @default(uuid())
+//   name              String
+//   Hardware          String
+//   Waveform          WaveformBenchmark @relation(fields: [WaveformId], references: [id])
+//   WaveformId        String
+//   BenchmarkResult   BenchmarkResult   @relation(fields: [BenchmarkResultId], references: [id])
+//   BenchmarkResultId String
+//   createdAt         DateTime          @default(now())
+// }
+
+// model BenchmarkResult {
+//   id                      String                @id @default(uuid())
+//   Benchmark               Benchmark[]
+//   StandardBenchmark       StandardBenchmark     @relation(fields: [StandardBenchmarkId], references: [id])
+//   StandardBenchmarkId     String
+//   StabilityBenchmark      StabilityBenchmark    @relation(fields: [StabilityBenchmarkId], references: [id])
+//   StabilityBenchmarkId    String
+//   BiorealisticBenchmark   BiorealisticBenchmark @relation(fields: [BiorealisticBenchmarkId], references: [id])
+//   BiorealisticBenchmarkId String
+//   AdvancedBenchmark       AdvancedBenchmark     @relation(fields: [AdvancedBenchmarkId], references: [id])
+//   AdvancedBenchmarkId     String
+//   createdAt               DateTime              @default(now())
+// }
+
+// model StandardBenchmark {
+//   id              String            @id @default(uuid())
+//   createdAt       DateTime          @default(now())
+//   BenchmarkResult BenchmarkResult[]
+// }
+
+// model StabilityBenchmark {
+//   id              String            @id @default(uuid())
+//   createdAt       DateTime          @default(now())
+//   BenchmarkResult BenchmarkResult[]
+// }
+
+// model BiorealisticBenchmark {
+//   id              String            @id @default(uuid())
+//   createdAt       DateTime          @default(now())
+//   BenchmarkResult BenchmarkResult[]
+// }
+
+// model AdvancedBenchmark {
+//   id              String            @id @default(uuid())
+//   createdAt       DateTime          @default(now())
+//   BenchmarkResult BenchmarkResult[]
+// }
+
+// model WaveformBenchmark {
+//   id        String      @id @default(uuid())
+//   Benchmark Benchmark[]
+//   createdAt DateTime    @default(now())
+// }
+
+// model HardwareBenchmark {
+//   id        String   @id @default(uuid())
+//   createdAt DateTime @default(now())
+// }
+
+//** input จะมีหลายค่าให้กรอก เราจึงมี input setup ที่เก็บพวกค่าที่จะกรอก //
+// เดี๋ยวใช้ collapse
+// ใน input สามารถ inactive switch ได้ เพื่อปิดการกรอกค่านั้น
