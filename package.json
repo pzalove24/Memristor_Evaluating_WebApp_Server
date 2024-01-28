@@ -6,7 +6,7 @@
   "scripts": {
     "install-all": "pnpm install && cd server && pnpm install && cd ../client && pnpm install",
     "dev:web": "concurrently \"pnpm dev:web:client\" \"wait-on http://localhost:3000 && pnpm dev:web:server \"",
-    "dev:web:server": "cd server && pnpm dev",
+    "dev:web:server": "cd server && pnpm start:dev",
     "dev:web:client": "cd client && pnpm dev",
     "build:web": "pnpm build:web:server && pnpm build:web:client",
     "build:web:server": "cd server && pnpm build",
