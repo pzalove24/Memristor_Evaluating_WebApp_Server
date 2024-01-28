@@ -11,6 +11,13 @@ Interceptor
 Custom Decorator
 Monorepo
 
+DTO type validator
+type check in nestjs
+
+SOLID check later
+
 Microservice
 - Benchmark by nestjs
 - AI by python
+
+ใช้ event ใน benchmark-result
