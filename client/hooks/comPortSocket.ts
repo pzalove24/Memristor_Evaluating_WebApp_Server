@@ -28,6 +28,10 @@ const useComPortSocket: () => TUseComPortSocketProps = () => {
   const pathname = usePathname();
   const { updateStatus } = useComPortStore();
 
+  const messageCOMPORT = {
+    COM: inputComPort,
+  };
+
   //**SOCKET COMPORT**\\
   const handleChangePort = (event: SelectChangeEvent) => {
     setInputComPort(event.target.value);
@@ -43,13 +47,13 @@ const useComPortSocket: () => TUseComPortSocketProps = () => {
 
   // select connected circuit board
   const selectedCOMPORT = () => {
-    socket.emit("selectedCOMPORT", inputComPort);
+    socket.emit("selectedCOMPORT", messageCOMPORT);
     updateStatus("READY");
   };
 
   // disconnect connected circuit board
   const disconnectCOMPORT = () => {
-    socket.emit("disconnectCOMPORT", () => {});
+    socket.emit("disconnectCOMPORT", messageCOMPORT);
     updateStatus("DISCONNECTED");
     setSerialPortIncoming("");
     if (currentSocket) {
@@ -62,11 +66,19 @@ const useComPortSocket: () => TUseComPortSocketProps = () => {
     const command: Command = {
       tag: TestCommandType.TESTBOARD_WEB,
     };
-    socket.emit("command_benchmark", handleCommand(command));
+    const messageCommandCOMPORT = {
+      COM: inputComPort,
+      command: handleCommand(command),
+    };
+    socket.emit("command_benchmark", messageCommandCOMPORT);
   };
 
   const serialPortCommandSent = (command: Command) => {
-    socket.emit("command_benchmark", handleCommand(command));
+    const messageCommandCOMPORT = {
+      COM: inputComPort,
+      command: handleCommand(command),
+    };
+    socket.emit("command_benchmark", messageCommandCOMPORT);
   };
 
   // if (serialPortIncoming !== "Ready") {
