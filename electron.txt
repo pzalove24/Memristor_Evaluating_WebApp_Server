@@ -11,6 +11,8 @@ Interceptor
 Custom Decorator
 Monorepo
 
+type ใช้ prismaClientInput
+
 DTO type validator
 type check in nestjs
 
