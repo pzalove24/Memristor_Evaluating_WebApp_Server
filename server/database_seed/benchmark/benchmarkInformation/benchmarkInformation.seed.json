@@ -50,9 +50,9 @@
   {
     "id": "clrnqs90x000208jnfhot9xf7",
     "active": true,
-    "benchmarkInfoName": "Endurance Cycle Sweep",
-    "abbreviation": "ecsw",
-    "voltageType": "sweep",
+    "benchmarkInfoName": "Endurance Cycle Pulse",
+    "abbreviation": "ecpw",
+    "voltageType": "pulse",
     "benchmarkTypeId": "clrnqqh0b000108jn9s6u5dw5"
   },
   {
@@ -61,6 +61,14 @@
     "benchmarkInfoName": "Retention Time Sweep",
     "abbreviation": "rtsw",
     "voltageType": "sweep",
+    "benchmarkTypeId": "clrnqqh0b000108jn9s6u5dw5"
+  },
+  {
+    "id": "clsds41mp000q08jw2xujeswc",
+    "active": true,
+    "benchmarkInfoName": "Retention Time Pulse",
+    "abbreviation": "rtpw",
+    "voltageType": "pulse",
     "benchmarkTypeId": "clrnqqh0b000108jn9s6u5dw5"
   },
   {
@@ -94,5 +102,61 @@
     "abbreviation": "ivmvsw",
     "voltageType": "sweep",
     "benchmarkTypeId": "clrnr35fh000808jng5bgfp21"
+  },
+  {
+    "id": "clsdr64ev000b08l691hzah0u",
+    "active": true,
+    "benchmarkInfoName": "IV Chart Pulse",
+    "abbreviation": "ivpw",
+    "voltageType": "pulse",
+    "benchmarkTypeId": "clrnlxyae000208l35rlohd6q"
+  },
+  {
+    "id": "clsdr8a02000c08l60weudh39",
+    "active": true,
+    "benchmarkInfoName": "Log Log IV Pulse",
+    "abbreviation": "llpw",
+    "voltageType": "pulse",
+    "benchmarkTypeId": "clrnlxyae000208l35rlohd6q"
+  },
+  {
+    "id": "clsdr8cie000d08l6gyjx3td8",
+    "active": true,
+    "benchmarkInfoName": "On Off Pulse",
+    "abbreviation": "oopw",
+    "voltageType": "pulse",
+    "benchmarkTypeId": "clrnlxyae000208l35rlohd6q"
+  },
+  {
+    "id": "clsdr8fqc000e08l69cas29wq",
+    "active": true,
+    "benchmarkInfoName": "Distribution Set Reset Cycle Pulse",
+    "abbreviation": "dcpw",
+    "voltageType": "pulse",
+    "benchmarkTypeId": "clrnlxyae000208l35rlohd6q"
+  },
+  {
+    "id": "clsdr8ik7000f08l6gd3khr0h",
+    "active": true,
+    "benchmarkInfoName": "Distribution Set Reset Pulse",
+    "abbreviation": "dipw",
+    "voltageType": "pulse",
+    "benchmarkTypeId": "clrnlxyae000208l35rlohd6q"
+  },
+  {
+    "id": "clsdr8lqa000g08l650p2h651",
+    "active": true,
+    "benchmarkInfoName": "Cumulative Probability Pulse",
+    "abbreviation": "cupw",
+    "voltageType": "pulse",
+    "benchmarkTypeId": "clrnlxyae000208l35rlohd6q"
+  },
+  {
+    "id": "clsdrsw8r000e08jw97d85u6o",
+    "active": true,
+    "benchmarkInfoName": "Conductance vs PulseNumber",
+    "abbreviation": "cppw",
+    "voltageType": "pulse",
+    "benchmarkTypeId": "clrnlxyae000208l35rlohd6q"
   }
 ]

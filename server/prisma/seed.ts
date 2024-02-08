@@ -89,12 +89,14 @@ async function main() {
 
     await prisma.setResetVoltageDefinition.deleteMany();
     await prisma.paperReference.deleteMany();
-    await prisma.benchmarkType.deleteMany();
-    await prisma.benchmarkInformation.deleteMany();
-    await prisma.benchmarkInput.deleteMany();
-    await prisma.benchmarkInputSetup.deleteMany();
     await prisma.benchmarkMethod.deleteMany();
+    await prisma.benchmarkInputSetup.deleteMany();
+    await prisma.benchmarkInput.deleteMany();
     await prisma.benchmarkUnit.deleteMany();
+    await prisma.benchmarkInformation.deleteMany();
+    await prisma.benchmarkType.deleteMany();
+
+
 
     for (const setResetVoltageDefinition of setResetVoltageDefinitions) {
       await prisma.setResetVoltageDefinition.create({

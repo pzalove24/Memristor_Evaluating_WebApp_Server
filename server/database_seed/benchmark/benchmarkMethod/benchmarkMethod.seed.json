@@ -8,5 +8,35 @@
     "beforeBenchmark": true,
     "inSoftware": true,
     "benchmarkInformationId": "clrnlz4s6000308l3e8s4d4fc"
+  },
+  {
+    "id": "clsdr3zjo000908l6gfw5g2yb",
+    "benchmarkInputId": "clsdr29sx000108l6hgffdsuo",
+    "active": true,
+    "benchmarkMethodName": "Pulse IV curve Input for graph",
+    "methodType": "graph",
+    "beforeBenchmark": true,
+    "inSoftware": true,
+    "benchmarkInformationId": "clsdr64ev000b08l691hzah0u"
+  },
+  {
+    "id": "clsdrqtpw000d08jw5l7bf5rf",
+    "benchmarkInputId": "clsdrq1s5000b08jw5qah1msc",
+    "active": true,
+    "benchmarkMethodName": "Conductance vs PulseNumber Input for graph",
+    "methodType": "graph",
+    "beforeBenchmark": true,
+    "inSoftware": true,
+    "benchmarkInformationId": "clsdrsw8r000e08jw97d85u6o"
+  },
+  {
+    "id": "clsds0rdh000p08jw3vxdhyth",
+    "benchmarkInputId": "clsds07q1000o08jw7iqxh1r0",
+    "active": true,
+    "benchmarkMethodName": "Endurance Cycle Input for graph",
+    "methodType": "graph",
+    "beforeBenchmark": true,
+    "inSoftware": true,
+    "benchmarkInformationId": "clrnqs90x000208jnfhot9xf7"
   }
 ]

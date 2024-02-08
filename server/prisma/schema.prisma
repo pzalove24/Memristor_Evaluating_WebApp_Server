@@ -70,15 +70,15 @@ model BenchmarkInformation {
 // Benchmark Input
 
 model BenchmarkInput {
-  id                     String                @id @default(cuid())
+  id                   String                @id @default(cuid())
   // benchmarkInputTags   BenchmarkInputTag[]
-  benchmarkInputSetups   BenchmarkInputSetup[]
-  active                 Boolean               @default(true)
-  benchmarkInputName     String
-  voltageType            String
-  BenchmarkMethod        BenchmarkMethod[]
-  createdAt              DateTime              @default(now())
-  updatedAt              DateTime              @updatedAt
+  benchmarkInputSetups BenchmarkInputSetup[]
+  active               Boolean               @default(true)
+  benchmarkInputName   String
+  voltageType          String
+  BenchmarkMethod      BenchmarkMethod[]
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
   // benchmarkInformationId String
 }
 
@@ -125,7 +125,7 @@ model BenchmarkMethod {
   id                     String               @id @default(cuid())
   BenchmarkInput         BenchmarkInput       @relation(fields: [benchmarkInputId], references: [id])
   benchmarkInputId       String
-  BenchmarkUnit          BenchmarkUnit?        @relation(fields: [benchmarkUnitId], references: [id])
+  BenchmarkUnit          BenchmarkUnit?       @relation(fields: [benchmarkUnitId], references: [id])
   benchmarkUnitId        String?
   active                 Boolean              @default(false)
   benchmarkMethodName    String
@@ -133,7 +133,7 @@ model BenchmarkMethod {
   beforeBenchmark        Boolean
   inSoftware             Boolean
   BenchmarkInformation   BenchmarkInformation @relation(fields: [benchmarkInformationId], references: [id])
-  benchmarkInformationId String
+  benchmarkInformationId String               @unique
   createdAt              DateTime             @default(now())
   updatedAt              DateTime             @updatedAt
 }

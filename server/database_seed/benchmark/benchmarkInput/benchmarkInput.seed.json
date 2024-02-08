@@ -4,5 +4,24 @@
     "active": true,
     "benchmarkInputName": "Sweep IV curve Input",
     "voltageType": "sweep"
+  },
+  {
+    "id": "clsdr29sx000108l6hgffdsuo",
+    "active": true,
+    "benchmarkInputName": "Pulse IV curve Input",
+    "voltageType": "pulse"
+  },
+  {
+    "id": "clsdrq1s5000b08jw5qah1msc",
+    "active": true,
+    "benchmarkInputName": "Conductance vs PulseNumber Input",
+    "voltageType": "pulse"
+  },
+  {
+    "id": "clsds07q1000o08jw7iqxh1r0",
+    "active": true,
+    "benchmarkInputName": "Endurance Cycle Input",
+    "voltageType": "pulse"
   }
+
 ]
