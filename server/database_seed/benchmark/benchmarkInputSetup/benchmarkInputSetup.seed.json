@@ -1,28 +1,80 @@
 [
-    {
-        "id": "clro1oza700010cjo0096c2p8",
-        "benchmarkUnitId": "clro1tk43000208jvcfrq4xb9",
-        "benchmarkInputSetupName": "Negative Voltage",
-        "voltageType": "sweep",
-        "dataType": "Float",
-        "decimalNumber": 2,
-        "exampleData": 0.00,
-        "upperLimit": 0.00,
-        "lowerLimit": -3.00,
-        "stepIncreasing": 0.05,
-        "benchmarkInputId": "clro1sj6q000108jv0u3l6j3x"
-    },
-    {
-        "id": "clro1uw8f000308jv21iu5tys",
-        "benchmarkUnitId": "clro1tk43000208jvcfrq4xb9",
-        "benchmarkInputSetupName": "Positive Voltage",
-        "voltageType": "sweep",
-        "dataType": "Float",
-        "decimalNumber": 2,
-        "exampleData": 0.00,
-        "upperLimit": 3.00,
-        "lowerLimit": 0.00,
-        "stepIncreasing": 0.05,
-        "benchmarkInputId": "clro1sj6q000108jv0u3l6j3x"
-    }
+  {
+    "id": "clsdjr3kk000108l7fj2y3fsj",
+    "benchmarkUnitId": "clro1tk43000208jvcfrq4xb9",
+    "benchmarkInputSetupName": "Negative Voltage",
+    "voltageType": "sweep",
+    "dataType": "float",
+    "decimalNumber": 2,
+    "exampleData": "-1.50",
+    "upperLimit": 0.0,
+    "lowerLimit": -3.0,
+    "stepIncresing": 0.5,
+    "benchmarkInputId": "clro1sj6q000108jv0u3l6j3x"
+  },
+  {
+    "id": "clsdjr765000208l76hurh2ca",
+    "benchmarkUnitId": "clro1tk43000208jvcfrq4xb9",
+    "benchmarkInputSetupName": "Positive Voltage",
+    "voltageType": "sweep",
+    "dataType": "float",
+    "decimalNumber": 2,
+    "exampleData": "1.50",
+    "upperLimit": 3.0,
+    "lowerLimit": 0.0,
+    "stepIncresing": 0.5,
+    "benchmarkInputId": "clro1sj6q000108jv0u3l6j3x"
+  },
+  {
+    "id": "clsdjra24000308l7hmowbm8q",
+    "benchmarkUnitId": "clro13ug7000808l9ag0kdd27",
+    "benchmarkInputSetupName": "Voltage Width/Duration",
+    "voltageType": "sweep",
+    "dataType": "Int",
+    "decimalNumber": 0,
+    "exampleData": "100",
+    "upperLimit": 1000,
+    "lowerLimit": 10,
+    "stepIncresing": 100,
+    "benchmarkInputId": "clro1sj6q000108jv0u3l6j3x"
+  },
+  {
+    "id": "clsdjrdm5000408l7bofp6h9o",
+    "benchmarkUnitId": "clro1tk43000208jvcfrq4xb9",
+    "benchmarkInputSetupName": "Voltage Step Resolution",
+    "voltageType": "sweep",
+    "dataType": "float",
+    "decimalNumber": 2,
+    "exampleData": "1.50",
+    "upperLimit": 10.0,
+    "lowerLimit": 1.0,
+    "stepIncresing": 0.5,
+    "benchmarkInputId": "clro1sj6q000108jv0u3l6j3x"
+  },
+  {
+    "id": "clsdjrh7e000508l7ca1a7rdo",
+    "benchmarkUnitId": "clsdjffv1000208jmd0miffuf",
+    "benchmarkInputSetupName": "Sweep Cycle",
+    "voltageType": "sweep",
+    "dataType": "Int",
+    "decimalNumber": 0,
+    "exampleData": "1",
+    "upperLimit": 10,
+    "lowerLimit": 1,
+    "stepIncresing": 1,
+    "benchmarkInputId": "clro1sj6q000108jv0u3l6j3x"
+  },
+  {
+    "id": "clsdjru0c000708l71hznf5ao",
+    "benchmarkUnitId": "clsdjffv1000208jmd0miffuf",
+    "benchmarkInputSetupName": "Device Channel",
+    "voltageType": "sweep",
+    "dataType": "Int",
+    "decimalNumber": 0,
+    "exampleData": "1",
+    "upperLimit": 10,
+    "lowerLimit": 1,
+    "stepIncresing": 1,
+    "benchmarkInputId": "clro1sj6q000108jv0u3l6j3x"
+  }
 ]

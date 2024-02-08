@@ -1,0 +1,12 @@
+[
+  {
+    "id": "clsdkilvc000008jp3olfdx04",
+    "benchmarkInputId": "clro1sj6q000108jv0u3l6j3x",
+    "active": true,
+    "benchmarkMethodName": "Sweep IV curve Input for graph",
+    "methodType": "graph",
+    "beforeBenchmark": true,
+    "inSoftware": true,
+    "benchmarkInformationId": "clrnlz4s6000308l3e8s4d4fc"
+  }
+]

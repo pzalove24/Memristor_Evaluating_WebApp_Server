@@ -70,6 +70,17 @@
         "unitName": "V",
         "unitType": "string",
         "benchmarkSetupType": "InputSetup"
+    },
+    {
+        "benchmarkUnitId": "clsdjffv1000208jmd0miffuf",
+        "unitName": "number",
+        "unitType": "string",
+        "benchmarkSetupType": "InputSetup"
+    },
+    {
+        "benchmarkUnitId": "clsdjfy5w000308jm3zttcuuy",
+        "unitName": "pulse number",
+        "unitType": "string",
+        "benchmarkSetupType": "InputSetup"
     }
-    
 ]
