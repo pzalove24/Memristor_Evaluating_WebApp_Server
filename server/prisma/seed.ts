@@ -5,8 +5,8 @@ import {
   SetResetVoltageDefinition,
   paperReference,
 } from '@prisma/client';
-import fs from 'fs/promises';
-import path from 'path';
+import * as fs from 'fs/promises';
+import * as path from 'path'
 const prisma = new PrismaClient();
 // async function main() {
 //   const alice = await prisma.user.upsert({
@@ -50,26 +50,26 @@ const prisma = new PrismaClient();
 
 async function main() {
   try {
-    // Resolve the absolute path to the JSON files
-    const usersPath = path.resolve(__dirname, '../database_seed/users.json');
-    const postsPath = path.resolve(__dirname, '../database_seed/posts.json');
-    const commentsPath = path.resolve(
-      __dirname,
-      '../database_seed/comments.json',
-    );
+    // // Resolve the absolute path to the JSON files
+    // const usersPath = path.resolve(__dirname, '../database_seed/users.json');
+    // const postsPath = path.resolve(__dirname, '../database_seed/posts.json');
+    // const commentsPath = path.resolve(
+    //   __dirname,
+    //   '../database_seed/comments.json',
+    // );
 
-    // Read user seed data from file
-    const users = JSON.parse(await fs.readFile(usersPath, 'utf-8'));
+    // // Read user seed data from file
+    // const users = JSON.parse(await fs.readFile(usersPath, 'utf-8'));
 
-    // Read post seed data from file
-    const posts = JSON.parse(await fs.readFile(postsPath, 'utf-8'));
+    // // Read post seed data from file
+    // const posts = JSON.parse(await fs.readFile(postsPath, 'utf-8'));
 
-    // Read comment seed data from file
-    const comments = JSON.parse(await fs.readFile(commentsPath, 'utf-8'));
+    // // Read comment seed data from file
+    // const comments = JSON.parse(await fs.readFile(commentsPath, 'utf-8'));
 
-    console.log('users', users);
-    console.log('posts', posts);
-    console.log('comments', comments);
+    // console.log('users', users);
+    // console.log('posts', posts);
+    // console.log('comments', comments);
 
     // // Insert users from seed data
     // for (const user of users) {
@@ -156,53 +156,53 @@ async function main() {
     //   console.log(`Created User: ${createdUser.username}`);
     // }
 
-    // for (const setResetVoltageDefinition of setResetVoltageDefinitions) {
-    //   const createdSetResetVoltageDefinition =
-    //     await prisma.setResetVoltageDefinition.create({
-    //       data: {
-    //         ...setResetVoltageDefinition,
-    //         paperReferences: {
-    //           create: paperReferences
-    //             .filter(
-    //               (info) =>
-    //                 info.setResetVoltageDefId ===
-    //                 setResetVoltageDefinition.setResetVoltageDefId
-    //             )
-    //             .map((info) => ({
-    //               ...info,
-    //               setResetVoltageDefId: undefined, // Exclude benchmarkTypeId to rely on the relationship
-    //             })),
-    //         },
-    //       },
-    //     });
+    for (const setResetVoltageDefinition of setResetVoltageDefinitions) {
+      const createdSetResetVoltageDefinition =
+        await prisma.setResetVoltageDefinition.create({
+          data: {
+            ...setResetVoltageDefinition,
+            paperReferences: {
+              create: paperReferences
+                .filter(
+                  (info) =>
+                    info.setResetVoltageDefinitionId ===
+                    setResetVoltageDefinition.id
+                )
+                .map((info) => ({
+                  ...info,
+                  setResetVoltageDefinitionId: undefined, // Exclude benchmarkTypeId to rely on the relationship
+                })),
+            },
+          },
+        });
 
-    //   console.log(
-    //     `Created BenchmarkType: ${createdSetResetVoltageDefinition.defName}`
-    //   );
-    // }
+      console.log(
+        `Created BenchmarkType: ${createdSetResetVoltageDefinition.defName}`
+      );
+    }
 
-    // // Insert benchmarkType and benchmarkInformation seed data
-    // for (const benchmarkType of benchmarkTypes) {
-    //   const createdBenchmarkType = await prisma.benchmarkType.create({
-    //     data: {
-    //       ...benchmarkType,
-    //       benchmarkInformations: {
-    //         create: benchmarkInformations
-    //           .filter(
-    //             (info) => info.benchmarkTypeId === benchmarkType.benchmarkTypeId
-    //           )
-    //           .map((info) => ({
-    //             ...info,
-    //             benchmarkTypeId: undefined, // Exclude benchmarkTypeId to rely on the relationship
-    //           })),
-    //       },
-    //     },
-    //   });
+    // Insert benchmarkType and benchmarkInformation seed data
+    for (const benchmarkType of benchmarkTypes) {
+      const createdBenchmarkType = await prisma.benchmarkType.create({
+        data: {
+          ...benchmarkType,
+          benchmarkInformations: {
+            create: benchmarkInformations
+              .filter(
+                (info) => info.benchmarkTypeId === benchmarkType.id
+              )
+              .map((info) => ({
+                ...info,
+                benchmarkTypeId: undefined, // Exclude benchmarkTypeId to rely on the relationship
+              })),
+          },
+        },
+      });
 
-    //   console.log(
-    //     `Created BenchmarkType: ${createdBenchmarkType.benchmarkTypeName}`
-    //   );
-    // }
+      console.log(
+        `Created BenchmarkType: ${createdBenchmarkType.benchmarkTypeName}`
+      );
+    }
 
     console.log('Seeding complete');
   } catch (error) {

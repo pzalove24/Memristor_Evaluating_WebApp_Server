@@ -1,6 +1,6 @@
 [
     {
-        "benchmarkTypeId": "clrnlxyae000208l35rlohd6q",
+        "id": "clrnlxyae000208l35rlohd6q",
         "benchmarkInformations": [
             {
                 "benchmarkInfomationId": "clrnlz4s6000308l3e8s4d4fc"
@@ -26,7 +26,7 @@
         "voltageType": "sweep"
     },
     {
-        "benchmarkTypeId": "clrnqqh0b000108jn9s6u5dw5",
+        "id": "clrnqqh0b000108jn9s6u5dw5",
         "benchmarkInformations": [
             {
                 "benchmarkInfomationId": "clrnqs90x000208jnfhot9xf7"
@@ -40,7 +40,7 @@
         "voltageType": "sweep"
     },
     {
-        "benchmarkTypeId": "clrnqzdqn000508jnh1ar81jg",
+        "id": "clrnqzdqn000508jnh1ar81jg",
         "benchmarkInformations": [
             {
                 "benchmarkInfomationId": "clrnr0n0c000608jne1xz8mlc"
@@ -54,7 +54,7 @@
         "voltageType": "sweep"
     },
     {
-        "benchmarkTypeId": "clrnr35fh000808jng5bgfp21",
+        "id": "clrnr35fh000808jng5bgfp21",
         "benchmarkInformations": [
             {
                 "benchmarkInfomationId": "clrnr0n0c000608jne1xz8mlc"

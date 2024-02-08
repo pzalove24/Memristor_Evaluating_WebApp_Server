@@ -10,42 +10,42 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        String    @id @default(cuid())
-  username  String    @unique
-  email     String    @unique
-  posts     Post[] // User can have multiple posts
-  comments  Comment[] // User can leave multiple comments
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-}
+// model User {
+//   id        String    @id @default(cuid())
+//   username  String    @unique
+//   email     String    @unique
+//   posts     Post[] // User can have multiple posts
+//   comments  Comment[] // User can leave multiple comments
+//   createdAt DateTime  @default(now())
+//   updatedAt DateTime  @updatedAt
+// }
 
-model Post {
-  id        String    @id @default(cuid())
-  title     String
-  content   String
-  author    User      @relation(fields: [authorId], references: [id])
-  authorId  String
-  comments  Comment[] // Post can have multiple comments
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-}
+// model Post {
+//   id        String    @id @default(cuid())
+//   title     String
+//   content   String
+//   author    User      @relation(fields: [authorId], references: [id])
+//   authorId  String
+//   comments  Comment[] // Post can have multiple comments
+//   createdAt DateTime  @default(now())
+//   updatedAt DateTime  @updatedAt
+// }
 
-model Comment {
-  id        String   @id @default(cuid())
-  text      String
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  String
-  post      Post     @relation(fields: [postId], references: [id])
-  postId    String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
+// model Comment {
+//   id        String   @id @default(cuid())
+//   text      String
+//   author    User     @relation(fields: [authorId], references: [id])
+//   authorId  String
+//   post      Post     @relation(fields: [postId], references: [id])
+//   postId    String
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+// }
 
 //---------------------------------------------------//
 
 model BenchmarkType {
-  benchmarkTypeId       String                 @id @default(cuid())
+  id                    String                 @id @default(cuid())
   benchmarkInformations BenchmarkInformation[]
   active                Boolean                @default(true)
   benchmarkTypeName     String
@@ -55,21 +55,21 @@ model BenchmarkType {
 }
 
 model BenchmarkInformation {
-  benchmarkInformationId String        @id @default(cuid())
-  active                 Boolean       @default(true)
-  benchmarkInfoName      String
-  abbreviation           String
-  voltageType            String
-  BenchmarkType          BenchmarkType @relation(fields: [benchmarkTypeId], references: [benchmarkTypeId])
-  benchmarkTypeId        String
-  createdAt              DateTime      @default(now())
-  updatedAt              DateTime      @updatedAt
+  id                String        @id @default(cuid())
+  active            Boolean       @default(true)
+  benchmarkInfoName String
+  abbreviation      String
+  voltageType       String
+  BenchmarkType     BenchmarkType @relation(fields: [benchmarkTypeId], references: [id])
+  benchmarkTypeId   String
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
 }
 
 // Benchmark Input
 
 model BenchmarkInput {
-  benchmarkInputId     String                @id @default(cuid())
+  id                   String                @id @default(cuid())
   // benchmarkInputTags   BenchmarkInputTag[]
   benchmarkInputSetups BenchmarkInputSetup[]
   active               Boolean               @default(true)
@@ -91,9 +91,9 @@ model BenchmarkInput {
 // }
 
 model BenchmarkInputSetup {
-  benchmarkInputSetupId   String         @id @default(cuid())
-  benchmarkUnit           BenchmarkUnit? @relation(fields: [benchmarkUnitId], references: [benchmarkUnitId])
-  benchmarkUnitId         String?
+  id                      String         @id @default(cuid())
+  BenchmarkUnit           BenchmarkUnit  @relation(fields: [benchmarkUnitId], references: [id])
+  benchmarkUnitId         String
   benchmarkInputSetupName String
   voltageType             String
   dataType                String
@@ -102,14 +102,14 @@ model BenchmarkInputSetup {
   upperLimit              Float
   lowerLimit              Float
   stepIncreasing          Float
-  BenchmarkInput          BenchmarkInput @relation(fields: [benchmarkInputId], references: [benchmarkInputId])
+  BenchmarkInput          BenchmarkInput @relation(fields: [benchmarkInputId], references: [id])
   benchmarkInputId        String
   createdAt               DateTime       @default(now())
   updatedAt               DateTime       @updatedAt
 }
 
 model BenchmarkUnit {
-  benchmarkUnitId     String                @id @default(cuid())
+  id                  String                @id @default(cuid())
   unitName            String
   unitType            String
   benchmarkSetupType  String
@@ -120,10 +120,10 @@ model BenchmarkUnit {
 }
 
 model BenchmarkMethod {
-  benchmarkMethodId   String         @id @default(cuid())
-  BenchmarkInput      BenchmarkInput @relation(fields: [benchmarkInputId], references: [benchmarkInputId])
+  id                  String         @id @default(cuid())
+  BenchmarkInput      BenchmarkInput @relation(fields: [benchmarkInputId], references: [id])
   benchmarkInputId    String
-  benchmarkUnit       BenchmarkUnit  @relation(fields: [benchmarkUnitId], references: [benchmarkUnitId])
+  BenchmarkUnit       BenchmarkUnit  @relation(fields: [benchmarkUnitId], references: [id])
   benchmarkUnitId     String
   active              Boolean        @default(false)
   benchmarkMethodName String
@@ -135,36 +135,29 @@ model BenchmarkMethod {
 // Benchmark Result
 
 model BenchmarkResult {
-  benchmarkResultId String   @id @default(cuid())
-  benchmarkName     String   @unique
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  id            String   @id @default(cuid())
+  benchmarkName String   @unique
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
 
 model SetResetVoltageDefinition {
-  setResetVoltageDefId String                                    @id @default(cuid())
-  paperReferences      SetResetVoltageDefinitionPaperReference[]
-  defName              String
-  condition            String
-  createdAt            DateTime                                  @default(now())
-  updatedAt            DateTime                                  @updatedAt
+  id              String           @id @default(cuid())
+  paperReferences paperReference[]
+  defName         String
+  condition       String
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
 }
 
 model paperReference {
-  paperReferenceId   String                                    @id @default(cuid())
-  setResetVoltageDef SetResetVoltageDefinitionPaperReference[]
-  article            String
-  url                String
-  createdAt          DateTime                                  @default(now())
-  updatedAt          DateTime                                  @updatedAt
-}
-
-model SetResetVoltageDefinitionPaperReference {
-  setResetVoltageDefinitionPaperReferenceId String                    @id @default(cuid())
-  SetResetVoltageDefinition                 SetResetVoltageDefinition @relation(fields: [setResetVoltageDefId], references: [setResetVoltageDefId])
-  setResetVoltageDefId                      String
-  paperReference                            paperReference?           @relation(fields: [paperReferenceId], references: [paperReferenceId])
-  paperReferenceId                          String?
+  id                          String                     @id @default(cuid())
+  SetResetVoltageDefinition   SetResetVoltageDefinition? @relation(fields: [setResetVoltageDefinitionId], references: [id])
+  setResetVoltageDefinitionId String?
+  article                     String
+  url                         String
+  createdAt                   DateTime                   @default(now())
+  updatedAt                   DateTime                   @updatedAt
 }
 
 // tag unique

@@ -1,6 +1,6 @@
 [
     {
-        "benchmarkInformationId": "clrnlz4s6000308l3e8s4d4fc",
+        "id": "clrnlz4s6000308l3e8s4d4fc",
         "active": true,
         "benchmarkInfoName": "IV Chart Sweep",
         "abbreviation": "ivsw",
@@ -8,7 +8,7 @@
         "benchmarkTypeId": "clrnlxyae000208l35rlohd6q"
     },
     {
-        "benchmarkInformationId": "clrnlz84q000408l3bpv6617k",
+        "id": "clrnlz84q000408l3bpv6617k",
         "active": true,
         "benchmarkInfoName": "Log Log IV Sweep",
         "abbreviation": "llsw",
@@ -16,7 +16,7 @@
         "benchmarkTypeId": "clrnlxyae000208l35rlohd6q"
     },
     {
-        "benchmarkInformationId": "clrnlzir0000508l38guy6cws",
+        "id": "clrnlzir0000508l38guy6cws",
         "active": true,
         "benchmarkInfoName": "On Off Sweep",
         "abbreviation": "oosw",
@@ -24,7 +24,7 @@
         "benchmarkTypeId": "clrnlxyae000208l35rlohd6q"
     },
     {
-        "benchmarkInformationId": "clrnlzmxv000608l3ah3iacxx",
+        "id": "clrnlzmxv000608l3ah3iacxx",
         "active": true,
         "benchmarkInfoName": "Distribution Set Reset Cycle Sweep",
         "abbreviation": "dcsw",
@@ -32,7 +32,7 @@
         "benchmarkTypeId": "clrnlxyae000208l35rlohd6q"
     },
     {
-        "benchmarkInformationId": "clrnlzqyp000708l3gbd14uho",
+        "id": "clrnlzqyp000708l3gbd14uho",
         "active": true,
         "benchmarkInfoName": "Distribution Set Reset Sweep",
         "abbreviation": "disw",
@@ -40,7 +40,7 @@
         "benchmarkTypeId": "clrnlxyae000208l35rlohd6q"
     },
     {
-        "benchmarkInformationId": "clrnlzvch000808l3ch1q8m8w",
+        "id": "clrnlzvch000808l3ch1q8m8w",
         "active": true,
         "benchmarkInfoName": "Cumulative Probability Sweep",
         "abbreviation": "cusw",
@@ -48,7 +48,7 @@
         "benchmarkTypeId": "clrnlxyae000208l35rlohd6q"
     },
     {
-        "benchmarkInformationId": "clrnqs90x000208jnfhot9xf7",
+        "id": "clrnqs90x000208jnfhot9xf7",
         "active": true,
         "benchmarkInfoName": "Endurance Cycle Sweep",
         "abbreviation": "ecsw",
@@ -56,7 +56,7 @@
         "benchmarkTypeId": "clrnqqh0b000108jn9s6u5dw5"
     },
     {
-        "benchmarkInformationId": "clrnqtp9g000308jn4mjz95n6",
+        "id": "clrnqtp9g000308jn4mjz95n6",
         "active": true,
         "benchmarkInfoName": "Retention Time Sweep",
         "abbreviation": "rtsw",
@@ -64,7 +64,7 @@
         "benchmarkTypeId": "clrnqqh0b000108jn9s6u5dw5"
     },
     {
-        "benchmarkInformationId": "clrnr0n0c000608jne1xz8mlc",
+        "id": "clrnr0n0c000608jne1xz8mlc",
         "active": true,
         "benchmarkInfoName": "Brain 1 Sweep",
         "abbreviation": "b1sw",
@@ -72,7 +72,7 @@
         "benchmarkTypeId": "clrnqzdqn000508jnh1ar81jg"
     },
     {
-        "benchmarkInformationId": "clrnr0r8e000708jnb5njbjm7",
+        "id": "clrnr0r8e000708jnb5njbjm7",
         "active": true,
         "benchmarkInfoName": "Brain 2 Sweep",
         "abbreviation": "b2sw",
@@ -80,7 +80,7 @@
         "benchmarkTypeId": "clrnqzdqn000508jnh1ar81jg"
     },
     {
-        "benchmarkInformationId": "clrnr5pxr000908jn1bm8a8jl",
+        "id": "clrnr5pxr000908jn1bm8a8jl",
         "active": true,
         "benchmarkInfoName": "IV Chart Multi-Level Compliance Sweep",
         "abbreviation": "ivmcsw",
@@ -88,7 +88,7 @@
         "benchmarkTypeId": "clrnr35fh000808jng5bgfp21"
     },
     {
-        "benchmarkInformationId": "clrnr5t9p000a08jn7u4qft66",
+        "id": "clrnr5t9p000a08jn7u4qft66",
         "active": true,
         "benchmarkInfoName": "IV Chart Multi-Level Voltage Sweep",
         "abbreviation": "ivmvsw",

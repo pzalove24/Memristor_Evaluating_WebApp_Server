@@ -1,6 +1,6 @@
 [
     {
-        "benchmarkInputSetupId": "clro1oza700010cjo0096c2p8",
+        "id": "clro1oza700010cjo0096c2p8",
         "benchmarkUnitId": "clro1tk43000208jvcfrq4xb9",
         "benchmarkInputSetupName": "Negative Voltage",
         "voltageType": "sweep",
@@ -13,7 +13,7 @@
         "benchmarkInputId": "clro1sj6q000108jv0u3l6j3x"
     },
     {
-        "benchmarkInputSetupId": "clro1uw8f000308jv21iu5tys",
+        "id": "clro1uw8f000308jv21iu5tys",
         "benchmarkUnitId": "clro1tk43000208jvcfrq4xb9",
         "benchmarkInputSetupName": "Positive Voltage",
         "voltageType": "sweep",
