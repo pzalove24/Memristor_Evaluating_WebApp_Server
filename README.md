@@ -11,6 +11,7 @@ Setup Client
 7. next js dashboard sidebar
 8. prisma https://www.youtube.com/watch?v=NgayZAuTgwM
 9. Web Worker https://loclv.hashnode.dev/a-simple-web-worker-demo-with-typescript-and-nextjs
+10. Zustand + React Query + axios = https://zainmughalkpk.medium.com/react-query-with-zustand-185dff964a91
 
 Setup Server
 
