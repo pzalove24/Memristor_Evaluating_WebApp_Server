@@ -79,7 +79,7 @@ model BenchmarkInput {
   BenchmarkMethod        BenchmarkMethod[]
   createdAt              DateTime              @default(now())
   updatedAt              DateTime              @updatedAt
-  benchmarkInformationId String
+  // benchmarkInformationId String
 }
 
 // model BenchmarkInputTag {
@@ -100,7 +100,7 @@ model BenchmarkInputSetup {
   voltageType             String
   dataType                String
   decimalNumber           Int
-  exampleData             Float
+  exampleData             String
   upperLimit              Float
   lowerLimit              Float
   stepIncreasing          Float

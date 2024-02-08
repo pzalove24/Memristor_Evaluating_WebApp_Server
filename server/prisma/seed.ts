@@ -26,6 +26,11 @@ async function main() {
       '../database_seed/research/paperReference/paperReference.seed.json',
     );
 
+    const benchmarkUnitPath = path.resolve(
+      __dirname,
+      '../database_seed/benchmark/benchmarkUnit/benchmarkUnit.seed.json',
+    );
+
     const benchmarkTypePath = path.resolve(
       __dirname,
       '../database_seed/benchmark/benchmarkType/benchmarkType.seed.json',
@@ -33,11 +38,6 @@ async function main() {
     const benchmarkInformationPath = path.resolve(
       __dirname,
       '../database_seed/benchmark/benchmarkInformation/benchmarkInformation.seed.json',
-    );
-
-    const benchmarkMethodPath = path.resolve(
-      __dirname,
-      '../database_seed/benchmark/benchmarkMethod/benchmarkMethod.seed.json',
     );
 
     const benchmarkInputPath = path.resolve(
@@ -50,11 +50,10 @@ async function main() {
       '../database_seed/benchmark/benchmarkInputSetup/benchmarkInputSetup.seed.json',
     );
 
-    const benchmarkUnitPath = path.resolve(
+    const benchmarkMethodPath = path.resolve(
       __dirname,
-      '../database_seed/benchmark/benchmarkUnit/benchmarkUnit.seed.json',
+      '../database_seed/benchmark/benchmarkMethod/benchmarkMethod.seed.json',
     );
-
     // Read user seed data from file
 
     const setResetVoltageDefinitions: SetResetVoltageDefinition[] = JSON.parse(
@@ -65,15 +64,15 @@ async function main() {
       await fs.readFile(paperReferencePath, 'utf-8'),
     );
 
+    const benchmarkUnits: BenchmarkUnit[] = JSON.parse(
+      await fs.readFile(benchmarkUnitPath, 'utf-8'),
+    );
+
     const benchmarkTypes: BenchmarkType[] = JSON.parse(
       await fs.readFile(benchmarkTypePath, 'utf-8'),
     );
     const benchmarkInformations: BenchmarkInformation[] = JSON.parse(
       await fs.readFile(benchmarkInformationPath, 'utf-8'),
-    );
-
-    const benchmarkMethods: BenchmarkMethod[] = JSON.parse(
-      await fs.readFile(benchmarkMethodPath, 'utf-8'),
     );
 
     const benchmarkInputs: BenchmarkInput[] = JSON.parse(
@@ -84,17 +83,17 @@ async function main() {
       await fs.readFile(benchmarkInputSetupPath, 'utf-8'),
     );
 
-    const benchmarkUnits: BenchmarkUnit[] = JSON.parse(
-      await fs.readFile(benchmarkUnitPath, 'utf-8'),
+    const benchmarkMethods: BenchmarkMethod[] = JSON.parse(
+      await fs.readFile(benchmarkMethodPath, 'utf-8'),
     );
 
     await prisma.setResetVoltageDefinition.deleteMany();
     await prisma.paperReference.deleteMany();
     await prisma.benchmarkType.deleteMany();
     await prisma.benchmarkInformation.deleteMany();
-    await prisma.benchmarkMethod.deleteMany();
     await prisma.benchmarkInput.deleteMany();
     await prisma.benchmarkInputSetup.deleteMany();
+    await prisma.benchmarkMethod.deleteMany();
     await prisma.benchmarkUnit.deleteMany();
 
     for (const setResetVoltageDefinition of setResetVoltageDefinitions) {
@@ -115,6 +114,15 @@ async function main() {
       console.log('Created paperReference success');
     }
 
+    for (const benchmarkUnit of benchmarkUnits) {
+      await prisma.benchmarkUnit.create({
+        data: {
+          ...benchmarkUnit,
+        },
+      });
+      console.log('Created benchmarkUnit success');
+    }
+
     for (const benchmarkType of benchmarkTypes) {
       await prisma.benchmarkType.create({
         data: {
@@ -131,6 +139,33 @@ async function main() {
         },
       });
       console.log('Created benchmarkInformation success');
+    }
+
+    for (const benchmarkInput of benchmarkInputs) {
+      await prisma.benchmarkInput.create({
+        data: {
+          ...benchmarkInput,
+        },
+      });
+      console.log('Created benchmarkInput success');
+    }
+
+    for (const benchmarkInputSetup of benchmarkInputSetups) {
+      await prisma.benchmarkInputSetup.create({
+        data: {
+          ...benchmarkInputSetup,
+        },
+      });
+      console.log('Created benchmarkInputSetup success');
+    }
+
+    for (const benchmarkMethod of benchmarkMethods) {
+      await prisma.benchmarkMethod.create({
+        data: {
+          ...benchmarkMethod,
+        },
+      });
+      console.log('Created benchmarkMethod success');
     }
 
     // for (const setResetVoltageDefinition of setResetVoltageDefinitions) {

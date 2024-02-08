@@ -9,7 +9,7 @@
     "exampleData": "-1.50",
     "upperLimit": 0.0,
     "lowerLimit": -3.0,
-    "stepIncresing": 0.5,
+    "stepIncreasing": 0.5,
     "benchmarkInputId": "clro1sj6q000108jv0u3l6j3x"
   },
   {
@@ -22,7 +22,7 @@
     "exampleData": "1.50",
     "upperLimit": 3.0,
     "lowerLimit": 0.0,
-    "stepIncresing": 0.5,
+    "stepIncreasing": 0.5,
     "benchmarkInputId": "clro1sj6q000108jv0u3l6j3x"
   },
   {
@@ -35,7 +35,7 @@
     "exampleData": "100",
     "upperLimit": 1000,
     "lowerLimit": 10,
-    "stepIncresing": 100,
+    "stepIncreasing": 100,
     "benchmarkInputId": "clro1sj6q000108jv0u3l6j3x"
   },
   {
@@ -48,7 +48,7 @@
     "exampleData": "1.50",
     "upperLimit": 10.0,
     "lowerLimit": 1.0,
-    "stepIncresing": 0.5,
+    "stepIncreasing": 0.5,
     "benchmarkInputId": "clro1sj6q000108jv0u3l6j3x"
   },
   {
@@ -61,7 +61,7 @@
     "exampleData": "1",
     "upperLimit": 10,
     "lowerLimit": 1,
-    "stepIncresing": 1,
+    "stepIncreasing": 1,
     "benchmarkInputId": "clro1sj6q000108jv0u3l6j3x"
   },
   {
@@ -74,7 +74,7 @@
     "exampleData": "1",
     "upperLimit": 10,
     "lowerLimit": 1,
-    "stepIncresing": 1,
+    "stepIncreasing": 1,
     "benchmarkInputId": "clro1sj6q000108jv0u3l6j3x"
   }
 ]

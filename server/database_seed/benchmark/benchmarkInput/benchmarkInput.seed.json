@@ -1,26 +1,6 @@
 [
   {
     "id": "clro1sj6q000108jv0u3l6j3x",
-    "benchmarkInputSetups": [
-      {
-        "id": "clsdjr3kk000108l7fj2y3fsj"
-      },
-      {
-        "id": "clsdjr765000208l76hurh2ca"
-      },
-      {
-        "id": "clsdjra24000308l7hmowbm8q"
-      },
-      {
-        "id": "clsdjrdm5000408l7bofp6h9o"
-      },
-      {
-        "id": "clsdjrh7e000508l7ca1a7rdo"
-      },
-      {
-        "id": "clsdjru0c000708l71hznf5ao"
-      }
-    ],
     "active": true,
     "benchmarkInputName": "Sweep IV curve Input",
     "voltageType": "sweep"
