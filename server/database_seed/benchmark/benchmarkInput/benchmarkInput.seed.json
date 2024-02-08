@@ -22,6 +22,17 @@
     "active": true,
     "benchmarkInputName": "Endurance Cycle Input",
     "voltageType": "pulse"
+  },
+  {
+    "id": "clsdshdz7000008jk48mh9osx",
+    "active": true,
+    "benchmarkInputName": "Sweep Retention Time Input",
+    "voltageType": "sweep"
+  },
+  {
+    "id": "clsdsnyed000b08jk305yb07q",
+    "active": true,
+    "benchmarkInputName": "Pulse Retention Time Input",
+    "voltageType": "pulse"
   }
-
 ]
