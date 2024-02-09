@@ -5,6 +5,7 @@
     "active": true,
     "benchmarkMethodName": "Sweep IV curve Input for graph",
     "methodType": "graph",
+    "voltageType": "sweep",
     "beforeBenchmark": true,
     "inSoftware": true,
     "benchmarkInformationId": "clrnlz4s6000308l3e8s4d4fc"
@@ -15,6 +16,7 @@
     "active": true,
     "benchmarkMethodName": "Pulse IV curve Input for graph",
     "methodType": "graph",
+    "voltageType": "pulse",
     "beforeBenchmark": true,
     "inSoftware": true,
     "benchmarkInformationId": "clsdr64ev000b08l691hzah0u"
@@ -25,6 +27,7 @@
     "active": true,
     "benchmarkMethodName": "Conductance vs PulseNumber Input for graph",
     "methodType": "graph",
+    "voltageType": "pulse",
     "beforeBenchmark": true,
     "inSoftware": true,
     "benchmarkInformationId": "clsdrsw8r000e08jw97d85u6o"
@@ -35,6 +38,7 @@
     "active": true,
     "benchmarkMethodName": "Endurance Cycle Input for graph",
     "methodType": "graph",
+    "voltageType": "pulse",
     "beforeBenchmark": true,
     "inSoftware": true,
     "benchmarkInformationId": "clrnqs90x000208jnfhot9xf7"
@@ -45,6 +49,7 @@
     "active": true,
     "benchmarkMethodName": "Sweep Retention Time Input for graph",
     "methodType": "graph",
+    "voltageType": "sweep",
     "beforeBenchmark": true,
     "inSoftware": true,
     "benchmarkInformationId": "clrnqtp9g000308jn4mjz95n6"
@@ -55,6 +60,7 @@
     "active": true,
     "benchmarkMethodName": "Pulse Retention Time Input for graph",
     "methodType": "graph",
+    "voltageType": "pulse",
     "beforeBenchmark": true,
     "inSoftware": true,
     "benchmarkInformationId": "clsds41mp000q08jw2xujeswc"

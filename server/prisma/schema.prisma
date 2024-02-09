@@ -130,6 +130,7 @@ model BenchmarkMethod {
   active                 Boolean              @default(false)
   benchmarkMethodName    String
   methodType             String //graph // calculation
+  voltageType            String
   beforeBenchmark        Boolean
   inSoftware             Boolean
   BenchmarkInformation   BenchmarkInformation @relation(fields: [benchmarkInformationId], references: [id])
