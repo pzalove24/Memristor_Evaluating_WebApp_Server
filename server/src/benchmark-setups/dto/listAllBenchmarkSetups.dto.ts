@@ -36,6 +36,8 @@ export class ListAllBenchmarkSetupsDto {
   limit: number;
 }
 
+
+
 export enum MethodTypeEnum {
   Graph = 'graph',
   Calculation = 'calculation',

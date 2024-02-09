@@ -1,28 +1,41 @@
 import { AxiosResponse } from "axios";
 import { AbortFunction, request } from "../request.service";
+import { queryRequest } from "../query.service";
+import {
+  BenchmarkMethod,
+  BenchmarkInput,
+  Prisma,
+} from "@/../server/shared/prismaTypes";
+
+import { TPaginationResponse } from "@/../server/shared/pagniation";
 
 export type TListBenchmarkSetupsRequest = {
   type: string;
   setup: string;
-  voltage: string;
-  method: string;
+  voltage?: string;
+  method?: string;
   page: number;
   limit: number;
-}
+};
 
-export type TListBenchmarkSetupsResponse = {
-  data: any[];
-  total: number;
-  page: number;
-  limit: number;
-}
+type BenchmarkMethodWithInput = Prisma.BenchmarkMethodGetPayload<{
+  include: {
+    BenchmarkInput: true;
+  };
+}>;
+
+export type TListBenchmarkSetupsResponse = TPaginationResponse<
+  BenchmarkMethodWithInput | BenchmarkInput
+>;
 
 export const listBenchmarkSetups = async (
-  props: TListBenchmarkSetupsRequest
-): Promise<[Promise<AxiosResponse<TListBenchmarkSetupsResponse>["data"]>, AbortFunction]> => {
+  query: TListBenchmarkSetupsRequest
+): Promise<
+  [Promise<AxiosResponse<TListBenchmarkSetupsResponse>["data"]>, AbortFunction]
+> => {
   const [response, resAbort] = await request<TListBenchmarkSetupsResponse>(
     "GET",
-    "/benchmark-setups",
+    `/benchmark-setups${queryRequest(query)}`,
     {} // or props
   );
 

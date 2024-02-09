@@ -77,11 +77,10 @@ const TableCollapse = ({ row, columns }: TableCollapseProp) => {
       <TableRow hover role="checkbox" tabIndex={-1}>
         {columns.map((column: any) => {
           const value = row[column.id];
-          console.log(value);
           return (
             <>
               {column.id === "Expand Data" ? (
-                <TableCell align="right">
+                <TableCell key={column.id} align="right">
                   <IconButton
                     aria-label="expand row"
                     size="small"

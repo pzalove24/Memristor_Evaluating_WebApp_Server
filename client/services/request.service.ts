@@ -1,7 +1,8 @@
 import axios, { AxiosError, AxiosResponse, Method } from "axios";
 
 const client = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_APP_API,
+  // baseURL: `${process.env.NEXT_PUBLIC_APP_API}`,
+  baseURL: "http://localhost:3001",
   timeout: 60000, //The request will wait 1 minute before timing out, we will make it as configuration in env/file
   headers: {
     accept: "application/json",
@@ -66,15 +67,16 @@ export async function request<T>(
     // headers: customHeaders || {
     //   Authorization: `Bearer ${await getToken()}`,
     // },
-    url: `${process.env.NEXT_PUBLIC_APP_API}${route}`,
+    url: route,
     // params: { ...params, _tid: uuidv4() },
     params: { ...params },
     data: body,
     signal: controller.signal,
-    responseType: isBlobType ? "blob" : "json",
+    // responseType: isBlobType ? "blob" : "json",
   })
     .then(onSuccess)
     .catch(onError);
+
 
   return [
     response,

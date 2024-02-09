@@ -1,6 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { ListAllBenchmarkSetupsDto } from './dto/listAllBenchmarkSetups.dto';
+import { BenchmarkInput, BenchmarkMethod } from '@prisma/client';
+import { PaginationResponseDto } from './dto/paganition.dto';
 
 @Injectable()
 export class BenchmarkSetupsService {
@@ -8,7 +10,7 @@ export class BenchmarkSetupsService {
 
   async listAllBenchmarkSetups(
     listAllBenchmarkSetupsDto: ListAllBenchmarkSetupsDto,
-  ) {
+  ): Promise<PaginationResponseDto<BenchmarkInput | BenchmarkMethod>> {
     // pagination on table benchmarksetup
     // query input / method & pulse / sweep & page & limit
     const { type, setup, voltage, method, page, limit } =
@@ -44,12 +46,10 @@ export class BenchmarkSetupsService {
         take: limit,
       });
       return {
-        data: inputData,
-        pagination: {
-          currentPage: page,
-          totalPages,
-          totalCount,
-        },
+        rows: inputData,
+        currentPage: page,
+        totalPages,
+        totalCount,
       };
     } else if (setup === 'Method') {
       const totalCount = await this.prismaService.benchmarkMethod.count({
@@ -72,12 +72,10 @@ export class BenchmarkSetupsService {
         take: limit,
       });
       return {
-        data: methodData,
-        pagination: {
-          currentPage: page,
-          totalPages,
-          totalCount,
-        },
+        rows: methodData,
+        currentPage: page,
+        totalPages,
+        totalCount,
       };
     }
   }
@@ -85,7 +83,6 @@ export class BenchmarkSetupsService {
   create(createBenchmarkSetupDto) {
     return 'This action adds a new benchmarkSetup';
   }
-
 
   findOne(id: number) {
     return `This action returns a #${id} benchmarkSetup`;
