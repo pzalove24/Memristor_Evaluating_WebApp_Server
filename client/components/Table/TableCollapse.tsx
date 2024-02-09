@@ -79,7 +79,7 @@ const TableCollapse = ({ row, columns }: TableCollapseProp) => {
           const value = row[column.id];
           return (
             <>
-              {column.id === "Expand Data" ? (
+              {column.id === "Expand Setup" ? (
                 <TableCell key={column.id} align="right">
                   <IconButton
                     aria-label="expand row"

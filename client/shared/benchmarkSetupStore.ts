@@ -11,11 +11,14 @@ export type benchmarkSetupState = {
   setup: "Input" | "Method";
   voltage?: "sweep" | "pulse";
   method?: "graph" | "calculation";
-  page: number;
+  pageIndex: number;
   limit: number;
 };
 
-export type benchmarkSetupAction = {};
+export type benchmarkSetupAction = {
+  changePageSize: (pageSize: number) => void;
+  changePageIndex: (pageIndex: number) => void;
+};
 
 const useBenchmarkSetupStore = create<
   benchmarkSetupState & benchmarkSetupAction
@@ -24,6 +27,16 @@ const useBenchmarkSetupStore = create<
   setup: "Input",
   voltage: "sweep",
   method: undefined,
-  page: 1,
-  limit: 10,
+  pageIndex: 1,
+  limit: 5,
+  changePageSize: (pageSize: number) =>
+    set(() => ({
+      limit: pageSize,
+    })),
+  changePageIndex: (pageIndex: number) =>
+    set(() => ({
+      pageIndex: pageIndex,
+    })),
 }));
+
+export default useBenchmarkSetupStore;

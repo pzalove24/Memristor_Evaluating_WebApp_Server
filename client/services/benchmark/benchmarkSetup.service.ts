@@ -33,6 +33,7 @@ export const listBenchmarkSetups = async (
 ): Promise<
   [Promise<AxiosResponse<TListBenchmarkSetupsResponse>["data"]>, AbortFunction]
 > => {
+  console.log('query', queryRequest(query))
   const [response, resAbort] = await request<TListBenchmarkSetupsResponse>(
     "GET",
     `/benchmark-setups${queryRequest(query)}`,

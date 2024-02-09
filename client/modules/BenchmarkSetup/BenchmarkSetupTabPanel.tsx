@@ -1,5 +1,3 @@
-import { CheckBoxAutocomplete } from "@/components/Autocomplete/CheckBoxAutocomplete";
-import { CustomTablePagination } from "@/components/Table/TablePagination";
 import { TBenchmarkSetupTabPanelProps } from "@/types/benchmarkSetupType/benchmarkSetupTabsType";
 import {
   Box,
@@ -12,7 +10,15 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import BenchmarkSetupTabPanelInput from "./BenchmarkSetupPanelInput";
+import BenchmarkSetupTabPanelMethod from "./BenchmarkSetupPanelMethod";
+import { useQuery } from "@tanstack/react-query";
+import {
+  TListBenchmarkSetupsRequest,
+  listBenchmarkSetups,
+} from "@/services/benchmark/benchmarkSetup.service";
+import useBenchmarkSetupStore from "@/shared/benchmarkSetupStore";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -20,15 +26,26 @@ interface TabPanelProps {
   value: number;
 }
 
-function RowRadioButtonsGroup() {
+interface RowRadioButtonsGroupProps {
+  setup: string;
+  handleChangeSetup: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+function RowRadioButtonsGroup({
+  setup,
+  handleChangeSetup,
+}: RowRadioButtonsGroupProps) {
   return (
     <FormControl>
-      <FormLabel id="demo-row-radio-buttons-group-label" color="info">Select Setup</FormLabel>
+      <FormLabel id="demo-row-radio-buttons-group-label" color="info">
+        Select Setup
+      </FormLabel>
       <RadioGroup
         row
-        defaultValue={"Input"}
+        value={setup || "Input"}
         aria-labelledby="demo-row-radio-buttons-group-label"
         name="row-radio-buttons-group"
+        onChange={handleChangeSetup}
       >
         <FormControlLabel value="Input" control={<Radio />} label="Input" />
         <FormControlLabel value="Method" control={<Radio />} label="Method" />
@@ -78,6 +95,44 @@ const BenchmarkSetupTabPanel = ({
   value,
   index,
 }: TBenchmarkSetupTabPanelProps) => {
+  const [setup, setSetup] = useState<string>("Input");
+
+  const { pageIndex, limit } = useBenchmarkSetupStore();
+
+  const handleChangeSetup = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSetup(event.target.value);
+  };
+
+  const queryListBenchmarkSetups: TListBenchmarkSetupsRequest = {
+    type: "Standard Benchmark",
+    setup: "Input",
+    voltage: undefined,
+    method: undefined,
+    page: pageIndex,
+    limit: limit,
+  };
+
+  console.log('list', queryListBenchmarkSetups)
+
+  const { data: listBenchmarkSetup, isLoading, refetch } = useQuery({
+    queryKey: ["listBenchmarkSetups"],
+    queryFn: async () => {
+      const [response, _] = await listBenchmarkSetups(queryListBenchmarkSetups);
+      const res = await response;
+      return res;
+    },
+  });
+
+  useEffect(()=> {
+    refetch()
+  }, [pageIndex, limit])
+
+  if (isLoading) {
+    return <>Loading</>;
+  }
+
+  console.log("data", listBenchmarkSetup);
+
   return (
     <TabPanel value={value} index={index}>
       <Box>
@@ -89,20 +144,24 @@ const BenchmarkSetupTabPanel = ({
       <Box>
         <Grid container sx={{ mt: 3 }} columnSpacing={2}>
           <Grid item xs={12} md={12} marginBottom={2}>
-            <RowRadioButtonsGroup />
+            <RowRadioButtonsGroup
+              setup={setup}
+              handleChangeSetup={handleChangeSetup}
+            />
           </Grid>
-          <Grid item xs={12} md={4}>
-            <CheckBoxAutocomplete label="Voltage Type" placeholder="voltage" />
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <CheckBoxAutocomplete label="Voltage Type" placeholder="voltage" />
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <CheckBoxAutocomplete label="Voltage Type" placeholder="voltage" />
-          </Grid>
-          <Grid item xs={12} md={12} marginTop={2}>
-            <CustomTablePagination />
-          </Grid>
+          {setup === "Input" && listBenchmarkSetup ? (
+            <BenchmarkSetupTabPanelInput
+              tableData={listBenchmarkSetup}
+              limit={limit}
+            />
+          ) : setup === "Method" && listBenchmarkSetup ? (
+            <BenchmarkSetupTabPanelMethod
+              tableData={listBenchmarkSetup}
+              limit={limit}
+            />
+          ) : (
+            <>Loading</>
+          )}
         </Grid>
       </Box>
     </TabPanel>
