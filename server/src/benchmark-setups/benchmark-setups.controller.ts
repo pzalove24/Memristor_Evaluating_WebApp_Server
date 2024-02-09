@@ -1,20 +1,34 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { BenchmarkSetupsService } from './benchmark-setups.service';
-import { CreateBenchmarkSetupDto } from './dto/create-benchmark-setup.dto';
-import { UpdateBenchmarkSetupDto } from './dto/update-benchmark-setup.dto';
+import { ListAllBenchmarkSetupsDto } from './dto/listAllBenchmarkSetups.dto';
 
 @Controller('benchmark-setups')
 export class BenchmarkSetupsController {
-  constructor(private readonly benchmarkSetupsService: BenchmarkSetupsService) {}
-
-  @Post()
-  create(@Body() createBenchmarkSetupDto: CreateBenchmarkSetupDto) {
-    return this.benchmarkSetupsService.create(createBenchmarkSetupDto);
-  }
+  constructor(
+    private readonly benchmarkSetupsService: BenchmarkSetupsService,
+  ) {}
 
   @Get()
-  findAll() {
-    return this.benchmarkSetupsService.findAll();
+  listAllBenchmarkSetups(
+    @Query() listAllBenchmarkSetupsDto: ListAllBenchmarkSetupsDto,
+  ) {
+    return this.benchmarkSetupsService.listAllBenchmarkSetups(
+      listAllBenchmarkSetupsDto,
+    );
+  }
+
+  @Post()
+  create(@Body() createBenchmarkSetupDto) {
+    return this.benchmarkSetupsService.create(createBenchmarkSetupDto);
   }
 
   @Get(':id')
@@ -23,8 +37,8 @@ export class BenchmarkSetupsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBenchmarkSetupDto: UpdateBenchmarkSetupDto) {
-    return this.benchmarkSetupsService.update(+id, updateBenchmarkSetupDto);
+  update(@Param('id') id: string, @Body() updateBenchmarkSetupDto) {
+    return this.benchmarkSetupsService.update(+id);
   }
 
   @Delete(':id')
