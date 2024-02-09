@@ -46,6 +46,8 @@ datasource db {
 
 model BenchmarkType {
   id                    String                 @id @default(cuid())
+  benchmarkMethods      BenchmarkMethod[]
+  benchmarkInputs       BenchmarkInput[]
   benchmarkInformations BenchmarkInformation[]
   active                Boolean                @default(true)
   benchmarkTypeName     String
@@ -77,6 +79,8 @@ model BenchmarkInput {
   benchmarkInputName   String
   voltageType          String
   BenchmarkMethod      BenchmarkMethod[]
+  BenchmarkType        BenchmarkType         @relation(fields: [benchmarkTypeId], references: [id])
+  benchmarkTypeId      String
   createdAt            DateTime              @default(now())
   updatedAt            DateTime              @updatedAt
   // benchmarkInformationId String
@@ -135,6 +139,8 @@ model BenchmarkMethod {
   inSoftware             Boolean
   BenchmarkInformation   BenchmarkInformation @relation(fields: [benchmarkInformationId], references: [id])
   benchmarkInformationId String               @unique
+  BenchmarkType          BenchmarkType        @relation(fields: [benchmarkTypeId], references: [id])
+  benchmarkTypeId        String
   createdAt              DateTime             @default(now())
   updatedAt              DateTime             @updatedAt
 }

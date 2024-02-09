@@ -1,6 +1,7 @@
 import { Box, Tab, Tabs } from "@mui/material";
 import React from "react";
 import BenchmarkSetupTabPanel from "./BenchmarkSetupTabPanel";
+import useBenchmarkSetupStore from "@/shared/benchmarkSetupStore";
 
 function a11yProps(index: number) {
   return {
@@ -12,8 +13,26 @@ function a11yProps(index: number) {
 const BenchmarkSetupMenu = () => {
   const [value, setValue] = React.useState<number>(0);
 
+  const handleValueToBenchmarkType = (value: number) => {
+    switch (value) {
+      case 0:
+        return "Standard Benchmark";
+      case 1:
+        return "Stability Benchmark";
+      case 2:
+        return "Biorealistic Benchmark";
+      case 3:
+        return "Advanced Benchmark";
+      default:
+        return "Stability Benchmark";
+    }
+  };
+
+  const { changeBenchmarkType } = useBenchmarkSetupStore();
+
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
+    changeBenchmarkType(handleValueToBenchmarkType(newValue));
   };
 
   const benchmarkTabs = [

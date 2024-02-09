@@ -3,36 +3,42 @@
     "id": "clro1sj6q000108jv0u3l6j3x",
     "active": true,
     "benchmarkInputName": "Sweep IV curve Input",
-    "voltageType": "sweep"
+    "voltageType": "sweep",
+    "benchmarkTypeId": "clrnlxyae000208l35rlohd6q"
   },
   {
     "id": "clsdr29sx000108l6hgffdsuo",
     "active": true,
     "benchmarkInputName": "Pulse IV curve Input",
-    "voltageType": "pulse"
+    "voltageType": "pulse",
+    "benchmarkTypeId": "clrnlxyae000208l35rlohd6q"
   },
   {
     "id": "clsdrq1s5000b08jw5qah1msc",
     "active": true,
     "benchmarkInputName": "Conductance vs PulseNumber Input",
-    "voltageType": "pulse"
+    "voltageType": "pulse",
+    "benchmarkTypeId": "clrnlxyae000208l35rlohd6q"
   },
   {
     "id": "clsds07q1000o08jw7iqxh1r0",
     "active": true,
     "benchmarkInputName": "Endurance Cycle Input",
-    "voltageType": "pulse"
+    "voltageType": "pulse",
+    "benchmarkTypeId": "clrnqqh0b000108jn9s6u5dw5"
   },
   {
     "id": "clsdshdz7000008jk48mh9osx",
     "active": true,
     "benchmarkInputName": "Sweep Retention Time Input",
-    "voltageType": "sweep"
+    "voltageType": "sweep",
+    "benchmarkTypeId": "clrnqqh0b000108jn9s6u5dw5"
   },
   {
     "id": "clsdsnyed000b08jk305yb07q",
     "active": true,
     "benchmarkInputName": "Pulse Retention Time Input",
-    "voltageType": "pulse"
+    "voltageType": "pulse",
+    "benchmarkTypeId": "clrnqqh0b000108jn9s6u5dw5"
   }
 ]

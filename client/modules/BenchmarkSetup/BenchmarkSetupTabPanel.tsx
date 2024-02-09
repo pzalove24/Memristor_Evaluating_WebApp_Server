@@ -97,14 +97,14 @@ const BenchmarkSetupTabPanel = ({
 }: TBenchmarkSetupTabPanelProps) => {
   const [setup, setSetup] = useState<string>("Input");
 
-  const { pageIndex, limit } = useBenchmarkSetupStore();
+  const { benchmarkType, pageIndex, limit } = useBenchmarkSetupStore();
 
   const handleChangeSetup = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSetup(event.target.value);
   };
 
   const queryListBenchmarkSetups: TListBenchmarkSetupsRequest = {
-    type: "Standard Benchmark",
+    type: benchmarkType,
     setup: "Input",
     voltage: undefined,
     method: undefined,
@@ -112,9 +112,13 @@ const BenchmarkSetupTabPanel = ({
     limit: limit,
   };
 
-  console.log('list', queryListBenchmarkSetups)
+  console.log("list", queryListBenchmarkSetups);
 
-  const { data: listBenchmarkSetup, isLoading, refetch } = useQuery({
+  const {
+    data: listBenchmarkSetup,
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["listBenchmarkSetups"],
     queryFn: async () => {
       const [response, _] = await listBenchmarkSetups(queryListBenchmarkSetups);
@@ -123,9 +127,9 @@ const BenchmarkSetupTabPanel = ({
     },
   });
 
-  useEffect(()=> {
-    refetch()
-  }, [pageIndex, limit])
+  useEffect(() => {
+    refetch();
+  }, [benchmarkType, pageIndex, limit]);
 
   if (isLoading) {
     return <>Loading</>;

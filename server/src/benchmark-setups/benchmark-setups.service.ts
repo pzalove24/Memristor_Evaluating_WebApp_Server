@@ -32,12 +32,14 @@ export class BenchmarkSetupsService {
       const totalCount = await this.prismaService.benchmarkInput.count({
         where: {
           voltageType: voltage,
+          benchmarkTypeId: benchmarkType.id,
         },
       });
       const totalPages = Math.ceil(totalCount / limit);
       const inputData = await this.prismaService.benchmarkInput.findMany({
         where: {
           voltageType: voltage,
+          benchmarkTypeId: benchmarkType.id,
         },
         include: {
           benchmarkInputSetups: true,
@@ -56,6 +58,7 @@ export class BenchmarkSetupsService {
         where: {
           voltageType: voltage,
           methodType: method,
+          benchmarkTypeId: benchmarkType.id,
         },
       });
       const totalPages = Math.ceil(totalCount / limit);
@@ -63,6 +66,7 @@ export class BenchmarkSetupsService {
         where: {
           voltageType: voltage,
           methodType: method,
+          benchmarkTypeId: benchmarkType.id,
         },
         include: {
           BenchmarkInput: true,
