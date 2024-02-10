@@ -163,9 +163,9 @@ TBenchmarkSetupTableProps) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => {
+            {rows.map((row, index:number) => {
               return (
-                <TableCollapse key={row.code} row={row} columns={columns} />
+                <TableCollapse key={index} row={row} columns={columns} />
               );
             })}
           </TableBody>

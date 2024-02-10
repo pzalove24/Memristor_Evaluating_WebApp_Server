@@ -18,14 +18,20 @@ export type TListBenchmarkSetupsRequest = {
   limit: number;
 };
 
-type BenchmarkMethodWithInput = Prisma.BenchmarkMethodGetPayload<{
+export type BenchmarkMethodWithInput = Prisma.BenchmarkMethodGetPayload<{
   include: {
     BenchmarkInput: true;
   };
 }>;
 
+export type BenchmarkInputWithInputSetup = Prisma.BenchmarkInputGetPayload<{
+  include: {
+    benchmarkInputSetups: true;
+  };
+}>;
+
 export type TListBenchmarkSetupsResponse = TPaginationResponse<
-  BenchmarkMethodWithInput | BenchmarkInput
+  BenchmarkMethodWithInput | BenchmarkInputWithInputSetup
 >;
 
 export const listBenchmarkSetups = async (
@@ -33,7 +39,7 @@ export const listBenchmarkSetups = async (
 ): Promise<
   [Promise<AxiosResponse<TListBenchmarkSetupsResponse>["data"]>, AbortFunction]
 > => {
-  console.log('query', queryRequest(query))
+  console.log("query", queryRequest(query));
   const [response, resAbort] = await request<TListBenchmarkSetupsResponse>(
     "GET",
     `/benchmark-setups${queryRequest(query)}`,

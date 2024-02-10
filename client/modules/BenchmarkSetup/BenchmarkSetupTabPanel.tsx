@@ -105,7 +105,7 @@ const BenchmarkSetupTabPanel = ({
 
   const queryListBenchmarkSetups: TListBenchmarkSetupsRequest = {
     type: benchmarkType,
-    setup: "Input",
+    setup: setup,
     voltage: undefined,
     method: undefined,
     page: pageIndex,
@@ -129,7 +129,7 @@ const BenchmarkSetupTabPanel = ({
 
   useEffect(() => {
     refetch();
-  }, [benchmarkType, pageIndex, limit]);
+  }, [benchmarkType, setup, pageIndex, limit]);
 
   if (isLoading) {
     return <>Loading</>;

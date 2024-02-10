@@ -3,20 +3,11 @@ import {
   CustomTablePagination,
   TTableDisplayType,
 } from "@/components/Table/TablePagination";
-import { TBenchmarkSetupPanelProps } from "@/types/benchmarkSetupType/benchmarkSetupTabsType";
+import { TBenchmarkSetupPanelProps, columnInput } from "@/types/benchmarkSetupType/benchmarkSetupTabsType";
 import { Grid } from "@mui/material";
 import React from "react";
 
-interface ColumnInput {
-  id: "active" | "benchmarkInputName" | "voltageType" | "Expand Setup";
-  label: string;
-  DisplayType: TTableDisplayType;
-  minWidth?: number;
-  align?: "right";
-  format?: (value: number) => string;
-}
-
-const columns: ColumnInput[] = [
+const columns: columnInput[] = [
   { id: "active", label: "Active", minWidth: 170, DisplayType: "Switch" },
   {
     id: "benchmarkInputName",

@@ -19,11 +19,9 @@ import React from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { TTableDisplayType } from "./TablePagination";
+import { TTableCollapseProp } from "@/types/benchmarkSetupType/benchmarkSetupTabsType";
 
-type TableCollapseProp = {
-  row: any;
-  columns: any;
-};
+
 
 const rowDisplay = (
   displayType: TTableDisplayType,
@@ -70,12 +68,13 @@ const rowDisplay = (
   }
 };
 
-const TableCollapse = ({ row, columns }: TableCollapseProp) => {
+const TableCollapse = ({ row, columns }: TTableCollapseProp) => {
   const [openCollapse, setOpenCollapse] = React.useState(false);
+
   return (
     <React.Fragment>
       <TableRow hover role="checkbox" tabIndex={-1}>
-        {columns.map((column: any) => {
+        {columns.map((column) => {
           const value = row[column.id];
           return (
             <>
