@@ -7,6 +7,7 @@ import {
   IsString,
 } from 'class-validator';
 import { Transform, Type } from 'class-transformer';
+import { MethodTypeEnum, SetupTypeEnum, VoltageTypeEnum } from './enum.dto';
 
 export class ListAllBenchmarkSetupsDto {
   @IsNotEmpty()
@@ -38,17 +39,4 @@ export class ListAllBenchmarkSetupsDto {
 
 
 
-export enum MethodTypeEnum {
-  Graph = 'graph',
-  Calculation = 'calculation',
-}
 
-export enum VoltageTypeEnum {
-  Sweep = 'sweep',
-  Pulse = 'pulse',
-}
-
-export enum SetupTypeEnum {
-  Input = 'Input',
-  Method = 'Method',
-}

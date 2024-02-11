@@ -50,7 +50,7 @@ model BenchmarkType {
   benchmarkInputs       BenchmarkInput[]
   benchmarkInformations BenchmarkInformation[]
   active                Boolean                @default(true)
-  benchmarkTypeName     String
+  benchmarkTypeName     String                 @unique
   voltageType           String
   createdAt             DateTime               @default(now())
   updatedAt             DateTime               @updatedAt
@@ -60,7 +60,7 @@ model BenchmarkInformation {
   id                String            @id @default(cuid())
   benchmarkMethods  BenchmarkMethod[]
   active            Boolean           @default(true)
-  benchmarkInfoName String
+  benchmarkInfoName String            @unique
   abbreviation      String
   voltageType       String
   BenchmarkType     BenchmarkType     @relation(fields: [benchmarkTypeId], references: [id])
@@ -76,7 +76,7 @@ model BenchmarkInput {
   // benchmarkInputTags   BenchmarkInputTag[]
   benchmarkInputSetups BenchmarkInputSetup[]
   active               Boolean               @default(true)
-  benchmarkInputName   String
+  benchmarkInputName   String                @unique
   voltageType          String
   BenchmarkMethod      BenchmarkMethod[]
   BenchmarkType        BenchmarkType         @relation(fields: [benchmarkTypeId], references: [id])
@@ -100,7 +100,7 @@ model BenchmarkInputSetup {
   id                      String         @id @default(cuid())
   BenchmarkUnit           BenchmarkUnit  @relation(fields: [benchmarkUnitId], references: [id])
   benchmarkUnitId         String
-  benchmarkInputSetupName String
+  benchmarkInputSetupName String        
   voltageType             String
   dataType                String
   decimalNumber           Int
@@ -116,7 +116,7 @@ model BenchmarkInputSetup {
 
 model BenchmarkUnit {
   id                  String                @id @default(cuid())
-  unitName            String
+  unitName            String                @unique
   unitType            String
   benchmarkSetupType  String
   BenchmarkInputSetup BenchmarkInputSetup[]
@@ -132,7 +132,7 @@ model BenchmarkMethod {
   BenchmarkUnit          BenchmarkUnit?       @relation(fields: [benchmarkUnitId], references: [id])
   benchmarkUnitId        String?
   active                 Boolean              @default(false)
-  benchmarkMethodName    String
+  benchmarkMethodName    String               @unique
   methodType             String //graph // calculation
   voltageType            String
   beforeBenchmark        Boolean
@@ -157,7 +157,7 @@ model BenchmarkResult {
 model SetResetVoltageDefinition {
   id              String           @id @default(cuid())
   paperReferences paperReference[]
-  defName         String
+  defName         String           @unique
   condition       String
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
