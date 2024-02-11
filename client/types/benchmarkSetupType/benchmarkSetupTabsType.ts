@@ -1,5 +1,9 @@
 import { TTableDisplayType } from "@/components/Table/TablePagination";
-import { BenchmarkInputWithInputSetup, BenchmarkMethodWithInput, TListBenchmarkSetupsResponse } from "@/services/benchmark/benchmarkSetup.service";
+import {
+  BenchmarkInputWithInputSetup,
+  BenchmarkMethodWithInput,
+  TListBenchmarkSetupsResponse,
+} from "@/services/benchmark/benchmarkSetup.service";
 
 export type TBenchmarkSetupTabPanelProps = {
   benchmarkTabPanel: any;
@@ -19,7 +23,7 @@ export type columnInput = {
   minWidth?: number;
   align?: "right";
   format?: (value: number) => string;
-}
+};
 
 export type TBenchmarkSetupTableProps = {
   columns: columnInput[];
@@ -30,9 +34,8 @@ export type TBenchmarkSetupTableProps = {
   // totalPages: number;
 };
 
-
-
 export type TTableCollapseProp = {
-  row: BenchmarkMethodWithInput | BenchmarkInputWithInputSetup | any;
+  // row: BenchmarkMethodWithInput | BenchmarkInputWithInputSetup | any;
+  row: any;
   columns: columnInput[];
 };

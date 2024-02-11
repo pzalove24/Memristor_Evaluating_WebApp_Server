@@ -95,12 +95,13 @@ const BenchmarkSetupTabPanel = ({
   value,
   index,
 }: TBenchmarkSetupTabPanelProps) => {
-  const [setup, setSetup] = useState<string>("Input");
+  // const [setup, setSetup] = useState<string>("Input");
 
-  const { benchmarkType, pageIndex, limit } = useBenchmarkSetupStore();
+  const { benchmarkType, pageIndex, limit, changeSetup, setup } =
+    useBenchmarkSetupStore();
 
   const handleChangeSetup = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSetup(event.target.value);
+    changeSetup(event.target.value as "Input" | "Method");
   };
 
   const queryListBenchmarkSetups: TListBenchmarkSetupsRequest = {

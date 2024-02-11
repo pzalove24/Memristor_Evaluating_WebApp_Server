@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Collapse,
   FormControl,
   IconButton,
@@ -15,13 +16,20 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { TTableDisplayType } from "./TablePagination";
 import { TTableCollapseProp } from "@/types/benchmarkSetupType/benchmarkSetupTabsType";
-
-
+import DialogCRUD from "../Dialog/DialogInputCRUD";
+import {
+  BenchmarkInputWithInputSetup,
+  BenchmarkMethodWithInput,
+  TListBenchmarkSetupsResponse,
+} from "@/services/benchmark/benchmarkSetup.service";
+import DialogInputCRUD from "../Dialog/DialogInputCRUD";
+import useBenchmarkSetupStore from "@/shared/benchmarkSetupStore";
+import DialogMethodCRUD from "../Dialog/DialogMethodCRUD";
 
 const rowDisplay = (
   displayType: TTableDisplayType,
@@ -69,10 +77,34 @@ const rowDisplay = (
 };
 
 const TableCollapse = ({ row, columns }: TTableCollapseProp) => {
-  const [openCollapse, setOpenCollapse] = React.useState(false);
+  const { setup } = useBenchmarkSetupStore();
+
+  const [openDialog, setOpenDialog] = React.useState(false);
+  const [selectedSetupData, setSelectedSetupData] = useState<any | null>(null);
+  const handleClose = () => {
+    setOpenDialog(false);
+  };
+
+  const handleOpenDialog = (data: any) => {
+    setOpenDialog(!openDialog);
+    setSelectedSetupData(data);
+  };
 
   return (
     <React.Fragment>
+      {openDialog && setup === "Input" ? (
+        <DialogInputCRUD
+          open={openDialog}
+          handleClose={handleClose}
+          setUpData={selectedSetupData}
+        />
+      ) : (
+        <DialogMethodCRUD
+          open={openDialog}
+          handleClose={handleClose}
+          setUpData={selectedSetupData}
+        />
+      )}
       <TableRow hover role="checkbox" tabIndex={-1}>
         {columns.map((column) => {
           const value = row[column.id];
@@ -80,17 +112,12 @@ const TableCollapse = ({ row, columns }: TTableCollapseProp) => {
             <>
               {column.id === "Expand Setup" ? (
                 <TableCell key={column.id} align="right">
-                  <IconButton
-                    aria-label="expand row"
-                    size="small"
-                    onClick={() => setOpenCollapse(!openCollapse)}
+                  <Button
+                    variant={"contained"}
+                    onClick={() => handleOpenDialog(row)}
                   >
-                    {openCollapse ? (
-                      <KeyboardArrowUpIcon />
-                    ) : (
-                      <KeyboardArrowDownIcon />
-                    )}
-                  </IconButton>
+                    Open Setup
+                  </Button>
                 </TableCell>
               ) : (
                 <TableCell key={column.id} align={column.align}>
@@ -103,7 +130,7 @@ const TableCollapse = ({ row, columns }: TTableCollapseProp) => {
           );
         })}
       </TableRow>
-      <TableRow>
+      {/* <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={openCollapse} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
@@ -113,9 +140,9 @@ const TableCollapse = ({ row, columns }: TTableCollapseProp) => {
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                    {/* <TableCell>Date</TableCell>
+                    <TableCell>Date</TableCell>
                     <TableCell>Customer</TableCell>
-                    <TableCell align="right">Amount</TableCell> */}
+                    <TableCell align="right">Amount</TableCell>
                     <TableCell align="right">Total price ($)</TableCell>
                   </TableRow>
                 </TableHead>
@@ -123,7 +150,7 @@ const TableCollapse = ({ row, columns }: TTableCollapseProp) => {
                   <TableRow>
                     <TableCell align="right">Test collapse</TableCell>
                   </TableRow>
-                  {/* {row.history.map((historyRow) => (
+                  {row.history.map((historyRow) => (
                     <TableRow key={historyRow.date}>
                       <TableCell component="th" scope="row">
                         {historyRow.date}
@@ -134,13 +161,13 @@ const TableCollapse = ({ row, columns }: TTableCollapseProp) => {
                         {Math.round(historyRow.amount * row.price * 100) / 100}
                       </TableCell>
                     </TableRow>
-                  ))} */}
+                  ))}
                 </TableBody>
               </Table>
             </Box>
           </Collapse>
         </TableCell>
-      </TableRow>
+      </TableRow> */}
     </React.Fragment>
   );
 };

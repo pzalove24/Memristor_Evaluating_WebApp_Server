@@ -17,7 +17,7 @@ export type benchmarkSetupState = {
 
 export type benchmarkSetupAction = {
   changeBenchmarkType: (benchmarkType: TabLabelBenchmarkSetup) => void;
-  // changeSetup: (setup: "Input" | "Method") => void;
+  changeSetup: (setup: "Input" | "Method") => void;
   changePageSize: (pageSize: number) => void;
   changePageIndex: (pageIndex: number) => void;
 };
@@ -34,6 +34,10 @@ const useBenchmarkSetupStore = create<
   changePageSize: (pageSize: number) =>
     set(() => ({
       limit: pageSize,
+    })),
+  changeSetup: (setup: "Input" | "Method") =>
+    set(() => ({
+      setup: setup,
     })),
   changePageIndex: (pageIndex: number) =>
     set(() => ({
