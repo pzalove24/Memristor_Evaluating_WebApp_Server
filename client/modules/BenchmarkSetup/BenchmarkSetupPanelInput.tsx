@@ -3,7 +3,10 @@ import {
   CustomTablePagination,
   TTableDisplayType,
 } from "@/components/Table/TablePagination";
-import { TBenchmarkSetupPanelProps, columnInput } from "@/types/benchmarkSetupType/benchmarkSetupTabsType";
+import {
+  TBenchmarkSetupPanelProps,
+  columnInput,
+} from "@/types/benchmarkSetupType/benchmarkSetupTabsType";
 import { Grid } from "@mui/material";
 import React from "react";
 
@@ -82,13 +85,20 @@ const BenchmarkSetupTabPanelInput = ({
   return (
     <>
       <Grid item xs={12} md={4}>
-        <CheckBoxAutocomplete label="Voltage Type" placeholder="voltage" />
+        <CheckBoxAutocomplete
+          options={tableData.rows}
+          fieldDisplay={"voltageType"}
+          label="Voltage Type"
+          placeholder="voltage"
+        />
       </Grid>
       <Grid item xs={12} md={4}>
-        <CheckBoxAutocomplete label="Voltage Type" placeholder="voltage" />
-      </Grid>
-      <Grid item xs={12} md={4}>
-        <CheckBoxAutocomplete label="Voltage Type" placeholder="voltage" />
+        <CheckBoxAutocomplete
+          options={tableData.rows}
+          fieldDisplay={"benchmarkInputName"}
+          label="Benchmark Input Name"
+          placeholder="voltage"
+        />
       </Grid>
       <Grid item xs={12} md={12} marginTop={2}>
         <CustomTablePagination

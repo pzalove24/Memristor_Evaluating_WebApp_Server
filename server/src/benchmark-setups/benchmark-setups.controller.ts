@@ -8,11 +8,17 @@ import {
   Delete,
   Query,
   Put,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { BenchmarkSetupsService } from './benchmark-setups.service';
 import { ListAllBenchmarkSetupsDto } from './dto/listAllBenchmarkSetups.dto';
 import { UpsertBenchmarkInputDto } from './dto/upsertBenchmarkInput.dto';
-import { BenchmarkInformation, BenchmarkInput, BenchmarkInputSetup, BenchmarkMethod } from '@prisma/client';
+import {
+  BenchmarkInformation,
+  BenchmarkInput,
+  BenchmarkInputSetup,
+  BenchmarkMethod,
+} from '@prisma/client';
 import { PaginationResponseDto } from './dto/paganition.dto';
 import { UpsertBenchmarkInputSetupDto } from './dto/upsertBenchmarkInputSetup.dto';
 import { UpsertBenchmarkInformationDto } from './dto/upsertBenchmarkInformation.dto';
@@ -33,6 +39,13 @@ export class BenchmarkSetupsController {
     );
   }
 
+  @Get('/benchmarkInputSetup/:id')
+  listBenchmarkInputSetup(
+    @Param('id') id: string,
+  ): Promise<BenchmarkInputSetup[]> {
+    return this.benchmarkSetupsService.listBenchmarkInputSetup(id);
+  }
+
   @Put('/benchmarkInput')
   async upsertBenchmarkInput(
     @Body() upsertBenchmarkInputDto: UpsertBenchmarkInputDto,
@@ -42,7 +55,6 @@ export class BenchmarkSetupsController {
     );
   }
 
-  
   @Put('/benchmarkInputSetup')
   async upsertBenchmarkInputSetup(
     @Body() upsertBenchmarkInputSetupDto: UpsertBenchmarkInputSetupDto,
@@ -59,7 +71,7 @@ export class BenchmarkSetupsController {
       upsertBenchmarkInformationDto,
     );
   }
-  
+
   @Put('/benchmarkMethod')
   async upsertBenchmarkMethod(
     @Body() upsertBenchmarkMethodDto: UpsertBenchmarkMethodDto,
@@ -69,14 +81,20 @@ export class BenchmarkSetupsController {
     );
   }
 
-  //update benchmark input in method
-
+  // //update benchmark input in method
+  // @Put('/benchmarkMethod')
+  // async updateBenchmarkInputInMethod(
+  //   @Body() upsertBenchmarkInputInMethodDto: UpsertBenchmarkInputInMethodDto,
+  // ): Promise<BenchmarkMethod> {
+  //   return this.benchmarkSetupsService.upsertBenchmarkInputInMethod(
+  //     upsertBenchmarkInputInMethodDto,
+  //   );
+  // }
 
   @Post()
   create(@Body() createBenchmarkSetupDto) {
     return this.benchmarkSetupsService.create(createBenchmarkSetupDto);
   }
-
 
   @Get(':id')
   findOne(@Param('id') id: string) {

@@ -6,7 +6,13 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { TDialogInputCRUD } from "@/types/Dialog/DialogType";
-import { BenchmarkInputWithInputSetup } from "@/services/benchmark/benchmarkSetup.service";
+import {
+  BenchmarkInputSetupWithUnit,
+  BenchmarkInputWithInputSetup,
+  listBenchmarkInputSetups,
+} from "@/services/benchmark/benchmarkSetup.service";
+import TextFieldInputSetupCRUD from "../TextField/TextFieldInputSetupCRUD";
+import { useQuery } from "@tanstack/react-query";
 
 const DialogInputCRUD = ({
   open,
@@ -22,6 +28,24 @@ const DialogInputCRUD = ({
       }
     }
   }, [open]);
+
+
+  const {
+    data: listBenchmarkInputSetup,
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["listBenchmarkInputSetup"],
+    queryFn: async () => {
+      const [response, _] = await listBenchmarkInputSetups(setUpData.id);
+      const res = await response;
+      return res;
+    },
+  });
+
+  if (isLoading) {
+    return <>Loading</>;
+  }
 
   return (
     <React.Fragment>
@@ -41,7 +65,7 @@ const DialogInputCRUD = ({
             ref={descriptionElementRef}
             tabIndex={-1}
           >
-            {setUpData.voltageType}
+            {listBenchmarkInputSetup && <TextFieldInputSetupCRUD dataList={listBenchmarkInputSetup} />}
           </DialogContentText>
         </DialogContent>
         <DialogActions>

@@ -80,6 +80,7 @@ export class BenchmarkSetupsService {
         include: {
           BenchmarkInput: true,
           BenchmarkInformation: true,
+          BenchmarkUnit: true,
         },
         skip,
         take: limit,
@@ -91,6 +92,24 @@ export class BenchmarkSetupsService {
         totalCount,
       };
     }
+  }
+
+  async listBenchmarkInputSetup(id: string): Promise<BenchmarkInputSetup[]> {
+    const listBenchmarkInputSetup =
+      await this.prismaService.benchmarkInputSetup.findMany({
+        where: {
+          benchmarkInputId: id
+        },
+        include: {
+          BenchmarkUnit: true,
+        },
+      });
+
+    if (!listBenchmarkInputSetup) {
+      throw new NotFoundException('BenchmarkInputSetup Not Found');
+    }
+
+    return listBenchmarkInputSetup;
   }
 
   async upsertBenchmarkInput(
