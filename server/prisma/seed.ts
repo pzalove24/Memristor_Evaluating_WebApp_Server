@@ -5,8 +5,11 @@ import {
   BenchmarkMethod,
   BenchmarkType,
   BenchmarkUnit,
+  DataType,
+  MethodType,
   PrismaClient,
   SetResetVoltageDefinition,
+  VoltageType,
   paperReference,
 } from '@prisma/client';
 import * as fs from 'fs/promises';
@@ -16,6 +19,21 @@ const prisma = new PrismaClient();
 async function main() {
   try {
     // Benchmark Seed data
+    const voltageTypePath = path.resolve(
+      __dirname,
+      '../database_seed/benchmark/voltageType/voltageType.seed.json',
+    );
+
+    const methodTypePath = path.resolve(
+      __dirname,
+      '../database_seed/benchmark/methodType/methodType.seed.json',
+    );
+
+    const dataTypePath = path.resolve(
+      __dirname,
+      '../database_seed/benchmark/dataType/dataType.seed.json',
+    );
+
     const setResetVoltageDefinitionPath = path.resolve(
       __dirname,
       '../database_seed/benchmark/setResetVoltageDefinition/setResetVoltageDefinition.seed.json',
@@ -56,6 +74,16 @@ async function main() {
     );
     // Read user seed data from file
 
+    const voltageTypes: VoltageType[] = JSON.parse(
+      await fs.readFile(voltageTypePath, 'utf-8'),
+    );
+    const methodTypes: MethodType[] = JSON.parse(
+      await fs.readFile(methodTypePath, 'utf-8'),
+    );
+    const dataTypes: DataType[] = JSON.parse(
+      await fs.readFile(dataTypePath, 'utf-8'),
+    );
+
     const setResetVoltageDefinitions: SetResetVoltageDefinition[] = JSON.parse(
       await fs.readFile(setResetVoltageDefinitionPath, 'utf-8'),
     );
@@ -87,6 +115,9 @@ async function main() {
       await fs.readFile(benchmarkMethodPath, 'utf-8'),
     );
 
+    await prisma.voltageType.deleteMany();
+    await prisma.methodType.deleteMany();
+    await prisma.dataType.deleteMany();
     await prisma.setResetVoltageDefinition.deleteMany();
     await prisma.paperReference.deleteMany();
     await prisma.benchmarkMethod.deleteMany();
@@ -96,7 +127,32 @@ async function main() {
     await prisma.benchmarkInformation.deleteMany();
     await prisma.benchmarkType.deleteMany();
 
+    for (const voltageType of voltageTypes) {
+      await prisma.voltageType.create({
+        data: {
+          ...voltageType,
+        },
+      });
+      console.log('Created voltageType Success');
+    }
 
+    for (const methodType of methodTypes) {
+      await prisma.methodType.create({
+        data: {
+          ...methodType,
+        },
+      });
+      console.log('Created methodType Success');
+    }
+
+    for (const dataType of dataTypes) {
+      await prisma.dataType.create({
+        data: {
+          ...dataType,
+        },
+      });
+      console.log('Created dataType Success');
+    }
 
     for (const setResetVoltageDefinition of setResetVoltageDefinitions) {
       await prisma.setResetVoltageDefinition.create({

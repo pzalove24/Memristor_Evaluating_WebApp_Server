@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "install-all": "pnpm install && cd server && pnpm install && cd ../client && pnpm install",
+    "database": "cd server && pnpm prisma studio",
     "dev:web": "concurrently \"pnpm dev:web:client\" \"wait-on http://localhost:3000 && pnpm dev:web:server \"",
     "dev:web:server": "cd server && pnpm start:dev",
     "dev:web:client": "cd client && pnpm dev",

@@ -1,86 +1,86 @@
 [
     {
         "id": "clro0gqdy000208js74vo6d52",
+        "dataTypeId": "clsqfr1nk000a08lb2vasbim8",
         "unitName": "nA",
-        "unitType": "string",
         "benchmarkSetupType": "InputSetup"
     },
     {
         "id": "clro12a3v000408l9dku7ekvx",
+        "dataTypeId": "clsqfr1nk000a08lb2vasbim8",
         "unitName": "uA",
-        "unitType": "string",
         "benchmarkSetupType": "InputSetup"
     },
     {
         "id": "clro12dc9000508l9cnz4bws8",
+        "dataTypeId": "clsqfr1nk000a08lb2vasbim8",
         "unitName": "mA",
-        "unitType": "string",
         "benchmarkSetupType": "InputSetup"
     },
     {
         "id": "clro12gkd000608l9139493up",
+        "dataTypeId": "clsqfr1nk000a08lb2vasbim8",
         "unitName": "A",
-        "unitType": "string",
         "benchmarkSetupType": "InputSetup"
     },
     {
         "id": "clro13rbp000708l9cr10da8m",
+        "dataTypeId": "clsqfr1nk000a08lb2vasbim8",
         "unitName": "nS",
-        "unitType": "string",
         "benchmarkSetupType": "InputSetup"
     },
     {
         "id": "clro13ug7000808l9ag0kdd27",
+        "dataTypeId": "clsqfr1nk000a08lb2vasbim8",
         "unitName": "uS",
-        "unitType": "string",
         "benchmarkSetupType": "InputSetup"
     },
     {
         "id": "clro13xsb000908l90sgt747m",
+        "dataTypeId": "clsqfr1nk000a08lb2vasbim8",
         "unitName": "mS",
-        "unitType": "string",
         "benchmarkSetupType": "InputSetup"
     },
     {
         "id": "clro141m8000a08l96f0i6w8k",
+        "dataTypeId": "clsqfr1nk000a08lb2vasbim8",
         "unitName": "Second",
-        "unitType": "string",
         "benchmarkSetupType": "InputSetup"
     },
     {
         "id": "clro15veu000b08l9b2hyckhf",
+        "dataTypeId": "clsqfr1nk000a08lb2vasbim8",
         "unitName": "ohm",
-        "unitType": "string",
         "benchmarkSetupType": "InputSetup"
     },
     {
         "id": "clro16084000c08l91jshhuzv",
+        "dataTypeId": "clsqfr1nk000a08lb2vasbim8",
         "unitName": "KOhm",
-        "unitType": "string",
         "benchmarkSetupType": "InputSetup"
     },
     {
         "id": "clro1642s000d08l99j376svb",
+        "dataTypeId": "clsqfr1nk000a08lb2vasbim8",
         "unitName": "MOhm",
-        "unitType": "string",
         "benchmarkSetupType": "InputSetup"
     },
     {
         "id": "clro1tk43000208jvcfrq4xb9",
+        "dataTypeId": "clsqfr1nk000a08lb2vasbim8",
         "unitName": "V",
-        "unitType": "string",
         "benchmarkSetupType": "InputSetup"
     },
     {
         "id": "clsdjffv1000208jmd0miffuf",
+        "dataTypeId": "clsqfr1nk000a08lb2vasbim8",
         "unitName": "number",
-        "unitType": "string",
         "benchmarkSetupType": "InputSetup"
     },
     {
         "id": "clsdjfy5w000308jm3zttcuuy",
+        "dataTypeId": "clsqfr1nk000a08lb2vasbim8",
         "unitName": "pulse number",
-        "unitType": "string",
         "benchmarkSetupType": "InputSetup"
     }
 ]

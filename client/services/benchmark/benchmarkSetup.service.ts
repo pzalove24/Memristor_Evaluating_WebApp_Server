@@ -33,9 +33,9 @@ export type BenchmarkInputWithInputSetup = Prisma.BenchmarkInputGetPayload<{
 
 export type BenchmarkInputSetupWithUnit = Prisma.BenchmarkInputSetupGetPayload<{
   include: {
-    BenchmarkUnit: true
-  }
-}>
+    BenchmarkUnit: true;
+  };
+}>;
 
 export type TListBenchmarkSetupsResponse = TPaginationResponse<
   BenchmarkMethodWithInput | BenchmarkInputWithInputSetup

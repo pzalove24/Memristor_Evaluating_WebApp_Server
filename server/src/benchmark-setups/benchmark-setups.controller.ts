@@ -63,6 +63,7 @@ export class BenchmarkSetupsController {
       upsertBenchmarkInputSetupDto,
     );
   }
+
   @Put('/benchmarkInformation')
   async upsertBenchmarkInformation(
     @Body() upsertBenchmarkInformationDto: UpsertBenchmarkInformationDto,

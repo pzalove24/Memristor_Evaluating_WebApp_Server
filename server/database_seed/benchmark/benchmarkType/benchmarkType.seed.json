@@ -1,26 +1,26 @@
 [
-    {
-        "id": "clrnlxyae000208l35rlohd6q",
-        "active": true,
-        "benchmarkTypeName": "Standard Benchmark",
-        "voltageType": "sweep"
-    },
-    {
-        "id": "clrnqqh0b000108jn9s6u5dw5",
-        "active": true,
-        "benchmarkTypeName": "Stability Benchmark",
-        "voltageType": "sweep"
-    },
-    {
-        "id": "clrnqzdqn000508jnh1ar81jg",
-        "active": true,
-        "benchmarkTypeName": "Biorealistic Benchmark",
-        "voltageType": "sweep"
-    },
-    {
-        "id": "clrnr35fh000808jng5bgfp21",
-        "active": true,
-        "benchmarkTypeName": "Advanced Benchmark",
-        "voltageType": "sweep"
-    }
+  {
+    "id": "clrnlxyae000208l35rlohd6q",
+    "voltageTypeId": "clsqfnn5b000308lb1sxg5ft8",
+    "active": true,
+    "benchmarkTypeName": "Standard Benchmark"
+  },
+  {
+    "id": "clrnqqh0b000108jn9s6u5dw5",
+    "voltageTypeId": "clsqfnn5b000308lb1sxg5ft8",
+    "active": true,
+    "benchmarkTypeName": "Stability Benchmark"
+  },
+  {
+    "id": "clrnqzdqn000508jnh1ar81jg",
+    "voltageTypeId": "clsqfnn5b000308lb1sxg5ft8",
+    "active": true,
+    "benchmarkTypeName": "Biorealistic Benchmak"
+  },
+  {
+    "id": "clrnr35fh000808jng5bgfp21",
+    "voltageTypeId": "clsqfnn5b000308lb1sxg5ft8",
+    "active": true,
+    "benchmarkTypeName": "Advanced Benchmark"
+  }
 ]

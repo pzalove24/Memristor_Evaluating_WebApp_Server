@@ -44,25 +44,53 @@ datasource db {
 
 //---------------------------------------------------//
 
+model VoltageType {
+  id                   String                 @id @default(cuid())
+  active               Boolean                @default(true)
+  name                 String
+  BenchmarkType        BenchmarkType[]
+  BenchmarkInformation BenchmarkInformation[]
+  BenchmarkInput       BenchmarkInput[]
+  BenchmarkInputSetup  BenchmarkInputSetup[]
+  BenchmarkMethod      BenchmarkMethod[]
+}
+
+model MethodType {
+  id              String            @id @default(cuid())
+  active          Boolean           @default(true)
+  name            String
+  BenchmarkMethod BenchmarkMethod[]
+}
+
+model DataType {
+  id                  String                @id @default(cuid())
+  active              Boolean               @default(true)
+  name                String
+  BenchmarkInputSetup BenchmarkInputSetup[]
+  BenchmarkUnit       BenchmarkUnit[]
+}
+
 model BenchmarkType {
   id                    String                 @id @default(cuid())
   benchmarkMethods      BenchmarkMethod[]
   benchmarkInputs       BenchmarkInput[]
   benchmarkInformations BenchmarkInformation[]
+  voltageType           VoltageType            @relation(fields: [voltageTypeId], references: [id])
+  voltageTypeId         String
   active                Boolean                @default(true)
   benchmarkTypeName     String                 @unique
-  voltageType           String
   createdAt             DateTime               @default(now())
   updatedAt             DateTime               @updatedAt
 }
 
 model BenchmarkInformation {
   id                String            @id @default(cuid())
+  voltageType       VoltageType       @relation(fields: [voltageTypeId], references: [id])
+  voltageTypeId     String
   benchmarkMethods  BenchmarkMethod[]
   active            Boolean           @default(true)
   benchmarkInfoName String            @unique
   abbreviation      String
-  voltageType       String
   BenchmarkType     BenchmarkType     @relation(fields: [benchmarkTypeId], references: [id])
   benchmarkTypeId   String
   createdAt         DateTime          @default(now())
@@ -75,9 +103,10 @@ model BenchmarkInput {
   id                   String                @id @default(cuid())
   // benchmarkInputTags   BenchmarkInputTag[]
   benchmarkInputSetups BenchmarkInputSetup[]
+  voltageType          VoltageType           @relation(fields: [voltageTypeId], references: [id])
+  voltageTypeId        String
   active               Boolean               @default(true)
   benchmarkInputName   String                @unique
-  voltageType          String
   BenchmarkMethod      BenchmarkMethod[]
   BenchmarkType        BenchmarkType         @relation(fields: [benchmarkTypeId], references: [id])
   benchmarkTypeId      String
@@ -100,9 +129,11 @@ model BenchmarkInputSetup {
   id                      String         @id @default(cuid())
   BenchmarkUnit           BenchmarkUnit  @relation(fields: [benchmarkUnitId], references: [id])
   benchmarkUnitId         String
-  benchmarkInputSetupName String        
-  voltageType             String
-  dataType                String
+  voltageType             VoltageType    @relation(fields: [voltageTypeId], references: [id])
+  voltageTypeId           String
+  dataType                DataType       @relation(fields: [dataTypeId], references: [id])
+  dataTypeId              String
+  benchmarkInputSetupName String
   decimalNumber           Int
   exampleData             String
   upperLimit              Float
@@ -116,9 +147,11 @@ model BenchmarkInputSetup {
 
 model BenchmarkUnit {
   id                  String                @id @default(cuid())
+  dataType            DataType              @relation(fields: [dataTypeId], references: [id])
+  dataTypeId          String
   unitName            String                @unique
-  unitType            String
   benchmarkSetupType  String
+  // unitType            String
   BenchmarkInputSetup BenchmarkInputSetup[]
   BenchmarkMethod     BenchmarkMethod[]
   createdAt           DateTime              @default(now())
@@ -131,12 +164,15 @@ model BenchmarkMethod {
   benchmarkInputId       String
   BenchmarkUnit          BenchmarkUnit?       @relation(fields: [benchmarkUnitId], references: [id])
   benchmarkUnitId        String?
-  active                 Boolean              @default(false)
+  voltageType            VoltageType          @relation(fields: [voltageTypeId], references: [id])
+  voltageTypeId          String
+  methodType             MethodType           @relation(fields: [methodTypeId], references: [id])
+  methodTypeId           String
+  active                 Boolean              @default(true)
   benchmarkMethodName    String               @unique
-  methodType             String //graph // calculation
-  voltageType            String
-  beforeBenchmark        Boolean
-  inSoftware             Boolean
+  beforeBenchmark        Boolean              @default(true)
+  inSoftware             Boolean              @default(true)
+  hardwareOperation      Boolean              @default(true)
   BenchmarkInformation   BenchmarkInformation @relation(fields: [benchmarkInformationId], references: [id])
   benchmarkInformationId String               @unique
   BenchmarkType          BenchmarkType        @relation(fields: [benchmarkTypeId], references: [id])
