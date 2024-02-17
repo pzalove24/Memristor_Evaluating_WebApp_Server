@@ -20,6 +20,7 @@ const columns: columnInput[] = [
   },
   {
     id: "voltageType",
+    subId: "name",
     label: "VoltageType",
     minWidth: 170,
     DisplayType: "Typography",
@@ -84,10 +85,10 @@ const BenchmarkSetupTabPanelInput = ({
   console.log("table", rows, total, pageIndex, pageSize);
   return (
     <>
-      <Grid item xs={12} md={4}>
+      {/* <Grid item xs={12} md={4}>
         <CheckBoxAutocomplete
           options={tableData.rows}
-          fieldDisplay={"voltageType"}
+          fieldDisplay={"voltageType.name"}
           label="Voltage Type"
           placeholder="voltage"
         />
@@ -99,7 +100,7 @@ const BenchmarkSetupTabPanelInput = ({
           label="Benchmark Input Name"
           placeholder="voltage"
         />
-      </Grid>
+      </Grid> */}
       <Grid item xs={12} md={12} marginTop={2}>
         <CustomTablePagination
           columns={columns}

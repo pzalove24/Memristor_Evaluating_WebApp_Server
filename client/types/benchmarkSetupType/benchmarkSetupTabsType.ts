@@ -18,6 +18,7 @@ export type TBenchmarkSetupPanelProps = {
 
 export type columnInput = {
   id: string;
+  subId?: string;
   label: string;
   DisplayType: TTableDisplayType;
   minWidth?: number;

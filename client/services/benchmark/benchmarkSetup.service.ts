@@ -13,8 +13,8 @@ import { TPaginationResponse } from "@/../server/shared/pagniation";
 export type TListBenchmarkSetupsRequest = {
   type: string;
   setup: string;
-  voltage?: string;
-  method?: string;
+  voltageType?: string;
+  methodType?: string;
   page: number;
   limit: number;
 };

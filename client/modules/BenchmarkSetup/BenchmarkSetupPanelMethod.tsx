@@ -43,12 +43,14 @@ const columns: columnInput[] = [
   },
   {
     id: "voltageType",
+    subId: "name",
     label: "VoltageType",
     minWidth: 170,
     DisplayType: "Typography",
   },
   {
     id: "methodType",
+    subId: "name",
     label: "MethodType",
     minWidth: 170,
     DisplayType: "Typography",
@@ -73,10 +75,10 @@ const BenchmarkSetupTabPanelMethod = ({
   const pageSize = limit;
   return (
     <>
-      <Grid item xs={12} md={4}>
+      {/* <Grid item xs={12} md={4}>
         <CheckBoxAutocomplete
           options={tableData.rows}
-          fieldDisplay={"voltageType"}
+          fieldDisplay={"voltageType.name"}
           label="Voltage Type"
           placeholder="voltage"
         />
@@ -84,11 +86,11 @@ const BenchmarkSetupTabPanelMethod = ({
       <Grid item xs={12} md={4}>
         <CheckBoxAutocomplete
           options={tableData.rows}
-          fieldDisplay={"methodType"}
+          fieldDisplay={"methodType.name"}
           label="Method Type"
           placeholder="voltage"
         />
-      </Grid>
+      </Grid> */}
       <Grid item xs={12} md={4}>
         <CheckBoxAutocomplete
           options={tableData.rows}

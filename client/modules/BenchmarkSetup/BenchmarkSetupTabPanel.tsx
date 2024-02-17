@@ -107,8 +107,8 @@ const BenchmarkSetupTabPanel = ({
   const queryListBenchmarkSetups: TListBenchmarkSetupsRequest = {
     type: benchmarkType,
     setup: setup,
-    voltage: undefined,
-    method: undefined,
+    voltageType: undefined,
+    methodType: undefined,
     page: pageIndex,
     limit: limit,
   };
@@ -118,6 +118,7 @@ const BenchmarkSetupTabPanel = ({
   const {
     data: listBenchmarkSetup,
     isLoading,
+    isRefetching,
     refetch,
   } = useQuery({
     queryKey: ["listBenchmarkSetups"],
@@ -131,10 +132,12 @@ const BenchmarkSetupTabPanel = ({
   useEffect(() => {
     refetch();
   }, [benchmarkType, setup, pageIndex, limit]);
+  
 
-  if (isLoading) {
+  if (isLoading && isRefetching) {
     return <>Loading</>;
   }
+
 
   console.log("data", listBenchmarkSetup);
 

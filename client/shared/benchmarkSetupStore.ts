@@ -9,8 +9,8 @@ export type TabLabelBenchmarkSetup =
 export type benchmarkSetupState = {
   benchmarkType: TabLabelBenchmarkSetup;
   setup: "Input" | "Method";
-  voltage?: "sweep" | "pulse";
-  method?: "graph" | "calculation";
+  voltageType?: string;
+  methodType?: string;
   pageIndex: number;
   limit: number;
 };
@@ -27,8 +27,8 @@ const useBenchmarkSetupStore = create<
 >((set) => ({
   benchmarkType: "Standard Benchmark",
   setup: "Input",
-  voltage: "sweep",
-  method: undefined,
+  voltageType: "sweep",
+  methodType: undefined,
   pageIndex: 1,
   limit: 5,
   changePageSize: (pageSize: number) =>

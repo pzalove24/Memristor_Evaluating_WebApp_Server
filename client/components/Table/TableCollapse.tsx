@@ -90,6 +90,8 @@ const TableCollapse = ({ row, columns }: TTableCollapseProp) => {
     setSelectedSetupData(data);
   };
 
+  console.log("row", row);
+
   return (
     <React.Fragment>
       {openDialog && setup === "Input" ? (
@@ -106,12 +108,29 @@ const TableCollapse = ({ row, columns }: TTableCollapseProp) => {
         />
       )}
       <TableRow hover role="checkbox" tabIndex={-1}>
-        {columns.map((column) => {
-          const value = row[column.id];
+        {columns.map((column, index: number) => {
+          let value: any;
+          if (column.subId) {
+            const subObject = column.subId;
+            const valueObject: any = row[column.id];
+            if (!valueObject) {
+              value = "fetching";
+            } else {
+              value = valueObject[column.subId];
+            }
+            console.log("object", valueObject);
+            console.log("sub", subObject);
+          } else {
+            value = row[column.id];
+          }
+
+          // value = row[column.id];
+          // console.log("value", value);
+
           return (
             <>
               {column.id === "Expand Setup" ? (
-                <TableCell key={column.id} align="right">
+                <TableCell key={index} align="right">
                   <Button
                     variant={"contained"}
                     onClick={() => handleOpenDialog(row)}
@@ -120,7 +139,7 @@ const TableCollapse = ({ row, columns }: TTableCollapseProp) => {
                   </Button>
                 </TableCell>
               ) : (
-                <TableCell key={column.id} align={column.align}>
+                <TableCell key={index} align={column.align}>
                   {column.format && typeof value === "number"
                     ? rowDisplay(column.DisplayType, column.format(value))
                     : rowDisplay(column.DisplayType, value)}

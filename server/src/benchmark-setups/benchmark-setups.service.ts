@@ -22,17 +22,37 @@ export class BenchmarkSetupsService {
   ): Promise<PaginationResponseDto<BenchmarkInput | BenchmarkMethod>> {
     // pagination on table benchmarksetup
     // query input / method & pulse / sweep & page & limit
-    const { type, setup, voltageTypeId, methodTypeId, page, limit } =
+    const { type, setup, voltageType, methodType, page, limit } =
       listAllBenchmarkSetupsDto;
 
-    const benchmarkType = await this.prismaService.benchmarkType.findFirst({
+    const benchmarkType = await this.prismaService.benchmarkType.findFirstOrThrow({
       where: {
         benchmarkTypeName: type,
       },
     });
 
+    const voltage = await this.prismaService.voltageType.findFirstOrThrow({
+      where: {
+        name: undefined,
+      },
+    });
+
+    const method = await this.prismaService.methodType.findFirstOrThrow({
+      where: {
+        name: methodType
+      }
+    });
+
     if (!benchmarkType) {
       throw new NotFoundException('benchmarkType Not Found');
+    }
+
+    if (!voltage) {
+      throw new NotFoundException('voltageType Not Found');
+    }
+
+    if (!method) {
+      throw new NotFoundException('methodType Not Found');
     }
 
     const skip = (page - 1) * limit;
@@ -40,14 +60,14 @@ export class BenchmarkSetupsService {
     if (setup === 'Input') {
       const totalCount = await this.prismaService.benchmarkInput.count({
         where: {
-          voltageTypeId: voltageTypeId,
+          voltageTypeId: voltageType ? voltage.id : undefined,
           benchmarkTypeId: benchmarkType.id,
         },
       });
       const totalPages = Math.ceil(totalCount / limit);
       const inputData = await this.prismaService.benchmarkInput.findMany({
         where: {
-          voltageTypeId: voltageTypeId,
+          voltageTypeId: voltageType ? voltage.id : undefined,
           benchmarkTypeId: benchmarkType.id,
         },
         include: {
@@ -66,16 +86,16 @@ export class BenchmarkSetupsService {
     } else if (setup === 'Method') {
       const totalCount = await this.prismaService.benchmarkMethod.count({
         where: {
-          voltageTypeId: voltageTypeId,
-          methodTypeId: methodTypeId,
+          voltageTypeId: voltageType ? voltage.id : undefined,
+          methodTypeId: methodType? method.id : undefined,
           benchmarkTypeId: benchmarkType.id,
         },
       });
       const totalPages = Math.ceil(totalCount / limit);
       const methodData = await this.prismaService.benchmarkMethod.findMany({
         where: {
-          voltageTypeId: voltageTypeId,
-          methodTypeId: methodTypeId,
+          voltageTypeId: voltageType ? voltage.id : undefined,
+          methodTypeId: methodType? method.id : undefined,
           benchmarkTypeId: benchmarkType.id,
         },
         include: {
@@ -104,6 +124,7 @@ export class BenchmarkSetupsService {
           benchmarkInputId: id,
         },
         include: {
+          dataType: true,
           BenchmarkUnit: true,
         },
       });
