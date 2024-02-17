@@ -31,7 +31,7 @@ const TextFieldInputSetupCRUD = ({
             <Typography>{data.BenchmarkUnit.unitName}</Typography>
           </Grid>
           <Grid item xs>
-            <Typography>{data.dataType}</Typography>
+            <Typography>{data.dataType.name}</Typography>
           </Grid>
           <Grid item xs>
             <Typography>{data.decimalNumber}</Typography>
@@ -49,7 +49,7 @@ const TextFieldInputSetupCRUD = ({
             <Typography>{data.stepIncreasing}</Typography>
           </Grid>
           <Grid item xs>
-            <TextField label={data.dataType} />
+            <TextField label={data.dataType.name} />
           </Grid>
         </Grid>
       ))}

@@ -22,7 +22,7 @@ export class BenchmarkSetupsService {
   ): Promise<PaginationResponseDto<BenchmarkInput | BenchmarkMethod>> {
     // pagination on table benchmarksetup
     // query input / method & pulse / sweep & page & limit
-    const { type, setup, voltage, method, page, limit } =
+    const { type, setup, voltageTypeId, methodTypeId, page, limit } =
       listAllBenchmarkSetupsDto;
 
     const benchmarkType = await this.prismaService.benchmarkType.findFirst({
@@ -32,7 +32,7 @@ export class BenchmarkSetupsService {
     });
 
     if (!benchmarkType) {
-      throw new NotFoundException('BenchmarkType Not Found');
+      throw new NotFoundException('benchmarkType Not Found');
     }
 
     const skip = (page - 1) * limit;
@@ -40,17 +40,18 @@ export class BenchmarkSetupsService {
     if (setup === 'Input') {
       const totalCount = await this.prismaService.benchmarkInput.count({
         where: {
-          voltageType: voltage,
+          voltageTypeId: voltageTypeId,
           benchmarkTypeId: benchmarkType.id,
         },
       });
       const totalPages = Math.ceil(totalCount / limit);
       const inputData = await this.prismaService.benchmarkInput.findMany({
         where: {
-          voltageType: voltage,
+          voltageTypeId: voltageTypeId,
           benchmarkTypeId: benchmarkType.id,
         },
         include: {
+          voltageType: true,
           benchmarkInputSetups: true,
         },
         skip,
@@ -65,19 +66,21 @@ export class BenchmarkSetupsService {
     } else if (setup === 'Method') {
       const totalCount = await this.prismaService.benchmarkMethod.count({
         where: {
-          voltageType: voltage,
-          methodType: method,
+          voltageTypeId: voltageTypeId,
+          methodTypeId: methodTypeId,
           benchmarkTypeId: benchmarkType.id,
         },
       });
       const totalPages = Math.ceil(totalCount / limit);
       const methodData = await this.prismaService.benchmarkMethod.findMany({
         where: {
-          voltageType: voltage,
-          methodType: method,
+          voltageTypeId: voltageTypeId,
+          methodTypeId: methodTypeId,
           benchmarkTypeId: benchmarkType.id,
         },
         include: {
+          voltageType: true,
+          methodType: true,
           BenchmarkInput: true,
           BenchmarkInformation: true,
           BenchmarkUnit: true,
@@ -98,7 +101,7 @@ export class BenchmarkSetupsService {
     const listBenchmarkInputSetup =
       await this.prismaService.benchmarkInputSetup.findMany({
         where: {
-          benchmarkInputId: id
+          benchmarkInputId: id,
         },
         include: {
           BenchmarkUnit: true,
@@ -115,7 +118,7 @@ export class BenchmarkSetupsService {
   async upsertBenchmarkInput(
     upsertBenchmarkInputDto: UpsertBenchmarkInputDto,
   ): Promise<BenchmarkInput> {
-    const { benchmarkInputName, voltageType, benchmarkTypeId } =
+    const { benchmarkInputName, voltageTypeId, benchmarkTypeId } =
       upsertBenchmarkInputDto;
 
     const upsertBenchmarkInput = await this.prismaService.benchmarkInput.upsert(
@@ -125,13 +128,13 @@ export class BenchmarkSetupsService {
         },
         update: {
           benchmarkInputName,
-          voltageType,
+          voltageTypeId,
           benchmarkTypeId,
         },
         create: {
           active: true,
           benchmarkInputName,
-          voltageType,
+          voltageTypeId,
           benchmarkTypeId,
         },
       },
@@ -150,8 +153,8 @@ export class BenchmarkSetupsService {
         id,
         benchmarkUnitId,
         benchmarkInputSetupName,
-        voltageType,
-        dataType,
+        voltageTypeId,
+        dataTypeId,
         decimalNumber,
         exampleData,
         upperLimit,
@@ -168,8 +171,8 @@ export class BenchmarkSetupsService {
           update: {
             benchmarkUnitId,
             benchmarkInputSetupName,
-            voltageType,
-            dataType,
+            voltageTypeId,
+            dataTypeId,
             decimalNumber,
             exampleData,
             upperLimit,
@@ -180,8 +183,8 @@ export class BenchmarkSetupsService {
           create: {
             benchmarkUnitId,
             benchmarkInputSetupName,
-            voltageType,
-            dataType,
+            voltageTypeId,
+            dataTypeId,
             decimalNumber,
             exampleData,
             upperLimit,
@@ -205,7 +208,7 @@ export class BenchmarkSetupsService {
       active,
       benchmarkInfoName,
       abbreviation,
-      voltageType,
+      voltageTypeId,
       benchmarkTypeId,
     } = upsertBenchmarkInformationDto.benchmarkInformation;
 
@@ -218,14 +221,14 @@ export class BenchmarkSetupsService {
           active,
           benchmarkInfoName,
           abbreviation,
-          voltageType,
+          voltageTypeId,
           benchmarkTypeId,
         },
         create: {
           active,
           benchmarkInfoName,
           abbreviation,
-          voltageType,
+          voltageTypeId,
           benchmarkTypeId,
         },
       });
@@ -242,8 +245,8 @@ export class BenchmarkSetupsService {
       benchmarkUnitId,
       active,
       benchmarkMethodName,
-      methodType,
-      voltageType,
+      methodTypeId,
+      voltageTypeId,
       beforeBenchmark,
       inSoftware,
       benchmarkInformationId,
@@ -260,8 +263,8 @@ export class BenchmarkSetupsService {
           benchmarkUnitId,
           active,
           benchmarkMethodName,
-          methodType,
-          voltageType,
+          methodTypeId,
+          voltageTypeId,
           beforeBenchmark,
           inSoftware,
           benchmarkInformationId,
@@ -272,8 +275,8 @@ export class BenchmarkSetupsService {
           benchmarkUnitId,
           active,
           benchmarkMethodName,
-          methodType,
-          voltageType,
+          methodTypeId,
+          voltageTypeId,
           beforeBenchmark,
           inSoftware,
           benchmarkInformationId,

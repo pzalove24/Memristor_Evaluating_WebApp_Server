@@ -8,7 +8,7 @@ export class UpsertBenchmarkInputDto {
 
   @IsNotEmpty()
   @IsString()
-  voltageType: VoltageTypeEnum;
+  voltageTypeId: string;
 
   @IsNotEmpty()
   @IsString()

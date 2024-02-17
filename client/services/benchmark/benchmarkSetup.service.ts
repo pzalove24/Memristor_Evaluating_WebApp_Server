@@ -22,18 +22,23 @@ export type TListBenchmarkSetupsRequest = {
 export type BenchmarkMethodWithInput = Prisma.BenchmarkMethodGetPayload<{
   include: {
     BenchmarkInput: true;
+    voltageType: true;
+    methodType: true;
   };
 }>;
 
 export type BenchmarkInputWithInputSetup = Prisma.BenchmarkInputGetPayload<{
   include: {
     benchmarkInputSetups: true;
+    voltageType: true;
   };
 }>;
 
 export type BenchmarkInputSetupWithUnit = Prisma.BenchmarkInputSetupGetPayload<{
   include: {
     BenchmarkUnit: true;
+    voltageType: true;
+    dataType: true;
   };
 }>;
 

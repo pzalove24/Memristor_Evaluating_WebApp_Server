@@ -20,11 +20,11 @@ export class ListAllBenchmarkSetupsDto {
 
   @IsOptional()
   @IsString()
-  voltage: VoltageTypeEnum;
+  voltageTypeId: string;
 
   @IsOptional()
   @IsString()
-  method: MethodTypeEnum;
+  methodTypeId: string;
 
   @IsNotEmpty()
   @IsInt()
