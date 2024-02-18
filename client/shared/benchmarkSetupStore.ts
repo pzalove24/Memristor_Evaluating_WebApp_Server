@@ -1,4 +1,9 @@
 import { create } from "zustand";
+import { MethodType, VoltageType } from "../../server/shared/prismaTypes";
+import {
+  BenchmarkInputWithInputSetup,
+  BenchmarkMethodWithInput,
+} from "@/services/benchmark/benchmarkSetup.service";
 
 export type TabLabelBenchmarkSetup =
   | "Standard Benchmark"
@@ -9,8 +14,14 @@ export type TabLabelBenchmarkSetup =
 export type benchmarkSetupState = {
   benchmarkType: TabLabelBenchmarkSetup;
   setup: "Input" | "Method";
-  voltageType?: string;
-  methodType?: string;
+  voltageType?: string; // sweep,pulse
+  methodType?: string; // graph,calculation
+  voltageTypes?: VoltageType[];
+  methodTypes?: MethodType[];
+  benchmarkInputsId?: string[];
+  benchmarkMethodsId?: string[];
+  benchmarkInputs?: BenchmarkInputWithInputSetup[];
+  benchmarkMethods?: BenchmarkMethodWithInput[];
   pageIndex: number;
   limit: number;
 };
@@ -20,6 +31,14 @@ export type benchmarkSetupAction = {
   changeSetup: (setup: "Input" | "Method") => void;
   changePageSize: (pageSize: number) => void;
   changePageIndex: (pageIndex: number) => void;
+  filteredVoltageType: (voltageTypes: VoltageType[]) => void;
+  filteredMethodType: (methodTypes: MethodType[]) => void;
+  filteredBenchmarkInput: (
+    benchmarkInputWithInputSetup: BenchmarkInputWithInputSetup[]
+  ) => void;
+  filteredBenchmarkMethod: (
+    benchmarkMethodWithInput: BenchmarkMethodWithInput[]
+  ) => void;
 };
 
 const useBenchmarkSetupStore = create<
@@ -27,8 +46,14 @@ const useBenchmarkSetupStore = create<
 >((set) => ({
   benchmarkType: "Standard Benchmark",
   setup: "Input",
-  voltageType: "sweep",
+  voltageType: undefined,
   methodType: undefined,
+  voltageTypes: undefined,
+  MethodTypes: undefined,
+  benchmarkInputsId: undefined,
+  benchmarkMethodsId: undefined,
+  benchmarkInputs: undefined,
+  benchmarkMethods: undefined,
   pageIndex: 1,
   limit: 5,
   changePageSize: (pageSize: number) =>
@@ -46,6 +71,30 @@ const useBenchmarkSetupStore = create<
   changeBenchmarkType: (benchmarkType: TabLabelBenchmarkSetup) =>
     set(() => ({
       benchmarkType: benchmarkType,
+    })),
+  filteredVoltageType: (voltageTypes: VoltageType[]) =>
+    set(() => ({
+      voltageType: voltageTypes.map((voltage) => voltage.name).join(","),
+      voltageTypes,
+    })),
+  filteredMethodType: (methodTypes: MethodType[]) =>
+    set(() => ({
+      methodType: methodTypes.map((method) => method.name).join(","),
+      methodTypes,
+    })),
+  filteredBenchmarkInput: (
+    benchmarkInputWithInputSetup: BenchmarkInputWithInputSetup[]
+  ) =>
+    set(() => ({
+      benchmarkInputs: benchmarkInputWithInputSetup,
+      benchmarkInputsId: benchmarkInputWithInputSetup.map((input) => input.id),
+    })),
+  filteredBenchmarkMethod: (
+    benchmarkMethodWithInput: BenchmarkMethodWithInput[]
+  ) =>
+    set(() => ({
+      benchmarkMethods: benchmarkMethodWithInput,
+      benchmarkMethodsId: benchmarkMethodWithInput.map((method) => method.id),
     })),
 }));
 

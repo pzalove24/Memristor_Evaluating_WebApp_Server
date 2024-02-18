@@ -18,6 +18,8 @@ import {
   BenchmarkInput,
   BenchmarkInputSetup,
   BenchmarkMethod,
+  MethodType,
+  VoltageType,
 } from '@prisma/client';
 import { PaginationResponseDto } from './dto/paganition.dto';
 import { UpsertBenchmarkInputSetupDto } from './dto/upsertBenchmarkInputSetup.dto';
@@ -37,6 +39,16 @@ export class BenchmarkSetupsController {
     return this.benchmarkSetupsService.listAllBenchmarkSetups(
       listAllBenchmarkSetupsDto,
     );
+  }
+
+  @Get('/voltageType')
+  listAllVoltageType(): Promise<VoltageType[]> {
+    return this.benchmarkSetupsService.findAllVoltageType();
+  }
+
+  @Get('/methodType')
+  listAllMethodType(): Promise<MethodType[]> {
+    return this.benchmarkSetupsService.findAllMethodType();
   }
 
   @Get('/benchmarkInputSetup/:id')

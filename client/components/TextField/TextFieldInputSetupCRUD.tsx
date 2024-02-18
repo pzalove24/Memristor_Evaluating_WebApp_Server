@@ -10,7 +10,6 @@ import { BenchmarkInputSetup } from "../../../server/shared/prismaTypes";
 const TextFieldInputSetupCRUD = ({
   dataList,
 }: TTextFieldCRUD<BenchmarkInputSetupWithUnit[]>) => {
-  console.log('dataList',dataList);
   return (
     <React.Fragment>
       {dataList.map((data, index: number) => (

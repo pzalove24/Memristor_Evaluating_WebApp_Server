@@ -90,8 +90,6 @@ const TableCollapse = ({ row, columns }: TTableCollapseProp) => {
     setSelectedSetupData(data);
   };
 
-  console.log("row", row);
-
   return (
     <React.Fragment>
       {openDialog && setup === "Input" ? (
@@ -118,14 +116,9 @@ const TableCollapse = ({ row, columns }: TTableCollapseProp) => {
             } else {
               value = valueObject[column.subId];
             }
-            console.log("object", valueObject);
-            console.log("sub", subObject);
           } else {
             value = row[column.id];
           }
-
-          // value = row[column.id];
-          // console.log("value", value);
 
           return (
             <>

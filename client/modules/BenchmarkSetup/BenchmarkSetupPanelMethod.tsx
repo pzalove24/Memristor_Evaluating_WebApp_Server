@@ -4,8 +4,7 @@ import {
   TTableDisplayType,
 } from "@/components/Table/TablePagination";
 import {
-  TBenchmarkSetupPanelProps,
-  TBenchmarkSetupTabPanelProps,
+  TBenchmarkSetupMethodPanelProps,
   columnInput,
 } from "@/types/benchmarkSetupType/benchmarkSetupTabsType";
 import {
@@ -20,6 +19,8 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
+import { MethodType, VoltageType } from "../../../server/shared/prismaTypes";
+import useBenchmarkSetupStore from "@/shared/benchmarkSetupStore";
 
 const columns: columnInput[] = [
   { id: "active", label: "Active", minWidth: 100, DisplayType: "Switch" },
@@ -68,35 +69,45 @@ const columns: columnInput[] = [
 const BenchmarkSetupTabPanelMethod = ({
   tableData,
   limit,
-}: TBenchmarkSetupPanelProps) => {
+  voltageTypeList,
+  methodTypeList,
+}: TBenchmarkSetupMethodPanelProps) => {
   const rows = tableData.rows;
   const total = tableData.totalCount;
   const pageIndex = tableData.currentPage;
   const pageSize = limit;
+  const { voltageTypes, methodTypes, filteredVoltageType, filteredMethodType } =
+    useBenchmarkSetupStore();
+
   return (
     <>
-      {/* <Grid item xs={12} md={4}>
+      <Grid item xs={12} md={4}>
         <CheckBoxAutocomplete
-          options={tableData.rows}
-          fieldDisplay={"voltageType.name"}
+          value={voltageTypes}
+          options={voltageTypeList}
+          onChange={(newValue: VoltageType[]) => filteredVoltageType(newValue)}
+          fieldDisplay={"name"}
           label="Voltage Type"
           placeholder="voltage"
         />
       </Grid>
       <Grid item xs={12} md={4}>
         <CheckBoxAutocomplete
-          options={tableData.rows}
-          fieldDisplay={"methodType.name"}
+          value={methodTypes}
+          options={methodTypeList}
+          onChange={(newValue: MethodType[]) => filteredMethodType(newValue)}
+          fieldDisplay={"name"}
           label="Method Type"
-          placeholder="voltage"
+          placeholder="method"
         />
-      </Grid> */}
+      </Grid>
       <Grid item xs={12} md={4}>
         <CheckBoxAutocomplete
           options={tableData.rows}
+          onChange={() => console.log("data")}
           fieldDisplay={"benchmarkMethodName"}
           label="Benchmark Method Name"
-          placeholder="voltage"
+          placeholder="method name"
         />
       </Grid>
       {/* <Grid item xs={12} md={4}>

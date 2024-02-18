@@ -3,12 +3,18 @@ import {
   CustomTablePagination,
   TTableDisplayType,
 } from "@/components/Table/TablePagination";
+import useBenchmarkSetupStore from "@/shared/benchmarkSetupStore";
 import {
-  TBenchmarkSetupPanelProps,
+  TBenchmarkSetupInputPanelProps,
   columnInput,
 } from "@/types/benchmarkSetupType/benchmarkSetupTabsType";
 import { Grid } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
+import { VoltageType } from "../../../server/shared/prismaTypes";
+import {
+  BenchmarkInputWithInputSetup,
+  BenchmarkMethodWithInput,
+} from "@/services/benchmark/benchmarkSetup.service";
 
 const columns: columnInput[] = [
   { id: "active", label: "Active", minWidth: 170, DisplayType: "Switch" },
@@ -76,19 +82,30 @@ const rows = [
 const BenchmarkSetupTabPanelInput = ({
   tableData,
   limit,
-}: TBenchmarkSetupPanelProps) => {
-  const rows = tableData.rows;
+  voltageTypeList,
+}: TBenchmarkSetupInputPanelProps) => {
+  let rows = tableData.rows;
+  let filteredRows: any = undefined;
   const total = tableData.totalCount;
   const pageIndex = tableData.currentPage;
   const pageSize = limit;
 
-  console.log("table", rows, total, pageIndex, pageSize);
+  const handleFilterRowsName = (
+    filteredValue: BenchmarkInputWithInputSetup[]
+  ) => {
+    const listIds = filteredValue.map((value) => value.id);
+    filteredRows = rows.filter((item) => listIds.includes(item.id));
+  };
+
+  const { voltageTypes, filteredVoltageType } = useBenchmarkSetupStore();
   return (
     <>
-      {/* <Grid item xs={12} md={4}>
+      <Grid item xs={12} md={4}>
         <CheckBoxAutocomplete
-          options={tableData.rows}
-          fieldDisplay={"voltageType.name"}
+          value={voltageTypes}
+          options={voltageTypeList}
+          onChange={(newValue: VoltageType[]) => filteredVoltageType(newValue)}
+          fieldDisplay={"name"}
           label="Voltage Type"
           placeholder="voltage"
         />
@@ -96,11 +113,14 @@ const BenchmarkSetupTabPanelInput = ({
       <Grid item xs={12} md={4}>
         <CheckBoxAutocomplete
           options={tableData.rows}
+          onChange={(newValue: BenchmarkInputWithInputSetup[]) =>
+            handleFilterRowsName(newValue)
+          }
           fieldDisplay={"benchmarkInputName"}
           label="Benchmark Input Name"
-          placeholder="voltage"
+          placeholder="input name"
         />
-      </Grid> */}
+      </Grid>
       <Grid item xs={12} md={12} marginTop={2}>
         <CustomTablePagination
           columns={columns}

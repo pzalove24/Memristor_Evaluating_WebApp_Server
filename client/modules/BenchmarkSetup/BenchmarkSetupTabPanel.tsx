@@ -16,6 +16,8 @@ import BenchmarkSetupTabPanelMethod from "./BenchmarkSetupPanelMethod";
 import { useQuery } from "@tanstack/react-query";
 import {
   TListBenchmarkSetupsRequest,
+  listAllMethodType,
+  listAllVoltageType,
   listBenchmarkSetups,
 } from "@/services/benchmark/benchmarkSetup.service";
 import useBenchmarkSetupStore from "@/shared/benchmarkSetupStore";
@@ -97,8 +99,15 @@ const BenchmarkSetupTabPanel = ({
 }: TBenchmarkSetupTabPanelProps) => {
   // const [setup, setSetup] = useState<string>("Input");
 
-  const { benchmarkType, pageIndex, limit, changeSetup, setup } =
-    useBenchmarkSetupStore();
+  const {
+    benchmarkType,
+    setup,
+    voltageType,
+    methodType,
+    pageIndex,
+    limit,
+    changeSetup,
+  } = useBenchmarkSetupStore();
 
   const handleChangeSetup = (event: React.ChangeEvent<HTMLInputElement>) => {
     changeSetup(event.target.value as "Input" | "Method");
@@ -107,19 +116,18 @@ const BenchmarkSetupTabPanel = ({
   const queryListBenchmarkSetups: TListBenchmarkSetupsRequest = {
     type: benchmarkType,
     setup: setup,
-    voltageType: undefined,
-    methodType: undefined,
+    voltageType: voltageType,
+    methodType: methodType,
     page: pageIndex,
     limit: limit,
   };
 
-  console.log("list", queryListBenchmarkSetups);
 
   const {
     data: listBenchmarkSetup,
     isLoading,
     isRefetching,
-    refetch,
+    refetch: refetchListBenchmarkSetup,
   } = useQuery({
     queryKey: ["listBenchmarkSetups"],
     queryFn: async () => {
@@ -129,17 +137,34 @@ const BenchmarkSetupTabPanel = ({
     },
   });
 
+  const { data: listVoltageTypes, refetch: refetchListAllVoltageType } =
+    useQuery({
+      queryKey: ["listAllVoltageType"],
+      queryFn: async () => {
+        const [response, _] = await listAllVoltageType();
+        const res = await response;
+        return res;
+      },
+    });
+
+  const { data: listMethodTypes, refetch: refetchListAllMethodType } = useQuery(
+    {
+      queryKey: ["listAllMethodType"],
+      queryFn: async () => {
+        const [response, _] = await listAllMethodType();
+        const res = await response;
+        return res;
+      },
+    }
+  );
+
   useEffect(() => {
-    refetch();
-  }, [benchmarkType, setup, pageIndex, limit]);
-  
+    refetchListBenchmarkSetup();
+  }, [benchmarkType, setup, voltageType, methodType, pageIndex, limit]);
 
   if (isLoading && isRefetching) {
     return <>Loading</>;
   }
-
-
-  console.log("data", listBenchmarkSetup);
 
   return (
     <TabPanel value={value} index={index}>
@@ -157,13 +182,19 @@ const BenchmarkSetupTabPanel = ({
               handleChangeSetup={handleChangeSetup}
             />
           </Grid>
-          {setup === "Input" && listBenchmarkSetup ? (
+          {setup === "Input" && listBenchmarkSetup && listVoltageTypes ? (
             <BenchmarkSetupTabPanelInput
+              voltageTypeList={listVoltageTypes}
               tableData={listBenchmarkSetup}
               limit={limit}
             />
-          ) : setup === "Method" && listBenchmarkSetup ? (
+          ) : setup === "Method" &&
+            listBenchmarkSetup &&
+            listVoltageTypes &&
+            listMethodTypes ? (
             <BenchmarkSetupTabPanelMethod
+              voltageTypeList={listVoltageTypes}
+              methodTypeList={listMethodTypes}
               tableData={listBenchmarkSetup}
               limit={limit}
             />

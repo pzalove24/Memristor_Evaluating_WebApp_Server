@@ -6,6 +6,8 @@ import {
   BenchmarkInput,
   Prisma,
   BenchmarkInputSetup,
+  VoltageType,
+  MethodType,
 } from "@/../server/shared/prismaTypes";
 
 import { TPaginationResponse } from "@/../server/shared/pagniation";
@@ -60,6 +62,31 @@ export const listBenchmarkSetups = async (
   const [response, resAbort] = await request<TListBenchmarkSetupsResponse>(
     "GET",
     `/benchmark-setups${queryRequest(query)}`,
+    {} // or props
+  );
+
+  // zustand set State here
+  return [response, resAbort];
+};
+
+export const listAllVoltageType = async (): Promise<
+  [Promise<AxiosResponse<VoltageType[]>["data"]>, AbortFunction]
+> => {
+  const [response, resAbort] = await request<VoltageType[]>(
+    "GET",
+    `/benchmark-setups/voltageType`,
+    {} // or props
+  );
+
+  return [response, resAbort];
+};
+
+export const listAllMethodType = async (): Promise<
+  [Promise<AxiosResponse<MethodType[]>["data"]>, AbortFunction]
+> => {
+  const [response, resAbort] = await request<MethodType[]>(
+    "GET",
+    `/benchmark-setups/methodType`,
     {} // or props
   );
 
