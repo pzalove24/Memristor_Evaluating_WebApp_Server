@@ -1,1 +1,1 @@
-invent => instruction set architecture for non-vonneuman or neuromorphic
+invent => instruction set architecture for non-vonneuman or neuromorphic architecture
