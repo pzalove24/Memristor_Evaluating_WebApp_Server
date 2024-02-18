@@ -21,6 +21,7 @@ import {
 import React from "react";
 import { MethodType, VoltageType } from "../../../server/shared/prismaTypes";
 import useBenchmarkSetupStore from "@/shared/benchmarkSetupStore";
+import { debounce } from "lodash";
 
 const columns: columnInput[] = [
   { id: "active", label: "Active", minWidth: 100, DisplayType: "Switch" },
@@ -71,14 +72,25 @@ const BenchmarkSetupTabPanelMethod = ({
   limit,
   voltageTypeList,
   methodTypeList,
-  listBenchmarkMethodNames
+  listBenchmarkMethodNames,
 }: TBenchmarkSetupMethodPanelProps) => {
   const rows = tableData.rows;
   const total = tableData.totalCount;
   const pageIndex = tableData.currentPage;
   const pageSize = limit;
-  const { voltageTypes, methodTypes, filteredVoltageType, filteredMethodType } =
-    useBenchmarkSetupStore();
+  const {
+    voltageTypes,
+    methodTypes,
+    filteredVoltageType,
+    filteredMethodType,
+    searchBenchmarkMethod,
+    filteredBenchmarkMethod,
+    benchmarkMethods,
+  } = useBenchmarkSetupStore();
+
+  const onSearchBenchmarkMethod = debounce((methodValue: string) => {
+    searchBenchmarkMethod(methodValue);
+  }, 500);
 
   return (
     <>
@@ -106,9 +118,13 @@ const BenchmarkSetupTabPanelMethod = ({
       </Grid>
       <Grid item xs={12} md={4}>
         <CheckBoxAutocomplete
+          value={benchmarkMethods}
           limitTag={1}
           options={listBenchmarkMethodNames}
-          onChange={() => console.log("data")}
+          onInputChange={(newMethod: string) =>
+            onSearchBenchmarkMethod(newMethod)
+          }
+          onChange={(newValue) => filteredBenchmarkMethod(newValue)}
           fieldDisplay={"benchmarkMethodName"}
           label="Benchmark Method Name"
           placeholder="method name"

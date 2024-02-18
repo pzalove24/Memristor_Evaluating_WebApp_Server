@@ -12,13 +12,17 @@ import {
 
 import { TPaginationResponse } from "@/../server/shared/pagniation";
 
-export type TListBenchmarkSetupsRequest = {
+export type TListBenchmarkSetupsQueryRequest = {
   type: string;
   setup: string;
   voltageType?: string;
   methodType?: string;
   page: number;
   limit: number;
+};
+
+export type TListBenchmarkSetupsBodyRequest = {
+  filteredBenchmarks?: BenchmarkInput[] | BenchmarkMethod[];
 };
 
 export type BenchmarkMethodWithInput = Prisma.BenchmarkMethodGetPayload<{
@@ -68,14 +72,17 @@ export type TlistAllBenchmarkMethodNameRequest = {
 export type TUpsertBenchmarkInputSetupResponse = BenchmarkInputSetup;
 
 export const listBenchmarkSetups = async (
-  query: TListBenchmarkSetupsRequest
+  query: TListBenchmarkSetupsQueryRequest,
+  body: TListBenchmarkSetupsBodyRequest
 ): Promise<
   [Promise<AxiosResponse<TListBenchmarkSetupsResponse>["data"]>, AbortFunction]
 > => {
+
   const [response, resAbort] = await request<TListBenchmarkSetupsResponse>(
-    "GET",
+    "POST",
     `/benchmark-setups${queryRequest(query)}`,
-    {} // or props
+    {}, // or props
+    body,
   );
 
   // zustand set State here
@@ -112,7 +119,10 @@ export const listAllBenchmarkInputName = async (
 ): Promise<
   [Promise<AxiosResponse<BenchmarkInput[]>["data"]>, AbortFunction]
 > => {
-  console.log('api', `/benchmark-setups/benchmarkInputs?searchName=${query.searchInputName}&type=${query.type}&voltageType=${query.voltageType}`)
+  console.log(
+    "api",
+    `/benchmark-setups/benchmarkInputs?searchName=${query.searchInputName}&type=${query.type}&voltageType=${query.voltageType}`
+  );
   const [response, resAbort] = await request<BenchmarkInput[]>(
     "GET",
     `/benchmark-setups/benchmarkInputs?searchName=${query.searchInputName}&type=${query.type}&voltageType=${query.voltageType}`,

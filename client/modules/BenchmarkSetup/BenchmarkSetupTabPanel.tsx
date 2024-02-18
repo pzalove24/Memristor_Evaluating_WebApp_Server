@@ -15,7 +15,8 @@ import BenchmarkSetupTabPanelInput from "./BenchmarkSetupPanelInput";
 import BenchmarkSetupTabPanelMethod from "./BenchmarkSetupPanelMethod";
 import { useQuery } from "@tanstack/react-query";
 import {
-  TListBenchmarkSetupsRequest,
+  TListBenchmarkSetupsBodyRequest,
+  TListBenchmarkSetupsQueryRequest,
   listAllBenchmarkInputName,
   listAllBenchmarkMethodName,
   listAllMethodType,
@@ -109,30 +110,54 @@ const BenchmarkSetupTabPanel = ({
     pageIndex,
     limit,
     changeSetup,
+    benchmarkInputsName,
+    benchmarkMethodsName,
+    benchmarkInputs,
+    benchmarkMethods,
+    filteredBenchmarkInput,
+    filteredBenchmarkMethod,
   } = useBenchmarkSetupStore();
 
   const handleChangeSetup = (event: React.ChangeEvent<HTMLInputElement>) => {
     changeSetup(event.target.value as "Input" | "Method");
   };
 
-  const queryListBenchmarkSetups: TListBenchmarkSetupsRequest = {
-    type: benchmarkType,
-    setup: setup,
-    voltageType: voltageType,
-    methodType: methodType,
-    page: pageIndex,
-    limit: limit,
-  };
-
   const {
     data: listBenchmarkSetup,
     isLoading,
-    // isRefetching,
+    isRefetching,
     refetch: refetchListBenchmarkSetup,
   } = useQuery({
-    queryKey: ["listBenchmarkSetups", setup], //benchmarkType, voltageType, pageIndex, limit
+    queryKey: ["listBenchmarkSetups", benchmarkType, setup], //benchmarkType, voltageType, pageIndex, limit
     queryFn: async () => {
-      const [response, _] = await listBenchmarkSetups(queryListBenchmarkSetups);
+      const queryListBenchmarkSetups = {
+        type: benchmarkType,
+        setup: setup,
+        voltageType: voltageType,
+        methodType: methodType,
+        page: pageIndex,
+        limit: limit,
+      };
+
+      const handleBodyListBenchmarkSetups = () => {
+        if (setup === "Input") {
+          const bodyListBenchmarkSetups = {
+            filteredBenchmarks: benchmarkInputs,
+          };
+          return bodyListBenchmarkSetups;
+        } else {
+          const bodyListBenchmarkSetups = {
+            filteredBenchmarks: benchmarkMethods,
+          };
+          return bodyListBenchmarkSetups;
+        }
+      };
+
+      console.log("benchmarkInputs", handleBodyListBenchmarkSetups());
+      const [response, _] = await listBenchmarkSetups(
+        queryListBenchmarkSetups,
+        handleBodyListBenchmarkSetups()
+      );
       const res = await response;
       return res;
     },
@@ -161,9 +186,6 @@ const BenchmarkSetupTabPanel = ({
     }
   );
 
-  const searchInputName = "";
-  const searchMethodName = "";
-
   const {
     data: listBenchmarkInputNames,
     refetch: refetchListAllBenchmarkInputNames,
@@ -172,7 +194,7 @@ const BenchmarkSetupTabPanel = ({
     queryFn: async () => {
       const queryInputName = {
         type: benchmarkType,
-        searchInputName,
+        searchInputName: benchmarkInputsName,
         voltageType,
       };
       const [response, _] = await listAllBenchmarkInputName(queryInputName);
@@ -189,7 +211,7 @@ const BenchmarkSetupTabPanel = ({
     queryFn: async () => {
       const queryMethodName = {
         type: benchmarkType,
-        searchMethodName,
+        searchMethodName: benchmarkMethodsName,
         voltageType,
         methodType,
       };
@@ -202,20 +224,35 @@ const BenchmarkSetupTabPanel = ({
   useEffect(() => {
     // refetch table
     refetchListBenchmarkSetup();
-  }, [benchmarkType, setup, voltageType, methodType, pageIndex, limit]);
-
+  }, [
+    benchmarkType,
+    setup,
+    voltageType,
+    methodType,
+    pageIndex,
+    limit,
+    benchmarkInputs,
+    benchmarkMethods,
+  ]);
 
   useEffect(() => {
     //refetch autocomplete
-    refetchListAllBenchmarkInputNames()
-    refetchListAllBenchmarkMethodNames()
-  }, [benchmarkType, voltageType, methodType])
+    refetchListAllBenchmarkInputNames();
+    refetchListAllBenchmarkMethodNames();
+  }, [
+    benchmarkType,
+    voltageType,
+    methodType,
+    benchmarkInputsName,
+    benchmarkMethodsName,
+  ]);
 
   if (isLoading) {
     return <>Loading1</>;
   }
 
   // if (isRefetching){
+  //   console.log('isReload')
   //   return <>Refetching</>
   // }
 

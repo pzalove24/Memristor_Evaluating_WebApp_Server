@@ -1,4 +1,4 @@
-import { BenchmarkType } from '@prisma/client';
+import { BenchmarkInput, BenchmarkMethod, BenchmarkType } from '@prisma/client';
 import {
   IsInt,
   IsNotEmpty,
@@ -37,6 +37,8 @@ export class ListAllBenchmarkSetupsDto {
   limit: number;
 }
 
+export class FilteredBenchmarkSetupsDto {
+  @IsOptional()
+  filteredBenchmarks: BenchmarkInput[] | BenchmarkMethod[];
 
-
-
+}

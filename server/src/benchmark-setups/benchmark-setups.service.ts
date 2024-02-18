@@ -1,6 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { ListAllBenchmarkSetupsDto } from './dto/listAllBenchmarkSetups.dto';
+import {
+  FilteredBenchmarkSetupsDto,
+  ListAllBenchmarkSetupsDto,
+} from './dto/listAllBenchmarkSetups.dto';
 import {
   BenchmarkInformation,
   BenchmarkInput,
@@ -77,6 +80,7 @@ export class BenchmarkSetupsService {
 
   async listAllBenchmarkSetups(
     listAllBenchmarkSetupsDto: ListAllBenchmarkSetupsDto,
+    filteredBenchmarkSetupsDto: FilteredBenchmarkSetupsDto,
   ): Promise<PaginationResponseDto<BenchmarkInput | BenchmarkMethod>> {
     // pagination on table benchmarksetup
     // query input / method & pulse / sweep & page & limit
@@ -87,6 +91,10 @@ export class BenchmarkSetupsService {
     const methods = await this.handleQueryMethodType(methodType);
     const benchmarkType = await this.handleQueryBenchmarkType(type);
 
+    const { filteredBenchmarks } = filteredBenchmarkSetupsDto;
+
+    console.log('input', filteredBenchmarks);
+
     const skip = (page - 1) * limit;
 
     if (setup === 'Input') {
@@ -94,6 +102,7 @@ export class BenchmarkSetupsService {
         where: {
           voltageTypeId: { in: voltages?.map((voltage) => voltage.id) },
           benchmarkTypeId: benchmarkType.id,
+          id: { in: filteredBenchmarks?.map((input) => input.id) },
         },
       });
       const totalPages = Math.ceil(totalCount / limit);
@@ -101,6 +110,7 @@ export class BenchmarkSetupsService {
         where: {
           voltageTypeId: { in: voltages?.map((voltage) => voltage.id) },
           benchmarkTypeId: benchmarkType.id,
+          id: { in: filteredBenchmarks?.map((input) => input.id) },
         },
         include: {
           voltageType: true,
@@ -121,6 +131,7 @@ export class BenchmarkSetupsService {
           voltageTypeId: { in: voltages?.map((voltage) => voltage.id) },
           methodTypeId: { in: methods?.map((method) => method.id) },
           benchmarkTypeId: benchmarkType.id,
+          id: { in: filteredBenchmarks?.map((method) => method.id) },
         },
       });
       const totalPages = Math.ceil(totalCount / limit);
@@ -129,6 +140,7 @@ export class BenchmarkSetupsService {
           voltageTypeId: { in: voltages?.map((voltage) => voltage.id) },
           methodTypeId: { in: methods?.map((method) => method.id) },
           benchmarkTypeId: benchmarkType.id,
+          id: { in: filteredBenchmarks?.map((method) => method.id) },
         },
         include: {
           voltageType: true,
@@ -356,7 +368,6 @@ export class BenchmarkSetupsService {
     const benchmarkType = await this.handleQueryBenchmarkType(type);
     const voltages = await this.handleQueryVoltageType(voltageType);
 
-    console.log('voltags', voltages)
     const searchAllBenchmarkInputName =
       await this.prismaService.benchmarkInput.findMany({
         where: {

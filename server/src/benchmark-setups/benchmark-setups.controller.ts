@@ -11,7 +11,10 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { BenchmarkSetupsService } from './benchmark-setups.service';
-import { ListAllBenchmarkSetupsDto } from './dto/listAllBenchmarkSetups.dto';
+import {
+  FilteredBenchmarkSetupsDto,
+  ListAllBenchmarkSetupsDto,
+} from './dto/listAllBenchmarkSetups.dto';
 import { UpsertBenchmarkInputDto } from './dto/upsertBenchmarkInput.dto';
 import {
   BenchmarkInformation,
@@ -34,12 +37,15 @@ export class BenchmarkSetupsController {
     private readonly benchmarkSetupsService: BenchmarkSetupsService,
   ) {}
 
-  @Get()
+  @Post()
   listAllBenchmarkSetups(
     @Query() listAllBenchmarkSetupsDto: ListAllBenchmarkSetupsDto,
+    @Body() filteredBenchmarkSetupsDto: FilteredBenchmarkSetupsDto,
   ): Promise<PaginationResponseDto<BenchmarkInput | BenchmarkMethod>> {
+    console.log('bodyapi', filteredBenchmarkSetupsDto)
     return this.benchmarkSetupsService.listAllBenchmarkSetups(
       listAllBenchmarkSetupsDto,
+      filteredBenchmarkSetupsDto,
     );
   }
 
@@ -57,14 +63,18 @@ export class BenchmarkSetupsController {
   listAllBenchmarkInputName(
     @Query() queryInputName: ListAllBenchmarkInputNameDto,
   ): Promise<BenchmarkInput[]> {
-    return this.benchmarkSetupsService.findAllBenchmarkInputName(queryInputName);
+    return this.benchmarkSetupsService.findAllBenchmarkInputName(
+      queryInputName,
+    );
   }
 
   @Get('/benchmarkMethods')
   listAllBenchmarkMethodName(
     @Query() queryMethodName: ListAllBenchmarkMethodNameDto,
   ): Promise<BenchmarkMethod[]> {
-    return this.benchmarkSetupsService.findAllBenchmarkMethodName(queryMethodName);
+    return this.benchmarkSetupsService.findAllBenchmarkMethodName(
+      queryMethodName,
+    );
   }
 
   @Get('/benchmarkInputSetup/:id')

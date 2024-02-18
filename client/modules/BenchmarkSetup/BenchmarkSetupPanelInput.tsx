@@ -84,18 +84,23 @@ const BenchmarkSetupTabPanelInput = ({
   tableData,
   limit,
   voltageTypeList,
-  listBenchmarkInputNames
+  listBenchmarkInputNames,
 }: TBenchmarkSetupInputPanelProps) => {
   let rows = tableData.rows;
   const total = tableData.totalCount;
   const pageIndex = tableData.currentPage;
   const pageSize = limit;
 
-  const { voltageTypes, filteredVoltageType, searchBenchmarkInput } =
-    useBenchmarkSetupStore();
+  const {
+    benchmarkType,
+    voltageTypes,
+    filteredVoltageType,
+    searchBenchmarkInput,
+    filteredBenchmarkInput,
+    benchmarkInputs,
+  } = useBenchmarkSetupStore();
 
   const onSearchBenchmarkInput = debounce((inputValue: string) => {
-    console.log(inputValue)
     searchBenchmarkInput(inputValue);
   }, 500);
 
@@ -114,13 +119,11 @@ const BenchmarkSetupTabPanelInput = ({
       </Grid>
       <Grid item xs={12} md={4}>
         <CheckBoxAutocomplete
+          value={benchmarkInputs}
           limitTag={1}
           options={listBenchmarkInputNames} //todo
           onInputChange={(newInput: string) => onSearchBenchmarkInput(newInput)}
-          onChange={(newValue) => console.log("new", newValue)}
-          // onChange={(newValue: BenchmarkInputWithInputSetup[]) =>
-          //   handleFilterRowsName(newValue)
-          // }
+          onChange={(newValue) => filteredBenchmarkInput(newValue)}
           fieldDisplay={"benchmarkInputName"}
           label="Benchmark Input Name"
           placeholder="input name"

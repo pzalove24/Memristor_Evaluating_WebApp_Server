@@ -36,6 +36,7 @@ export const CheckBoxAutocomplete = ({
       id="checkboxes-tags-demo"
       options={options}
       disableCloseOnSelect
+      // isOptionEqualToValue={(option, value) => handleFieldDisplay(option, fieldDisplay) === value[fieldDisplay]}
       value={value}
       onChange={(event, newValue: string[] | null) =>
         onChange ? onChange(newValue) : null

@@ -14,12 +14,12 @@ export type TabLabelBenchmarkSetup =
 export type benchmarkSetupState = {
   benchmarkType: TabLabelBenchmarkSetup;
   setup: "Input" | "Method";
-  voltageType?: string; // sweep,pulse
-  methodType?: string; // graph,calculation
+  voltageType: string; // sweep,pulse
+  methodType: string; // graph,calculation
   voltageTypes?: VoltageType[];
   methodTypes?: MethodType[];
-  benchmarkInputsName?: string;
-  benchmarkMethodsName?: string;
+  benchmarkInputsName: string;
+  benchmarkMethodsName: string;
   benchmarkInputs?: BenchmarkInputWithInputSetup[];
   benchmarkMethods?: BenchmarkMethodWithInput[];
   pageIndex: number;
@@ -33,14 +33,14 @@ export type benchmarkSetupAction = {
   changePageIndex: (pageIndex: number) => void;
   filteredVoltageType: (voltageTypes: VoltageType[]) => void;
   filteredMethodType: (methodTypes: MethodType[]) => void;
-  // filteredBenchmarkInput: (
-  //   benchmarkInputWithInputSetup: BenchmarkInputWithInputSetup
-  // ) => void;
-  // filteredBenchmarkMethod: (
-  //   benchmarkMethodWithInput: BenchmarkMethodWithInput
-  // ) => void;
   searchBenchmarkInput: (benchmarkInputsName: string) => void;
   searchBenchmarkMethod: (benchmarkMethodsName: string) => void;
+  filteredBenchmarkInput: (
+    benchmarkInputs: BenchmarkInputWithInputSetup[] | undefined
+  ) => void;
+  filteredBenchmarkMethod: (
+    benchmarkMethods: BenchmarkMethodWithInput[] | undefined
+  ) => void;
 };
 
 const useBenchmarkSetupStore = create<
@@ -73,6 +73,8 @@ const useBenchmarkSetupStore = create<
   changeBenchmarkType: (benchmarkType: TabLabelBenchmarkSetup) =>
     set(() => ({
       benchmarkType: benchmarkType,
+      benchmarkInputs: undefined,
+      benchmarkMethods: undefined,
     })),
   filteredVoltageType: (voltageTypes: VoltageType[]) =>
     set(() => ({
@@ -94,6 +96,28 @@ const useBenchmarkSetupStore = create<
     set(() => ({
       // benchmarkInputs: benchmarkInputWithInputSetup,
       benchmarkMethodsName,
+    })),
+  filteredBenchmarkInput: (
+    benchmarkInputs: BenchmarkInputWithInputSetup[] | undefined
+  ) =>
+    set(() => ({
+      benchmarkInputs:
+        benchmarkInputs && benchmarkInputs.length > 0
+          ? benchmarkInputs
+          : undefined,
+      // voltageType: voltageTypes.map((voltage) => voltage.name).join(","),
+      // voltageTypes,
+    })),
+  filteredBenchmarkMethod: (
+    benchmarkMethods: BenchmarkMethodWithInput[] | undefined
+  ) =>
+    set(() => ({
+      benchmarkMethods:
+        benchmarkMethods && benchmarkMethods.length > 0
+          ? benchmarkMethods
+          : undefined,
+      // voltageType: voltageTypes.map((voltage) => voltage.name).join(","),
+      // voltageTypes,
     })),
 }));
 
