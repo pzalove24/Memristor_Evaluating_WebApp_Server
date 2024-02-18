@@ -1,0 +1,20 @@
+use<CRUD_METHOD><API_NAME>
+
+get
+create
+update
+upsert
+delete
+
+example:
+useGetBenchmarkSetups
+
+---------------------------------------------------------------------------------------------
+
+For Type
+TUse<CRUD_METHOD><API_NAME><s|undefined>
+
+example:
+TUseGetBenchmarkSetups
+
+***If Type can use from prisma, then use that type***

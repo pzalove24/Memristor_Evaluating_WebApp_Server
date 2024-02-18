@@ -3,7 +3,7 @@ import { MethodType, VoltageType } from "../../server/shared/prismaTypes";
 import {
   BenchmarkInputWithInputSetup,
   BenchmarkMethodWithInput,
-} from "@/services/benchmark/benchmarkSetup.service";
+} from "@/services/apis/benchmark/benchmarkSetup.api";
 
 export type TabLabelBenchmarkSetup =
   | "Standard Benchmark"
@@ -65,6 +65,8 @@ const useBenchmarkSetupStore = create<
   changeSetup: (setup: "Input" | "Method") =>
     set(() => ({
       setup: setup,
+      benchmarkInputs: undefined,
+      benchmarkMethods: undefined,
     })),
   changePageIndex: (pageIndex: number) =>
     set(() => ({
@@ -78,11 +80,13 @@ const useBenchmarkSetupStore = create<
     })),
   filteredVoltageType: (voltageTypes: VoltageType[]) =>
     set(() => ({
+      // benchmarkInputs: undefined,
       voltageType: voltageTypes.map((voltage) => voltage.name).join(","),
       voltageTypes,
     })),
   filteredMethodType: (methodTypes: MethodType[]) =>
     set(() => ({
+      // benchmarkMethods: undefined,
       methodType: methodTypes.map((method) => method.name).join(","),
       methodTypes,
     })),

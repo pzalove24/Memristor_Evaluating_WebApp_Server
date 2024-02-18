@@ -1,7 +1,7 @@
 import {
   BenchmarkInputSetupWithUnit,
   BenchmarkInputWithInputSetup,
-} from "@/services/benchmark/benchmarkSetup.service";
+} from "@/services/apis/benchmark/benchmarkSetup.api";
 import { TTextFieldCRUD } from "@/types/TextField/TextFieldType";
 import { Grid, Stack, TextField, Typography } from "@mui/material";
 import React from "react";

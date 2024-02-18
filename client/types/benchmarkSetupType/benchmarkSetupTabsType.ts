@@ -1,9 +1,7 @@
 import { TTableDisplayType } from "@/components/Table/TablePagination";
 import {
-  BenchmarkInputWithInputSetup,
-  BenchmarkMethodWithInput,
-  TListBenchmarkSetupsResponse,
-} from "@/services/benchmark/benchmarkSetup.service";
+  TPostBenchmarkSetupsResponse,
+} from "@/services/apis/benchmark/benchmarkSetup.api";
 import { BenchmarkInput, BenchmarkMethod, MethodType, VoltageType } from "../../../server/shared/prismaTypes";
 
 export type TBenchmarkSetupTabPanelProps = {
@@ -14,7 +12,7 @@ export type TBenchmarkSetupTabPanelProps = {
 
 export type TBenchmarkSetupInputPanelProps = {
   voltageTypeList: VoltageType[]
-  tableData: TListBenchmarkSetupsResponse;
+  tableData: TPostBenchmarkSetupsResponse;
   limit: number;
   listBenchmarkInputNames: BenchmarkInput[]
 };
@@ -22,7 +20,7 @@ export type TBenchmarkSetupInputPanelProps = {
 export type TBenchmarkSetupMethodPanelProps = {
   voltageTypeList: VoltageType[]
   methodTypeList: MethodType[]
-  tableData: TListBenchmarkSetupsResponse;
+  tableData: TPostBenchmarkSetupsResponse;
   limit: number;
   listBenchmarkMethodNames: BenchmarkMethod[]
 };
@@ -39,7 +37,7 @@ export type columnInput = {
 
 export type TBenchmarkSetupTableProps = {
   columns: columnInput[];
-  rows: TListBenchmarkSetupsResponse["rows"];
+  rows: TPostBenchmarkSetupsResponse["rows"];
   total: number;
   pageIndex: number;
   pageSize: number;

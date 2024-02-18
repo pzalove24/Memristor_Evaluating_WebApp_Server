@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import { AbortFunction, request } from "../request.service";
-import { queryRequest } from "../query.service";
+import { queryRequest } from "../queryRequest.service";
 import {
   BenchmarkMethod,
   BenchmarkInput,
@@ -12,7 +12,7 @@ import {
 
 import { TPaginationResponse } from "@/../server/shared/pagniation";
 
-export type TListBenchmarkSetupsQueryRequest = {
+export type TPostBenchmarkSetupsQueryRequest = {
   type: string;
   setup: string;
   voltageType?: string;
@@ -21,7 +21,7 @@ export type TListBenchmarkSetupsQueryRequest = {
   limit: number;
 };
 
-export type TListBenchmarkSetupsBodyRequest = {
+export type TPostBenchmarkSetupsBodyRequest = {
   filteredBenchmarks?: BenchmarkInput[] | BenchmarkMethod[];
 };
 
@@ -48,37 +48,37 @@ export type BenchmarkInputSetupWithUnit = Prisma.BenchmarkInputSetupGetPayload<{
   };
 }>;
 
-export type TListBenchmarkSetupsResponse = TPaginationResponse<
+export type TPostBenchmarkSetupsResponse = TPaginationResponse<
   BenchmarkMethodWithInput | BenchmarkInputWithInputSetup
 >;
 
-export type TUpsertBenchmarkInputSetupRequest = {
-  benchmarkInputSetupList: BenchmarkInputSetup[];
-};
-
-export type TlistAllBenchmarkInputNameRequest = {
+export type TGetBenchmarkInputNamesQueryRequest = {
   type: string;
-  searchInputName?: string;
+  searchName?: string;
   voltageType?: string;
 };
 
-export type TlistAllBenchmarkMethodNameRequest = {
+export type TGetBenchmarkMethodNamesQueryRequest = {
   type: string;
-  searchMethodName: string;
+  searchName?: string;
   voltageType?: string;
   methodType?: string;
 };
 
+export type TUpsertBenchmarkInputSetupBodyRequest = {
+  benchmarkInputSetupList: BenchmarkInputSetup[];
+};
+
 export type TUpsertBenchmarkInputSetupResponse = BenchmarkInputSetup;
 
-export const listBenchmarkSetups = async (
-  query: TListBenchmarkSetupsQueryRequest,
-  body: TListBenchmarkSetupsBodyRequest
+export const postBenchmarkSetups = async (
+  query: TPostBenchmarkSetupsQueryRequest,
+  body: TPostBenchmarkSetupsBodyRequest
 ): Promise<
-  [Promise<AxiosResponse<TListBenchmarkSetupsResponse>["data"]>, AbortFunction]
+  [Promise<AxiosResponse<TPostBenchmarkSetupsResponse>["data"]>, AbortFunction]
 > => {
 
-  const [response, resAbort] = await request<TListBenchmarkSetupsResponse>(
+  const [response, resAbort] = await request<TPostBenchmarkSetupsResponse>(
     "POST",
     `/benchmark-setups${queryRequest(query)}`,
     {}, // or props
@@ -89,7 +89,7 @@ export const listBenchmarkSetups = async (
   return [response, resAbort];
 };
 
-export const listAllVoltageType = async (): Promise<
+export const getVoltageTypes = async (): Promise<
   [Promise<AxiosResponse<VoltageType[]>["data"]>, AbortFunction]
 > => {
   const [response, resAbort] = await request<VoltageType[]>(
@@ -101,7 +101,7 @@ export const listAllVoltageType = async (): Promise<
   return [response, resAbort];
 };
 
-export const listAllMethodType = async (): Promise<
+export const getMethodTypes = async (): Promise<
   [Promise<AxiosResponse<MethodType[]>["data"]>, AbortFunction]
 > => {
   const [response, resAbort] = await request<MethodType[]>(
@@ -114,18 +114,14 @@ export const listAllMethodType = async (): Promise<
   return [response, resAbort];
 };
 
-export const listAllBenchmarkInputName = async (
-  query: TlistAllBenchmarkInputNameRequest
+export const getBenchmarkInputNames = async (
+  query: TGetBenchmarkInputNamesQueryRequest
 ): Promise<
   [Promise<AxiosResponse<BenchmarkInput[]>["data"]>, AbortFunction]
 > => {
-  console.log(
-    "api",
-    `/benchmark-setups/benchmarkInputs?searchName=${query.searchInputName}&type=${query.type}&voltageType=${query.voltageType}`
-  );
   const [response, resAbort] = await request<BenchmarkInput[]>(
     "GET",
-    `/benchmark-setups/benchmarkInputs?searchName=${query.searchInputName}&type=${query.type}&voltageType=${query.voltageType}`,
+    `/benchmark-setups/benchmarkInputs${queryRequest(query)}`,
     {} // or props
   );
 
@@ -133,14 +129,14 @@ export const listAllBenchmarkInputName = async (
   return [response, resAbort];
 };
 
-export const listAllBenchmarkMethodName = async (
-  query: TlistAllBenchmarkMethodNameRequest
+export const getBenchmarkMethodNames = async (
+  query: TGetBenchmarkMethodNamesQueryRequest
 ): Promise<
   [Promise<AxiosResponse<BenchmarkMethod[]>["data"]>, AbortFunction]
 > => {
   const [response, resAbort] = await request<BenchmarkMethod[]>(
     "GET",
-    `/benchmark-setups/benchmarkMethods?searchName=${query.searchMethodName}&type=${query.type}&voltageType=${query.voltageType}&methodType=${query.methodType}`,
+    `/benchmark-setups/benchmarkMethods${queryRequest(query)}`,
     {} // or props
   );
 
@@ -148,7 +144,7 @@ export const listAllBenchmarkMethodName = async (
   return [response, resAbort];
 };
 
-export const listBenchmarkInputSetups = async (
+export const getBenchmarkInputSetups = async (
   params: string
 ): Promise<
   [Promise<AxiosResponse<BenchmarkInputSetupWithUnit[]>["data"]>, AbortFunction]
@@ -164,7 +160,7 @@ export const listBenchmarkInputSetups = async (
 };
 
 export const upsertBenchmarkInputSetup = async (
-  body: TUpsertBenchmarkInputSetupRequest
+  body: TUpsertBenchmarkInputSetupBodyRequest
 ): Promise<
   [
     Promise<AxiosResponse<TUpsertBenchmarkInputSetupResponse>["data"]>,

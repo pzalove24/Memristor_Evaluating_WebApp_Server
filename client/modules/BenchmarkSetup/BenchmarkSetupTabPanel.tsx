@@ -13,17 +13,14 @@ import {
 import React, { useEffect, useState } from "react";
 import BenchmarkSetupTabPanelInput from "./BenchmarkSetupPanelInput";
 import BenchmarkSetupTabPanelMethod from "./BenchmarkSetupPanelMethod";
-import { useQuery } from "@tanstack/react-query";
-import {
-  TListBenchmarkSetupsBodyRequest,
-  TListBenchmarkSetupsQueryRequest,
-  listAllBenchmarkInputName,
-  listAllBenchmarkMethodName,
-  listAllMethodType,
-  listAllVoltageType,
-  listBenchmarkSetups,
-} from "@/services/benchmark/benchmarkSetup.service";
 import useBenchmarkSetupStore from "@/shared/benchmarkSetupStore";
+import {
+  useGetBenchmarkInputNames,
+  useGetBenchmarkMethodNames,
+  useGetMethodTypes,
+  useGetVoltageTypes,
+  usePostBenchmarkSetups,
+} from "@/services/queries/benchmark/benchmarkSetup/benchmarkSetup.query";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -114,8 +111,6 @@ const BenchmarkSetupTabPanel = ({
     benchmarkMethodsName,
     benchmarkInputs,
     benchmarkMethods,
-    filteredBenchmarkInput,
-    filteredBenchmarkMethod,
   } = useBenchmarkSetupStore();
 
   const handleChangeSetup = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -124,101 +119,41 @@ const BenchmarkSetupTabPanel = ({
 
   const {
     data: listBenchmarkSetup,
-    isLoading,
-    isRefetching,
     refetch: refetchListBenchmarkSetup,
-  } = useQuery({
-    queryKey: ["listBenchmarkSetups", benchmarkType, setup], //benchmarkType, voltageType, pageIndex, limit
-    queryFn: async () => {
-      const queryListBenchmarkSetups = {
-        type: benchmarkType,
-        setup: setup,
-        voltageType: voltageType,
-        methodType: methodType,
-        page: pageIndex,
-        limit: limit,
-      };
-
-      const handleBodyListBenchmarkSetups = () => {
-        if (setup === "Input") {
-          const bodyListBenchmarkSetups = {
-            filteredBenchmarks: benchmarkInputs,
-          };
-          return bodyListBenchmarkSetups;
-        } else {
-          const bodyListBenchmarkSetups = {
-            filteredBenchmarks: benchmarkMethods,
-          };
-          return bodyListBenchmarkSetups;
-        }
-      };
-
-      console.log("benchmarkInputs", handleBodyListBenchmarkSetups());
-      const [response, _] = await listBenchmarkSetups(
-        queryListBenchmarkSetups,
-        handleBodyListBenchmarkSetups()
-      );
-      const res = await response;
-      return res;
-    },
+    isLoading,
+  } = usePostBenchmarkSetups({
+    benchmarkType,
+    setup,
+    voltageType,
+    methodType,
+    pageIndex,
+    limit,
+    benchmarkInputs,
+    benchmarkMethods,
   });
 
   console.log("data", listBenchmarkSetup);
-
   const { data: listVoltageTypes, refetch: refetchListAllVoltageType } =
-    useQuery({
-      queryKey: ["listAllVoltageType"],
-      queryFn: async () => {
-        const [response, _] = await listAllVoltageType();
-        const res = await response;
-        return res;
-      },
-    });
-
-  const { data: listMethodTypes, refetch: refetchListAllMethodType } = useQuery(
-    {
-      queryKey: ["listAllMethodType"],
-      queryFn: async () => {
-        const [response, _] = await listAllMethodType();
-        const res = await response;
-        return res;
-      },
-    }
-  );
-
+    useGetVoltageTypes();
+  const { data: listMethodTypes, refetch: refetchListAllMethodType } =
+    useGetMethodTypes();
   const {
     data: listBenchmarkInputNames,
     refetch: refetchListAllBenchmarkInputNames,
-  } = useQuery({
-    queryKey: ["listBenchmarkInputNames", benchmarkType], //searchInputName
-    queryFn: async () => {
-      const queryInputName = {
-        type: benchmarkType,
-        searchInputName: benchmarkInputsName,
-        voltageType,
-      };
-      const [response, _] = await listAllBenchmarkInputName(queryInputName);
-      const res = await response;
-      return res;
-    },
+  } = useGetBenchmarkInputNames({
+    benchmarkType,
+    benchmarkInputsName,
+    voltageType,
   });
 
   const {
     data: listBenchmarkMethodNames,
     refetch: refetchListAllBenchmarkMethodNames,
-  } = useQuery({
-    queryKey: ["listBenchmarkMethodNames", benchmarkType], //searchMethodName
-    queryFn: async () => {
-      const queryMethodName = {
-        type: benchmarkType,
-        searchMethodName: benchmarkMethodsName,
-        voltageType,
-        methodType,
-      };
-      const [response, _] = await listAllBenchmarkMethodName(queryMethodName);
-      const res = await response;
-      return res;
-    },
+  } = useGetBenchmarkMethodNames({
+    benchmarkType,
+    benchmarkMethodsName,
+    voltageType,
+    methodType,
   });
 
   useEffect(() => {

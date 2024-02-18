@@ -7,12 +7,12 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { TDialogInputCRUD } from "@/types/Dialog/DialogType";
 import {
-  BenchmarkInputSetupWithUnit,
   BenchmarkInputWithInputSetup,
-  listBenchmarkInputSetups,
-} from "@/services/benchmark/benchmarkSetup.service";
+  getBenchmarkInputSetups,
+} from "@/services/apis/benchmark/benchmarkSetup.api";
 import TextFieldInputSetupCRUD from "../TextField/TextFieldInputSetupCRUD";
 import { useQuery } from "@tanstack/react-query";
+import { useGetBenchmarkInputSetups } from "@/services/queries/benchmark/benchmarkSetup/benchmarkSetup.query";
 
 const DialogInputCRUD = ({
   open,
@@ -29,25 +29,12 @@ const DialogInputCRUD = ({
     }
   }, [open]);
 
-
-  const {
-    data: listBenchmarkInputSetup,
-    isLoading,
-    refetch,
-  } = useQuery({
-    queryKey: ["listBenchmarkInputSetup"],
-    queryFn: async () => {
-      const [response, _] = await listBenchmarkInputSetups(setUpData.id);
-      const res = await response;
-      return res;
-    },
-  });
+  const { data: listBenchmarkInputSetup, isLoading } =
+    useGetBenchmarkInputSetups(setUpData.id);
 
   if (isLoading) {
     return <>Loading</>;
   }
-
-  
 
   return (
     <React.Fragment>
@@ -67,12 +54,18 @@ const DialogInputCRUD = ({
             ref={descriptionElementRef}
             tabIndex={-1}
           >
-            {listBenchmarkInputSetup && <TextFieldInputSetupCRUD dataList={listBenchmarkInputSetup} />}
+            {listBenchmarkInputSetup && (
+              <TextFieldInputSetupCRUD dataList={listBenchmarkInputSetup} />
+            )}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button variant="contained" color="inherit" onClick={handleClose}>Cancel</Button>
-          <Button variant="contained" color="info" onClick={handleClose}>Subscribe</Button>
+          <Button variant="contained" color="inherit" onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button variant="contained" color="info" onClick={handleClose}>
+            Subscribe
+          </Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>

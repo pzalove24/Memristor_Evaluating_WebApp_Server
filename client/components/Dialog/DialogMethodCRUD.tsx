@@ -6,7 +6,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { TDialogMethodCRUD } from "@/types/Dialog/DialogType";
-import { BenchmarkMethodWithInput } from "@/services/benchmark/benchmarkSetup.service";
+import { BenchmarkMethodWithInput } from "@/services/apis/benchmark/benchmarkSetup.api";
 
 const DialogMethodCRUD = ({ open, handleClose, setUpData }: TDialogMethodCRUD<BenchmarkMethodWithInput>) => {
 

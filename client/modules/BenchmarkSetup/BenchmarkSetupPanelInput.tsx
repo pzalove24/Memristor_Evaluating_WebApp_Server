@@ -15,7 +15,7 @@ import { VoltageType } from "../../../server/shared/prismaTypes";
 import {
   BenchmarkInputWithInputSetup,
   BenchmarkMethodWithInput,
-} from "@/services/benchmark/benchmarkSetup.service";
+} from "@/services/apis/benchmark/benchmarkSetup.api";
 
 const columns: columnInput[] = [
   { id: "active", label: "Active", minWidth: 170, DisplayType: "Switch" },

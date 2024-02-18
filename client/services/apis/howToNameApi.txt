@@ -1,0 +1,25 @@
+For Api
+<CRUD_METHOD><API_NAME><s|undefined>
+
+get
+create
+post
+put
+patch
+upsert
+update
+delete
+
+example:
+getBenchmarkSetups
+
+---------------------------------------------------------------------------------------------
+
+For Type
+T<CRUD_METHOD><API_NAME><s|undefined><Param | Query | Body | undefined><Request | Response>
+
+example:
+TGetBenchmarkSetupsQueryRequest
+TGetBenchmarkSetupsResponse
+
+***If Type can use from prisma, then use that type***
