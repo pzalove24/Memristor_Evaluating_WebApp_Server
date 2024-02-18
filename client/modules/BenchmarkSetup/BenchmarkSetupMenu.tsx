@@ -38,31 +38,19 @@ const BenchmarkSetupMenu = () => {
   const benchmarkTabs = [
     {
       tabLabel: "Standard Benchmark",
-      tabTable: {
-        input: [],
-        method: [],
-      },
     },
     {
       tabLabel: "Stability Benchmark",
-      tabTable: {
-        input: [],
-        method: [],
-      },
     },
     {
       tabLabel: "Biorealistic Benchmark",
-      tabTable: {
-        input: [],
-        method: [],
-      },
     },
     {
       tabLabel: "Advanced Benchmark",
-      tabTable: {
-        input: [],
-        method: [],
-      },
+      // tabTable: {
+      //   input: [],
+      //   method: [],
+      // },
     },
   ];
 

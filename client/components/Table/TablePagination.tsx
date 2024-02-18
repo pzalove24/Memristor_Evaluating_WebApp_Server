@@ -28,7 +28,6 @@ import LastPageIcon from "@mui/icons-material/LastPage";
 import { TablePaginationActionsProps } from "@mui/material/TablePagination/TablePaginationActions";
 import TableCollapse from "./TableCollapse";
 import {
-  TBenchmarkSetupPanelProps,
   TBenchmarkSetupTableProps,
 } from "@/types/benchmarkSetupType/benchmarkSetupTabsType";
 import useBenchmarkSetupStore from "@/shared/benchmarkSetupStore";

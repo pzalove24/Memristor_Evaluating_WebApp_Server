@@ -9,6 +9,7 @@ import {
   columnInput,
 } from "@/types/benchmarkSetupType/benchmarkSetupTabsType";
 import { Grid } from "@mui/material";
+import { debounce } from "lodash";
 import React, { useEffect } from "react";
 import { VoltageType } from "../../../server/shared/prismaTypes";
 import {
@@ -83,26 +84,27 @@ const BenchmarkSetupTabPanelInput = ({
   tableData,
   limit,
   voltageTypeList,
+  listBenchmarkInputNames
 }: TBenchmarkSetupInputPanelProps) => {
   let rows = tableData.rows;
-  let filteredRows: any = undefined;
   const total = tableData.totalCount;
   const pageIndex = tableData.currentPage;
   const pageSize = limit;
 
-  const handleFilterRowsName = (
-    filteredValue: BenchmarkInputWithInputSetup[]
-  ) => {
-    const listIds = filteredValue.map((value) => value.id);
-    filteredRows = rows.filter((item) => listIds.includes(item.id));
-  };
+  const { voltageTypes, filteredVoltageType, searchBenchmarkInput } =
+    useBenchmarkSetupStore();
 
-  const { voltageTypes, filteredVoltageType } = useBenchmarkSetupStore();
+  const onSearchBenchmarkInput = debounce((inputValue: string) => {
+    console.log(inputValue)
+    searchBenchmarkInput(inputValue);
+  }, 500);
+
   return (
     <>
       <Grid item xs={12} md={4}>
         <CheckBoxAutocomplete
           value={voltageTypes}
+          limitTag={2}
           options={voltageTypeList}
           onChange={(newValue: VoltageType[]) => filteredVoltageType(newValue)}
           fieldDisplay={"name"}
@@ -112,10 +114,13 @@ const BenchmarkSetupTabPanelInput = ({
       </Grid>
       <Grid item xs={12} md={4}>
         <CheckBoxAutocomplete
-          options={tableData.rows}
-          onChange={(newValue: BenchmarkInputWithInputSetup[]) =>
-            handleFilterRowsName(newValue)
-          }
+          limitTag={1}
+          options={listBenchmarkInputNames} //todo
+          onInputChange={(newInput: string) => onSearchBenchmarkInput(newInput)}
+          onChange={(newValue) => console.log("new", newValue)}
+          // onChange={(newValue: BenchmarkInputWithInputSetup[]) =>
+          //   handleFilterRowsName(newValue)
+          // }
           fieldDisplay={"benchmarkInputName"}
           label="Benchmark Input Name"
           placeholder="input name"

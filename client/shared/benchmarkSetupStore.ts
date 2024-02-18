@@ -18,8 +18,8 @@ export type benchmarkSetupState = {
   methodType?: string; // graph,calculation
   voltageTypes?: VoltageType[];
   methodTypes?: MethodType[];
-  benchmarkInputsId?: string[];
-  benchmarkMethodsId?: string[];
+  benchmarkInputsName?: string;
+  benchmarkMethodsName?: string;
   benchmarkInputs?: BenchmarkInputWithInputSetup[];
   benchmarkMethods?: BenchmarkMethodWithInput[];
   pageIndex: number;
@@ -33,12 +33,14 @@ export type benchmarkSetupAction = {
   changePageIndex: (pageIndex: number) => void;
   filteredVoltageType: (voltageTypes: VoltageType[]) => void;
   filteredMethodType: (methodTypes: MethodType[]) => void;
-  filteredBenchmarkInput: (
-    benchmarkInputWithInputSetup: BenchmarkInputWithInputSetup[]
-  ) => void;
-  filteredBenchmarkMethod: (
-    benchmarkMethodWithInput: BenchmarkMethodWithInput[]
-  ) => void;
+  // filteredBenchmarkInput: (
+  //   benchmarkInputWithInputSetup: BenchmarkInputWithInputSetup
+  // ) => void;
+  // filteredBenchmarkMethod: (
+  //   benchmarkMethodWithInput: BenchmarkMethodWithInput
+  // ) => void;
+  searchBenchmarkInput: (benchmarkInputsName: string) => void;
+  searchBenchmarkMethod: (benchmarkMethodsName: string) => void;
 };
 
 const useBenchmarkSetupStore = create<
@@ -46,14 +48,14 @@ const useBenchmarkSetupStore = create<
 >((set) => ({
   benchmarkType: "Standard Benchmark",
   setup: "Input",
-  voltageType: undefined,
-  methodType: undefined,
-  voltageTypes: undefined,
-  MethodTypes: undefined,
-  benchmarkInputsId: undefined,
-  benchmarkMethodsId: undefined,
-  benchmarkInputs: undefined,
-  benchmarkMethods: undefined,
+  voltageType: "", // use in api call query
+  methodType: "", // use in api call query
+  voltageTypes: undefined, // show in autocomplete
+  MethodTypes: undefined, // show in autocomplete
+  benchmarkInputsName: "", // use in api call query
+  benchmarkMethodsName: "", // use in api call query
+  benchmarkInputs: undefined, // show in autocomplete
+  benchmarkMethods: undefined, // show in autocomplete
   pageIndex: 1,
   limit: 5,
   changePageSize: (pageSize: number) =>
@@ -82,19 +84,16 @@ const useBenchmarkSetupStore = create<
       methodType: methodTypes.map((method) => method.name).join(","),
       methodTypes,
     })),
-  filteredBenchmarkInput: (
-    benchmarkInputWithInputSetup: BenchmarkInputWithInputSetup[]
-  ) =>
+  searchBenchmarkInput: (benchmarkInputsName: string) =>
     set(() => ({
-      benchmarkInputs: benchmarkInputWithInputSetup,
-      benchmarkInputsId: benchmarkInputWithInputSetup.map((input) => input.id),
+      // benchmarkInputs: benchmarkInputWithInputSetup,
+      benchmarkInputsName,
     })),
-  filteredBenchmarkMethod: (
-    benchmarkMethodWithInput: BenchmarkMethodWithInput[]
-  ) =>
+
+  searchBenchmarkMethod: (benchmarkMethodsName: string) =>
     set(() => ({
-      benchmarkMethods: benchmarkMethodWithInput,
-      benchmarkMethodsId: benchmarkMethodWithInput.map((method) => method.id),
+      // benchmarkInputs: benchmarkInputWithInputSetup,
+      benchmarkMethodsName,
     })),
 }));
 

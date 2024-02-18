@@ -25,6 +25,8 @@ import { PaginationResponseDto } from './dto/paganition.dto';
 import { UpsertBenchmarkInputSetupDto } from './dto/upsertBenchmarkInputSetup.dto';
 import { UpsertBenchmarkInformationDto } from './dto/upsertBenchmarkInformation.dto';
 import { UpsertBenchmarkMethodDto } from './dto/upsertBenchmarkMethod.dto';
+import { ListAllBenchmarkInputNameDto } from './dto/listAllBenchmarkInputName.dto';
+import { ListAllBenchmarkMethodNameDto } from './dto/listAllBenchmarkMethodName.dto';
 
 @Controller('benchmark-setups')
 export class BenchmarkSetupsController {
@@ -49,6 +51,20 @@ export class BenchmarkSetupsController {
   @Get('/methodType')
   listAllMethodType(): Promise<MethodType[]> {
     return this.benchmarkSetupsService.findAllMethodType();
+  }
+
+  @Get('/benchmarkInputs')
+  listAllBenchmarkInputName(
+    @Query() queryInputName: ListAllBenchmarkInputNameDto,
+  ): Promise<BenchmarkInput[]> {
+    return this.benchmarkSetupsService.findAllBenchmarkInputName(queryInputName);
+  }
+
+  @Get('/benchmarkMethods')
+  listAllBenchmarkMethodName(
+    @Query() queryMethodName: ListAllBenchmarkMethodNameDto,
+  ): Promise<BenchmarkMethod[]> {
+    return this.benchmarkSetupsService.findAllBenchmarkMethodName(queryMethodName);
   }
 
   @Get('/benchmarkInputSetup/:id')

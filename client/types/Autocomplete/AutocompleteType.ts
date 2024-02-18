@@ -4,6 +4,8 @@ export type TCheckBoxAutocompleteProps = {
   options: any[];
   fieldDisplay: string;
   subFieldDisplay?: string;
-  onChange: (newValue: any) => void;
+  onChange?: (newValue: any) => void;
+  onInputChange?: (newInput: any) => void;
+  limitTag: number;
   value?: any
 };

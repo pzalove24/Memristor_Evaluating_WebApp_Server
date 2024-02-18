@@ -17,16 +17,8 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { TTableDisplayType } from "./TablePagination";
 import { TTableCollapseProp } from "@/types/benchmarkSetupType/benchmarkSetupTabsType";
-import DialogCRUD from "../Dialog/DialogInputCRUD";
-import {
-  BenchmarkInputWithInputSetup,
-  BenchmarkMethodWithInput,
-  TListBenchmarkSetupsResponse,
-} from "@/services/benchmark/benchmarkSetup.service";
 import DialogInputCRUD from "../Dialog/DialogInputCRUD";
 import useBenchmarkSetupStore from "@/shared/benchmarkSetupStore";
 import DialogMethodCRUD from "../Dialog/DialogMethodCRUD";
@@ -111,11 +103,12 @@ const TableCollapse = ({ row, columns }: TTableCollapseProp) => {
           if (column.subId) {
             const subObject = column.subId;
             const valueObject: any = row[column.id];
-            if (!valueObject) {
-              value = "fetching";
-            } else {
-              value = valueObject[column.subId];
-            }
+            value = valueObject[subObject];
+          //   if (!valueObject) {
+          //     value = "fetching";
+          //   } else {
+          //     value = valueObject[column.subId];
+          //   }
           } else {
             value = row[column.id];
           }

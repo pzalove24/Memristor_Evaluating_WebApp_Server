@@ -71,8 +71,8 @@ const DialogInputCRUD = ({
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Subscribe</Button>
+          <Button variant="contained" color="inherit" onClick={handleClose}>Cancel</Button>
+          <Button variant="contained" color="info" onClick={handleClose}>Subscribe</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>

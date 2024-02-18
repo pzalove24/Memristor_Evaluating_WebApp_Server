@@ -71,6 +71,7 @@ const BenchmarkSetupTabPanelMethod = ({
   limit,
   voltageTypeList,
   methodTypeList,
+  listBenchmarkMethodNames
 }: TBenchmarkSetupMethodPanelProps) => {
   const rows = tableData.rows;
   const total = tableData.totalCount;
@@ -84,6 +85,7 @@ const BenchmarkSetupTabPanelMethod = ({
       <Grid item xs={12} md={4}>
         <CheckBoxAutocomplete
           value={voltageTypes}
+          limitTag={2}
           options={voltageTypeList}
           onChange={(newValue: VoltageType[]) => filteredVoltageType(newValue)}
           fieldDisplay={"name"}
@@ -94,6 +96,7 @@ const BenchmarkSetupTabPanelMethod = ({
       <Grid item xs={12} md={4}>
         <CheckBoxAutocomplete
           value={methodTypes}
+          limitTag={2}
           options={methodTypeList}
           onChange={(newValue: MethodType[]) => filteredMethodType(newValue)}
           fieldDisplay={"name"}
@@ -103,7 +106,8 @@ const BenchmarkSetupTabPanelMethod = ({
       </Grid>
       <Grid item xs={12} md={4}>
         <CheckBoxAutocomplete
-          options={tableData.rows}
+          limitTag={1}
+          options={listBenchmarkMethodNames}
           onChange={() => console.log("data")}
           fieldDisplay={"benchmarkMethodName"}
           label="Benchmark Method Name"

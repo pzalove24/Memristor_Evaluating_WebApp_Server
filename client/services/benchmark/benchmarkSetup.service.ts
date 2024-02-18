@@ -52,6 +52,19 @@ export type TUpsertBenchmarkInputSetupRequest = {
   benchmarkInputSetupList: BenchmarkInputSetup[];
 };
 
+export type TlistAllBenchmarkInputNameRequest = {
+  type: string;
+  searchInputName?: string;
+  voltageType?: string;
+};
+
+export type TlistAllBenchmarkMethodNameRequest = {
+  type: string;
+  searchMethodName: string;
+  voltageType?: string;
+  methodType?: string;
+};
+
 export type TUpsertBenchmarkInputSetupResponse = BenchmarkInputSetup;
 
 export const listBenchmarkSetups = async (
@@ -87,6 +100,37 @@ export const listAllMethodType = async (): Promise<
   const [response, resAbort] = await request<MethodType[]>(
     "GET",
     `/benchmark-setups/methodType`,
+    {} // or props
+  );
+
+  // zustand set State here
+  return [response, resAbort];
+};
+
+export const listAllBenchmarkInputName = async (
+  query: TlistAllBenchmarkInputNameRequest
+): Promise<
+  [Promise<AxiosResponse<BenchmarkInput[]>["data"]>, AbortFunction]
+> => {
+  console.log('api', `/benchmark-setups/benchmarkInputs?searchName=${query.searchInputName}&type=${query.type}&voltageType=${query.voltageType}`)
+  const [response, resAbort] = await request<BenchmarkInput[]>(
+    "GET",
+    `/benchmark-setups/benchmarkInputs?searchName=${query.searchInputName}&type=${query.type}&voltageType=${query.voltageType}`,
+    {} // or props
+  );
+
+  // zustand set State here
+  return [response, resAbort];
+};
+
+export const listAllBenchmarkMethodName = async (
+  query: TlistAllBenchmarkMethodNameRequest
+): Promise<
+  [Promise<AxiosResponse<BenchmarkMethod[]>["data"]>, AbortFunction]
+> => {
+  const [response, resAbort] = await request<BenchmarkMethod[]>(
+    "GET",
+    `/benchmark-setups/benchmarkMethods?searchName=${query.searchMethodName}&type=${query.type}&voltageType=${query.voltageType}&methodType=${query.methodType}`,
     {} // or props
   );
 

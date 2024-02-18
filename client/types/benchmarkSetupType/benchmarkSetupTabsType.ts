@@ -4,7 +4,7 @@ import {
   BenchmarkMethodWithInput,
   TListBenchmarkSetupsResponse,
 } from "@/services/benchmark/benchmarkSetup.service";
-import { MethodType, VoltageType } from "../../../server/shared/prismaTypes";
+import { BenchmarkInput, BenchmarkMethod, MethodType, VoltageType } from "../../../server/shared/prismaTypes";
 
 export type TBenchmarkSetupTabPanelProps = {
   benchmarkTabPanel: any;
@@ -16,6 +16,7 @@ export type TBenchmarkSetupInputPanelProps = {
   voltageTypeList: VoltageType[]
   tableData: TListBenchmarkSetupsResponse;
   limit: number;
+  listBenchmarkInputNames: BenchmarkInput[]
 };
 
 export type TBenchmarkSetupMethodPanelProps = {
@@ -23,6 +24,7 @@ export type TBenchmarkSetupMethodPanelProps = {
   methodTypeList: MethodType[]
   tableData: TListBenchmarkSetupsResponse;
   limit: number;
+  listBenchmarkMethodNames: BenchmarkMethod[]
 };
 
 export type columnInput = {

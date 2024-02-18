@@ -16,6 +16,8 @@ export const CheckBoxAutocomplete = ({
   fieldDisplay,
   subFieldDisplay,
   onChange,
+  onInputChange,
+  limitTag,
   value,
 }: TCheckBoxAutocompleteProps) => {
   const handleFieldDisplay = (option: any, fieldDisplay: string) => {
@@ -30,12 +32,17 @@ export const CheckBoxAutocomplete = ({
   return (
     <Autocomplete
       multiple
-      limitTags={1}
+      limitTags={limitTag}
       id="checkboxes-tags-demo"
       options={options}
       disableCloseOnSelect
       value={value}
-      onChange={(event, newValue: string[] | null) => onChange(newValue)}
+      onChange={(event, newValue: string[] | null) =>
+        onChange ? onChange(newValue) : null
+      }
+      onInputChange={(event, newInput) =>
+        onInputChange ? onInputChange(newInput) : null
+      }
       getOptionLabel={(option) => handleFieldDisplay(option, fieldDisplay)}
       renderOption={(props, option, { selected }) => (
         <li {...props}>

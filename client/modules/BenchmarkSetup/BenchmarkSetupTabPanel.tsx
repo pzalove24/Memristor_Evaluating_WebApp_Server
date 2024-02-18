@@ -16,6 +16,8 @@ import BenchmarkSetupTabPanelMethod from "./BenchmarkSetupPanelMethod";
 import { useQuery } from "@tanstack/react-query";
 import {
   TListBenchmarkSetupsRequest,
+  listAllBenchmarkInputName,
+  listAllBenchmarkMethodName,
   listAllMethodType,
   listAllVoltageType,
   listBenchmarkSetups,
@@ -122,20 +124,21 @@ const BenchmarkSetupTabPanel = ({
     limit: limit,
   };
 
-
   const {
     data: listBenchmarkSetup,
     isLoading,
-    isRefetching,
+    // isRefetching,
     refetch: refetchListBenchmarkSetup,
   } = useQuery({
-    queryKey: ["listBenchmarkSetups"],
+    queryKey: ["listBenchmarkSetups", setup], //benchmarkType, voltageType, pageIndex, limit
     queryFn: async () => {
       const [response, _] = await listBenchmarkSetups(queryListBenchmarkSetups);
       const res = await response;
       return res;
     },
   });
+
+  console.log("data", listBenchmarkSetup);
 
   const { data: listVoltageTypes, refetch: refetchListAllVoltageType } =
     useQuery({
@@ -158,13 +161,63 @@ const BenchmarkSetupTabPanel = ({
     }
   );
 
+  const searchInputName = "";
+  const searchMethodName = "";
+
+  const {
+    data: listBenchmarkInputNames,
+    refetch: refetchListAllBenchmarkInputNames,
+  } = useQuery({
+    queryKey: ["listBenchmarkInputNames", benchmarkType], //searchInputName
+    queryFn: async () => {
+      const queryInputName = {
+        type: benchmarkType,
+        searchInputName,
+        voltageType,
+      };
+      const [response, _] = await listAllBenchmarkInputName(queryInputName);
+      const res = await response;
+      return res;
+    },
+  });
+
+  const {
+    data: listBenchmarkMethodNames,
+    refetch: refetchListAllBenchmarkMethodNames,
+  } = useQuery({
+    queryKey: ["listBenchmarkMethodNames", benchmarkType], //searchMethodName
+    queryFn: async () => {
+      const queryMethodName = {
+        type: benchmarkType,
+        searchMethodName,
+        voltageType,
+        methodType,
+      };
+      const [response, _] = await listAllBenchmarkMethodName(queryMethodName);
+      const res = await response;
+      return res;
+    },
+  });
+
   useEffect(() => {
+    // refetch table
     refetchListBenchmarkSetup();
   }, [benchmarkType, setup, voltageType, methodType, pageIndex, limit]);
 
-  if (isLoading && isRefetching) {
-    return <>Loading</>;
+
+  useEffect(() => {
+    //refetch autocomplete
+    refetchListAllBenchmarkInputNames()
+    refetchListAllBenchmarkMethodNames()
+  }, [benchmarkType, voltageType, methodType])
+
+  if (isLoading) {
+    return <>Loading1</>;
   }
+
+  // if (isRefetching){
+  //   return <>Refetching</>
+  // }
 
   return (
     <TabPanel value={value} index={index}>
@@ -182,24 +235,30 @@ const BenchmarkSetupTabPanel = ({
               handleChangeSetup={handleChangeSetup}
             />
           </Grid>
-          {setup === "Input" && listBenchmarkSetup && listVoltageTypes ? (
+          {setup === "Input" &&
+          listBenchmarkSetup &&
+          listVoltageTypes &&
+          listBenchmarkInputNames ? (
             <BenchmarkSetupTabPanelInput
               voltageTypeList={listVoltageTypes}
+              listBenchmarkInputNames={listBenchmarkInputNames}
               tableData={listBenchmarkSetup}
               limit={limit}
             />
           ) : setup === "Method" &&
             listBenchmarkSetup &&
             listVoltageTypes &&
-            listMethodTypes ? (
+            listMethodTypes &&
+            listBenchmarkMethodNames ? (
             <BenchmarkSetupTabPanelMethod
               voltageTypeList={listVoltageTypes}
+              listBenchmarkMethodNames={listBenchmarkMethodNames}
               methodTypeList={listMethodTypes}
               tableData={listBenchmarkSetup}
               limit={limit}
             />
           ) : (
-            <>Loading</>
+            <>Loading2</>
           )}
         </Grid>
       </Box>
