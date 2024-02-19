@@ -64,27 +64,6 @@ const DialogInputCRUD = ({
     tableBenchmarkInputSetupFormik.values
   );
 
-  const handleAdd = () => {
-    tableBenchmarkInputSetupFormik.setValues([
-      ...tableBenchmarkInputSetupFormik.values,
-      createEmptyInputSetup(tableBenchmarkInputSetupFormik.values[0]),
-    ]);
-  };
-
-  const createEmptyInputSetup = (obj: any) => {
-    const newObj = {};
-    for (const key in obj) {
-      if (key === "id") {
-        newObj[key] = `New Setup ${Math.random()}`;
-      } else if (typeof obj[key] === "string") {
-        newObj[key] = "";
-      } else if (typeof obj[key] === "number") {
-        newObj[key] = null;
-      }
-    }
-    return newObj;
-  };
-
   // const createEmptyRow = () => {
   //   const emptyRow: { [key: string]: any } = {};
   //   Object.keys(fields).forEach((key) => {
@@ -143,10 +122,9 @@ const DialogInputCRUD = ({
             tabIndex={-1}
           >
             <TableInputCRUD
-              data={tableBenchmarkInputSetupFormik.values}
+              data={tableBenchmarkInputSetupFormik}
               onDelete={handleDelete}
               onSave={handleSave}
-              onAdd={handleAdd}
             />
             {/* {listBenchmarkInputSetup && (
               <TextFieldInputSetupCRUD dataList={listBenchmarkInputSetup} />

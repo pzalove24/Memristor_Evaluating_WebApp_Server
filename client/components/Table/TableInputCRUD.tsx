@@ -17,35 +17,44 @@ import {
 } from "@mui/material";
 import EditSelect from "../Select/EditSelect";
 import EditTextField from "../TextField/EditTextField";
-import { useFormik } from "formik";
+import { FormikProps } from "formik";
 
-// interface MyTableProps {
-//   data: { [key: string]: any }[];
-//   fields: {
-//     [key: string]: {
-//       label: string;
-//       editable: boolean;
-//       type: string;
-//       options?: { value: any; label: string }[];
-//     };
-//   };
-//   onDelete: (id: number) => void;
-//   onSave: (id: number, updatedValues: { [key: string]: any }) => void;
-//   onAdd: () => void;
-// }
+interface MyTableProps {
+  data: FormikProps<any>;
+  onDelete: (id: number) => void;
+  onSave: (id: number, updatedValues: { [key: string]: any }) => void;
+}
 
-const TableInputCRUD = ({ data, onDelete, onSave, onAdd }) => {
+const TableInputCRUD = ({ data, onDelete, onSave }: MyTableProps) => {
+  const { values, setValues } = data;
   const [editableRow, setEditableRow] = useState<number | null>(null);
   const [addRow, setAddRow] = useState(false);
   const [editedName, setEditedName] = useState("");
   const [editedEmail, setEditedEmail] = useState("");
+  // const prevBenchmarkInputSetups = React.useRef(values);
+
+  const handleAdd = () => {
+    setValues([...values, createEmptyInputSetup(values[0])]);
+  };
+
+  const createEmptyInputSetup = (obj: any) => {
+    const newObj = {};
+    for (const key in obj) {
+      if (key === "id") {
+        newObj[key] = `New Setup ${Math.random()}`;
+      } else if (typeof obj[key] === "string") {
+        newObj[key] = "";
+      } else if (typeof obj[key] === "number") {
+        newObj[key] = null;
+      }
+    }
+    return newObj;
+  };
 
   const handleEdit = (id: number, name, email) => {
-    setAddRow(false);
     setEditableRow(id);
     setEditedName(name);
     setEditedEmail(email);
-    console.log("addRowAfter", addRow);
   };
 
   const handleSave = () => {
@@ -53,23 +62,15 @@ const TableInputCRUD = ({ data, onDelete, onSave, onAdd }) => {
     setEditableRow(null);
   };
 
+  console.log('editableRow',editableRow)
+  console.log('editedName',editedEmail)
+  console.log('editableRow',editableRow)
+
   const handleCancel = () => {
     setEditableRow(null);
-    // Reset edited values to the original values
     setEditedName("");
     setEditedEmail("");
   };
-
-  const handleAddOnTable = () => {
-    console.log("addRowBefore", addRow);
-    onAdd();
-  };
-
-  // useEffect(() => {
-  //   const newData = data[data.length - 1];
-  //   console.log("newdata", data); // Logging newData instead of data
-  //   handleEdit(newData.id, newData.name, newData.email);
-  // }, [data]);
 
   return (
     <>
@@ -77,7 +78,7 @@ const TableInputCRUD = ({ data, onDelete, onSave, onAdd }) => {
         <Table>
           <TableBody>
             {/* Render table rows */}
-            {data.map((row, index) => (
+            {values.map((row: any, index: number) => (
               <TableRow key={row.id}>
                 <TableCell>{row.id}</TableCell>
                 {/* <TableCell>
@@ -92,7 +93,7 @@ const TableInputCRUD = ({ data, onDelete, onSave, onAdd }) => {
                 <TableCell>
                   <EditSelect
                     editableRow={editableRow}
-                    options={data}
+                    options={values}
                     fieldOption="name"
                     rowData={row}
                     fieldData="name"
@@ -138,7 +139,7 @@ const TableInputCRUD = ({ data, onDelete, onSave, onAdd }) => {
                       </Button>
                     )}
                     <Button
-                      disabled={data.length === 1}
+                      disabled={values.length === 1}
                       variant="contained"
                       color="error"
                       onClick={() => onDelete(row.id)}
@@ -152,12 +153,7 @@ const TableInputCRUD = ({ data, onDelete, onSave, onAdd }) => {
           </TableBody>
         </Table>
       </TableContainer>
-      <Button
-        fullWidth
-        onClick={handleAddOnTable}
-        variant="contained"
-        color="primary"
-      >
+      <Button fullWidth onClick={handleAdd} variant="contained" color="primary">
         Add Input Setup
       </Button>
     </>
