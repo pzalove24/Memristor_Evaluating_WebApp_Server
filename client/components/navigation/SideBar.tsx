@@ -6,15 +6,15 @@ import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import AutoGraphIcon from '@mui/icons-material/AutoGraph';
+import AutoGraphIcon from "@mui/icons-material/AutoGraph";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
-import BiotechIcon from '@mui/icons-material/Biotech';
+import BiotechIcon from "@mui/icons-material/Biotech";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
+import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
 import DockIcon from "@mui/icons-material/Dock";
 import AssessmentIcon from "@mui/icons-material/Assessment";
 import DashboardIcon from "@mui/icons-material/Dashboard";
@@ -29,6 +29,7 @@ import {
 } from "@/types";
 import { PageModule, TListMenuNavigationProps } from "@/types/navigation";
 import MenuMain from "./MenuMain";
+import { SnackbarProvider } from "notistack";
 
 const drawerWidth = 240;
 
@@ -174,68 +175,70 @@ export default function SideBar({ children }: SideBarProps) {
   ];
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <AppBar color="primary" position="fixed" open={openDrawer}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{
-              marginRight: 5,
-              ...(openDrawer && { display: "none" }),
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            The Memristor Evaluation Board
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <Drawer variant="permanent" open={openDrawer}>
-        <DrawerHeader>
-          {openDrawer ? (
-            <Image
-              src="/AMPlogo.png"
-              alt="AMP"
-              width={86}
-              height={50}
-              className="object-contain"
-              style={{ marginRight: 38 }}
-            />
-          ) : (
-            <></>
-          )}
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "rtl" ? (
-              <ChevronRightIcon />
+    <SnackbarProvider maxSnack={3}>
+      <Box sx={{ display: "flex" }}>
+        <AppBar color="primary" position="fixed" open={openDrawer}>
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              sx={{
+                marginRight: 5,
+                ...(openDrawer && { display: "none" }),
+              }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" noWrap component="div">
+              The Memristor Evaluation Board
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        <Drawer variant="permanent" open={openDrawer}>
+          <DrawerHeader>
+            {openDrawer ? (
+              <Image
+                src="/AMPlogo.png"
+                alt="AMP"
+                width={86}
+                height={50}
+                className="object-contain"
+                style={{ marginRight: 38 }}
+              />
             ) : (
-              <ChevronLeftIcon />
+              <></>
             )}
-          </IconButton>
-        </DrawerHeader>
-        <Divider />
-        {listMenuNavigation.map((listAllMenu) => (
-          <MenuMain
-            key={listAllMenu.module}
-            menuMain={listAllMenu}
-            openMainMenu={openDrawer}
-          />
-        ))}
-      </Drawer>
-      <Box
-        sx={{
-          display: "block",
-          p: 3,
-          marginTop: 10,
-          width: "100%",
-          overflow: "auto",
-        }}
-      >
-        {children}
+            <IconButton onClick={handleDrawerClose}>
+              {theme.direction === "rtl" ? (
+                <ChevronRightIcon />
+              ) : (
+                <ChevronLeftIcon />
+              )}
+            </IconButton>
+          </DrawerHeader>
+          <Divider />
+          {listMenuNavigation.map((listAllMenu) => (
+            <MenuMain
+              key={listAllMenu.module}
+              menuMain={listAllMenu}
+              openMainMenu={openDrawer}
+            />
+          ))}
+        </Drawer>
+        <Box
+          sx={{
+            display: "block",
+            p: 3,
+            marginTop: 10,
+            width: "100%",
+            overflow: "auto",
+          }}
+        >
+          {children}
+        </Box>
       </Box>
-    </Box>
+    </SnackbarProvider>
   );
 }

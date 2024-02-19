@@ -1,4 +1,5 @@
 import {
+  Badge,
   Box,
   Button,
   Collapse,
@@ -22,6 +23,7 @@ import { TTableCollapseProp } from "@/types/benchmarkSetupType/benchmarkSetupTab
 import DialogInputCRUD from "../Dialog/DialogInputCRUD";
 import useBenchmarkSetupStore from "@/shared/benchmarkSetupStore";
 import DialogMethodCRUD from "../Dialog/DialogMethodCRUD";
+import BadgeButton from "../Button/BadgeButton";
 
 const rowDisplay = (
   displayType: TTableDisplayType,
@@ -82,6 +84,8 @@ const TableCollapse = ({ row, columns }: TTableCollapseProp) => {
     setSelectedSetupData(data);
   };
 
+  console.log("row", row);
+
   return (
     <React.Fragment>
       {openDialog && setup === "Input" ? (
@@ -104,11 +108,11 @@ const TableCollapse = ({ row, columns }: TTableCollapseProp) => {
             const subObject = column.subId;
             const valueObject: any = row[column.id];
             value = valueObject[subObject];
-          //   if (!valueObject) {
-          //     value = "fetching";
-          //   } else {
-          //     value = valueObject[column.subId];
-          //   }
+            //   if (!valueObject) {
+            //     value = "fetching";
+            //   } else {
+            //     value = valueObject[column.subId];
+            //   }
           } else {
             value = row[column.id];
           }
@@ -117,12 +121,13 @@ const TableCollapse = ({ row, columns }: TTableCollapseProp) => {
             <>
               {column.id === "Expand Setup" ? (
                 <TableCell key={index} align="right">
-                  <Button
-                    variant={"contained"}
-                    onClick={() => handleOpenDialog(row)}
-                  >
-                    Open Setup
-                  </Button>
+                  <BadgeButton
+                    count={
+                      setup === "Input" ? row.benchmarkInputSetups?.length : 0
+                    }
+                    data={row}
+                    handleClick={handleOpenDialog}
+                  />
                 </TableCell>
               ) : (
                 <TableCell key={index} align={column.align}>

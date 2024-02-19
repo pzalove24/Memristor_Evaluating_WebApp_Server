@@ -13,7 +13,9 @@ import {
 import TextFieldInputSetupCRUD from "../TextField/TextFieldInputSetupCRUD";
 import { useQuery } from "@tanstack/react-query";
 import { useGetBenchmarkInputSetups } from "@/services/queries/benchmark/benchmarkSetup/benchmarkSetup.query";
-import TableCRUD from "../Table/TableCRUD";
+import TableInputCRUD from "../Table/TableInputCRUD";
+import { useSnackbar } from "notistack";
+import { useFormik } from "formik";
 
 const testData = [
   { id: 1, name: "John", email: "john@example.com", role: "Admin" },
@@ -26,12 +28,11 @@ const DialogInputCRUD = ({
   handleClose,
   setUpData,
 }: TDialogInputCRUD<BenchmarkInputWithInputSetup>) => {
+  const { enqueueSnackbar } = useSnackbar();
+
   const { data: listBenchmarkInputSetup, isLoading } =
     useGetBenchmarkInputSetups(setUpData.id);
 
-  console.log("listdata", listBenchmarkInputSetup);
-
-  const [data, setData] = React.useState(testData);
   const descriptionElementRef = React.useRef<HTMLElement>(null);
   React.useEffect(() => {
     if (open) {
@@ -42,76 +43,98 @@ const DialogInputCRUD = ({
     }
   }, [open]);
 
-  if (isLoading) {
-    return <>Loading</>;
-  }
+  const tableBenchmarkInputSetupFormik = useFormik({
+    initialValues: testData,
+    onSubmit: async (values) => {
+      console.log("valuesubmit", values);
+      enqueueSnackbar("Success Save InputSetups.", {
+        autoHideDuration: 1000,
+        transitionDuration: { enter: 225, exit: 225 },
+        variant: "success",
+        anchorOrigin: {
+          vertical: "top",
+          horizontal: "right",
+        },
+      });
+      handleClose();
+    },
+  });
+
+  const prevBenchmarkInputSetups = React.useRef(
+    tableBenchmarkInputSetupFormik.values
+  );
 
   const handleAdd = () => {
-    setData([...data, createEmptyRow()]);
+    tableBenchmarkInputSetupFormik.setValues([
+      ...tableBenchmarkInputSetupFormik.values,
+      createEmptyInputSetup(tableBenchmarkInputSetupFormik.values[0]),
+    ]);
   };
 
-  const createEmptyRow = () => {
-    const emptyRow: { [key: string]: any } = {};
-    Object.keys(fields).forEach((key) => {
-      emptyRow[key] = ""; // Initialize each field with an empty string
-    });
-    return emptyRow;
+  const createEmptyInputSetup = (obj: any) => {
+    const newObj = {};
+    for (const key in obj) {
+      if (key === "id") {
+        newObj[key] = `New Setup ${Math.random()}`;
+      } else if (typeof obj[key] === "string") {
+        newObj[key] = "";
+      } else if (typeof obj[key] === "number") {
+        newObj[key] = null;
+      }
+    }
+    return newObj;
   };
+
+  // const createEmptyRow = () => {
+  //   const emptyRow: { [key: string]: any } = {};
+  //   Object.keys(fields).forEach((key) => {
+  //     emptyRow[key] = ""; // Initialize each field with an empty string
+  //   });
+  //   return emptyRow;
+  // };
 
   const handleDelete = (id: number) => {
-    const newData = data.filter((row) => row.id !== id);
-    console.log("id", id);
-    console.log("newData", newData);
-    setData(newData);
+    const newData = tableBenchmarkInputSetupFormik.values.filter(
+      (row) => row.id !== id
+    );
+    tableBenchmarkInputSetupFormik.setValues(newData);
   };
 
-  const handleSave = (id: number, updatedValues) => {
-    // Update the data with the new values for the row with the specified ID
-    const newData = data.map((row) => {
+  const handleSave = (id: number, updatedValues: any) => {
+    const newData = tableBenchmarkInputSetupFormik.values.map((row) => {
       if (row.id === id) {
         return { ...row, ...updatedValues };
       }
       return row;
     });
-    setData(newData); // Assuming testData is your state variable storing the data
+    tableBenchmarkInputSetupFormik.setValues(newData);
   };
 
-  const fields = {
-    id: { label: "New", editable: true, type: "textField" },
-    name: { label: "Name", editable: true, type: "textField" },
-    email: {
-      label: "Email",
-      editable: true,
-      type: "select",
-      options: [
-        { value: "john@example.com", label: "john@example.com" },
-        { value: "alice@example.com", label: "alice@example.com" },
-        { value: "bob@example.com", label: "bob@example.com" },
-        // Add more options as needed
-      ],
-    },
-    role: {
-      label: "Role",
-      editable: true,
-      type: "select",
-      options: [
-        { value: "Admin", label: "Admin" },
-        { value: "User", label: "User" },
-      ],
-    },
-    // Add more fields as needed
+  const handleAlertClose = () => {
+    if (
+      prevBenchmarkInputSetups.current !== tableBenchmarkInputSetupFormik.values
+    ) {
+      alert(JSON.stringify("are you sure to cancel edit Data", null, 2));
+    }
+
+    handleClose();
   };
+
+  if (isLoading) {
+    return <>Loading</>;
+  }
+
   return (
-    <React.Fragment>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        fullWidth
-        maxWidth={"xl"}
-        scroll={"paper"}
-        aria-labelledby="scroll-dialog-title"
-        aria-describedby="scroll-dialog-description"
-      >
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      fullWidth
+      maxWidth={"xl"}
+      scroll={"paper"}
+      aria-labelledby="scroll-dialog-title"
+      aria-describedby="scroll-dialog-description"
+    >
+      <form onSubmit={tableBenchmarkInputSetupFormik.handleSubmit}>
         <DialogTitle id="scroll-dialog-title">{`Input Setup for ${setUpData.benchmarkInputName}`}</DialogTitle>
         <DialogContent dividers={true}>
           <DialogContentText
@@ -119,9 +142,8 @@ const DialogInputCRUD = ({
             ref={descriptionElementRef}
             tabIndex={-1}
           >
-            <TableCRUD
-              data={data}
-              fields={fields}
+            <TableInputCRUD
+              data={tableBenchmarkInputSetupFormik.values}
               onDelete={handleDelete}
               onSave={handleSave}
               onAdd={handleAdd}
@@ -132,15 +154,19 @@ const DialogInputCRUD = ({
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button variant="contained" color="inherit" onClick={handleClose}>
+          <Button
+            variant="contained"
+            color="inherit"
+            onClick={handleAlertClose}
+          >
             Cancel
           </Button>
-          <Button variant="contained" color="info" onClick={handleClose}>
-            Subscribe
+          <Button type="submit" variant="contained" color="info">
+            Save Input Setup
           </Button>
         </DialogActions>
-      </Dialog>
-    </React.Fragment>
+      </form>
+    </Dialog>
   );
 };
 

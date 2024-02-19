@@ -4,7 +4,6 @@ import type { Metadata } from "next";
 import { SideBar } from "@/components";
 import QueryProviders from "@/components/providers/query-provider";
 import React from "react";
-// import { SocketProvider } from "@/components/providers/socket-provider";
 
 export const metadata: Metadata = {
   title: "opensource Memristor",
@@ -23,9 +22,11 @@ export default function RootLayout({
       <body>
         <ThemeRegistry>
           {/* <SocketProvider> */}
-            <QueryProviders>
+          <QueryProviders>
+            
               <SideBar>{children}</SideBar>
-            </QueryProviders>
+        
+          </QueryProviders>
           {/* </SocketProvider> */}
         </ThemeRegistry>
       </body>
