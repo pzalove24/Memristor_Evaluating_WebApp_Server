@@ -38,7 +38,7 @@ const TableInputCRUD = ({ data, onDelete, onSave }: MyTableProps) => {
   };
 
   const createEmptyInputSetup = (obj: any) => {
-    const newObj = {};
+    const newObj: any = {};
     for (const key in obj) {
       if (key === "id") {
         newObj[key] = `New Setup ${Math.random()}`;
@@ -51,20 +51,22 @@ const TableInputCRUD = ({ data, onDelete, onSave }: MyTableProps) => {
     return newObj;
   };
 
-  const handleEdit = (id: number, name, email) => {
+  const handleEdit = (id: number, name: any, email: any) => {
     setEditableRow(id);
     setEditedName(name);
     setEditedEmail(email);
   };
 
   const handleSave = () => {
-    onSave(editableRow, { name: editedName, email: editedEmail });
-    setEditableRow(null);
+    if (editableRow) {
+      onSave(editableRow, { name: editedName, email: editedEmail });
+      setEditableRow(null);
+    }
   };
 
-  console.log('editableRow',editableRow)
-  console.log('editedName',editedEmail)
-  console.log('editableRow',editableRow)
+  console.log("editableRow", editableRow);
+  console.log("editedName", editedEmail);
+  console.log("editableRow", editableRow);
 
   const handleCancel = () => {
     setEditableRow(null);

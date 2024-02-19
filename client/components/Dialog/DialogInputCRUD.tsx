@@ -122,7 +122,7 @@ const DialogInputCRUD = ({
             tabIndex={-1}
           >
             <TableInputCRUD
-              data={tableBenchmarkInputSetupFormik}
+              data={tableBenchmarkInputSetupFormik as any} //TODO
               onDelete={handleDelete}
               onSave={handleSave}
             />
