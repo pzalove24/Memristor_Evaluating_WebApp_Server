@@ -44,7 +44,9 @@ const DialogInputCRUD = ({
   }, [open]);
 
   const tableBenchmarkInputSetupFormik = useFormik({
-    initialValues: testData,
+    initialValues: listBenchmarkInputSetup
+      ? { data: listBenchmarkInputSetup }
+      : { data: [] },
     onSubmit: async (values) => {
       console.log("valuesubmit", values);
       enqueueSnackbar("Success Save InputSetups.", {
@@ -61,7 +63,7 @@ const DialogInputCRUD = ({
   });
 
   const prevBenchmarkInputSetups = React.useRef(
-    tableBenchmarkInputSetupFormik.values
+    tableBenchmarkInputSetupFormik.values.data
   );
 
   // const createEmptyRow = () => {
@@ -72,26 +74,28 @@ const DialogInputCRUD = ({
   //   return emptyRow;
   // };
 
-  const handleDelete = (id: number) => {
-    const newData = tableBenchmarkInputSetupFormik.values.filter(
+  console.log("listBenchmarkInputSetup", listBenchmarkInputSetup);
+
+  const handleDelete = (id: string) => {
+    const newData = tableBenchmarkInputSetupFormik.values.data.filter(
       (row) => row.id !== id
     );
-    tableBenchmarkInputSetupFormik.setValues(newData);
+    tableBenchmarkInputSetupFormik.setValues({ data: newData });
   };
 
-  const handleSave = (id: number, updatedValues: any) => {
-    const newData = tableBenchmarkInputSetupFormik.values.map((row) => {
-      if (row.id === id) {
-        return { ...row, ...updatedValues };
-      }
-      return row;
-    });
-    tableBenchmarkInputSetupFormik.setValues(newData);
-  };
+  // const handleSave = (id: string, updatedValues: any) => {
+  //   const newData = tableBenchmarkInputSetupFormik.values.data.map((row) => {
+  //     if (row.id === id) {
+  //       return { ...row, ...updatedValues };
+  //     }
+  //     return row;
+  //   });
+  //   tableBenchmarkInputSetupFormik.setValues({ data: newData });
+  // };
 
   const handleAlertClose = () => {
     if (
-      prevBenchmarkInputSetups.current !== tableBenchmarkInputSetupFormik.values
+      prevBenchmarkInputSetups.current !== tableBenchmarkInputSetupFormik.values.data
     ) {
       alert(JSON.stringify("are you sure to cancel edit Data", null, 2));
     }
@@ -124,7 +128,8 @@ const DialogInputCRUD = ({
             <TableInputCRUD
               data={tableBenchmarkInputSetupFormik as any} //TODO
               onDelete={handleDelete}
-              onSave={handleSave}
+              // onSave={handleSave}
+              isLoading={isLoading}
             />
             {/* {listBenchmarkInputSetup && (
               <TextFieldInputSetupCRUD dataList={listBenchmarkInputSetup} />

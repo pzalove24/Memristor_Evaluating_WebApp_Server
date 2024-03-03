@@ -168,6 +168,7 @@ export class BenchmarkSetupsService {
           benchmarkInputId: id,
         },
         include: {
+          voltageType: true,
           dataType: true,
           BenchmarkUnit: true,
         },

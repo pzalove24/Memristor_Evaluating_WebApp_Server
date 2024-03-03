@@ -7,7 +7,7 @@ const EditTextField = ({
   rowData,
   fieldData,
   subFieldData,
-  editedData,
+  // editedData,
   handleSetEditedData,
 }: TEditTextField) => {
   const handleDisplayRowData = () => {
@@ -19,12 +19,16 @@ const EditTextField = ({
 
     return rowData[fieldData];
   };
+
+  console.log("handleDisplayRowData", handleDisplayRowData());
   return (
     <>
       {editableRow === rowData.id ? (
         <TextField
-          value={editedData}
-          onChange={(e) => handleSetEditedData(e.target.value)}
+          id={handleDisplayRowData()}
+          name={handleDisplayRowData()}
+          value={handleDisplayRowData()}
+          onChange={handleSetEditedData}
         />
       ) : (
         handleDisplayRowData()
