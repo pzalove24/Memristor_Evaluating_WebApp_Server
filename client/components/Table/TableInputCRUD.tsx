@@ -33,6 +33,7 @@ const TableInputCRUD = ({ data, onDelete }: MyTableProps) => {
   };
 
   const createEmptyInputSetup = (obj: any) => {
+    console.log("obj", obj);
     const newObj: any = {};
     for (const key in obj) {
       if (key === "id") {
@@ -41,8 +42,17 @@ const TableInputCRUD = ({ data, onDelete }: MyTableProps) => {
         newObj[key] = "";
       } else if (typeof obj[key] === "number") {
         newObj[key] = null;
+      } else if (typeof obj[key] === "object") {
+        if (key === "id") {
+          newObj[key] = `New Setup ${Math.random()}`;
+        } else if (typeof obj[key] === "string") {
+          newObj[key] = "test";
+        } else if (typeof obj[key] === "number") {
+          newObj[key] = null;
+        }
       }
     }
+    console.log("newobj", newObj);
     return newObj;
   };
 

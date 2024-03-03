@@ -159,7 +159,7 @@ export const getBenchmarkInputSetups = async (
   return [response, resAbort];
 };
 
-export const upsertBenchmarkInputSetup = async (
+export const upsertBenchmarkInputBenchmarkInputSetup = async (
   body: TUpsertBenchmarkInputSetupBodyRequest
 ): Promise<
   [
@@ -170,7 +170,7 @@ export const upsertBenchmarkInputSetup = async (
   const [response, resAbort] =
     await request<TUpsertBenchmarkInputSetupResponse>(
       "PUT",
-      `/benchmark-setups/benchmarkInputSetup`,
+      `/benchmark-setups/benchmarkInput/benchmarkInputSetup`,
       {}, // or props
       body
     );

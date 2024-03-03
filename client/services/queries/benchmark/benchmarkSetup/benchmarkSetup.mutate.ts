@@ -1,15 +1,15 @@
 import {
   TUpsertBenchmarkInputSetupBodyRequest,
-  upsertBenchmarkInputSetup,
+  upsertBenchmarkInputBenchmarkInputSetup,
 } from "@/services/apis/benchmark/benchmarkSetup.api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-export const useUpsertBenchmarkInputSetups = () => {
+export const useUpsertBenchmarkBenchmarkInputInputSetups = () => {
   const queryClient = useQueryClient();
   return useMutation({
     // mutationKey: ["listBenchmarkInputSetup"],
     mutationFn: async (bodyData: TUpsertBenchmarkInputSetupBodyRequest) => {
-      const [response, _] = await upsertBenchmarkInputSetup(bodyData);
+      const [response, _] = await upsertBenchmarkInputBenchmarkInputSetup(bodyData);
       const res = await response;
       return res;
     },

@@ -14,7 +14,7 @@ import {
 } from '@prisma/client';
 import { PaginationResponseDto } from './dto/paganition.dto';
 import { UpsertBenchmarkInputDto } from './dto/upsertBenchmarkInput.dto';
-import { UpsertBenchmarkInputSetupDto } from './dto/upsertBenchmarkInputSetup.dto';
+import { UpsertBenchmarkInputBenchmarkInputSetupDto } from './dto/upsertBenchmarkInputSetup.dto';
 import { UpsertBenchmarkInformationDto } from './dto/upsertBenchmarkInformation.dto';
 import { UpsertBenchmarkMethodDto } from './dto/upsertBenchmarkMethod.dto';
 import { ListAllBenchmarkInputNameDto } from './dto/listAllBenchmarkInputName.dto';
@@ -209,8 +209,8 @@ export class BenchmarkSetupsService {
     return upsertBenchmarkInput;
   }
 
-  async upsertBenchmarkInputSetup(
-    upsertBenchmarkInputSetupDto: UpsertBenchmarkInputSetupDto,
+  async upsertBenchmarkInputBenchmarkInputSetup(
+    upsertBenchmarkInputSetupDto: UpsertBenchmarkInputBenchmarkInputSetupDto,
   ): Promise<BenchmarkInputSetup[]> {
     let listBenchmarkInputSetup: BenchmarkInputSetup[] = [];
 

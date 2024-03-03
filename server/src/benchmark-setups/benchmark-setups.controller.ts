@@ -25,7 +25,7 @@ import {
   VoltageType,
 } from '@prisma/client';
 import { PaginationResponseDto } from './dto/paganition.dto';
-import { UpsertBenchmarkInputSetupDto } from './dto/upsertBenchmarkInputSetup.dto';
+import { UpsertBenchmarkInputBenchmarkInputSetupDto } from './dto/upsertBenchmarkInputSetup.dto';
 import { UpsertBenchmarkInformationDto } from './dto/upsertBenchmarkInformation.dto';
 import { UpsertBenchmarkMethodDto } from './dto/upsertBenchmarkMethod.dto';
 import { ListAllBenchmarkInputNameDto } from './dto/listAllBenchmarkInputName.dto';
@@ -95,12 +95,12 @@ export class BenchmarkSetupsController {
     );
   }
 
-  @Put('/benchmarkInputSetup')
+  @Put('/benchmarkInput/benchmarkInputSetup')
   async upsertBenchmarkInputSetup(
-    @Body() upsertBenchmarkInputSetupDto: UpsertBenchmarkInputSetupDto,
+    @Body() upsertBenchmarkInputBenchmarkInputSetupDto: UpsertBenchmarkInputBenchmarkInputSetupDto,
   ): Promise<BenchmarkInputSetup[]> {
-    return this.benchmarkSetupsService.upsertBenchmarkInputSetup(
-      upsertBenchmarkInputSetupDto,
+    return this.benchmarkSetupsService.upsertBenchmarkInputBenchmarkInputSetup(
+      upsertBenchmarkInputBenchmarkInputSetupDto,
     );
   }
 

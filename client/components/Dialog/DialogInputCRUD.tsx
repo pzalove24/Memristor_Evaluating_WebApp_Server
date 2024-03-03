@@ -11,7 +11,7 @@ import { useGetBenchmarkInputSetups } from "@/services/queries/benchmark/benchma
 import TableInputCRUD from "../Table/TableInputCRUD";
 import { useSnackbar } from "notistack";
 import { useFormik } from "formik";
-import { useUpsertBenchmarkInputSetups } from "@/services/queries/benchmark/benchmarkSetup/benchmarkSetup.mutate";
+import { useUpsertBenchmarkBenchmarkInputInputSetups } from "@/services/queries/benchmark/benchmarkSetup/benchmarkSetup.mutate";
 import { LoadingApi } from "../Loading/LoadingApi";
 import CancelConfirm from "./Confirm/CancelConfirm";
 
@@ -32,7 +32,7 @@ const DialogInputCRUD = ({
     useGetBenchmarkInputSetups(setUpData.id);
 
   const { mutateAsync: mutateListBenchmarkInputSetup } =
-    useUpsertBenchmarkInputSetups();
+  useUpsertBenchmarkBenchmarkInputInputSetups();
 
   const descriptionElementRef = React.useRef<HTMLElement>(null);
 
