@@ -30,7 +30,9 @@ import { UpsertBenchmarkInformationDto } from './dto/upsertBenchmarkInformation.
 import { UpsertBenchmarkMethodDto } from './dto/upsertBenchmarkMethod.dto';
 import { ListAllBenchmarkInputNameDto } from './dto/listAllBenchmarkInputName.dto';
 import { ListAllBenchmarkMethodNameDto } from './dto/listAllBenchmarkMethodName.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('benchmark-setups')
 @Controller('benchmark-setups')
 export class BenchmarkSetupsController {
   constructor(

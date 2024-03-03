@@ -19,10 +19,9 @@ interface MyTableProps {
   data: FormikProps<{ data: BenchmarkInputSetupWithUnit[] }>;
   onDelete: (id: string) => void;
   // onSave: (id: string, updatedValues: { [key: string]: any }) => void;
-  isLoading: boolean;
 }
 
-const TableInputCRUD = ({ data, onDelete, isLoading }: MyTableProps) => {
+const TableInputCRUD = ({ data, onDelete }: MyTableProps) => {
   const { initialValues, values, setValues, handleChange, resetForm } = data;
   const [editableRow, setEditableRow] = useState<string | null>(null);
   // const prevBenchmarkInputSetups = React.useRef(values);
@@ -64,10 +63,6 @@ const TableInputCRUD = ({ data, onDelete, isLoading }: MyTableProps) => {
     setEditableRow(null);
     setValues({ data: newData });
   };
-
-  if (isLoading) {
-    return <>Loading</>;
-  }
 
   return (
     <>
@@ -133,6 +128,7 @@ const TableInputCRUD = ({ data, onDelete, isLoading }: MyTableProps) => {
                   <EditFormikListTextField
                     editableRow={editableRow}
                     id={`id[${index}].decimalNumber`}
+                    type="number"
                     name={`data[${index}].decimalNumber`}
                     value={values.data[index].decimalNumber}
                     editRowId={values.data[index].id}
@@ -153,6 +149,7 @@ const TableInputCRUD = ({ data, onDelete, isLoading }: MyTableProps) => {
                   <EditFormikListTextField
                     editableRow={editableRow}
                     id={`id[${index}].lowerLimit`}
+                    type="number"
                     name={`data[${index}].lowerLimit`}
                     value={values.data[index].lowerLimit}
                     editRowId={values.data[index].id}
@@ -163,6 +160,7 @@ const TableInputCRUD = ({ data, onDelete, isLoading }: MyTableProps) => {
                   <EditFormikListTextField
                     editableRow={editableRow}
                     id={`id[${index}].upperLimit`}
+                    type="number"
                     name={`data[${index}].upperLimit`}
                     value={values.data[index].upperLimit}
                     editRowId={values.data[index].id}
@@ -173,6 +171,7 @@ const TableInputCRUD = ({ data, onDelete, isLoading }: MyTableProps) => {
                   <EditFormikListTextField
                     editableRow={editableRow}
                     id={`id[${index}].stepIncreasing`}
+                    type="number"
                     name={`data[${index}].stepIncreasing`}
                     value={values.data[index].stepIncreasing}
                     editRowId={values.data[index].id}

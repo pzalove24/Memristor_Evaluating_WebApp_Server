@@ -8,21 +8,22 @@ import React from "react";
 
 const EditFormikListTextField = ({
   editableRow,
-  value,
   id,
+  type,
   name,
-//   index,
+  value,
+  //   index,
   editRowId,
   handleChange,
 }: TEditFormikListTextField<BenchmarkInputSetupWithUnit[]>) => {
-
-    console.log('value', value)
+  console.log("value", value);
 
   return (
     <>
       {editableRow === editRowId ? (
         <TextField
           id={id}
+          type={type ? type : undefined}
           name={name}
           value={value}
           onChange={handleChange}

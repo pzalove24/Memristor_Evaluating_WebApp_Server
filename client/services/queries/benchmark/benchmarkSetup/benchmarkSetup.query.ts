@@ -147,7 +147,7 @@ export const useGetBenchmarkMethodNames = ({
 
 export const useGetBenchmarkInputSetups = (id: string) => {
   return useQuery({
-    queryKey: ["listBenchmarkInputSetup"],
+    queryKey: ["listBenchmarkInputSetup", { id }],
     queryFn: async () => {
       const [response, _] = await getBenchmarkInputSetups(id);
       const res = await response;

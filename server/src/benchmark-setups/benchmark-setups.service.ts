@@ -214,6 +214,7 @@ export class BenchmarkSetupsService {
   ): Promise<BenchmarkInputSetup[]> {
     let listBenchmarkInputSetup: BenchmarkInputSetup[] = [];
 
+    // do the upsert for the rest of them
     for (const benchmarkInputSetup of upsertBenchmarkInputSetupDto.benchmarkInputSetupList) {
       const {
         id,
@@ -262,6 +263,44 @@ export class BenchmarkSetupsService {
 
       listBenchmarkInputSetup.push(upsertBenchmarkInputSetup);
     }
+
+    // await this.prismaService.benchmarkInput.update({
+    //   where: {
+    //     id: listBenchmarkInputSetup[0].benchmarkInputId,
+    //   },
+    //   data: {
+    //     benchmarkInputSetups: {
+    //       update: listBenchmarkInputSetup
+    //     }
+    //   },
+    // });
+
+    console.log('listBenchmarkInputSetup', listBenchmarkInputSetup);
+
+    // // if some of list is gone, then delete
+    // const currentBenchmarkInputSetup =
+    //   await this.prismaService.benchmarkInputSetup.findMany({
+    //     where: {
+    //       benchmarkInputId:
+    //         upsertBenchmarkInputSetupDto.benchmarkInputSetupList[0]
+    //           .benchmarkInputId,
+    //     },
+    //   });
+
+    // const deletedBenchmarkInputSetup = currentBenchmarkInputSetup.filter(
+    //   (deletedData) =>
+    //     upsertBenchmarkInputSetupDto.benchmarkInputSetupList.includes(
+    //       deletedData,
+    //     ),
+    // );
+
+    // await this.prismaService.benchmarkInputSetup.deleteMany({
+    //   where: {
+    //     id: {
+    //       in: deletedBenchmarkInputSetup?.map((deletedData) => deletedData.id),
+    //     },
+    //   },
+    // });
 
     return listBenchmarkInputSetup;
   }

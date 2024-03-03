@@ -6,16 +6,14 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { TDialogInputCRUD } from "@/types/Dialog/DialogType";
-import {
-  BenchmarkInputWithInputSetup,
-  getBenchmarkInputSetups,
-} from "@/services/apis/benchmark/benchmarkSetup.api";
-import TextFieldInputSetupCRUD from "../TextField/TextFieldInputSetupCRUD";
-import { useQuery } from "@tanstack/react-query";
+import { BenchmarkInputWithInputSetup } from "@/services/apis/benchmark/benchmarkSetup.api";
 import { useGetBenchmarkInputSetups } from "@/services/queries/benchmark/benchmarkSetup/benchmarkSetup.query";
 import TableInputCRUD from "../Table/TableInputCRUD";
 import { useSnackbar } from "notistack";
 import { useFormik } from "formik";
+import { useUpsertBenchmarkInputSetups } from "@/services/queries/benchmark/benchmarkSetup/benchmarkSetup.mutate";
+import { LoadingApi } from "../Loading/LoadingApi";
+import CancelConfirm from "./Confirm/CancelConfirm";
 
 const testData = [
   { id: 1, name: "John", email: "john@example.com", role: "Admin" },
@@ -33,7 +31,11 @@ const DialogInputCRUD = ({
   const { data: listBenchmarkInputSetup, isLoading } =
     useGetBenchmarkInputSetups(setUpData.id);
 
+  const { mutateAsync: mutateListBenchmarkInputSetup } =
+    useUpsertBenchmarkInputSetups();
+
   const descriptionElementRef = React.useRef<HTMLElement>(null);
+
   React.useEffect(() => {
     if (open) {
       const { current: descriptionElement } = descriptionElementRef;
@@ -49,6 +51,9 @@ const DialogInputCRUD = ({
       : { data: [] },
     onSubmit: async (values) => {
       console.log("valuesubmit", values);
+      await mutateListBenchmarkInputSetup({
+        benchmarkInputSetupList: values.data,
+      });
       enqueueSnackbar("Success Save InputSetups.", {
         autoHideDuration: 1000,
         transitionDuration: { enter: 225, exit: 225 },
@@ -65,6 +70,18 @@ const DialogInputCRUD = ({
   const prevBenchmarkInputSetups = React.useRef(
     tableBenchmarkInputSetupFormik.values.data
   );
+
+  React.useEffect(() => {
+    if (listBenchmarkInputSetup) {
+      tableBenchmarkInputSetupFormik.setValues({
+        data: listBenchmarkInputSetup,
+      });
+    }
+
+    // Update the ref with the current values
+    prevBenchmarkInputSetups.current =
+      tableBenchmarkInputSetupFormik.values.data;
+  }, [listBenchmarkInputSetup]);
 
   // const createEmptyRow = () => {
   //   const emptyRow: { [key: string]: any } = {};
@@ -95,61 +112,73 @@ const DialogInputCRUD = ({
 
   const handleAlertClose = () => {
     if (
-      prevBenchmarkInputSetups.current !== tableBenchmarkInputSetupFormik.values.data
+      prevBenchmarkInputSetups.current !==
+      tableBenchmarkInputSetupFormik.values.data
     ) {
-      alert(JSON.stringify("are you sure to cancel edit Data", null, 2));
+      enqueueSnackbar("Cancel InputSetups Change.", {
+        autoHideDuration: 1000,
+        transitionDuration: { enter: 225, exit: 225 },
+        variant: "info",
+        anchorOrigin: {
+          vertical: "top",
+          horizontal: "right",
+        },
+      });
+      // alert(JSON.stringify("are you sure to cancel edit Data", null, 2));
     }
 
     handleClose();
   };
 
-  if (isLoading) {
-    return <>Loading</>;
-  }
-
   return (
-    <Dialog
-      open={open}
-      onClose={handleClose}
-      fullWidth
-      maxWidth={"xl"}
-      scroll={"paper"}
-      aria-labelledby="scroll-dialog-title"
-      aria-describedby="scroll-dialog-description"
-    >
-      <form onSubmit={tableBenchmarkInputSetupFormik.handleSubmit}>
-        <DialogTitle id="scroll-dialog-title">{`Input Setup for ${setUpData.benchmarkInputName}`}</DialogTitle>
-        <DialogContent dividers={true}>
-          <DialogContentText
-            id="scroll-dialog-description"
-            ref={descriptionElementRef}
-            tabIndex={-1}
-          >
-            <TableInputCRUD
-              data={tableBenchmarkInputSetupFormik as any} //TODO
-              onDelete={handleDelete}
-              // onSave={handleSave}
-              isLoading={isLoading}
-            />
-            {/* {listBenchmarkInputSetup && (
+    <>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        fullWidth
+        maxWidth={"xl"}
+        scroll={"paper"}
+        aria-labelledby="scroll-dialog-title"
+        aria-describedby="scroll-dialog-description"
+      >
+        <form onSubmit={tableBenchmarkInputSetupFormik.handleSubmit}>
+          <DialogTitle id="scroll-dialog-title">{`Input Setup for ${setUpData.benchmarkInputName}`}</DialogTitle>
+          <DialogContent dividers={true}>
+            <DialogContentText
+              id="scroll-dialog-description"
+              ref={descriptionElementRef}
+              tabIndex={-1}
+            >
+              {!isLoading ? (
+                <TableInputCRUD
+                  data={tableBenchmarkInputSetupFormik as any} //TODO
+                  onDelete={handleDelete}
+                  // onSave={handleSave}
+                />
+              ) : (
+                <LoadingApi />
+              )}
+
+              {/* {listBenchmarkInputSetup && (
               <TextFieldInputSetupCRUD dataList={listBenchmarkInputSetup} />
             )} */}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button
-            variant="contained"
-            color="inherit"
-            onClick={handleAlertClose}
-          >
-            Cancel
-          </Button>
-          <Button type="submit" variant="contained" color="info">
-            Save Input Setup
-          </Button>
-        </DialogActions>
-      </form>
-    </Dialog>
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              variant="contained"
+              color="inherit"
+              onClick={handleAlertClose}
+            >
+              Cancel
+            </Button>
+            <Button type="submit" variant="contained" color="info">
+              Save Input Setup
+            </Button>
+          </DialogActions>
+        </form>
+      </Dialog>
+    </>
   );
 };
 

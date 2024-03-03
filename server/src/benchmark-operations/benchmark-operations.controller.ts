@@ -2,7 +2,9 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { BenchmarkOperationsService } from './benchmark-operations.service';
 import { CreateBenchmarkOperationDto } from './dto/create-benchmark-operation.dto';
 import { UpdateBenchmarkOperationDto } from './dto/update-benchmark-operation.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('benchmark-operations')
 @Controller('benchmark-operations')
 export class BenchmarkOperationsController {
   constructor(private readonly benchmarkOperationsService: BenchmarkOperationsService) {}

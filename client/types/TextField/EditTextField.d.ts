@@ -1,3 +1,5 @@
+import React from "react";
+
 export type TEditTextField = {
   editableRow: any;
   rowData: any;
@@ -10,9 +12,10 @@ export type TEditTextField = {
 export type TEditFormikListTextField<T> = {
   editableRow: string | null;
   id: string;
+  type?: React.HTMLInputTypeAttribute;
   name: string;
   value: unknown;
-//   index: number;
+  //   index: number;
   editRowId: string;
   handleChange: (value: any) => void;
 };
