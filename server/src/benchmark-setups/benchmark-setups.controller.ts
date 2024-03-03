@@ -25,12 +25,13 @@ import {
   VoltageType,
 } from '@prisma/client';
 import { PaginationResponseDto } from './dto/paganition.dto';
-import { UpsertBenchmarkInputBenchmarkInputSetupDto } from './dto/upsertBenchmarkInputSetup.dto';
+import { UpsertBenchmarkInputBenchmarkInputSetupDto } from './dto/upsertBenchmarkInputBenchmarkInputSetup.dto';
 import { UpsertBenchmarkInformationDto } from './dto/upsertBenchmarkInformation.dto';
 import { UpsertBenchmarkMethodDto } from './dto/upsertBenchmarkMethod.dto';
 import { ListAllBenchmarkInputNameDto } from './dto/listAllBenchmarkInputName.dto';
 import { ListAllBenchmarkMethodNameDto } from './dto/listAllBenchmarkMethodName.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { CreateBenchmarkInputBenchmarkInputSetupDto } from './dto/createBenchmarkInputBenchmarkInputSetup.dto';
 
 @ApiTags('benchmark-setups')
 @Controller('benchmark-setups')
@@ -44,7 +45,7 @@ export class BenchmarkSetupsController {
     @Query() listAllBenchmarkSetupsDto: ListAllBenchmarkSetupsDto,
     @Body() filteredBenchmarkSetupsDto: FilteredBenchmarkSetupsDto,
   ): Promise<PaginationResponseDto<BenchmarkInput | BenchmarkMethod>> {
-    console.log('bodyapi', filteredBenchmarkSetupsDto)
+    console.log('bodyapi', filteredBenchmarkSetupsDto);
     return this.benchmarkSetupsService.listAllBenchmarkSetups(
       listAllBenchmarkSetupsDto,
       filteredBenchmarkSetupsDto,
@@ -95,9 +96,20 @@ export class BenchmarkSetupsController {
     );
   }
 
+  @Post('/benchmarkInput/benchmarkInputSetup')
+  async createBenchmarkInputBenchmarkInputSetup(
+    @Body()
+    createBenchmarkInputBenchmarkInputSetup: CreateBenchmarkInputBenchmarkInputSetupDto,
+  ): Promise<BenchmarkInput> {
+    return this.benchmarkSetupsService.createBenchmarkInputBenchmarkInputSetup(
+      createBenchmarkInputBenchmarkInputSetup,
+    );
+  }
+
   @Put('/benchmarkInput/benchmarkInputSetup')
-  async upsertBenchmarkInputSetup(
-    @Body() upsertBenchmarkInputBenchmarkInputSetupDto: UpsertBenchmarkInputBenchmarkInputSetupDto,
+  async upsertBenchmarkInputBenchmarkInputSetup(
+    @Body()
+    upsertBenchmarkInputBenchmarkInputSetupDto: UpsertBenchmarkInputBenchmarkInputSetupDto,
   ): Promise<BenchmarkInputSetup[]> {
     return this.benchmarkSetupsService.upsertBenchmarkInputBenchmarkInputSetup(
       upsertBenchmarkInputBenchmarkInputSetupDto,

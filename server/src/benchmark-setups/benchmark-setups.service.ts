@@ -14,11 +14,12 @@ import {
 } from '@prisma/client';
 import { PaginationResponseDto } from './dto/paganition.dto';
 import { UpsertBenchmarkInputDto } from './dto/upsertBenchmarkInput.dto';
-import { UpsertBenchmarkInputBenchmarkInputSetupDto } from './dto/upsertBenchmarkInputSetup.dto';
+import { UpsertBenchmarkInputBenchmarkInputSetupDto } from './dto/upsertBenchmarkInputBenchmarkInputSetup.dto';
 import { UpsertBenchmarkInformationDto } from './dto/upsertBenchmarkInformation.dto';
 import { UpsertBenchmarkMethodDto } from './dto/upsertBenchmarkMethod.dto';
 import { ListAllBenchmarkInputNameDto } from './dto/listAllBenchmarkInputName.dto';
 import { ListAllBenchmarkMethodNameDto } from './dto/listAllBenchmarkMethodName.dto';
+import { CreateBenchmarkInputBenchmarkInputSetupDto } from './dto/createBenchmarkInputBenchmarkInputSetup.dto';
 
 @Injectable()
 export class BenchmarkSetupsService {
@@ -303,6 +304,33 @@ export class BenchmarkSetupsService {
     // });
 
     return listBenchmarkInputSetup;
+  }
+
+  async createBenchmarkInputBenchmarkInputSetup(
+    createBenchmarkInputBenchmarkInputSetup: CreateBenchmarkInputBenchmarkInputSetupDto,
+  ) {
+    const newAddBenchmarkInputSetup: BenchmarkInputSetup = {
+      benchmarkUnitId: 'clro1tk43000208jvcfrq4xb9',
+      voltageTypeId: 'clsqfnn5b000308lb1sxg5ft8',
+      dataTypeId: 'clsqfqe5x000708lbdk7yedei',
+      benchmarkInputSetupName: 'New BenchmarkSetup',
+      decimalNumber: 2,
+      exampleData: '1.00',
+      upperLimit: 3.0,
+      lowerLimit: 1.0,
+      stepIncreasing: 1,
+      benchmarkInputId:
+        createBenchmarkInputBenchmarkInputSetup.benchmarkInputId,
+    };
+
+    return await this.prismaService.benchmarkInput.update({
+      where: { id: createBenchmarkInputBenchmarkInputSetup.benchmarkInputId },
+      data: {
+        benchmarkInputSetups: {
+          create: newAddBenchmarkInputSetup,
+        },
+      },
+    });
   }
 
   async upsertBenchmarkInformation(
