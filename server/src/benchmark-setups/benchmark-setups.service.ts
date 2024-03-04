@@ -9,6 +9,8 @@ import {
   BenchmarkInput,
   BenchmarkInputSetup,
   BenchmarkMethod,
+  BenchmarkUnit,
+  DataType,
   MethodType,
   VoltageType,
 } from '@prisma/client';
@@ -315,8 +317,8 @@ export class BenchmarkSetupsService {
 
   async createBenchmarkInputBenchmarkInputSetup(
     id: string,
-  ): Promise<BenchmarkInputSetup> {
-    const NewBenchmarkInputSetup: BenchmarkInputSetup = {
+  ): Promise<any> {
+    const NewBenchmarkInputSetup = {
       id: createId(),
       benchmarkUnitId: 'clro1tk43000208jvcfrq4xb9',
       voltageTypeId: 'clsqfnn5b000308lb1sxg5ft8',
@@ -328,8 +330,6 @@ export class BenchmarkSetupsService {
       lowerLimit: -2.0,
       stepIncreasing: 0.5,
       benchmarkInputId: id,
-      createdAt: 1,
-      updatedAt: 1,
     };
 
     return NewBenchmarkInputSetup;
@@ -422,6 +422,14 @@ export class BenchmarkSetupsService {
     return upsertBenchmarkMethod;
   }
 
+  async findAllBenchmarkUnit(): Promise<BenchmarkUnit[]> {
+    return await this.prismaService.benchmarkUnit.findMany();
+  }
+  
+  async findAllDataType(): Promise<DataType[]> {
+    return await this.prismaService.dataType.findMany();
+  }
+  
   async findAllVoltageType(): Promise<VoltageType[]> {
     return await this.prismaService.voltageType.findMany();
   }

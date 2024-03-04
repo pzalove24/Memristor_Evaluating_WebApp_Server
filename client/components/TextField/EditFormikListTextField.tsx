@@ -16,7 +16,7 @@ const EditFormikListTextField = ({
   editRowId,
   handleChange,
 }: TEditFormikListTextField<BenchmarkInputSetupWithUnit[]>) => {
-  console.log("value", value);
+  // console.log("value", value);
 
   return (
     <>

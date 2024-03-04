@@ -21,6 +21,8 @@ import {
   BenchmarkInput,
   BenchmarkInputSetup,
   BenchmarkMethod,
+  BenchmarkUnit,
+  DataType,
   MethodType,
   VoltageType,
 } from '@prisma/client';
@@ -50,6 +52,16 @@ export class BenchmarkSetupsController {
       listAllBenchmarkSetupsDto,
       filteredBenchmarkSetupsDto,
     );
+  }
+
+  @Get('/benchmarkUnit')
+  listAllBenchmarkUnit(): Promise<BenchmarkUnit[]> {
+    return this.benchmarkSetupsService.findAllBenchmarkUnit();
+  }
+
+  @Get('/dataType')
+  listAllDataType(): Promise<DataType[]> {
+    return this.benchmarkSetupsService.findAllDataType();
   }
 
   @Get('/voltageType')

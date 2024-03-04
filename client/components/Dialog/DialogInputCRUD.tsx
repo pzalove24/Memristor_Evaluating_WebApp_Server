@@ -12,7 +12,11 @@ import {
 import { BenchmarkInputWithInputSetup } from "@/services/apis/benchmark/benchmarkSetup.api";
 import {
   useGetBenchmarkInputSetups,
+  useGetBenchmarkUnits,
   useGetCreateBenchmarkInputBenchmarkInputSetup,
+  useGetDataTypes,
+  useGetMethodTypes,
+  useGetVoltageTypes,
 } from "@/services/queries/benchmark/benchmarkSetup/benchmarkSetup.query";
 import TableInputCRUD from "../Table/TableInputCRUD";
 import { useSnackbar } from "notistack";
@@ -20,6 +24,7 @@ import { useFormik } from "formik";
 import { useUpsertBenchmarkBenchmarkInputInputSetups } from "@/services/queries/benchmark/benchmarkSetup/benchmarkSetup.mutate";
 import { LoadingApi } from "../Loading/LoadingApi";
 import { BenchmarkInputSetup } from "../../../server/shared/prismaTypes";
+import { CircularProgress, LinearProgress } from "@mui/material";
 
 const testData = [
   { id: 1, name: "John", email: "john@example.com", role: "Admin" },
@@ -37,11 +42,38 @@ const DialogInputCRUD = ({
   const { data: listBenchmarkInputSetup, isLoading } =
     useGetBenchmarkInputSetups(setUpData.id);
 
-  const { data: newBenchmarkInputSetup } =
-    useGetCreateBenchmarkInputBenchmarkInputSetup(setUpData.id);
+  const {
+    data: newBenchmarkInputSetup,
+    isLoading: isNewBenchmarkInputSetupLoading,
+  } = useGetCreateBenchmarkInputBenchmarkInputSetup(setUpData.id);
+
+  const {
+    data: listBenchmarkUnits,
+    isLoading: isListBenchmarkUnitsLoading,
+    refetch: refetchListAllBenchmarkUnit,
+  } = useGetBenchmarkUnits();
+
+  const {
+    data: listDataTypes,
+    isLoading: isListDataTypesLoading,
+    refetch: refetchListAllDataType,
+  } = useGetDataTypes();
+
+  const {
+    data: listMethodTypes,
+    isLoading: isListMethodTypesLoading,
+    refetch: refetchListAllMethodType,
+  } = useGetMethodTypes();
 
   const { mutateAsync: mutateListBenchmarkInputSetup } =
     useUpsertBenchmarkBenchmarkInputInputSetups();
+
+  const loadingCollection =
+    isLoading ||
+    isNewBenchmarkInputSetupLoading ||
+    isListBenchmarkUnitsLoading ||
+    isListDataTypesLoading ||
+    isListMethodTypesLoading;
 
   const descriptionElementRef = React.useRef<HTMLElement>(null);
 
@@ -54,20 +86,14 @@ const DialogInputCRUD = ({
     }
   }, [open]);
 
-  const initialData: TDialogInputCRUDFormik =
-    listBenchmarkInputSetup && newBenchmarkInputSetup
-      ? {
-          data: listBenchmarkInputSetup,
-          create: [] as BenchmarkInputSetup[],
-          delete: [] as BenchmarkInputSetup[],
-          template: newBenchmarkInputSetup,
-        }
-      : {
-          data: [],
-          create: [] as BenchmarkInputSetup[],
-          delete: [] as BenchmarkInputSetup[],
-          template: undefined,
-        };
+  const initialData: TDialogInputCRUDFormik = {
+    data: listBenchmarkInputSetup ? listBenchmarkInputSetup : [],
+    create: [] as BenchmarkInputSetup[],
+    delete: [] as BenchmarkInputSetup[],
+    template: newBenchmarkInputSetup,
+    benchmarkUnit: listBenchmarkUnits ? listBenchmarkUnits : [],
+    dataType: listDataTypes ? listDataTypes : [],
+  };
 
   const tableBenchmarkInputSetupFormik = useFormik({
     initialValues: initialData,
@@ -93,21 +119,33 @@ const DialogInputCRUD = ({
   });
 
   const prevBenchmarkInputSetups = React.useRef(
-    tableBenchmarkInputSetupFormik.values.data
+    tableBenchmarkInputSetupFormik.values
   );
 
-  React.useEffect(() => {
-    if (listBenchmarkInputSetup) {
-      tableBenchmarkInputSetupFormik.setFieldValue(
-        "data",
-        listBenchmarkInputSetup
-      );
-    }
+  // React.useEffect(() => {
+  //   if (
+  //     listBenchmarkInputSetup &&
+  //     newBenchmarkInputSetup &&
+  //     listBenchmarkUnits &&
+  //     listDataTypes
+  //   ) {
+  //     tableBenchmarkInputSetupFormik.setValues({
+  //       data: listBenchmarkInputSetup,
+  //       template: newBenchmarkInputSetup,
+  //       benchmarkUnit: listBenchmarkUnits,
+  //       dataType: listDataTypes,
+  //     });
+  //   }
 
-    // Update the ref with the current values
-    prevBenchmarkInputSetups.current =
-      tableBenchmarkInputSetupFormik.values.data;
-  }, [listBenchmarkInputSetup]);
+  //   // Update the ref with the current values
+  //   prevBenchmarkInputSetups.current = tableBenchmarkInputSetupFormik.values;
+  // }, [
+  //   isLoading,
+  //   listBenchmarkInputSetup,
+  //   newBenchmarkInputSetup,
+  //   listBenchmarkUnits,
+  //   listDataTypes,
+  // ]);
 
   // const createEmptyRow = () => {
   //   const emptyRow: { [key: string]: any } = {};
@@ -122,6 +160,11 @@ const DialogInputCRUD = ({
   console.log(
     "tableBenchmarkInputSetupFormik",
     tableBenchmarkInputSetupFormik.values
+  );
+
+  console.log(
+    "initialValueDialog",
+    tableBenchmarkInputSetupFormik.initialValues
   );
 
   const handleDelete = (id: string) => {
@@ -154,7 +197,7 @@ const DialogInputCRUD = ({
 
   const handleAlertClose = () => {
     if (
-      prevBenchmarkInputSetups.current !==
+      prevBenchmarkInputSetups.current.data !==
       tableBenchmarkInputSetupFormik.values.data
     ) {
       enqueueSnackbar("Cancel InputSetups Change.", {
@@ -171,6 +214,8 @@ const DialogInputCRUD = ({
 
     handleClose();
   };
+
+  if (loadingCollection) return <LinearProgress />;
 
   return (
     <>
@@ -191,10 +236,12 @@ const DialogInputCRUD = ({
               ref={descriptionElementRef}
               tabIndex={-1}
             >
-              {!isLoading && newBenchmarkInputSetup ? (
+              {!loadingCollection &&
+              listBenchmarkInputSetup ? (
                 <TableInputCRUD
-                  data={tableBenchmarkInputSetupFormik as any} //TODO
+                  data={tableBenchmarkInputSetupFormik} //TODO
                   onDelete={handleDelete}
+                  loadingCollection={loadingCollection}
                   // onSave={handleSave}
                 />
               ) : (

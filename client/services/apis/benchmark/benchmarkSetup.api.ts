@@ -8,6 +8,8 @@ import {
   BenchmarkInputSetup,
   VoltageType,
   MethodType,
+  DataType,
+  BenchmarkUnit,
 } from "@/../server/shared/prismaTypes";
 
 import { TPaginationResponse } from "@/../server/shared/pagniation";
@@ -100,6 +102,30 @@ export const postBenchmarkSetups = async (
   );
 
   // zustand set State here
+  return [response, resAbort];
+};
+
+export const getBenchmarkUnits = async (): Promise<
+  [Promise<AxiosResponse<BenchmarkUnit[]>["data"]>, AbortFunction]
+> => {
+  const [response, resAbort] = await request<BenchmarkUnit[]>(
+    "GET",
+    `/benchmark-setups/benchmarkUnit`,
+    {} // or props
+  );
+
+  return [response, resAbort];
+};
+
+export const getDataTypes = async (): Promise<
+  [Promise<AxiosResponse<DataType[]>["data"]>, AbortFunction]
+> => {
+  const [response, resAbort] = await request<DataType[]>(
+    "GET",
+    `/benchmark-setups/dataType`,
+    {} // or props
+  );
+
   return [response, resAbort];
 };
 

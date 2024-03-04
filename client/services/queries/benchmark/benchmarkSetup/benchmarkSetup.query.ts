@@ -4,7 +4,9 @@ import {
   getBenchmarkInputNames,
   getBenchmarkInputSetups,
   getBenchmarkMethodNames,
+  getBenchmarkUnits,
   getCreateBenchmarkInputBenchmarkInputSetup,
+  getDataTypes,
   getMethodTypes,
   getVoltageTypes,
   postBenchmarkSetups,
@@ -79,6 +81,28 @@ export const usePostBenchmarkSetups = ({
       return res;
     },
     enabled: !!benchmarkType,
+  });
+};
+
+export const useGetBenchmarkUnits = () => {
+  return useQuery({
+    queryKey: ["listAllBenchmarkUnit"],
+    queryFn: async () => {
+      const [response, _] = await getBenchmarkUnits();
+      const res = await response;
+      return res;
+    },
+  });
+};
+
+export const useGetDataTypes = () => {
+  return useQuery({
+    queryKey: ["listAllDataType"],
+    queryFn: async () => {
+      const [response, _] = await getDataTypes();
+      const res = await response;
+      return res;
+    },
   });
 };
 
