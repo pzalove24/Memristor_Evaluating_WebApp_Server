@@ -31,7 +31,7 @@ import { UpsertBenchmarkMethodDto } from './dto/upsertBenchmarkMethod.dto';
 import { ListAllBenchmarkInputNameDto } from './dto/listAllBenchmarkInputName.dto';
 import { ListAllBenchmarkMethodNameDto } from './dto/listAllBenchmarkMethodName.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { CreateBenchmarkInputBenchmarkInputSetupDto } from './dto/createBenchmarkInputBenchmarkInputSetup.dto';
+import { CreateBenchmarkInputBenchmarkInputSetupResponseDto } from './dto/createBenchmarkInputBenchmarkInputSetup.dto';
 
 @ApiTags('benchmark-setups')
 @Controller('benchmark-setups')
@@ -96,14 +96,11 @@ export class BenchmarkSetupsController {
     );
   }
 
-  @Post('/benchmarkInput/benchmarkInputSetup')
+  @Get('/benchmarkInput/benchmarkInputSetup/:id')
   async createBenchmarkInputBenchmarkInputSetup(
-    @Body()
-    createBenchmarkInputBenchmarkInputSetup: CreateBenchmarkInputBenchmarkInputSetupDto,
-  ): Promise<BenchmarkInput> {
-    return this.benchmarkSetupsService.createBenchmarkInputBenchmarkInputSetup(
-      createBenchmarkInputBenchmarkInputSetup,
-    );
+    @Param('id') id: string
+  ): Promise<BenchmarkInputSetup> {
+    return this.benchmarkSetupsService.createBenchmarkInputBenchmarkInputSetup(id);
   }
 
   @Put('/benchmarkInput/benchmarkInputSetup')

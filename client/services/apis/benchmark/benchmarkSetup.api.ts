@@ -67,9 +67,24 @@ export type TGetBenchmarkMethodNamesQueryRequest = {
 
 export type TUpsertBenchmarkInputSetupBodyRequest = {
   benchmarkInputSetupList: BenchmarkInputSetup[];
+  deleteBenchmarkInputSetupList?: BenchmarkInputSetup[];
 };
 
 export type TUpsertBenchmarkInputSetupResponse = BenchmarkInputSetup;
+
+export type TGetCreateBenchmarkInputBenchmarkInputSetupResponse = {
+  id: string;
+  benchmarkUnitId: string;
+  voltageTypeId: string;
+  dataTypeId: string;
+  benchmarkInputSetupName: string;
+  decimalNumber: number;
+  exampleData: string;
+  upperLimit: number;
+  lowerLimit: number;
+  stepIncreasing: number;
+  benchmarkInputId: string;
+};
 
 export const postBenchmarkSetups = async (
   query: TPostBenchmarkSetupsQueryRequest,
@@ -77,12 +92,11 @@ export const postBenchmarkSetups = async (
 ): Promise<
   [Promise<AxiosResponse<TPostBenchmarkSetupsResponse>["data"]>, AbortFunction]
 > => {
-
   const [response, resAbort] = await request<TPostBenchmarkSetupsResponse>(
     "POST",
     `/benchmark-setups${queryRequest(query)}`,
     {}, // or props
-    body,
+    body
   );
 
   // zustand set State here
@@ -154,6 +168,27 @@ export const getBenchmarkInputSetups = async (
     `/benchmark-setups/benchmarkInputSetup/${params}`,
     {} // or props
   );
+
+  // zustand set State here
+  return [response, resAbort];
+};
+
+export const getCreateBenchmarkInputBenchmarkInputSetup = async (
+  params: string
+): Promise<
+  [
+    Promise<
+      AxiosResponse<TGetCreateBenchmarkInputBenchmarkInputSetupResponse>["data"]
+    >,
+    AbortFunction
+  ]
+> => {
+  const [response, resAbort] =
+    await request<TUpsertBenchmarkInputSetupResponse>(
+      "GET",
+      `/benchmark-setups/benchmarkInput/benchmarkInputSetup/${params}`,
+      {} // or props
+    );
 
   // zustand set State here
   return [response, resAbort];

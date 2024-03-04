@@ -19,7 +19,8 @@ import { UpsertBenchmarkInformationDto } from './dto/upsertBenchmarkInformation.
 import { UpsertBenchmarkMethodDto } from './dto/upsertBenchmarkMethod.dto';
 import { ListAllBenchmarkInputNameDto } from './dto/listAllBenchmarkInputName.dto';
 import { ListAllBenchmarkMethodNameDto } from './dto/listAllBenchmarkMethodName.dto';
-import { CreateBenchmarkInputBenchmarkInputSetupDto } from './dto/createBenchmarkInputBenchmarkInputSetup.dto';
+import { createId } from '@paralleldrive/cuid2';
+import { CreateBenchmarkInputBenchmarkInputSetupResponseDto } from './dto/createBenchmarkInputBenchmarkInputSetup.dto';
 
 @Injectable()
 export class BenchmarkSetupsService {
@@ -215,6 +216,13 @@ export class BenchmarkSetupsService {
   ): Promise<BenchmarkInputSetup[]> {
     let listBenchmarkInputSetup: BenchmarkInputSetup[] = [];
 
+    const benchmarkInput = await this.prismaService.benchmarkInput.findUnique({
+      where: {
+        id: upsertBenchmarkInputSetupDto.benchmarkInputSetupList[0]
+          .benchmarkInputId,
+      },
+    });
+
     // do the upsert for the rest of them
     for (const benchmarkInputSetup of upsertBenchmarkInputSetupDto.benchmarkInputSetupList) {
       const {
@@ -265,20 +273,19 @@ export class BenchmarkSetupsService {
       listBenchmarkInputSetup.push(upsertBenchmarkInputSetup);
     }
 
-    // await this.prismaService.benchmarkInput.update({
-    //   where: {
-    //     id: listBenchmarkInputSetup[0].benchmarkInputId,
-    //   },
-    //   data: {
-    //     benchmarkInputSetups: {
-    //       update: listBenchmarkInputSetup
-    //     }
-    //   },
-    // });
+    // if some of list is gone, then delete
+    await this.prismaService.benchmarkInputSetup.deleteMany({
+      where: {
+        id: {
+          in: upsertBenchmarkInputSetupDto.deleteBenchmarkInputSetupList?.map(
+            (deleteInputSetup) => deleteInputSetup.id,
+          ),
+        },
+      },
+    });
 
     console.log('listBenchmarkInputSetup', listBenchmarkInputSetup);
 
-    // // if some of list is gone, then delete
     // const currentBenchmarkInputSetup =
     //   await this.prismaService.benchmarkInputSetup.findMany({
     //     where: {
@@ -307,9 +314,10 @@ export class BenchmarkSetupsService {
   }
 
   async createBenchmarkInputBenchmarkInputSetup(
-    createBenchmarkInputBenchmarkInputSetup: CreateBenchmarkInputBenchmarkInputSetupDto,
-  ) {
-    const newAddBenchmarkInputSetup: BenchmarkInputSetup = {
+    id: string,
+  ): Promise<BenchmarkInputSetup> {
+    const NewBenchmarkInputSetup: BenchmarkInputSetup = {
+      id: createId(),
       benchmarkUnitId: 'clro1tk43000208jvcfrq4xb9',
       voltageTypeId: 'clsqfnn5b000308lb1sxg5ft8',
       dataTypeId: 'clsqfqe5x000708lbdk7yedei',
@@ -317,20 +325,14 @@ export class BenchmarkSetupsService {
       decimalNumber: 2,
       exampleData: '1.00',
       upperLimit: 3.0,
-      lowerLimit: 1.0,
-      stepIncreasing: 1,
-      benchmarkInputId:
-        createBenchmarkInputBenchmarkInputSetup.benchmarkInputId,
+      lowerLimit: -2.0,
+      stepIncreasing: 0.5,
+      benchmarkInputId: id,
+      createdAt: 1,
+      updatedAt: 1,
     };
 
-    return await this.prismaService.benchmarkInput.update({
-      where: { id: createBenchmarkInputBenchmarkInputSetup.benchmarkInputId },
-      data: {
-        benchmarkInputSetups: {
-          create: newAddBenchmarkInputSetup,
-        },
-      },
-    });
+    return NewBenchmarkInputSetup;
   }
 
   async upsertBenchmarkInformation(

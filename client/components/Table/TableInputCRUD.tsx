@@ -14,9 +14,10 @@ import EditTextField from "../TextField/EditTextField";
 import { FormikProps } from "formik";
 import EditFormikListTextField from "../TextField/EditFormikListTextField";
 import { BenchmarkInputSetupWithUnit } from "@/services/apis/benchmark/benchmarkSetup.api";
+import { TDialogInputCRUDFormik } from "@/types/Dialog/DialogType";
 
 interface MyTableProps {
-  data: FormikProps<{ data: BenchmarkInputSetupWithUnit[] }>;
+  data: FormikProps<TDialogInputCRUDFormik>;
   onDelete: (id: string) => void;
   // onSave: (id: string, updatedValues: { [key: string]: any }) => void;
 }
@@ -27,34 +28,36 @@ const TableInputCRUD = ({ data, onDelete }: MyTableProps) => {
   // const prevBenchmarkInputSetups = React.useRef(values);
 
   const handleAdd = () => {
-    setValues({
-      data: [...values.data, createEmptyInputSetup(values.data[0])],
-    });
+    if (values.template) {
+      setValues({
+        data: [...values.data, values.template],
+      });
+    }
   };
 
-  const createEmptyInputSetup = (obj: any) => {
-    console.log("obj", obj);
-    const newObj: any = {};
-    for (const key in obj) {
-      if (key === "id") {
-        newObj[key] = `New Setup ${Math.random()}`;
-      } else if (typeof obj[key] === "string") {
-        newObj[key] = "";
-      } else if (typeof obj[key] === "number") {
-        newObj[key] = null;
-      } else if (typeof obj[key] === "object") {
-        if (key === "id") {
-          newObj[key] = `New Setup ${Math.random()}`;
-        } else if (typeof obj[key] === "string") {
-          newObj[key] = "test";
-        } else if (typeof obj[key] === "number") {
-          newObj[key] = null;
-        }
-      }
-    }
-    console.log("newobj", newObj);
-    return newObj;
-  };
+  // const createEmptyInputSetup = (obj: any) => {
+  //   console.log("obj", obj);
+  //   const newObj: any = {};
+  //   for (const key in obj) {
+  //     if (key === "id") {
+  //       newObj[key] = `New Setup ${Math.random()}`;
+  //     } else if (typeof obj[key] === "string") {
+  //       newObj[key] = "";
+  //     } else if (typeof obj[key] === "number") {
+  //       newObj[key] = null;
+  //     } else if (typeof obj[key] === "object") {
+  //       if (key === "id") {
+  //         newObj[key] = `New Setup ${Math.random()}`;
+  //       } else if (typeof obj[key] === "string") {
+  //         newObj[key] = "test";
+  //       } else if (typeof obj[key] === "number") {
+  //         newObj[key] = null;
+  //       }
+  //     }
+  //   }
+  //   console.log("newobj", newObj);
+  //   return newObj;
+  // };
 
   const handleEdit = (id: string) => {
     setEditableRow(id);

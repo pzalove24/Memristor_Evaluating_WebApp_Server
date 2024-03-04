@@ -5,15 +5,21 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { TDialogInputCRUD } from "@/types/Dialog/DialogType";
+import {
+  TDialogInputCRUD,
+  TDialogInputCRUDFormik,
+} from "@/types/Dialog/DialogType";
 import { BenchmarkInputWithInputSetup } from "@/services/apis/benchmark/benchmarkSetup.api";
-import { useGetBenchmarkInputSetups } from "@/services/queries/benchmark/benchmarkSetup/benchmarkSetup.query";
+import {
+  useGetBenchmarkInputSetups,
+  useGetCreateBenchmarkInputBenchmarkInputSetup,
+} from "@/services/queries/benchmark/benchmarkSetup/benchmarkSetup.query";
 import TableInputCRUD from "../Table/TableInputCRUD";
 import { useSnackbar } from "notistack";
 import { useFormik } from "formik";
 import { useUpsertBenchmarkBenchmarkInputInputSetups } from "@/services/queries/benchmark/benchmarkSetup/benchmarkSetup.mutate";
 import { LoadingApi } from "../Loading/LoadingApi";
-import CancelConfirm from "./Confirm/CancelConfirm";
+import { BenchmarkInputSetup } from "../../../server/shared/prismaTypes";
 
 const testData = [
   { id: 1, name: "John", email: "john@example.com", role: "Admin" },
@@ -31,8 +37,11 @@ const DialogInputCRUD = ({
   const { data: listBenchmarkInputSetup, isLoading } =
     useGetBenchmarkInputSetups(setUpData.id);
 
+  const { data: newBenchmarkInputSetup } =
+    useGetCreateBenchmarkInputBenchmarkInputSetup(setUpData.id);
+
   const { mutateAsync: mutateListBenchmarkInputSetup } =
-  useUpsertBenchmarkBenchmarkInputInputSetups();
+    useUpsertBenchmarkBenchmarkInputInputSetups();
 
   const descriptionElementRef = React.useRef<HTMLElement>(null);
 
@@ -45,14 +54,30 @@ const DialogInputCRUD = ({
     }
   }, [open]);
 
+  const initialData: TDialogInputCRUDFormik =
+    listBenchmarkInputSetup && newBenchmarkInputSetup
+      ? {
+          data: listBenchmarkInputSetup,
+          create: [] as BenchmarkInputSetup[],
+          delete: [] as BenchmarkInputSetup[],
+          template: newBenchmarkInputSetup,
+        }
+      : {
+          data: [],
+          create: [] as BenchmarkInputSetup[],
+          delete: [] as BenchmarkInputSetup[],
+          template: undefined,
+        };
+
   const tableBenchmarkInputSetupFormik = useFormik({
-    initialValues: listBenchmarkInputSetup
-      ? { data: listBenchmarkInputSetup }
-      : { data: [] },
+    initialValues: initialData,
     onSubmit: async (values) => {
       console.log("valuesubmit", values);
       await mutateListBenchmarkInputSetup({
         benchmarkInputSetupList: values.data,
+        deleteBenchmarkInputSetupList: values.delete
+          ? values.delete
+          : undefined,
       });
       enqueueSnackbar("Success Save InputSetups.", {
         autoHideDuration: 1000,
@@ -73,9 +98,10 @@ const DialogInputCRUD = ({
 
   React.useEffect(() => {
     if (listBenchmarkInputSetup) {
-      tableBenchmarkInputSetupFormik.setValues({
-        data: listBenchmarkInputSetup,
-      });
+      tableBenchmarkInputSetupFormik.setFieldValue(
+        "data",
+        listBenchmarkInputSetup
+      );
     }
 
     // Update the ref with the current values
@@ -92,12 +118,28 @@ const DialogInputCRUD = ({
   // };
 
   console.log("listBenchmarkInputSetup", listBenchmarkInputSetup);
+  console.log("newBenchmarkInputSetup", newBenchmarkInputSetup);
+  console.log(
+    "tableBenchmarkInputSetupFormik",
+    tableBenchmarkInputSetupFormik.values
+  );
 
   const handleDelete = (id: string) => {
+    const currentDeleteData = tableBenchmarkInputSetupFormik.values.delete;
+
+    const deleteData = tableBenchmarkInputSetupFormik.values.data.find(
+      (row) => row.id === id
+    );
+
+    if (deleteData && currentDeleteData) {
+      currentDeleteData.push(deleteData);
+    }
+
     const newData = tableBenchmarkInputSetupFormik.values.data.filter(
       (row) => row.id !== id
     );
-    tableBenchmarkInputSetupFormik.setValues({ data: newData });
+    tableBenchmarkInputSetupFormik.setFieldValue("data", newData);
+    tableBenchmarkInputSetupFormik.setFieldValue("delete", currentDeleteData);
   };
 
   // const handleSave = (id: string, updatedValues: any) => {
@@ -149,7 +191,7 @@ const DialogInputCRUD = ({
               ref={descriptionElementRef}
               tabIndex={-1}
             >
-              {!isLoading ? (
+              {!isLoading && newBenchmarkInputSetup ? (
                 <TableInputCRUD
                   data={tableBenchmarkInputSetupFormik as any} //TODO
                   onDelete={handleDelete}

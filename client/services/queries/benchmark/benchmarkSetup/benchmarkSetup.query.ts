@@ -4,6 +4,7 @@ import {
   getBenchmarkInputNames,
   getBenchmarkInputSetups,
   getBenchmarkMethodNames,
+  getCreateBenchmarkInputBenchmarkInputSetup,
   getMethodTypes,
   getVoltageTypes,
   postBenchmarkSetups,
@@ -150,6 +151,19 @@ export const useGetBenchmarkInputSetups = (id: string) => {
     queryKey: ["listBenchmarkInputSetup", { id }],
     queryFn: async () => {
       const [response, _] = await getBenchmarkInputSetups(id);
+      const res = await response;
+      return res;
+    },
+  });
+};
+
+export const useGetCreateBenchmarkInputBenchmarkInputSetup = (id: string) => {
+  return useQuery({
+    queryKey: ["getCreateBenchmarkInputBenchmarkInputSetup", { id }],
+    queryFn: async () => {
+      const [response, _] = await getCreateBenchmarkInputBenchmarkInputSetup(
+        id
+      );
       const res = await response;
       return res;
     },
