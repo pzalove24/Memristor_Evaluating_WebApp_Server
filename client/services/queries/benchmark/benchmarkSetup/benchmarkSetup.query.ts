@@ -5,7 +5,6 @@ import {
   getBenchmarkInputSetups,
   getBenchmarkMethodNames,
   getBenchmarkUnits,
-  getCreateBenchmarkInputBenchmarkInputSetup,
   getDataTypes,
   getMethodTypes,
   getVoltageTypes,
@@ -172,22 +171,9 @@ export const useGetBenchmarkMethodNames = ({
 
 export const useGetBenchmarkInputSetups = (id: string) => {
   return useQuery({
-    queryKey: ["listBenchmarkInputSetup", { id }],
+    queryKey: ["listBenchmarkInputSetup", { id: id }],
     queryFn: async () => {
       const [response, _] = await getBenchmarkInputSetups(id);
-      const res = await response;
-      return res;
-    },
-  });
-};
-
-export const useGetCreateBenchmarkInputBenchmarkInputSetup = (id: string) => {
-  return useQuery({
-    queryKey: ["getCreateBenchmarkInputBenchmarkInputSetup", { id }],
-    queryFn: async () => {
-      const [response, _] = await getCreateBenchmarkInputBenchmarkInputSetup(
-        id
-      );
       const res = await response;
       return res;
     },

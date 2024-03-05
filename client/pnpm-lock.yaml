@@ -96,7 +96,7 @@ dependencies:
     specifier: ^4.7.2
     version: 4.7.2
   yup:
-    specifier: ^1.3.2
+    specifier: ^1.3.3
     version: 1.3.3
   zustand:
     specifier: ^4.4.7

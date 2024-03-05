@@ -27,7 +27,7 @@ const TextFieldInputSetupCRUD = ({
             <Typography>{data.benchmarkInputSetupName}</Typography>
           </Grid>
           <Grid item xs>
-            <Typography>{data.BenchmarkUnit.unitName}</Typography>
+            <Typography>{data.benchmarkUnit.unitName}</Typography>
           </Grid>
           <Grid item xs>
             <Typography>{data.dataType.name}</Typography>

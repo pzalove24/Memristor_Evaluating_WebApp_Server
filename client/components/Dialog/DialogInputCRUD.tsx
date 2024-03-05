@@ -13,23 +13,87 @@ import { BenchmarkInputWithInputSetup } from "@/services/apis/benchmark/benchmar
 import {
   useGetBenchmarkInputSetups,
   useGetBenchmarkUnits,
-  useGetCreateBenchmarkInputBenchmarkInputSetup,
   useGetDataTypes,
-  useGetMethodTypes,
-  useGetVoltageTypes,
 } from "@/services/queries/benchmark/benchmarkSetup/benchmarkSetup.query";
 import TableInputCRUD from "../Table/TableInputCRUD";
 import { useSnackbar } from "notistack";
 import { useFormik } from "formik";
-import { useUpsertBenchmarkBenchmarkInputInputSetups } from "@/services/queries/benchmark/benchmarkSetup/benchmarkSetup.mutate";
+import {
+  usePostCreateBenchmarkInputBenchmarkInputSetup,
+  useUpsertBenchmarkBenchmarkInputInputSetups,
+} from "@/services/queries/benchmark/benchmarkSetup/benchmarkSetup.mutate";
 import { LoadingApi } from "../Loading/LoadingApi";
 import { BenchmarkInputSetup } from "../../../server/shared/prismaTypes";
 import { CircularProgress, LinearProgress } from "@mui/material";
+import * as Yup from "yup";
+import {
+  columnDialogInput,
+  columnInput,
+} from "@/types/benchmarkSetupType/benchmarkSetupTabsType";
 
 const testData = [
   { id: 1, name: "John", email: "john@example.com", role: "Admin" },
   { id: 2, name: "Jane", email: "jane@example.com", role: "User" },
   { id: 3, name: "Doe", email: "doe@example.com", role: "User" },
+];
+
+const columns: columnDialogInput[] = [
+  { id: "id", label: "id", minWidth: 100, align: "left" },
+  { id: "voltageType", label: "voltageType", minWidth: 50, align: "left" },
+  {
+    id: "BenchmarkInputSetupName",
+    label: "BenchmarkInputSetupName",
+    minWidth: 170,
+    align: "left",
+  },
+  {
+    id: "benchmarkUnit",
+    label: "benchmarkUnit",
+    minWidth: 80,
+    align: "left",
+  },
+  {
+    id: "dataType",
+    label: "dataType",
+    minWidth: 70,
+    align: "left",
+  },
+  {
+    id: "decimalNumber",
+    label: "decimalNumber",
+    minWidth: 90,
+    align: "left",
+  },
+  {
+    id: "exampleData",
+    label: "exampleData",
+    minWidth: 90,
+    align: "left",
+  },
+  {
+    id: "lowerLimit",
+    label: "lowerLimit",
+    minWidth: 90,
+    align: "left",
+  },
+  {
+    id: "upperLimit",
+    label: "upperLimit",
+    minWidth: 90,
+    align: "left",
+  },
+  {
+    id: "stepIncreasing",
+    label: "stepIncreasing",
+    minWidth: 50,
+    align: "left",
+  },
+  {
+    id: "Action",
+    label: "Action",
+    minWidth: 50,
+    align: "left",
+  },
 ];
 
 const DialogInputCRUD = ({
@@ -39,13 +103,33 @@ const DialogInputCRUD = ({
 }: TDialogInputCRUD<BenchmarkInputWithInputSetup>) => {
   const { enqueueSnackbar } = useSnackbar();
 
-  const { data: listBenchmarkInputSetup, isLoading } =
-    useGetBenchmarkInputSetups(setUpData.id);
+  const InputSetupDataSchema = Yup.object().shape({
+    benchmarkInputSetupName: Yup.string().required("Setup Name is required"),
+    decimalNumber: Yup.number()
+      .min(0)
+      .max(5)
+      .integer("Decimal Number Must be integer from 0 to 5")
+      .required("Decimarl Number is required"),
+    exampleData: Yup.string().required("example data is required"),
+    upperLimit: Yup.number().required("upper limit is required"),
+    lowerLimit: Yup.number().required("lower limit is required"),
+    stepIncreasing: Yup.number().min(0).required("step increasing is required"),
+    // .transform((value, originalValue) => {
+    //   // Round the number to two decimal places
+    //   return parseFloat(Number(originalValue).toFixed(2));
+    // }),
+  });
+
+  const validateInputSetupSchema = Yup.object().shape({
+    data: Yup.array().of(InputSetupDataSchema).required(),
+  });
 
   const {
-    data: newBenchmarkInputSetup,
-    isLoading: isNewBenchmarkInputSetupLoading,
-  } = useGetCreateBenchmarkInputBenchmarkInputSetup(setUpData.id);
+    data: listBenchmarkInputSetup,
+    isLoading,
+    refetch: refetchListBenchmarkInputSetup,
+    isRefetching,
+  } = useGetBenchmarkInputSetups(setUpData.id);
 
   const {
     data: listBenchmarkUnits,
@@ -59,44 +143,31 @@ const DialogInputCRUD = ({
     refetch: refetchListAllDataType,
   } = useGetDataTypes();
 
-  const {
-    data: listMethodTypes,
-    isLoading: isListMethodTypesLoading,
-    refetch: refetchListAllMethodType,
-  } = useGetMethodTypes();
+  // const {
+  //   data: listMethodTypes,
+  //   isLoading: isListMethodTypesLoading,
+  //   refetch: refetchListAllMethodType,
+  // } = useGetMethodTypes();
 
   const { mutateAsync: mutateListBenchmarkInputSetup } =
     useUpsertBenchmarkBenchmarkInputInputSetups();
 
   const loadingCollection =
-    isLoading ||
-    isNewBenchmarkInputSetupLoading ||
-    isListBenchmarkUnitsLoading ||
-    isListDataTypesLoading ||
-    isListMethodTypesLoading;
+    isLoading || isListBenchmarkUnitsLoading || isListDataTypesLoading;
 
   const descriptionElementRef = React.useRef<HTMLElement>(null);
-
-  React.useEffect(() => {
-    if (open) {
-      const { current: descriptionElement } = descriptionElementRef;
-      if (descriptionElement !== null) {
-        descriptionElement.focus();
-      }
-    }
-  }, [open]);
 
   const initialData: TDialogInputCRUDFormik = {
     data: listBenchmarkInputSetup ? listBenchmarkInputSetup : [],
     create: [] as BenchmarkInputSetup[],
     delete: [] as BenchmarkInputSetup[],
-    template: newBenchmarkInputSetup,
     benchmarkUnit: listBenchmarkUnits ? listBenchmarkUnits : [],
     dataType: listDataTypes ? listDataTypes : [],
   };
 
   const tableBenchmarkInputSetupFormik = useFormik({
     initialValues: initialData,
+    validationSchema: validateInputSetupSchema,
     onSubmit: async (values) => {
       console.log("valuesubmit", values);
       await mutateListBenchmarkInputSetup({
@@ -117,6 +188,35 @@ const DialogInputCRUD = ({
       handleClose();
     },
   });
+
+  React.useEffect(() => {
+    if (open) {
+      const { current: descriptionElement } = descriptionElementRef;
+      if (descriptionElement !== null) {
+        descriptionElement.focus();
+      }
+    }
+  }, [open]);
+
+  React.useEffect(() => {
+    if (listBenchmarkInputSetup && listBenchmarkUnits && listDataTypes) {
+      const initialData: TDialogInputCRUDFormik = {
+        data: listBenchmarkInputSetup,
+        create: [] as BenchmarkInputSetup[],
+        delete: [] as BenchmarkInputSetup[],
+        benchmarkUnit: listBenchmarkUnits,
+        dataType: listDataTypes,
+      };
+
+      tableBenchmarkInputSetupFormik.setValues(initialData);
+    }
+  }, [
+    listBenchmarkInputSetup,
+    listBenchmarkUnits,
+    listDataTypes,
+    loadingCollection,
+    isRefetching,
+  ]);
 
   const prevBenchmarkInputSetups = React.useRef(
     tableBenchmarkInputSetupFormik.values
@@ -154,18 +254,6 @@ const DialogInputCRUD = ({
   //   });
   //   return emptyRow;
   // };
-
-  console.log("listBenchmarkInputSetup", listBenchmarkInputSetup);
-  console.log("newBenchmarkInputSetup", newBenchmarkInputSetup);
-  console.log(
-    "tableBenchmarkInputSetupFormik",
-    tableBenchmarkInputSetupFormik.values
-  );
-
-  console.log(
-    "initialValueDialog",
-    tableBenchmarkInputSetupFormik.initialValues
-  );
 
   const handleDelete = (id: string) => {
     const currentDeleteData = tableBenchmarkInputSetupFormik.values.delete;
@@ -215,7 +303,11 @@ const DialogInputCRUD = ({
     handleClose();
   };
 
-  if (loadingCollection) return <LinearProgress />;
+  console.log("isRefetching", isRefetching);
+
+  // if (!open || loadingCollection || isRefetching) {
+  //   return <LinearProgress />; // Don't render the dialog if it's not open or data is loading
+  // }
 
   return (
     <>
@@ -236,18 +328,18 @@ const DialogInputCRUD = ({
               ref={descriptionElementRef}
               tabIndex={-1}
             >
-              {!loadingCollection &&
-              listBenchmarkInputSetup ? (
+              {tableBenchmarkInputSetupFormik.values.data.length > 0 &&
+              !loadingCollection &&
+              !isRefetching ? (
                 <TableInputCRUD
                   data={tableBenchmarkInputSetupFormik} //TODO
                   onDelete={handleDelete}
-                  loadingCollection={loadingCollection}
+                  columns={columns}
                   // onSave={handleSave}
                 />
               ) : (
                 <LoadingApi />
               )}
-
               {/* {listBenchmarkInputSetup && (
               <TextFieldInputSetupCRUD dataList={listBenchmarkInputSetup} />
             )} */}
@@ -261,7 +353,15 @@ const DialogInputCRUD = ({
             >
               Cancel
             </Button>
-            <Button type="submit" variant="contained" color="info">
+            <Button
+              disabled={
+                tableBenchmarkInputSetupFormik.isSubmitting ||
+                !tableBenchmarkInputSetupFormik.isValid
+              }
+              type="submit"
+              variant="contained"
+              color="info"
+            >
               Save Input Setup
             </Button>
           </DialogActions>

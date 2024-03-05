@@ -10,7 +10,7 @@ const EditFormikListSelect = ({
   name,
   value,
   // rowData,
-  fieldValue,
+  // fieldValue,
   // subFieldData,
   editRowId,
   handleChange,
@@ -25,17 +25,13 @@ const EditFormikListSelect = ({
   //   return rowData[fieldData];
   // };
 
-  const handleValue = () => {
-    if (fieldValue) {
-      return value[fieldValue];
-    }
+  // const handleValue = () => {
+  //   if (fieldValue) {
+  //     return value[fieldValue];
+  //   }
 
-    return value;
-  };
-
-  console.log("options", options);
-
-  console.log("value", value);
+  //   return value;
+  // };
 
   return (
     <>

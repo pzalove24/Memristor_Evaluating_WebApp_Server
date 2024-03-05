@@ -108,7 +108,7 @@ export class BenchmarkSetupsController {
     );
   }
 
-  @Get('/benchmarkInput/benchmarkInputSetup/:id')
+  @Post('/benchmarkInput/benchmarkInputSetup/:id')
   async createBenchmarkInputBenchmarkInputSetup(
     @Param('id') id: string
   ): Promise<BenchmarkInputSetup> {

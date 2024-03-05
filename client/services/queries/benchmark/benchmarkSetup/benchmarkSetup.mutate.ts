@@ -1,5 +1,6 @@
 import {
   TUpsertBenchmarkInputSetupBodyRequest,
+  postCreateBenchmarkInputBenchmarkInputSetup,
   upsertBenchmarkInputBenchmarkInputSetup,
 } from "@/services/apis/benchmark/benchmarkSetup.api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -9,7 +10,9 @@ export const useUpsertBenchmarkBenchmarkInputInputSetups = () => {
   return useMutation({
     // mutationKey: ["listBenchmarkInputSetup"],
     mutationFn: async (bodyData: TUpsertBenchmarkInputSetupBodyRequest) => {
-      const [response, _] = await upsertBenchmarkInputBenchmarkInputSetup(bodyData);
+      const [response, _] = await upsertBenchmarkInputBenchmarkInputSetup(
+        bodyData
+      );
       const res = await response;
       return res;
     },
@@ -37,6 +40,35 @@ export const useUpsertBenchmarkBenchmarkInputInputSetups = () => {
         // await queryClient.invalidateQueries({
         //   queryKey: ["listBenchmarkInputSetup", { id: variables.id }],
         // });
+      }
+    },
+  });
+};
+
+export const usePostCreateBenchmarkInputBenchmarkInputSetup = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    // mutationKey: ["postCreateBenchmarkInputBenchmarkInputSetup", { id }],
+    mutationFn: async (id: string) => {
+      const [response, _] = await postCreateBenchmarkInputBenchmarkInputSetup(
+        id
+      );
+      const res = await response;
+      return res;
+    },
+    onSettled: async (_, error, variables) => {
+      console.log();
+      if (error) {
+        console.log(error);
+      } else {
+        // after update data, invalidate catch and refetch for new inputsetup list in dialog
+        await queryClient.invalidateQueries({
+          queryKey: ["listBenchmarkInputSetup", { id: variables }],
+        });
+        // refetch Input Table to acquire new count on inputsetup on badge
+        await queryClient.invalidateQueries({
+          queryKey: ["listBenchmarkSetups", "Input"],
+        });
       }
     },
   });

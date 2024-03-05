@@ -131,8 +131,7 @@ const BenchmarkSetupTabPanel = ({
     benchmarkInputs,
     benchmarkMethods,
   });
-
-  console.log("data", listBenchmarkSetup);
+  
   const { data: listVoltageTypes, refetch: refetchListAllVoltageType } =
     useGetVoltageTypes();
   const { data: listMethodTypes, refetch: refetchListAllMethodType } =

@@ -174,7 +174,7 @@ export class BenchmarkSetupsService {
         include: {
           voltageType: true,
           dataType: true,
-          BenchmarkUnit: true,
+          benchmarkUnit: true,
         },
       });
 
@@ -286,53 +286,30 @@ export class BenchmarkSetupsService {
       },
     });
 
-    console.log('listBenchmarkInputSetup', listBenchmarkInputSetup);
-
-    // const currentBenchmarkInputSetup =
-    //   await this.prismaService.benchmarkInputSetup.findMany({
-    //     where: {
-    //       benchmarkInputId:
-    //         upsertBenchmarkInputSetupDto.benchmarkInputSetupList[0]
-    //           .benchmarkInputId,
-    //     },
-    //   });
-
-    // const deletedBenchmarkInputSetup = currentBenchmarkInputSetup.filter(
-    //   (deletedData) =>
-    //     upsertBenchmarkInputSetupDto.benchmarkInputSetupList.includes(
-    //       deletedData,
-    //     ),
-    // );
-
-    // await this.prismaService.benchmarkInputSetup.deleteMany({
-    //   where: {
-    //     id: {
-    //       in: deletedBenchmarkInputSetup?.map((deletedData) => deletedData.id),
-    //     },
-    //   },
-    // });
-
     return listBenchmarkInputSetup;
   }
 
   async createBenchmarkInputBenchmarkInputSetup(
     id: string,
-  ): Promise<any> {
-    const NewBenchmarkInputSetup = {
-      id: createId(),
-      benchmarkUnitId: 'clro1tk43000208jvcfrq4xb9',
-      voltageTypeId: 'clsqfnn5b000308lb1sxg5ft8',
-      dataTypeId: 'clsqfqe5x000708lbdk7yedei',
-      benchmarkInputSetupName: 'New BenchmarkSetup',
-      decimalNumber: 2,
-      exampleData: '1.00',
-      upperLimit: 3.0,
-      lowerLimit: -2.0,
-      stepIncreasing: 0.5,
-      benchmarkInputId: id,
-    };
+  ): Promise<BenchmarkInputSetup> {
 
-    return NewBenchmarkInputSetup;
+    const newBenchmarkInputSetup =
+      await this.prismaService.benchmarkInputSetup.create({
+        data: {
+          benchmarkUnitId: 'clro1tk43000208jvcfrq4xb9',
+          voltageTypeId: 'clsqfnn5b000308lb1sxg5ft8',
+          dataTypeId: 'clsqfqe5x000708lbdk7yedei',
+          benchmarkInputSetupName: 'New BenchmarkSetup',
+          decimalNumber: 2,
+          exampleData: '1.00',
+          upperLimit: 3.0,
+          lowerLimit: -2.0,
+          stepIncreasing: 0.5,
+          benchmarkInputId: id,
+        },
+      });
+
+    return newBenchmarkInputSetup;
   }
 
   async upsertBenchmarkInformation(
@@ -425,11 +402,11 @@ export class BenchmarkSetupsService {
   async findAllBenchmarkUnit(): Promise<BenchmarkUnit[]> {
     return await this.prismaService.benchmarkUnit.findMany();
   }
-  
+
   async findAllDataType(): Promise<DataType[]> {
     return await this.prismaService.dataType.findMany();
   }
-  
+
   async findAllVoltageType(): Promise<VoltageType[]> {
     return await this.prismaService.voltageType.findMany();
   }

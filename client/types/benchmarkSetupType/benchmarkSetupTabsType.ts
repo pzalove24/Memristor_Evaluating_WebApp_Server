@@ -35,6 +35,13 @@ export type columnInput = {
   format?: (value: number) => string;
 };
 
+export type columnDialogInput = {
+  id: string;
+  label: string;
+  minWidth?: number;
+  align?: "right" | "left" | "center";
+};
+
 export type TBenchmarkSetupTableProps = {
   columns: columnInput[];
   rows: TPostBenchmarkSetupsResponse["rows"];

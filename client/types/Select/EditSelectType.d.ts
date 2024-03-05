@@ -16,7 +16,7 @@ export type TEditFormikListSelect = {
   id: string;
   name: string;
   value: any;
-  fieldValue?: string;
+  // fieldValue?: string;
   // rowData: any;
   // fieldData: string;
   // subFieldData?: string;

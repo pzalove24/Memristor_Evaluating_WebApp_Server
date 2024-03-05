@@ -1,6 +1,5 @@
 import {
   BenchmarkInputSetupWithUnit,
-  TGetCreateBenchmarkInputBenchmarkInputSetupResponse,
 } from "@/services/apis/benchmark/benchmarkSetup.api";
 import {
   BenchmarkInputSetup,
@@ -25,7 +24,6 @@ export type TDialogInputCRUDFormik = {
   data: BenchmarkInputSetupWithUnit[];
   create?: BenchmarkInputSetup[];
   delete?: BenchmarkInputSetup[];
-  template?: TGetCreateBenchmarkInputBenchmarkInputSetupResponse;
   benchmarkUnit: BenchmarkUnit[];
   dataType: DataType[];
 };

@@ -18,4 +18,7 @@ export type TEditFormikListTextField<T> = {
   //   index: number;
   editRowId: string;
   handleChange: (value: any) => void;
+  onBlur?: React.FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+  error?: boolean;
+  helperText?: React.ReactNode;
 };

@@ -9,6 +9,7 @@ import {
   Paper,
   Stack,
   LinearProgress,
+  TableHead,
 } from "@mui/material";
 import EditSelect from "../Select/EditSelect";
 import EditTextField from "../TextField/EditTextField";
@@ -17,24 +18,39 @@ import EditFormikListTextField from "../TextField/EditFormikListTextField";
 import { BenchmarkInputSetupWithUnit } from "@/services/apis/benchmark/benchmarkSetup.api";
 import { TDialogInputCRUDFormik } from "@/types/Dialog/DialogType";
 import EditFormikListSelect from "../Select/EditFormikListSelect";
+import { columnDialogInput } from "@/types/benchmarkSetupType/benchmarkSetupTabsType";
+import { usePostCreateBenchmarkInputBenchmarkInputSetup } from "@/services/queries/benchmark/benchmarkSetup/benchmarkSetup.mutate";
 
 interface MyTableProps {
   data: FormikProps<TDialogInputCRUDFormik>;
   onDelete: (id: string) => void;
-  loadingCollection: boolean;
+  columns: columnDialogInput[];
   // onSave: (id: string, updatedValues: { [key: string]: any }) => void;
 }
 
-const TableInputCRUD = ({ data, onDelete, loadingCollection }: MyTableProps) => {
-  const { initialValues, values, setValues, handleChange, setFieldValue } =
-    data;
+const TableInputCRUD = ({ data, onDelete, columns }: MyTableProps) => {
+  const {
+    initialValues,
+    values,
+    setValues,
+    handleChange,
+    setFieldValue,
+    handleBlur,
+    isValid,
+    touched,
+    errors,
+  } = data;
   const [editableRow, setEditableRow] = useState<string | null>(null);
-  // const prevBenchmarkInputSetups = React.useRef(values);
+
+  const { mutate: mutateNewBenchmarkInputSetup } =
+    usePostCreateBenchmarkInputBenchmarkInputSetup();
+  const prevBenchmarkInputSetups = React.useRef(values);
 
   const handleAdd = () => {
-    if (values.template) {
-      setFieldValue("data", [...values.data, values.template]);
-    }
+    console.log('render add')
+    // มันเพิ่มต่อจากอันเดิม เพราะว่าตอนเรากดเพิ่ม มันไม่ได้ลบข้อมูลเดิมไปด้วยมันเลยต่อกันเป็นพ่วงๆ
+    mutateNewBenchmarkInputSetup(values.data[0].benchmarkInputId);
+    prevBenchmarkInputSetups.current = values;
   };
 
   // const createEmptyInputSetup = (obj: any) => {
@@ -70,36 +86,67 @@ const TableInputCRUD = ({ data, onDelete, loadingCollection }: MyTableProps) => 
       // onSave(editableRow, { name: editedName, benchmarkInputSetupName: editedEmail });
       setEditableRow(null);
     }
+    prevBenchmarkInputSetups.current = values;
   };
 
   const handleCancel = (index: number) => {
     const newData = [...values.data];
-    newData[index] = initialValues.data[index];
+    newData[index] = prevBenchmarkInputSetups.current.data[index];
     setEditableRow(null);
-    console.log('newData',newData)
-    console.log('initialValues',initialValues)
+    // console.log('newData',newData)
+    // console.log('initialValues',initialValues)
     setFieldValue("data", newData);
   };
 
-  const handleSelectChange = (
+  const handleSelectDataTypeChange = (
     event: React.ChangeEvent<{ value: unknown }>,
     index: number
   ) => {
-    const newData = [...values.data];
-    newData[index] = initialValues.data[index];
     const selectedValue = event.target.value;
     const selectedOption = values.dataType?.find(
       (option) => option.name === selectedValue
     );
-    setFieldValue("data", newData);
+    setFieldValue(`data[${index}].dataType`, selectedOption);
+    setFieldValue(`data[${index}].dataTypeId`, selectedOption?.id);
   };
 
-  // if (!loadingCollection) return <LinearProgress />;
+  const handleSelectUnitChange = (
+    event: React.ChangeEvent<{ value: unknown }>,
+    index: number
+  ) => {
+    const selectedValue = event.target.value;
+    const selectedOption = values.benchmarkUnit?.find(
+      (option) => option.unitName === selectedValue
+    );
+    setFieldValue(`data[${index}].benchmarkUnit`, selectedOption);
+    setFieldValue(`data[${index}].benchmarkUnitId`, selectedOption?.id);
+  };
+
+  console.log("touched", touched);
+  console.log("errors", errors.data);
+  console.log("prevBenchmarkInputSetups", prevBenchmarkInputSetups);
+  console.log("values", values);
+
+  // touched.data[index].benchmarkInputSetupName &&
+  // Boolean(errors.data[index].b)
 
   return (
     <>
       <TableContainer component={Paper}>
-        <Table>
+        <Table stickyHeader>
+          <TableHead>
+            <TableRow>
+              {columns.map((column) => (
+                <TableCell
+                  key={column.id}
+                  align={column.align}
+                  style={{ minWidth: column.minWidth }}
+                >
+                  {column.label}
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
           <TableBody>
             {/* Render table rows */}
             {values.data.map(
@@ -115,18 +162,61 @@ const TableInputCRUD = ({ data, onDelete, loadingCollection }: MyTableProps) => 
                       value={values.data[index].benchmarkInputSetupName}
                       editRowId={values.data[index].id}
                       handleChange={handleChange}
+                      onBlur={handleBlur}
+                      error={
+                        errors.data
+                          ? Boolean(
+                              (errors.data[index] as any)
+                                ?.benchmarkInputSetupName
+                            )
+                          : undefined
+                      }
+                      helperText={
+                        errors.data
+                          ? (errors.data[index] as any)?.benchmarkInputSetupName
+                          : undefined
+                      }
+                      // error={
+                      //   touched.data && errors.data
+                      //     ? touched.data[index]?.benchmarkInputSetupName &&
+                      //       Boolean(
+                      //         (errors.data[index] as any)
+                      //           ?.benchmarkInputSetupName
+                      //       )
+                      //     : undefined
+                      // }
+                      // helperText={
+                      //   touched.data && errors.data
+                      //     ? touched.data[index]?.benchmarkInputSetupName &&
+                      //       (errors.data[index] as any)?.benchmarkInputSetupName
+                      //     : undefined
+                      // }
                     />
                   </TableCell>
                   <TableCell>
+                    <EditFormikListSelect
+                      editableRow={editableRow}
+                      options={values.benchmarkUnit ? values.benchmarkUnit : []}
+                      fieldOption="unitName"
+                      id={`id[${index}].benchmarkUnit`}
+                      name={`data[${index}].benchmarkUnit`}
+                      value={values.data[index].benchmarkUnit.unitName}
+                      editRowId={values.data[index].id}
+                      handleChange={(event) =>
+                        handleSelectUnitChange(event, index)
+                      }
+                    />
+                  </TableCell>
+                  {/* <TableCell>
                     <EditFormikListTextField
                       editableRow={editableRow}
-                      id={`id[${index}].BenchmarkUnit.unitName`}
-                      name={`data[${index}].BenchmarkUnit.unitName`}
-                      value={values.data[index].BenchmarkUnit.unitName}
+                      id={`id[${index}].benchmarkUnit.unitName`}
+                      name={`data[${index}].benchmarkUnit.unitName`}
+                      value={values.data[index].benchmarkUnit.unitName}
                       editRowId={values.data[index].id}
                       handleChange={handleChange}
                     />
-                  </TableCell>
+                  </TableCell> */}
                   <TableCell>
                     <EditFormikListSelect
                       editableRow={editableRow}
@@ -135,12 +225,13 @@ const TableInputCRUD = ({ data, onDelete, loadingCollection }: MyTableProps) => 
                       id={`id[${index}].dataType`}
                       name={`data[${index}].dataType`}
                       value={values.data[index].dataType.name}
-                      fieldValue="name"
                       editRowId={values.data[index].id}
-                      handleChange={(event) => handleSelectChange(event, index)}
+                      handleChange={(event) =>
+                        handleSelectDataTypeChange(event, index)
+                      }
                     />
                   </TableCell>
-                  <TableCell>
+                  {/* <TableCell>
                     <EditFormikListTextField
                       editableRow={editableRow}
                       id={`id[${index}].dataType.name`}
@@ -149,7 +240,7 @@ const TableInputCRUD = ({ data, onDelete, loadingCollection }: MyTableProps) => 
                       editRowId={values.data[index].id}
                       handleChange={handleChange}
                     />
-                  </TableCell>
+                  </TableCell> */}
                   <TableCell>
                     <EditFormikListTextField
                       editableRow={editableRow}
@@ -159,6 +250,17 @@ const TableInputCRUD = ({ data, onDelete, loadingCollection }: MyTableProps) => 
                       value={values.data[index].decimalNumber}
                       editRowId={values.data[index].id}
                       handleChange={handleChange}
+                      onBlur={handleBlur}
+                      error={
+                        errors.data
+                          ? Boolean((errors.data[index] as any)?.decimalNumber)
+                          : undefined
+                      }
+                      helperText={
+                        errors.data
+                          ? (errors.data[index] as any)?.decimalNumber
+                          : undefined
+                      }
                     />
                   </TableCell>
                   <TableCell>
@@ -169,6 +271,17 @@ const TableInputCRUD = ({ data, onDelete, loadingCollection }: MyTableProps) => 
                       value={values.data[index].exampleData}
                       editRowId={values.data[index].id}
                       handleChange={handleChange}
+                      onBlur={handleBlur}
+                      error={
+                        errors.data
+                          ? Boolean((errors.data[index] as any)?.exampleData)
+                          : undefined
+                      }
+                      helperText={
+                        errors.data
+                          ? (errors.data[index] as any)?.exampleData
+                          : undefined
+                      }
                     />
                   </TableCell>
                   <TableCell>
@@ -180,6 +293,17 @@ const TableInputCRUD = ({ data, onDelete, loadingCollection }: MyTableProps) => 
                       value={values.data[index].lowerLimit}
                       editRowId={values.data[index].id}
                       handleChange={handleChange}
+                      onBlur={handleBlur}
+                      error={
+                        errors.data
+                          ? Boolean((errors.data[index] as any)?.lowerLimit)
+                          : undefined
+                      }
+                      helperText={
+                        errors.data
+                          ? (errors.data[index] as any)?.lowerLimit
+                          : undefined
+                      }
                     />
                   </TableCell>
                   <TableCell>
@@ -191,6 +315,17 @@ const TableInputCRUD = ({ data, onDelete, loadingCollection }: MyTableProps) => 
                       value={values.data[index].upperLimit}
                       editRowId={values.data[index].id}
                       handleChange={handleChange}
+                      onBlur={handleBlur}
+                      error={
+                        errors.data
+                          ? Boolean((errors.data[index] as any)?.upperLimit)
+                          : undefined
+                      }
+                      helperText={
+                        errors.data
+                          ? (errors.data[index] as any)?.upperLimit
+                          : undefined
+                      }
                     />
                   </TableCell>
                   <TableCell>
@@ -202,6 +337,17 @@ const TableInputCRUD = ({ data, onDelete, loadingCollection }: MyTableProps) => 
                       value={values.data[index].stepIncreasing}
                       editRowId={values.data[index].id}
                       handleChange={handleChange}
+                      onBlur={handleBlur}
+                      error={
+                        errors.data
+                          ? Boolean((errors.data[index] as any)?.stepIncreasing)
+                          : undefined
+                      }
+                      helperText={
+                        errors.data
+                          ? (errors.data[index] as any)?.stepIncreasing
+                          : undefined
+                      }
                     />
                   </TableCell>
                   <TableCell>
@@ -209,6 +355,7 @@ const TableInputCRUD = ({ data, onDelete, loadingCollection }: MyTableProps) => 
                       {editableRow === row.id ? (
                         <>
                           <Button
+                            disabled={!isValid}
                             variant="contained"
                             color="info"
                             onClick={handleSave}

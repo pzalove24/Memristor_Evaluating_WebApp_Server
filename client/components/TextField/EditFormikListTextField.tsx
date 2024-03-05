@@ -15,6 +15,9 @@ const EditFormikListTextField = ({
   //   index,
   editRowId,
   handleChange,
+  onBlur,
+  error,
+  helperText,
 }: TEditFormikListTextField<BenchmarkInputSetupWithUnit[]>) => {
   // console.log("value", value);
 
@@ -27,6 +30,9 @@ const EditFormikListTextField = ({
           name={name}
           value={value}
           onChange={handleChange}
+          onBlur={onBlur}
+          error={error}
+          helperText={helperText}
         />
       ) : (
         value

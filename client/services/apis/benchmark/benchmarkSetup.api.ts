@@ -44,7 +44,7 @@ export type BenchmarkInputWithInputSetup = Prisma.BenchmarkInputGetPayload<{
 
 export type BenchmarkInputSetupWithUnit = Prisma.BenchmarkInputSetupGetPayload<{
   include: {
-    BenchmarkUnit: true;
+    benchmarkUnit: true;
     voltageType: true;
     dataType: true;
   };
@@ -73,20 +73,6 @@ export type TUpsertBenchmarkInputSetupBodyRequest = {
 };
 
 export type TUpsertBenchmarkInputSetupResponse = BenchmarkInputSetup;
-
-export type TGetCreateBenchmarkInputBenchmarkInputSetupResponse = {
-  id: string;
-  benchmarkUnitId: string;
-  voltageTypeId: string;
-  dataTypeId: string;
-  benchmarkInputSetupName: string;
-  decimalNumber: number;
-  exampleData: string;
-  upperLimit: number;
-  lowerLimit: number;
-  stepIncreasing: number;
-  benchmarkInputId: string;
-};
 
 export const postBenchmarkSetups = async (
   query: TPostBenchmarkSetupsQueryRequest,
@@ -199,19 +185,19 @@ export const getBenchmarkInputSetups = async (
   return [response, resAbort];
 };
 
-export const getCreateBenchmarkInputBenchmarkInputSetup = async (
+export const postCreateBenchmarkInputBenchmarkInputSetup = async (
   params: string
 ): Promise<
   [
     Promise<
-      AxiosResponse<TGetCreateBenchmarkInputBenchmarkInputSetupResponse>["data"]
+      AxiosResponse<BenchmarkInputSetup>["data"]
     >,
     AbortFunction
   ]
 > => {
   const [response, resAbort] =
     await request<TUpsertBenchmarkInputSetupResponse>(
-      "GET",
+      "POST",
       `/benchmark-setups/benchmarkInput/benchmarkInputSetup/${params}`,
       {} // or props
     );
