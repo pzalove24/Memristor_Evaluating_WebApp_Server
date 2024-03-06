@@ -23,6 +23,7 @@ import { ListAllBenchmarkInputNameDto } from './dto/listAllBenchmarkInputName.dt
 import { ListAllBenchmarkMethodNameDto } from './dto/listAllBenchmarkMethodName.dto';
 import { createId } from '@paralleldrive/cuid2';
 import { CreateBenchmarkInputBenchmarkInputSetupResponseDto } from './dto/createBenchmarkInputBenchmarkInputSetup.dto';
+import { UpsertCancelBenchmarkInputBenchmarkInputSetupDto } from './dto/upsertCancelBenchmarkInputBenchmarkInputSetup.dto';
 
 @Injectable()
 export class BenchmarkSetupsService {
@@ -218,12 +219,12 @@ export class BenchmarkSetupsService {
   ): Promise<BenchmarkInputSetup[]> {
     let listBenchmarkInputSetup: BenchmarkInputSetup[] = [];
 
-    const benchmarkInput = await this.prismaService.benchmarkInput.findUnique({
-      where: {
-        id: upsertBenchmarkInputSetupDto.benchmarkInputSetupList[0]
-          .benchmarkInputId,
-      },
-    });
+    // const benchmarkInput = await this.prismaService.benchmarkInput.findUnique({
+    //   where: {
+    //     id: upsertBenchmarkInputSetupDto.benchmarkInputSetupList[0]
+    //       .benchmarkInputId,
+    //   },
+    // });
 
     // do the upsert for the rest of them
     for (const benchmarkInputSetup of upsertBenchmarkInputSetupDto.benchmarkInputSetupList) {
@@ -292,7 +293,6 @@ export class BenchmarkSetupsService {
   async createBenchmarkInputBenchmarkInputSetup(
     id: string,
   ): Promise<BenchmarkInputSetup> {
-
     const newBenchmarkInputSetup =
       await this.prismaService.benchmarkInputSetup.create({
         data: {
@@ -310,6 +310,80 @@ export class BenchmarkSetupsService {
       });
 
     return newBenchmarkInputSetup;
+  }
+
+  async upsertCancelBenchmarkInputBenchmarkInputSetup(
+    upsertCancelBenchmarkInputBenchmarkInputSetupDto: UpsertCancelBenchmarkInputBenchmarkInputSetupDto,
+  ): Promise<BenchmarkInputSetup[]> {
+    let cancelListBenchmarkInputSetup: BenchmarkInputSetup[] = [];
+
+    // const benchmarkInput = await this.prismaService.benchmarkInput.findUnique({
+    //   where: {
+    //     id: upsertBenchmarkInputSetupDto.benchmarkInputSetupList[0]
+    //       .benchmarkInputId,
+    //   },
+    // });
+
+    // do the upsert for the rest of them
+
+    console.log(
+      'upsertCancelBenchmarkInputBenchmarkInputSetupDto',
+      upsertCancelBenchmarkInputBenchmarkInputSetupDto,
+    );
+    if (
+      upsertCancelBenchmarkInputBenchmarkInputSetupDto.benchmarkInputSetupList
+        .length > 0
+    ) {
+      for (const benchmarkInputSetup of upsertCancelBenchmarkInputBenchmarkInputSetupDto.benchmarkInputSetupList) {
+        const {
+          id,
+          benchmarkUnitId,
+          benchmarkInputSetupName,
+          voltageTypeId,
+          dataTypeId,
+          decimalNumber,
+          exampleData,
+          upperLimit,
+          lowerLimit,
+          stepIncreasing,
+          benchmarkInputId,
+        } = benchmarkInputSetup;
+
+        const upsertBenchmarkInputSetup =
+          await this.prismaService.benchmarkInputSetup.create({
+            data: {
+              id,
+              benchmarkUnitId,
+              benchmarkInputSetupName,
+              voltageTypeId,
+              dataTypeId,
+              decimalNumber,
+              exampleData,
+              upperLimit,
+              lowerLimit,
+              stepIncreasing,
+              benchmarkInputId,
+            },
+          });
+
+        cancelListBenchmarkInputSetup.push(upsertBenchmarkInputSetup);
+      }
+    }
+
+    return cancelListBenchmarkInputSetup;
+  }
+
+  async deleteBenchmarkInputBenchmarkInputSetup(
+    id: string,
+  ): Promise<BenchmarkInputSetup> {
+    const deleteBenchmarkInputSetup =
+      await this.prismaService.benchmarkInputSetup.delete({
+        where: {
+          id,
+        },
+      });
+
+    return deleteBenchmarkInputSetup;
   }
 
   async upsertBenchmarkInformation(

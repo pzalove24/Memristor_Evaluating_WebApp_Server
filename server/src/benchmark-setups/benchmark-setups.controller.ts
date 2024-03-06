@@ -34,6 +34,7 @@ import { ListAllBenchmarkInputNameDto } from './dto/listAllBenchmarkInputName.dt
 import { ListAllBenchmarkMethodNameDto } from './dto/listAllBenchmarkMethodName.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateBenchmarkInputBenchmarkInputSetupResponseDto } from './dto/createBenchmarkInputBenchmarkInputSetup.dto';
+import { UpsertCancelBenchmarkInputBenchmarkInputSetupDto } from './dto/upsertCancelBenchmarkInputBenchmarkInputSetup.dto';
 
 @ApiTags('benchmark-setups')
 @Controller('benchmark-setups')
@@ -111,10 +112,27 @@ export class BenchmarkSetupsController {
   @Post('/benchmarkInput/benchmarkInputSetup/:id')
   async createBenchmarkInputBenchmarkInputSetup(
     @Param('id') id: string
+    // id for benchmarkInput
   ): Promise<BenchmarkInputSetup> {
     return this.benchmarkSetupsService.createBenchmarkInputBenchmarkInputSetup(id);
   }
 
+  @Post('/benchmarkInput/benchmarkInputSetup')
+  async upsertCancelBenchmarkInputBenchmarkInputSetup(
+    @Body() upsertCancelBenchmarkInputBenchmarkInputSetupDto: UpsertCancelBenchmarkInputBenchmarkInputSetupDto
+  ): Promise<BenchmarkInputSetup[]> {
+    return this.benchmarkSetupsService.upsertCancelBenchmarkInputBenchmarkInputSetup(upsertCancelBenchmarkInputBenchmarkInputSetupDto);
+  }
+
+  @Delete('/benchmarkInput/benchmarkInputSetup/:id')
+  async deleteBenchmarkInputBenchmarkInputSetup(
+    @Param('id') id: string
+    //id for benchmarkInputSetup
+  ): Promise<BenchmarkInputSetup> {
+    return this.benchmarkSetupsService.deleteBenchmarkInputBenchmarkInputSetup(id);
+  }
+
+  //TODO
   @Put('/benchmarkInput/benchmarkInputSetup')
   async upsertBenchmarkInputBenchmarkInputSetup(
     @Body()

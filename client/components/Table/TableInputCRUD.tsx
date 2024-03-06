@@ -25,10 +25,11 @@ interface MyTableProps {
   data: FormikProps<TDialogInputCRUDFormik>;
   onDelete: (id: string) => void;
   columns: columnDialogInput[];
+  onAdd: () => void;
   // onSave: (id: string, updatedValues: { [key: string]: any }) => void;
 }
 
-const TableInputCRUD = ({ data, onDelete, columns }: MyTableProps) => {
+const TableInputCRUD = ({ data, onDelete, columns,onAdd }: MyTableProps) => {
   const {
     initialValues,
     values,
@@ -42,16 +43,7 @@ const TableInputCRUD = ({ data, onDelete, columns }: MyTableProps) => {
   } = data;
   const [editableRow, setEditableRow] = useState<string | null>(null);
 
-  const { mutate: mutateNewBenchmarkInputSetup } =
-    usePostCreateBenchmarkInputBenchmarkInputSetup();
-  const prevBenchmarkInputSetups = React.useRef(values);
 
-  const handleAdd = () => {
-    console.log('render add')
-    // มันเพิ่มต่อจากอันเดิม เพราะว่าตอนเรากดเพิ่ม มันไม่ได้ลบข้อมูลเดิมไปด้วยมันเลยต่อกันเป็นพ่วงๆ
-    mutateNewBenchmarkInputSetup(values.data[0].benchmarkInputId);
-    prevBenchmarkInputSetups.current = values;
-  };
 
   // const createEmptyInputSetup = (obj: any) => {
   //   console.log("obj", obj);
@@ -86,16 +78,16 @@ const TableInputCRUD = ({ data, onDelete, columns }: MyTableProps) => {
       // onSave(editableRow, { name: editedName, benchmarkInputSetupName: editedEmail });
       setEditableRow(null);
     }
-    prevBenchmarkInputSetups.current = values;
+    // prevBenchmarkInputSetups.current = values;
   };
 
   const handleCancel = (index: number) => {
-    const newData = [...values.data];
-    newData[index] = prevBenchmarkInputSetups.current.data[index];
+    // const newData = [...values.data];
+    // newData[index] = prevBenchmarkInputSetups.current.data[index];
     setEditableRow(null);
     // console.log('newData',newData)
     // console.log('initialValues',initialValues)
-    setFieldValue("data", newData);
+    // setFieldValue("data", newData);
   };
 
   const handleSelectDataTypeChange = (
@@ -122,10 +114,10 @@ const TableInputCRUD = ({ data, onDelete, columns }: MyTableProps) => {
     setFieldValue(`data[${index}].benchmarkUnitId`, selectedOption?.id);
   };
 
-  console.log("touched", touched);
-  console.log("errors", errors.data);
-  console.log("prevBenchmarkInputSetups", prevBenchmarkInputSetups);
-  console.log("values", values);
+  // console.log("touched", touched);
+  // console.log("errors", errors.data);
+  // // console.log("prevBenchmarkInputSetups", prevBenchmarkInputSetups);
+  // console.log("values", values);
 
   // touched.data[index].benchmarkInputSetupName &&
   // Boolean(errors.data[index].b)
@@ -380,7 +372,7 @@ const TableInputCRUD = ({ data, onDelete, columns }: MyTableProps) => {
                         </Button>
                       )}
                       <Button
-                        disabled={values.data.length === 1}
+                        // disabled={values.data.length === 1}
                         variant="contained"
                         color="error"
                         onClick={() => onDelete(row.id)}
@@ -395,7 +387,7 @@ const TableInputCRUD = ({ data, onDelete, columns }: MyTableProps) => {
           </TableBody>
         </Table>
       </TableContainer>
-      <Button fullWidth onClick={handleAdd} variant="contained" color="primary">
+      <Button fullWidth onClick={onAdd} variant="contained" color="primary">
         Add Input Setup
       </Button>
     </>

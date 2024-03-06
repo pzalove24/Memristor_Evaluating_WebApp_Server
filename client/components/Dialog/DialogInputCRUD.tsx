@@ -19,8 +19,10 @@ import TableInputCRUD from "../Table/TableInputCRUD";
 import { useSnackbar } from "notistack";
 import { useFormik } from "formik";
 import {
+  useDeleteBenchmarkInputBenchmarkInputSetup,
   usePostCreateBenchmarkInputBenchmarkInputSetup,
   useUpsertBenchmarkBenchmarkInputInputSetups,
+  useUpsertCancelBenchmarkInputBenchmarkInputSetup,
 } from "@/services/queries/benchmark/benchmarkSetup/benchmarkSetup.mutate";
 import { LoadingApi } from "../Loading/LoadingApi";
 import { BenchmarkInputSetup } from "../../../server/shared/prismaTypes";
@@ -30,6 +32,7 @@ import {
   columnDialogInput,
   columnInput,
 } from "@/types/benchmarkSetupType/benchmarkSetupTabsType";
+import { NoDataContent } from "../Loading/NoDataContent";
 
 const testData = [
   { id: 1, name: "John", email: "john@example.com", role: "Admin" },
@@ -152,6 +155,17 @@ const DialogInputCRUD = ({
   const { mutateAsync: mutateListBenchmarkInputSetup } =
     useUpsertBenchmarkBenchmarkInputInputSetups();
 
+  const {
+    data: mutateNewBenchmarkInputSetupData,
+    mutate: mutateNewBenchmarkInputSetup,
+  } = usePostCreateBenchmarkInputBenchmarkInputSetup();
+
+  const { mutateAsync: mutateCancelListBenchmarkInputSetup } =
+    useUpsertCancelBenchmarkInputBenchmarkInputSetup();
+
+  const { mutateAsync: mutateDeleteBenchmarkInputSetup } =
+    useDeleteBenchmarkInputBenchmarkInputSetup();
+
   const loadingCollection =
     isLoading || isListBenchmarkUnitsLoading || isListDataTypesLoading;
 
@@ -214,11 +228,15 @@ const DialogInputCRUD = ({
     listBenchmarkInputSetup,
     listBenchmarkUnits,
     listDataTypes,
-    loadingCollection,
-    isRefetching,
+    // loadingCollection,
+    // isRefetching,
   ]);
 
-  const prevBenchmarkInputSetups = React.useRef(
+  const prevBenchmarkInputSetups = React.useRef(listBenchmarkInputSetup);
+
+  console.log("prevBenchmarkInputSetups", prevBenchmarkInputSetups);
+  console.log(
+    "tableBenchmarkInputSetupFormik.values",
     tableBenchmarkInputSetupFormik.values
   );
 
@@ -255,6 +273,25 @@ const DialogInputCRUD = ({
   //   return emptyRow;
   // };
 
+  // const prevBenchmarkInputSetups = React.useRef(values);
+
+  const handleAdd = () => {
+    // const currentCreateData = tableBenchmarkInputSetupFormik.values.create;
+
+    // if (currentCreateData && createData) {
+    //   currentCreateData.push(createData);
+    // }
+
+    // tableBenchmarkInputSetupFormik.setFieldValue("create", currentCreateData);
+
+    console.log("render add");
+    // มันเพิ่มต่อจากอันเดิม เพราะว่าตอนเรากดเพิ่ม มันไม่ได้ลบข้อมูลเดิมไปด้วยมันเลยต่อกันเป็นพ่วงๆ
+    mutateNewBenchmarkInputSetup(
+      tableBenchmarkInputSetupFormik.values.data[0].benchmarkInputId
+    );
+    // prevBenchmarkInputSetups.current = values;
+  };
+
   const handleDelete = (id: string) => {
     const currentDeleteData = tableBenchmarkInputSetupFormik.values.delete;
 
@@ -264,6 +301,7 @@ const DialogInputCRUD = ({
 
     if (deleteData && currentDeleteData) {
       currentDeleteData.push(deleteData);
+      mutateDeleteBenchmarkInputSetup(deleteData.id);
     }
 
     const newData = tableBenchmarkInputSetupFormik.values.data.filter(
@@ -284,26 +322,39 @@ const DialogInputCRUD = ({
   // };
 
   const handleAlertClose = () => {
-    if (
-      prevBenchmarkInputSetups.current.data !==
-      tableBenchmarkInputSetupFormik.values.data
-    ) {
-      enqueueSnackbar("Cancel InputSetups Change.", {
-        autoHideDuration: 1000,
-        transitionDuration: { enter: 225, exit: 225 },
-        variant: "info",
-        anchorOrigin: {
-          vertical: "top",
-          horizontal: "right",
-        },
+    // if (
+    //   prevBenchmarkInputSetups.current.data !==
+    //   tableBenchmarkInputSetupFormik.values.data
+    // ) {
+    //   enqueueSnackbar("Cancel InputSetups Change.", {
+    //     autoHideDuration: 1000,
+    //     transitionDuration: { enter: 225, exit: 225 },
+    //     variant: "info",
+    //     anchorOrigin: {
+    //       vertical: "top",
+    //       horizontal: "right",
+    //     },
+    //   });
+    //   // alert(JSON.stringify("are you sure to cancel edit Data", null, 2));
+    // }
+    enqueueSnackbar("Cancel InputSetups Change.", {
+      autoHideDuration: 2000,
+      transitionDuration: { enter: 225, exit: 225 },
+      variant: "info",
+      anchorOrigin: {
+        vertical: "top",
+        horizontal: "right",
+      },
+    });
+
+    if (tableBenchmarkInputSetupFormik.values.delete) {
+      mutateCancelListBenchmarkInputSetup({
+        benchmarkInputSetupList: tableBenchmarkInputSetupFormik.values.delete,
       });
-      // alert(JSON.stringify("are you sure to cancel edit Data", null, 2));
     }
 
     handleClose();
   };
-
-  console.log("isRefetching", isRefetching);
 
   // if (!open || loadingCollection || isRefetching) {
   //   return <LinearProgress />; // Don't render the dialog if it's not open or data is loading
@@ -313,7 +364,7 @@ const DialogInputCRUD = ({
     <>
       <Dialog
         open={open}
-        onClose={handleClose}
+        onClose={handleAlertClose}
         fullWidth
         maxWidth={"xl"}
         scroll={"paper"}
@@ -328,18 +379,22 @@ const DialogInputCRUD = ({
               ref={descriptionElementRef}
               tabIndex={-1}
             >
-              {tableBenchmarkInputSetupFormik.values.data.length > 0 &&
-              !loadingCollection &&
-              !isRefetching ? (
+              {loadingCollection || isRefetching ? (
+                <LoadingApi />
+              ) : tableBenchmarkInputSetupFormik.values.data.length > 0 &&
+                !loadingCollection &&
+                !isRefetching ? (
                 <TableInputCRUD
                   data={tableBenchmarkInputSetupFormik} //TODO
                   onDelete={handleDelete}
                   columns={columns}
+                  onAdd={handleAdd}
                   // onSave={handleSave}
                 />
               ) : (
-                <LoadingApi />
+                <NoDataContent />
               )}
+
               {/* {listBenchmarkInputSetup && (
               <TextFieldInputSetupCRUD dataList={listBenchmarkInputSetup} />
             )} */}
@@ -351,7 +406,7 @@ const DialogInputCRUD = ({
               color="inherit"
               onClick={handleAlertClose}
             >
-              Cancel
+              Cancel All Edit
             </Button>
             <Button
               disabled={

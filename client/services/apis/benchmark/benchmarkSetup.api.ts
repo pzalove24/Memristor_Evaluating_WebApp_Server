@@ -72,7 +72,10 @@ export type TUpsertBenchmarkInputSetupBodyRequest = {
   deleteBenchmarkInputSetupList?: BenchmarkInputSetup[];
 };
 
-export type TUpsertBenchmarkInputSetupResponse = BenchmarkInputSetup;
+export type TUpsertCancelBenchmarkInputSetupBodyRequest = {
+  benchmarkInputSetupList: BenchmarkInputSetup[];
+};
+
 
 export const postBenchmarkSetups = async (
   query: TPostBenchmarkSetupsQueryRequest,
@@ -196,8 +199,29 @@ export const postCreateBenchmarkInputBenchmarkInputSetup = async (
   ]
 > => {
   const [response, resAbort] =
-    await request<TUpsertBenchmarkInputSetupResponse>(
+    await request<BenchmarkInputSetup>(
       "POST",
+      `/benchmark-setups/benchmarkInput/benchmarkInputSetup/${params}`,
+      {} // or props
+    );
+
+  // zustand set State here
+  return [response, resAbort];
+};
+
+export const deleteBenchmarkInputBenchmarkInputSetup = async (
+  params: string
+): Promise<
+  [
+    Promise<
+      AxiosResponse<BenchmarkInputSetup>["data"]
+    >,
+    AbortFunction
+  ]
+> => {
+  const [response, resAbort] =
+    await request<BenchmarkInputSetup>(
+      "DELETE",
       `/benchmark-setups/benchmarkInput/benchmarkInputSetup/${params}`,
       {} // or props
     );
@@ -210,13 +234,34 @@ export const upsertBenchmarkInputBenchmarkInputSetup = async (
   body: TUpsertBenchmarkInputSetupBodyRequest
 ): Promise<
   [
-    Promise<AxiosResponse<TUpsertBenchmarkInputSetupResponse>["data"]>,
+    Promise<AxiosResponse<BenchmarkInputSetup>["data"]>,
     AbortFunction
   ]
 > => {
   const [response, resAbort] =
-    await request<TUpsertBenchmarkInputSetupResponse>(
+    await request<BenchmarkInputSetup>(
       "PUT",
+      `/benchmark-setups/benchmarkInput/benchmarkInputSetup`,
+      {}, // or props
+      body
+    );
+
+  // zustand set State here
+  return [response, resAbort];
+};
+
+
+export const upsertCancelBenchmarkInputBenchmarkInputSetup = async (
+  body: TUpsertCancelBenchmarkInputSetupBodyRequest
+): Promise<
+  [
+    Promise<AxiosResponse<BenchmarkInputSetup[]>["data"]>,
+    AbortFunction
+  ]
+> => {
+  const [response, resAbort] =
+    await request<BenchmarkInputSetup[]>(
+      "POST",
       `/benchmark-setups/benchmarkInput/benchmarkInputSetup`,
       {}, // or props
       body
