@@ -48,7 +48,7 @@ export class BenchmarkSetupsController {
     @Query() listAllBenchmarkSetupsDto: ListAllBenchmarkSetupsDto,
     @Body() filteredBenchmarkSetupsDto: FilteredBenchmarkSetupsDto,
   ): Promise<PaginationResponseDto<BenchmarkInput | BenchmarkMethod>> {
-    console.log('bodyapi', filteredBenchmarkSetupsDto);
+    // console.log('bodyapi', filteredBenchmarkSetupsDto);
     return this.benchmarkSetupsService.listAllBenchmarkSetups(
       listAllBenchmarkSetupsDto,
       filteredBenchmarkSetupsDto,

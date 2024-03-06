@@ -98,7 +98,7 @@ export class BenchmarkSetupsService {
 
     const { filteredBenchmarks } = filteredBenchmarkSetupsDto;
 
-    console.log('input', filteredBenchmarks);
+    // console.log('input', filteredBenchmarks);
 
     const skip = (page - 1) * limit;
 
@@ -326,10 +326,10 @@ export class BenchmarkSetupsService {
 
     // do the upsert for the rest of them
 
-    console.log(
-      'upsertCancelBenchmarkInputBenchmarkInputSetupDto',
-      upsertCancelBenchmarkInputBenchmarkInputSetupDto,
-    );
+    // console.log(
+    //   'upsertCancelBenchmarkInputBenchmarkInputSetupDto',
+    //   upsertCancelBenchmarkInputBenchmarkInputSetupDto,
+    // );
     if (
       upsertCancelBenchmarkInputBenchmarkInputSetupDto.benchmarkInputSetupList
         .length > 0

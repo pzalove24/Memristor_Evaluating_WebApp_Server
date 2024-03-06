@@ -33,6 +33,7 @@ import {
   columnInput,
 } from "@/types/benchmarkSetupType/benchmarkSetupTabsType";
 import { NoDataContent } from "../Loading/NoDataContent";
+import DraggableTableInputCRUD from "../Table/DraggableTable/DraggableTable";
 
 const testData = [
   { id: 1, name: "John", email: "john@example.com", role: "Admin" },
@@ -379,7 +380,7 @@ const DialogInputCRUD = ({
               ref={descriptionElementRef}
               tabIndex={-1}
             >
-              {loadingCollection || isRefetching ? (
+              {/* {loadingCollection || isRefetching ? (
                 <LoadingApi />
               ) : tableBenchmarkInputSetupFormik.values.data.length > 0 &&
                 !loadingCollection &&
@@ -393,11 +394,8 @@ const DialogInputCRUD = ({
                 />
               ) : (
                 <NoDataContent />
-              )}
-
-              {/* {listBenchmarkInputSetup && (
-              <TextFieldInputSetupCRUD dataList={listBenchmarkInputSetup} />
-            )} */}
+              )} */}
+              <DraggableTableInputCRUD />
             </DialogContentText>
           </DialogContent>
           <DialogActions>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   Table,
   TableBody,
@@ -8,18 +8,14 @@ import {
   Button,
   Paper,
   Stack,
-  LinearProgress,
   TableHead,
 } from "@mui/material";
-import EditSelect from "../Select/EditSelect";
-import EditTextField from "../TextField/EditTextField";
 import { FormikProps } from "formik";
 import EditFormikListTextField from "../TextField/EditFormikListTextField";
 import { BenchmarkInputSetupWithUnit } from "@/services/apis/benchmark/benchmarkSetup.api";
 import { TDialogInputCRUDFormik } from "@/types/Dialog/DialogType";
 import EditFormikListSelect from "../Select/EditFormikListSelect";
 import { columnDialogInput } from "@/types/benchmarkSetupType/benchmarkSetupTabsType";
-import { usePostCreateBenchmarkInputBenchmarkInputSetup } from "@/services/queries/benchmark/benchmarkSetup/benchmarkSetup.mutate";
 
 interface MyTableProps {
   data: FormikProps<TDialogInputCRUDFormik>;
@@ -29,7 +25,7 @@ interface MyTableProps {
   // onSave: (id: string, updatedValues: { [key: string]: any }) => void;
 }
 
-const TableInputCRUD = ({ data, onDelete, columns,onAdd }: MyTableProps) => {
+const TableInputCRUD = ({ data, onDelete, columns, onAdd }: MyTableProps) => {
   const {
     initialValues,
     values,
@@ -43,7 +39,8 @@ const TableInputCRUD = ({ data, onDelete, columns,onAdd }: MyTableProps) => {
   } = data;
   const [editableRow, setEditableRow] = useState<string | null>(null);
 
-
+  //store default data of edited row
+  const previousEditRow = useRef<BenchmarkInputSetupWithUnit>();
 
   // const createEmptyInputSetup = (obj: any) => {
   //   console.log("obj", obj);
@@ -69,8 +66,9 @@ const TableInputCRUD = ({ data, onDelete, columns,onAdd }: MyTableProps) => {
   //   return newObj;
   // };
 
-  const handleEdit = (id: string) => {
+  const handleEdit = (id: string, row: BenchmarkInputSetupWithUnit) => {
     setEditableRow(id);
+    previousEditRow.current = row;
   };
 
   const handleSave = () => {
@@ -78,16 +76,13 @@ const TableInputCRUD = ({ data, onDelete, columns,onAdd }: MyTableProps) => {
       // onSave(editableRow, { name: editedName, benchmarkInputSetupName: editedEmail });
       setEditableRow(null);
     }
-    // prevBenchmarkInputSetups.current = values;
   };
 
   const handleCancel = (index: number) => {
-    // const newData = [...values.data];
-    // newData[index] = prevBenchmarkInputSetups.current.data[index];
+    if (previousEditRow.current) {
+      setFieldValue(`data[${index}]`, previousEditRow.current);
+    }
     setEditableRow(null);
-    // console.log('newData',newData)
-    // console.log('initialValues',initialValues)
-    // setFieldValue("data", newData);
   };
 
   const handleSelectDataTypeChange = (
@@ -113,14 +108,6 @@ const TableInputCRUD = ({ data, onDelete, columns,onAdd }: MyTableProps) => {
     setFieldValue(`data[${index}].benchmarkUnit`, selectedOption);
     setFieldValue(`data[${index}].benchmarkUnitId`, selectedOption?.id);
   };
-
-  // console.log("touched", touched);
-  // console.log("errors", errors.data);
-  // // console.log("prevBenchmarkInputSetups", prevBenchmarkInputSetups);
-  // console.log("values", values);
-
-  // touched.data[index].benchmarkInputSetupName &&
-  // Boolean(errors.data[index].b)
 
   return (
     <>
@@ -366,7 +353,7 @@ const TableInputCRUD = ({ data, onDelete, columns,onAdd }: MyTableProps) => {
                         <Button
                           variant="contained"
                           color="primary"
-                          onClick={() => handleEdit(row.id)}
+                          onClick={() => handleEdit(row.id, row)}
                         >
                           Edit
                         </Button>
