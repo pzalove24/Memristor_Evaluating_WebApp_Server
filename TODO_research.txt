@@ -1,1 +1,6 @@
 invent => instruction set architecture for non-vonneuman or neuromorphic architecture
+
+Number of download
+Profile of contributor
+
+Capacitor nextjs
