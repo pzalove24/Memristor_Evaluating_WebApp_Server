@@ -33,7 +33,8 @@ import {
   columnInput,
 } from "@/types/benchmarkSetupType/benchmarkSetupTabsType";
 import { NoDataContent } from "../Loading/NoDataContent";
-// import DraggableTableInputCRUD from "../Table/DraggableTable/DraggableTable";
+import { table } from "console";
+import DraggableTableInputCRUD from "../Table/DraggableTable/DraggableTableInputCRUD";
 
 const testData = [
   { id: 1, name: "John", email: "john@example.com", role: "Admin" },
@@ -217,7 +218,9 @@ const DialogInputCRUD = ({
     if (listBenchmarkInputSetup && listBenchmarkUnits && listDataTypes) {
       const initialData: TDialogInputCRUDFormik = {
         data: listBenchmarkInputSetup,
-        create: [] as BenchmarkInputSetup[],
+        create: tableBenchmarkInputSetupFormik.values.create
+          ? tableBenchmarkInputSetupFormik.values.create
+          : ([] as BenchmarkInputSetup[]),
         delete: [] as BenchmarkInputSetup[],
         benchmarkUnit: listBenchmarkUnits,
         dataType: listDataTypes,
@@ -233,13 +236,32 @@ const DialogInputCRUD = ({
     // isRefetching,
   ]);
 
+  console.log("listBenchmarkInputSetup", listBenchmarkInputSetup);
+
+  React.useEffect(() => {
+    if (mutateNewBenchmarkInputSetupData) {
+      const currentCreateData = tableBenchmarkInputSetupFormik.values.create;
+
+      const createData = tableBenchmarkInputSetupFormik.values.data.find(
+        (row) => row.id === mutateNewBenchmarkInputSetupData.id
+      );
+      console.log("currentCreateData", currentCreateData);
+      console.log("createData", createData);
+
+      if (createData && currentCreateData) {
+        currentCreateData.push(createData);
+      }
+
+      tableBenchmarkInputSetupFormik.setFieldValue("create", currentCreateData);
+    }
+  }, [
+    tableBenchmarkInputSetupFormik.values.data,
+    mutateNewBenchmarkInputSetupData,
+  ]);
+
   const prevBenchmarkInputSetups = React.useRef(listBenchmarkInputSetup);
 
-  console.log("prevBenchmarkInputSetups", prevBenchmarkInputSetups);
-  console.log(
-    "tableBenchmarkInputSetupFormik.values",
-    tableBenchmarkInputSetupFormik.values
-  );
+  console.log("value", tableBenchmarkInputSetupFormik.values);
 
   // React.useEffect(() => {
   //   if (
@@ -277,14 +299,6 @@ const DialogInputCRUD = ({
   // const prevBenchmarkInputSetups = React.useRef(values);
 
   const handleAdd = () => {
-    // const currentCreateData = tableBenchmarkInputSetupFormik.values.create;
-
-    // if (currentCreateData && createData) {
-    //   currentCreateData.push(createData);
-    // }
-
-    // tableBenchmarkInputSetupFormik.setFieldValue("create", currentCreateData);
-
     console.log("render add");
     // มันเพิ่มต่อจากอันเดิม เพราะว่าตอนเรากดเพิ่ม มันไม่ได้ลบข้อมูลเดิมไปด้วยมันเลยต่อกันเป็นพ่วงๆ
     mutateNewBenchmarkInputSetup(
@@ -347,10 +361,14 @@ const DialogInputCRUD = ({
         horizontal: "right",
       },
     });
-
     if (tableBenchmarkInputSetupFormik.values.delete) {
       mutateCancelListBenchmarkInputSetup({
-        benchmarkInputSetupList: tableBenchmarkInputSetupFormik.values.delete,
+        benchmarkInputSetupList: tableBenchmarkInputSetupFormik.values.create
+          ? [
+              ...tableBenchmarkInputSetupFormik.values.create,
+              ...tableBenchmarkInputSetupFormik.values.delete,
+            ]
+          : tableBenchmarkInputSetupFormik.values.delete,
       });
     }
 
@@ -380,7 +398,7 @@ const DialogInputCRUD = ({
               ref={descriptionElementRef}
               tabIndex={-1}
             >
-              {loadingCollection || isRefetching ? (
+              {/* {loadingCollection || isRefetching ? (
                 <LoadingApi />
               ) : tableBenchmarkInputSetupFormik.values.data.length > 0 &&
                 !loadingCollection &&
@@ -394,8 +412,8 @@ const DialogInputCRUD = ({
                 />
               ) : (
                 <NoDataContent />
-              )}
-              {/* <DraggableTableInputCRUD /> */}
+              )} */}
+              <DraggableTableInputCRUD />
             </DialogContentText>
           </DialogContent>
           <DialogActions>

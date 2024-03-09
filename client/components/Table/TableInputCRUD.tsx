@@ -42,30 +42,6 @@ const TableInputCRUD = ({ data, onDelete, columns, onAdd }: MyTableProps) => {
   //store default data of edited row
   const previousEditRow = useRef<BenchmarkInputSetupWithUnit>();
 
-  // const createEmptyInputSetup = (obj: any) => {
-  //   console.log("obj", obj);
-  //   const newObj: any = {};
-  //   for (const key in obj) {
-  //     if (key === "id") {
-  //       newObj[key] = `New Setup ${Math.random()}`;
-  //     } else if (typeof obj[key] === "string") {
-  //       newObj[key] = "";
-  //     } else if (typeof obj[key] === "number") {
-  //       newObj[key] = null;
-  //     } else if (typeof obj[key] === "object") {
-  //       if (key === "id") {
-  //         newObj[key] = `New Setup ${Math.random()}`;
-  //       } else if (typeof obj[key] === "string") {
-  //         newObj[key] = "test";
-  //       } else if (typeof obj[key] === "number") {
-  //         newObj[key] = null;
-  //       }
-  //     }
-  //   }
-  //   console.log("newobj", newObj);
-  //   return newObj;
-  // };
-
   const handleEdit = (id: string, row: BenchmarkInputSetupWithUnit) => {
     setEditableRow(id);
     previousEditRow.current = row;
@@ -73,7 +49,6 @@ const TableInputCRUD = ({ data, onDelete, columns, onAdd }: MyTableProps) => {
 
   const handleSave = () => {
     if (editableRow) {
-      // onSave(editableRow, { name: editedName, benchmarkInputSetupName: editedEmail });
       setEditableRow(null);
     }
   };
@@ -186,16 +161,6 @@ const TableInputCRUD = ({ data, onDelete, columns, onAdd }: MyTableProps) => {
                       }
                     />
                   </TableCell>
-                  {/* <TableCell>
-                    <EditFormikListTextField
-                      editableRow={editableRow}
-                      id={`id[${index}].benchmarkUnit.unitName`}
-                      name={`data[${index}].benchmarkUnit.unitName`}
-                      value={values.data[index].benchmarkUnit.unitName}
-                      editRowId={values.data[index].id}
-                      handleChange={handleChange}
-                    />
-                  </TableCell> */}
                   <TableCell>
                     <EditFormikListSelect
                       editableRow={editableRow}
@@ -210,16 +175,6 @@ const TableInputCRUD = ({ data, onDelete, columns, onAdd }: MyTableProps) => {
                       }
                     />
                   </TableCell>
-                  {/* <TableCell>
-                    <EditFormikListTextField
-                      editableRow={editableRow}
-                      id={`id[${index}].dataType.name`}
-                      name={`data[${index}].dataType.name`}
-                      value={values.data[index].dataType.name}
-                      editRowId={values.data[index].id}
-                      handleChange={handleChange}
-                    />
-                  </TableCell> */}
                   <TableCell>
                     <EditFormikListTextField
                       editableRow={editableRow}
@@ -359,7 +314,6 @@ const TableInputCRUD = ({ data, onDelete, columns, onAdd }: MyTableProps) => {
                         </Button>
                       )}
                       <Button
-                        // disabled={values.data.length === 1}
                         variant="contained"
                         color="error"
                         onClick={() => onDelete(row.id)}

@@ -7,7 +7,7 @@ import {
   ResponderProvided,
   DraggableProvided,
   DroppableProvided,
-  DraggableStateSnapshot
+  DraggableStateSnapshot,
 } from "react-beautiful-dnd";
 import {
   Table,
@@ -15,11 +15,9 @@ import {
   TableCell,
   TableContainer,
   TableHead,
-  TableRow
+  TableRow,
 } from "@mui/material";
-import ReorderIcon from '@mui/icons-material/Reorder';
-import { DataItem } from "./App";
-
+import ReorderIcon from "@mui/icons-material/Reorder";
 /* 
 Note: this is a working example, but more can be done to improve it.
 
@@ -34,26 +32,44 @@ Pre-drag dimensions can be obtained via the new-ish ResizeObserver API. If you a
 components, the getSnapshotBeforeUpdate() lifecycle method can work with getBoundingClientRect(), 
 */
 
-export const MaterialTable: React.FC<{ items: DataItem[] }> = ({ items }) => {
+export interface DataItem {
+  id: string;
+  description: string;
+  unitPrice: number;
+  quantity: number;
+}
+
+const tableData: DataItem[] = [
+  { id: "1", description: "Item #1", unitPrice: 11.11, quantity: 1 },
+  { id: "2", description: "Item #2", unitPrice: 22.22, quantity: 2 },
+  { id: "3", description: "Item #3", unitPrice: 33.33, quantity: 3 },
+  { id: "4", description: "Item #4", unitPrice: 44.44, quantity: 4 },
+  { id: "5", description: "Item #5", unitPrice: 55.55, quantity: 5 },
+];
+
+const generateid = () => {
+  return Math.random().toString(36).substring(2);
+};
+
+const DraggableTableInputCRUD = () => {
   // cache the items provided via props in state for purposes of this demo
-  const [localItems, setLocalItems] = useState<Array<DataItem>>(items);
+  const [localItems, setLocalItems] = useState<any>(
+    tableData.map((item: any) => ({ ...item, id: generateid() }))
+  );
 
   // normally one would commit/save any order changes via an api call here...
   const handleDragEnd = (result: DropResult, provided?: ResponderProvided) => {
     if (!result.destination) {
       return;
     }
-
     if (result.destination.index === result.source.index) {
       return;
     }
-
     setLocalItems((prev: any) => {
       const temp = [...prev];
       const d = temp[result.destination!.index];
       temp[result.destination!.index] = temp[result.source.index];
       temp[result.source.index] = d;
-
       return temp;
     });
   };
@@ -81,51 +97,39 @@ export const MaterialTable: React.FC<{ items: DataItem[] }> = ({ items }) => {
           </TableRow>
         </TableHead>
         <DragDropContext onDragEnd={handleDragEnd}>
-          <Droppable droppableId="droppable" direction="vertical">
-            {(droppableProvided: DroppableProvided) => (
-              <TableBody
-                ref={droppableProvided.innerRef}
-                {...droppableProvided.droppableProps}
-              >
-                {localItems.map((item: DataItem, index: number) => (
-                  <Draggable
-                    key={item.uuid}
-                    draggableId={item.uuid}
-                    index={index}
-                  >
-                    {(
-                      draggableProvided: DraggableProvided,
-                      snapshot: DraggableStateSnapshot
-                    ) => {
-                      return (
-                        <TableRow
-                          ref={draggableProvided.innerRef}
-                          {...draggableProvided.draggableProps}
-                          style={{
-                            ...draggableProvided.draggableProps.style,
-                            background: snapshot.isDragging
-                              ? "rgba(245,245,245, 0.75)"
-                              : "none"
-                          }}
-                        >
-                          {/* note: `snapshot.isDragging` is useful to style or modify behaviour of dragged cells */}
-                          <TableCell align="left">
-                            <div {...draggableProvided.dragHandleProps}>
-                              <ReorderIcon />
-                            </div>
-                          </TableCell>
-                          <TableCell>{item.description}</TableCell>
-                          <TableCell align="right">{item.unitPrice}</TableCell>
-                          <TableCell align="right">{item.quantity}</TableCell>
-                          <TableCell align="right">
-                            {(item.unitPrice * item.quantity).toFixed(2)}
-                          </TableCell>
-                        </TableRow>
-                      );
-                    }}
+          <Droppable droppableId="ROOT" type="group">
+            {(provided) => (
+              <TableBody ref={provided.innerRef} {...provided.droppableProps}>
+                {localItems.map((item: any, index: number) => (
+                  <Draggable key={item.id} draggableId={item.id} index={index}>
+                    {(provided, snapshot) => (
+                      <TableRow
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        style={{
+                          ...provided.draggableProps.style,
+                          background: snapshot.isDragging
+                            ? "rgba(245,245,245, 0.75)"
+                            : "none",
+                        }}
+                      >
+                        {/* note: `snapshot.isDragging` is useful to style or modify behaviour of dragged cells */}
+                        <TableCell align="left">
+                          <div {...provided.dragHandleProps}>
+                            <ReorderIcon />
+                          </div>
+                        </TableCell>
+                        <TableCell>{item.description}</TableCell>
+                        <TableCell align="right">{item.unitPrice}</TableCell>
+                        <TableCell align="right">{item.quantity}</TableCell>
+                        <TableCell align="right">
+                          {(item.unitPrice * item.quantity).toFixed(2)}
+                        </TableCell>
+                      </TableRow>
+                    )}
                   </Draggable>
                 ))}
-                {droppableProvided.placeholder}
+                {provided.placeholder}
               </TableBody>
             )}
           </Droppable>
@@ -134,3 +138,5 @@ export const MaterialTable: React.FC<{ items: DataItem[] }> = ({ items }) => {
     </TableContainer>
   );
 };
+
+export default DraggableTableInputCRUD;

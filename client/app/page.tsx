@@ -21,6 +21,9 @@ export default function Home() {
 
   return (
     <main>
+      <div>
+        อย่าลืมแก้ stict mode ใน next config
+      </div>
       {/* <input
         title="message"
         onChange={(e) => setInputMessage(e.target.value)}

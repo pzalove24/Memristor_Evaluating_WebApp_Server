@@ -230,6 +230,7 @@ export class BenchmarkSetupsService {
     for (const benchmarkInputSetup of upsertBenchmarkInputSetupDto.benchmarkInputSetupList) {
       const {
         id,
+        orderIndex,
         benchmarkUnitId,
         benchmarkInputSetupName,
         voltageTypeId,
@@ -248,6 +249,7 @@ export class BenchmarkSetupsService {
             id: id,
           },
           update: {
+            orderIndex,
             benchmarkUnitId,
             benchmarkInputSetupName,
             voltageTypeId,
@@ -260,6 +262,7 @@ export class BenchmarkSetupsService {
             benchmarkInputId,
           },
           create: {
+            orderIndex,
             benchmarkUnitId,
             benchmarkInputSetupName,
             voltageTypeId,
@@ -293,9 +296,20 @@ export class BenchmarkSetupsService {
   async createBenchmarkInputBenchmarkInputSetup(
     id: string,
   ): Promise<BenchmarkInputSetup> {
+    const orderIndexList =
+      await this.prismaService.benchmarkInputSetup.findMany({
+        where: {
+          benchmarkInputId: id,
+        },
+        select: {
+          orderIndex: true,
+        },
+      });
+
     const newBenchmarkInputSetup =
       await this.prismaService.benchmarkInputSetup.create({
         data: {
+          orderIndex: orderIndexList.length,
           benchmarkUnitId: 'clro1tk43000208jvcfrq4xb9',
           voltageTypeId: 'clsqfnn5b000308lb1sxg5ft8',
           dataTypeId: 'clsqfqe5x000708lbdk7yedei',
@@ -326,10 +340,6 @@ export class BenchmarkSetupsService {
 
     // do the upsert for the rest of them
 
-    // console.log(
-    //   'upsertCancelBenchmarkInputBenchmarkInputSetupDto',
-    //   upsertCancelBenchmarkInputBenchmarkInputSetupDto,
-    // );
     if (
       upsertCancelBenchmarkInputBenchmarkInputSetupDto.benchmarkInputSetupList
         .length > 0
@@ -349,24 +359,58 @@ export class BenchmarkSetupsService {
           benchmarkInputId,
         } = benchmarkInputSetup;
 
-        const upsertBenchmarkInputSetup =
-          await this.prismaService.benchmarkInputSetup.create({
-            data: {
+        //find cancel data
+        const cancelData =
+          await this.prismaService.benchmarkInputSetup.findFirst({
+            where: {
               id,
-              benchmarkUnitId,
-              benchmarkInputSetupName,
-              voltageTypeId,
-              dataTypeId,
-              decimalNumber,
-              exampleData,
-              upperLimit,
-              lowerLimit,
-              stepIncreasing,
-              benchmarkInputId,
             },
           });
 
-        cancelListBenchmarkInputSetup.push(upsertBenchmarkInputSetup);
+        // if it found cancel data, that mean it the new data create by ADD INPUTSETUP
+        // so we have to delete that new data
+        if (cancelData) {
+          const deleteBenchmarkInputSetup =
+            await this.prismaService.benchmarkInputSetup.delete({
+              where: {
+                id,
+              },
+            });
+
+          cancelListBenchmarkInputSetup.push(deleteBenchmarkInputSetup);
+        } else {
+          //if it not found cancel data, that mean the data is already delete in frontend by delete button
+          //so create new data by using the same dataset of benchmarkInputSetup
+          const orderIndexList =
+            await this.prismaService.benchmarkInputSetup.findMany({
+              where: {
+                benchmarkInputId,
+              },
+              select: {
+                orderIndex: true,
+              },
+            });
+
+          const upsertBenchmarkInputSetup =
+            await this.prismaService.benchmarkInputSetup.create({
+              data: {
+                id,
+                orderIndex: orderIndexList.length,
+                benchmarkUnitId,
+                benchmarkInputSetupName,
+                voltageTypeId,
+                dataTypeId,
+                decimalNumber,
+                exampleData,
+                upperLimit,
+                lowerLimit,
+                stepIncreasing,
+                benchmarkInputId,
+              },
+            });
+
+          cancelListBenchmarkInputSetup.push(upsertBenchmarkInputSetup);
+        }
       }
     }
 

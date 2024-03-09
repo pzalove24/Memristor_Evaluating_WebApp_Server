@@ -127,6 +127,7 @@ model BenchmarkInput {
 
 model BenchmarkInputSetup {
   id                      String         @id @default(cuid())
+  orderIndex              Int
   benchmarkUnit           BenchmarkUnit  @relation(fields: [benchmarkUnitId], references: [id])
   benchmarkUnitId         String
   voltageType             VoltageType    @relation(fields: [voltageTypeId], references: [id])

@@ -8,6 +8,7 @@ const withPWA = require('next-pwa')({
 })
 
 const nextConfig = {
+  // if not develop drag and drop, set it to true
   reactStrictMode: true,
   swcMinify: true,
 
