@@ -177,6 +177,9 @@ export class BenchmarkSetupsService {
           dataType: true,
           benchmarkUnit: true,
         },
+        orderBy: {
+          orderIndex: "asc",
+        },
       });
 
     if (!listBenchmarkInputSetup) {
@@ -226,6 +229,32 @@ export class BenchmarkSetupsService {
     //   },
     // });
 
+    //update orderIndex
+
+    const getOrderIndexRange = (end: number): number[] => {
+      const range: number[] = [];
+      for (let i = 0; i <= end - 1; i++) {
+        range.push(i);
+      }
+      return range;
+    };
+
+    // Check if the length of data1 and numbers is the same
+    if (upsertBenchmarkInputSetupDto.benchmarkInputSetupList.length > 0) {
+      // Replace orderIndex values in data1 with numbers
+      const numbersOrderIndex = getOrderIndexRange(
+        upsertBenchmarkInputSetupDto.benchmarkInputSetupList.length,
+      );
+      upsertBenchmarkInputSetupDto.benchmarkInputSetupList.forEach(
+        (item, index) => {
+          item.orderIndex = numbersOrderIndex[index];
+        },
+      );
+      console.log('render orderIndex');
+    } else {
+      console.log('OrderIndex is wrong here');
+    }
+
     // do the upsert for the rest of them
     for (const benchmarkInputSetup of upsertBenchmarkInputSetupDto.benchmarkInputSetupList) {
       const {
@@ -242,6 +271,8 @@ export class BenchmarkSetupsService {
         stepIncreasing,
         benchmarkInputId,
       } = benchmarkInputSetup;
+
+      console.log('orderIndex', orderIndex);
 
       const upsertBenchmarkInputSetup =
         await this.prismaService.benchmarkInputSetup.upsert({

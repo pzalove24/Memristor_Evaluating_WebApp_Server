@@ -98,11 +98,11 @@ const DraggableTableInputCRUD = () => {
         </TableHead>
         <DragDropContext onDragEnd={handleDragEnd}>
           <Droppable droppableId="ROOT" type="group">
-            {(provided) => (
+            {(provided: DroppableProvided) => (
               <TableBody ref={provided.innerRef} {...provided.droppableProps}>
                 {localItems.map((item: any, index: number) => (
                   <Draggable key={item.id} draggableId={item.id} index={index}>
-                    {(provided, snapshot) => (
+                    {(provided: DraggableProvided, snapshot) => (
                       <TableRow
                         ref={provided.innerRef}
                         {...provided.draggableProps}

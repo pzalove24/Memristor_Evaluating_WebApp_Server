@@ -398,7 +398,7 @@ const DialogInputCRUD = ({
               ref={descriptionElementRef}
               tabIndex={-1}
             >
-              {/* {loadingCollection || isRefetching ? (
+              {loadingCollection || isRefetching ? (
                 <LoadingApi />
               ) : tableBenchmarkInputSetupFormik.values.data.length > 0 &&
                 !loadingCollection &&
@@ -412,8 +412,8 @@ const DialogInputCRUD = ({
                 />
               ) : (
                 <NoDataContent />
-              )} */}
-              <DraggableTableInputCRUD />
+              )}
+              {/* <DraggableTableInputCRUD /> */}
             </DialogContentText>
           </DialogContent>
           <DialogActions>
