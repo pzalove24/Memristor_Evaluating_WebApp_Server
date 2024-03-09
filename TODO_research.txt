@@ -4,3 +4,8 @@ Number of download
 Profile of contributor
 
 Capacitor nextjs
+
+set template for benchmark
+
+output ที่ได้จาก method สามารถใช้ซ้ำในการหา calculation หรือ graph อื่นๆได้
+-method หลัก =>> method รอง ที่สามารถใช้ output ที่ได้จาก board ไปคำนวณหาค่าตัวอื่นได้ หรือ หา graph อื่นๆได้
