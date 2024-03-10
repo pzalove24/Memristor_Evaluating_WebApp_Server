@@ -24,7 +24,6 @@ export default function SelectImage() {
 
   return (
     <div>
-      <Typography variant="h5">Select an Image</Typography>
       <Select
         value={images.indexOf(selectedImage)}
         onChange={handleImageChange}
@@ -39,15 +38,6 @@ export default function SelectImage() {
         imagePath={selectedImage.path}
         imageTitle={selectedImage.title}
       />
-      {/* <div>
-        <Image
-          width={172}
-          height={100}
-          className="object-contain"
-          src={selectedImage.path}
-          alt={selectedImage.title}
-        />
-      </div> */}
     </div>
   );
 }

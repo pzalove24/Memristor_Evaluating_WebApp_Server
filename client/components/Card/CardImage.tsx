@@ -6,6 +6,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { TCardImage } from "@/types/Card/CardType";
+import GroupAutocomplete from "../Autocomplete/GroupAutocomplete";
 
 // Mocked image metadata
 const images = [
@@ -20,10 +21,15 @@ interface ImageMetadata {
 
 const CardImage = ({ imagePath, imageTitle }: TCardImage) => {
   const [selectedImage, setSelectedImage] = useState<ImageMetadata>(images[0]);
+  const [image, setImage] = useState<boolean>(true);
 
-  const handleImageChange = (event: any) => {
-    const selectedIndex = event.target.value as number;
-    setSelectedImage(images[selectedIndex]);
+  // const handleImageChange = (event: any) => {
+  //   const selectedIndex = event.target.value as number;
+  //   setSelectedImage(images[selectedIndex]);
+  // };
+
+  const handleSetImage = () => {
+    setImage(!image);
   };
 
   return (
@@ -33,14 +39,16 @@ const CardImage = ({ imagePath, imageTitle }: TCardImage) => {
         <Typography gutterBottom variant="h5" component="div">
           Lizard
         </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Lizards are a widespread group of squamate reptiles, with over 6,000
-          species, ranging across all continents except Antarctica
-        </Typography>
+        <GroupAutocomplete readonly={image} />
       </CardContent>
       <CardActions>
-        <Button variant="contained" size="small">
-          Change Image
+        <Button
+          onClick={handleSetImage}
+          variant="contained"
+          size="small"
+          color={image ? "success" : "warning"}
+        >
+          {image ? "Change Image" : "Set Image"}
         </Button>
       </CardActions>
     </Card>

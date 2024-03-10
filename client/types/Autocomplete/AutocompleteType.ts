@@ -7,5 +7,9 @@ export type TCheckBoxAutocompleteProps = {
   onChange?: (newValue: any) => void;
   onInputChange?: (newInput: any) => void;
   limitTag: number;
-  value?: any
+  value?: any;
+};
+
+export type TGroupAutocompleteProps = {
+  readonly: boolean;
 };

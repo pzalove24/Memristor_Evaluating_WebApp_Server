@@ -178,7 +178,7 @@ export class BenchmarkSetupsService {
           benchmarkUnit: true,
         },
         orderBy: {
-          orderIndex: "asc",
+          orderIndex: 'asc',
         },
       });
 
@@ -250,9 +250,6 @@ export class BenchmarkSetupsService {
           item.orderIndex = numbersOrderIndex[index];
         },
       );
-      console.log('render orderIndex');
-    } else {
-      console.log('OrderIndex is wrong here');
     }
 
     // do the upsert for the rest of them
@@ -271,8 +268,6 @@ export class BenchmarkSetupsService {
         stepIncreasing,
         benchmarkInputId,
       } = benchmarkInputSetup;
-
-      console.log('orderIndex', orderIndex);
 
       const upsertBenchmarkInputSetup =
         await this.prismaService.benchmarkInputSetup.upsert({

@@ -11,6 +11,7 @@ import { enqueueSnackbar } from "notistack";
 import { useFormik } from "formik";
 import { Stack, Divider, Typography, Chip, Box, Grid } from "@mui/material";
 import SelectImage from "../Select/SelectImage";
+import CardSubMethod from "../Card/CardSubMethod";
 
 const DialogMethodCRUD = ({
   open,
@@ -104,7 +105,9 @@ const DialogMethodCRUD = ({
                   </Grid>
                   <Grid item xs={12}>
                     <Divider sx={{ mb: 2 }} orientation="horizontal" flexItem />
-                    <Chip label={"second"} />
+                    <Grid item xs={12}>
+                      <CardSubMethod />
+                    </Grid>
                   </Grid>
                 </Grid>
               </Box>
