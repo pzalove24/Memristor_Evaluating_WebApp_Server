@@ -74,7 +74,7 @@ const TableCollapse = ({ row, columns }: TTableCollapseProp) => {
   const { setup } = useBenchmarkSetupStore();
 
   const [openDialog, setOpenDialog] = React.useState(false);
-  const [selectedSetupData, setSelectedSetupData] = useState<any | null>(null);
+  const [selectedSetupData, setSelectedSetupData] = useState<any>(row);
   const handleClose = () => {
     setOpenDialog(false);
   };

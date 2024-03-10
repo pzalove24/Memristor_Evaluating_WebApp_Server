@@ -9,3 +9,17 @@ set template for benchmark
 
 output ที่ได้จาก method สามารถใช้ซ้ำในการหา calculation หรือ graph อื่นๆได้
 -method หลัก =>> method รอง ที่สามารถใช้ output ที่ได้จาก board ไปคำนวณหาค่าตัวอื่นได้ หรือ หา graph อื่นๆได้
+
+filter method อาจเปลี่ยนจาก graph/calculation เป็น benchmark Input ที่ใช้แทน เพราะมันใช้ซ้ำกันได้
+
+ใช้ event ในการทำ event log result จาก hardware
+ดู example result
+mock data
+
+เก็บ json
+เก็บ element ใน json บน database
+method
+submethod
+
+ในหน้า benchmark operation มี tool tip ดูว่าจะได้ result อะไรบ้าง
+submethod เป็น card ดีไหม แล้วสามารถคลิ๊กที่ card เพื่อดู example result ได้ ว่าเอาข้อมูลจาก method มาใช้ยังไง

@@ -72,6 +72,9 @@ export const usePostCreateBenchmarkInputBenchmarkInputSetup = () => {
         await queryClient.invalidateQueries({
           queryKey: ["listBenchmarkSetups", "Input"],
         });
+        await queryClient.invalidateQueries({
+          queryKey: ["listBenchmarkSetups", "Method"],
+        });
       }
     },
   });
@@ -134,6 +137,9 @@ export const useUpsertCancelBenchmarkInputBenchmarkInputSetup = () => {
           // refetch Input Table to acquire new count on inputsetup on badge
           await queryClient.invalidateQueries({
             queryKey: ["listBenchmarkSetups", "Input"],
+          });
+          await queryClient.invalidateQueries({
+            queryKey: ["listBenchmarkSetups", "Method"],
           });
         }
       }
