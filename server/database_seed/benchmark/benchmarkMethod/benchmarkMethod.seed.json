@@ -8,6 +8,7 @@
     "benchmarkMethodName": "Sweep IV curve Input for graph",
     "beforeBenchmark": true,
     "inSoftware": true,
+    "damageDevice": false,
     "benchmarkInformationId": "clrnlz4s6000308l3e8s4d4fc",
     "benchmarkTypeId": "clrnlxyae000208l35rlohd6q"
   },
@@ -20,6 +21,7 @@
     "benchmarkMethodName": "Pulse IV curve Input for graph",
     "beforeBenchmark": true,
     "inSoftware": true,
+    "damageDevice": false,
     "benchmarkInformationId": "clsdr64ev000b08l691hzah0u",
     "benchmarkTypeId": "clrnlxyae000208l35rlohd6q"
   },
@@ -32,6 +34,7 @@
     "benchmarkMethodName": "Conductance vs PulseNumber Input for graph",
     "beforeBenchmark": true,
     "inSoftware": true,
+    "damageDevice": false,
     "benchmarkInformationId": "clsdrsw8r000e08jw97d85u6o",
     "benchmarkTypeId": "clrnlxyae000208l35rlohd6q"
   },
@@ -44,6 +47,7 @@
     "benchmarkMethodName": "Endurance Cycle Input for graph",
     "beforeBenchmark": true,
     "inSoftware": true,
+    "damageDevice": true,
     "benchmarkInformationId": "clrnqs90x000208jnfhot9xf7",
     "benchmarkTypeId": "clrnqqh0b000108jn9s6u5dw5"
   },
@@ -56,6 +60,7 @@
     "benchmarkMethodName": "Sweep Retention Time Input for graph",
     "beforeBenchmark": true,
     "inSoftware": true,
+    "damageDevice": true,
     "benchmarkInformationId": "clrnqtp9g000308jn4mjz95n6",
     "benchmarkTypeId": "clrnqqh0b000108jn9s6u5dw5"
   },
@@ -68,6 +73,7 @@
     "benchmarkMethodName": "Pulse Retention Time Input for graph",
     "beforeBenchmark": true,
     "inSoftware": true,
+    "damageDevice": true,
     "benchmarkInformationId": "clsds41mp000q08jw2xujeswc",
     "benchmarkTypeId": "clrnqqh0b000108jn9s6u5dw5"
   }

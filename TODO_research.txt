@@ -5,7 +5,7 @@ Profile of contributor
 
 Capacitor nextjs
 
-set template for benchmark
+set template for benchmark => draggable อย่าลืมเตือนด้วยว่า Endurance, Reliability จะ damage device
 
 output ที่ได้จาก method สามารถใช้ซ้ำในการหา calculation หรือ graph อื่นๆได้
 -method หลัก =>> method รอง ที่สามารถใช้ output ที่ได้จาก board ไปคำนวณหาค่าตัวอื่นได้ หรือ หา graph อื่นๆได้
@@ -23,3 +23,10 @@ submethod
 
 ในหน้า benchmark operation มี tool tip ดูว่าจะได้ result อะไรบ้าง
 submethod เป็น card ดีไหม แล้วสามารถคลิ๊กที่ card เพื่อดู example result ได้ ว่าเอาข้อมูลจาก method มาใช้ยังไง
+
+submethod main, sub
+main => output to graph or calculation => submain from output
+
+
+frontend จะใช้ data เฉพาะใน graph หรือเป็นตัวเลขไป
+backend จะจัดการ serialport ที่เข้ามา แล้ว convert ไปเป็น data ที่สามารถแสดงใน frontend โดยใช้ json file location ที่เก็บใน database แล้วส่งเป็น array data กลับไป frontend
