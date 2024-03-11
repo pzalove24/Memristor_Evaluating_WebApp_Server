@@ -30,3 +30,12 @@ main => output to graph or calculation => submain from output
 
 frontend จะใช้ data เฉพาะใน graph หรือเป็นตัวเลขไป
 backend จะจัดการ serialport ที่เข้ามา แล้ว convert ไปเป็น data ที่สามารถแสดงใน frontend โดยใช้ json file location ที่เก็บใน database แล้วส่งเป็น array data กลับไป frontend
+
+button to click to animate example result shown in sequence (ทั้งใน method และ template)
+
+ใช้ backdrop กับ progress circle แบบมีตัวเลข ในการรอ result กับ example result
+ใช้ transition เปลี่ยนจาก cardimage เป็น graph หรือ calculation ได้
+
+example result เริ่มตั้งแต่ แปลงข้อมูลจาก csv เป็น data ที่ graph หรือ calculation อ่านด้าน
+
+อาจทำ class event graph transform กับ calculation transform
