@@ -34,8 +34,11 @@ backend จะจัดการ serialport ที่เข้ามา แล�
 button to click to animate example result shown in sequence (ทั้งใน method และ template)
 
 ใช้ backdrop กับ progress circle แบบมีตัวเลข ในการรอ result กับ example result
-ใช้ transition เปลี่ยนจาก cardimage เป็น graph หรือ calculation ได้
+ใช้ transition เปลี่ยนจาก cardimage เป็น graph หรือ calculation ได้ => transition ทำ delay ได้
+https://medium.com/@vishal.s.katharotiya/creating-a-real-time-progress-bar-with-react-and-node-js-fb7c3c55ba8
 
 example result เริ่มตั้งแต่ แปลงข้อมูลจาก csv เป็น data ที่ graph หรือ calculation อ่านด้าน
 
 อาจทำ class event graph transform กับ calculation transform
+
+#15318e color
