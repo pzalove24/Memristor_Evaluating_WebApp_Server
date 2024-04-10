@@ -42,4 +42,3 @@ example result เริ่มตั้งแต่ แปลงข้อมู�
 อาจทำ class event graph transform กับ calculation transform
 
 #15318e color
-//
