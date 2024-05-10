@@ -1,0 +1,7 @@
+ได้ data มาจาก hardware
+convert to csv แล้ว store ใน backend
+จากนั้นเราจะะมี schema บน database ที่จะตรงกับชื่อ column โดยมี primary key เป็นชื่อ file นั้น และมีอีกอันคือ ตำแหน่ง csv file
+
+จากนั้นเวลาเรียกไปยัง frontend ก็ให้ส่งตัวที่เก็บใน database ตาม schema ไปแทน file จะได้เร็ว
+
+จากนั้นถ้าจะ download ก็ให้ download จาก csv file ไปเลย
