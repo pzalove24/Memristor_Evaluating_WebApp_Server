@@ -5,3 +5,7 @@ convert to csv แล้ว store ใน backend
 จากนั้นเวลาเรียกไปยัง frontend ก็ให้ส่งตัวที่เก็บใน database ตาม schema ไปแทน file จะได้เร็ว
 
 จากนั้นถ้าจะ download ก็ให้ download จาก csv file ไปเลย
+
+//
+how to send a very large file with rest api
+https://medium.com/swlh/transfer-large-files-using-a-rest-api-a0aa96983ebb
